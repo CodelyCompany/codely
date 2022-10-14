@@ -15,6 +15,8 @@ import AdbIcon from '@mui/icons-material/Adb';
 import CodeIcon from '@mui/icons-material/Code';
 import CodeOffIcon from '@mui/icons-material/CodeOff';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useMemo } from 'react';
+import { Link } from 'react-router-dom';
 
 // const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -23,6 +25,11 @@ const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
+
+  const pages = useMemo(
+    () => (isAuthenticated ? ['Editor'] : []),
+    [isAuthenticated]
+  );
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -72,7 +79,7 @@ const Navbar = () => {
             >
               <MenuIcon />
             </IconButton>
-            {/* <Menu
+            <Menu
               id='menu-appbar'
               anchorEl={anchorElNav}
               anchorOrigin={{
@@ -95,7 +102,7 @@ const Navbar = () => {
                   <Typography textAlign='center'>{page}</Typography>
                 </MenuItem>
               ))}
-            </Menu> */}
+            </Menu>
           </Box>
 
           <Typography
@@ -118,15 +125,24 @@ const Navbar = () => {
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {/* {pages.map((page) => (
+            {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{
+                  my: 2,
+                  color: 'white',
+                  display: 'block',
+                  ml: '40px',
+                }}
               >
-                {page}
+                <Link
+                  style={{ textDecoration: 'none', color: 'white' }}
+                  to={`/${page}`}
+                >
+                  {page}
+                </Link>
               </Button>
-            ))} */}
+            ))}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
