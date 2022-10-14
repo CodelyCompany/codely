@@ -22,7 +22,7 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const { loginWithRedirect } = useAuth0();
+  const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -97,7 +97,7 @@ const Navbar = () => {
               ))}
             </Menu> */}
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+
           <Typography
             variant='h5'
             noWrap
@@ -114,8 +114,9 @@ const Navbar = () => {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            CODELY
           </Typography>
+
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {/* {pages.map((page) => (
               <Button
@@ -136,12 +137,22 @@ const Navbar = () => {
               <Typography>LOGIN</Typography>
             </Tooltip> */}
             {/* <button onClick={() => loginWithRedirect()}>Log In</button>; */}
-            <Typography
-              sx={{ cursor: 'pointer' }}
-              onClick={() => loginWithRedirect()}
-            >
-              LOGIN
-            </Typography>
+            {console.log(isAuthenticated)}
+            {!isAuthenticated ? (
+              <Typography
+                sx={{ cursor: 'pointer' }}
+                onClick={() => loginWithRedirect()}
+              >
+                LOGIN
+              </Typography>
+            ) : (
+              <Typography
+                sx={{ cursor: 'pointer' }}
+                onClick={() => logout({ returnTo: window.location.origin })}
+              >
+                LOGOUT
+              </Typography>
+            )}
 
             {/* <Menu
               sx={{ mt: '45px' }}

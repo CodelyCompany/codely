@@ -1,11 +1,14 @@
 import './App.css';
-import Navbar from './Navbar';
+import LoadWrapper from './ui/LoadWrapper';
+import Navbar from './ui/Navbar';
 
 function App() {
   return (
-    <div className='App'>
-      <Navbar />
-    </div>
+    <LoadWrapper>
+      <div className='App'>
+        <Navbar />
+      </div>
+    </LoadWrapper>
   );
 }
 
