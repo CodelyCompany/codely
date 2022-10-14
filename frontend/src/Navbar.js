@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import CodeIcon from '@mui/icons-material/Code';
 import CodeOffIcon from '@mui/icons-material/CodeOff';
+import { useAuth0 } from '@auth0/auth0-react';
 
 // const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -21,6 +22,7 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const { loginWithRedirect } = useAuth0();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -133,7 +135,13 @@ const Navbar = () => {
               </IconButton>
               <Typography>LOGIN</Typography>
             </Tooltip> */}
-            <Typography>LOGIN</Typography>
+            {/* <button onClick={() => loginWithRedirect()}>Log In</button>; */}
+            <Typography
+              sx={{ cursor: 'pointer' }}
+              onClick={() => loginWithRedirect()}
+            >
+              LOGIN
+            </Typography>
 
             {/* <Menu
               sx={{ mt: '45px' }}
