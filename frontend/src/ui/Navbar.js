@@ -17,6 +17,7 @@ import CodeOffIcon from '@mui/icons-material/CodeOff';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import logo from '../logo.png';
 
 // const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -50,24 +51,12 @@ const Navbar = () => {
     <AppBar position='static'>
       <Container maxWidth='xl'>
         <Toolbar disableGutters>
-          <CodeIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-          <Typography
-            variant='h6'
-            noWrap
-            component='a'
-            href='/'
-            sx={{
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            CODELY
-          </Typography>
-          <CodeOffIcon sx={{ display: { xs: 'none', md: 'flex' } }} />
+          <img
+            id='logo'
+            style={{ height: '50px' }}
+            src={logo}
+            alt='codely logo'
+          />
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size='large'
@@ -104,7 +93,6 @@ const Navbar = () => {
               ))}
             </Menu>
           </Box>
-
           <Typography
             variant='h5'
             noWrap
@@ -123,7 +111,6 @@ const Navbar = () => {
           >
             CODELY
           </Typography>
-
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
@@ -144,7 +131,6 @@ const Navbar = () => {
               </Button>
             ))}
           </Box>
-
           <Box sx={{ flexGrow: 0 }}>
             {/* <Tooltip title='Open settings'>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
