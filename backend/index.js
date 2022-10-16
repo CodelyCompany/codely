@@ -30,7 +30,16 @@ const dbConnData = {
     database: process.env.MONGO_DATABASE || "local",
 };
 
-const programmingLanguages = ["javascript", "python", "bash"];
+const programmingLanguages = [
+    "javascript",
+    "python",
+    "bash",
+    "java",
+    "cpp",
+    "c",
+    "r",
+    "scala",
+];
 
 // Uruchomienie kontenerów
 programmingLanguages.forEach((n) => {
