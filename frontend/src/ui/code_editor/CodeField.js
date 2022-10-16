@@ -62,7 +62,7 @@ const CodeField = ({ code, setCode }) => {
               id='code-area'
               style={{
                 ...textAreaStyles,
-                borderRadius: '0 5px 5px 0px',
+                borderRadius: '0 5px 5px 0',
                 width: '100%',
                 backgroundColor: 'white',
                 fontFamily: 'JetBrains Mono',
