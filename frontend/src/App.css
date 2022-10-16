@@ -36,3 +36,7 @@
     transform: rotate(360deg);
   }
 }
+
+#line-numbering::-webkit-scrollbar {
+  display: none;
+}
