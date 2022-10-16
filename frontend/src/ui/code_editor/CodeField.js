@@ -6,6 +6,11 @@ import CodeEditor from '@uiw/react-textarea-code-editor';
 const CodeField = ({ code, setCode }) => {
   const [lineNumbering, setLineNumbering] = useState('');
 
+  useEffect(() => {
+    if (code[code.length - 1] === '(') setCode((prev) => prev + ')');
+    if (code[code.length - 1] === '{') setCode((prev) => prev + '}');
+  }, [code]);
+
   const textAreaStyles = {
     resize: 'none',
   };
