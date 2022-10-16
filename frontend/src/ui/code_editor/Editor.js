@@ -18,6 +18,7 @@ const Editor = () => {
         borderRadius: '5px',
         display: 'flex',
         flexDirection: 'column',
+        height: '500px',
       }}
     >
       <Box style={{ display: 'flex' }}>

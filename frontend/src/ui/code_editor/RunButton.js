@@ -13,7 +13,9 @@ const RunButton = ({ code, setOutput }) => {
 
   const runCode = (code) => {
     axios
-      .post('http://localhost:6000/', { toExecute: code })
+      .post(process.env.REACT_APP_JAVASCRIPT_CONTAINER_ADDRESS, {
+        toExecute: code,
+      })
       .then((response) => {
         setOutput(response.data.toString());
       })

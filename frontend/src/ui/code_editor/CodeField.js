@@ -8,7 +8,6 @@ const CodeField = ({ code, setCode }) => {
 
   const textAreaStyles = {
     resize: 'none',
-    border: '3px solid rgb(25, 118, 210)',
   };
 
   useEffect(() => {
@@ -33,8 +32,10 @@ const CodeField = ({ code, setCode }) => {
             id='line-numbering'
             style={{
               ...textAreaStyles,
-              borderRight: 0,
               borderRadius: '5px 0 0 5px',
+              overflow: 'auto',
+              border: '3px solid rgb(25, 118, 210)',
+              borderRight: 0,
             }}
             name='line-numbering'
             disabled={true}
@@ -44,23 +45,33 @@ const CodeField = ({ code, setCode }) => {
           />
         </ScrollSyncPane>
         <ScrollSyncPane>
-          <CodeEditor
-            id='code-area'
+          <div
             style={{
-              ...textAreaStyles,
-              borderRadius: '0 5px 5px 0px',
+              height: '370px',
               width: '100%',
-              backgroundColor: 'white',
-              fontFamily: 'JetBrains Mono',
-              fontSize: '14px',
+              overflow: 'auto',
+              border: '3px solid rgb(25, 118, 210)',
             }}
-            padding={'2px'}
-            name='code'
-            value={code}
-            language='js'
-            onChange={handleCodeChange}
-            rows='20'
-          />
+          >
+            <CodeEditor
+              id='code-area'
+              style={{
+                ...textAreaStyles,
+                borderRadius: '0 5px 5px 0px',
+                width: '100%',
+                backgroundColor: 'white',
+                fontFamily: 'JetBrains Mono',
+                fontSize: '14px',
+                overflow: 'visible',
+              }}
+              padding={'2px'}
+              name='code'
+              value={code}
+              language='js'
+              onChange={handleCodeChange}
+              rows='20'
+            />
+          </div>
         </ScrollSyncPane>
       </Box>
     </ScrollSync>
