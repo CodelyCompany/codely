@@ -38,7 +38,6 @@ const programmingLanguages = [
     "cpp",
     "c",
     "r",
-    "scala",
 ];
 
 // Uruchomienie kontenerów
