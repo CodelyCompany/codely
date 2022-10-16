@@ -3,6 +3,7 @@ import React from 'react';
 import LanguageSelector from './LanguageSelector';
 import CodeField from './CodeField';
 import RunButton from './RunButton';
+import OutputField from './OutputField';
 
 const Editor = () => {
   return (
@@ -13,19 +14,22 @@ const Editor = () => {
         padding: '50px',
         borderRadius: '5px',
         display: 'flex',
-        justifyContent: 'space-between',
+        flexDirection: 'column',
       }}
     >
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        <LanguageSelector /> <RunButton />
-      </Box>{' '}
-      <br />
-      <CodeField />
+      <Box style={{ display: 'flex' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          <LanguageSelector /> <RunButton />
+        </Box>{' '}
+        <br />
+        <CodeField />
+      </Box>
+      <OutputField />
     </Container>
   );
 };
