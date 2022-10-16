@@ -8,6 +8,7 @@ const CodeField = () => {
 
   const textAreaStyles = {
     resize: 'none',
+    border: '3px solid rgb(25, 118, 210)',
   };
 
   useEffect(() => {
@@ -32,12 +33,17 @@ const CodeField = () => {
 
   return (
     <ScrollSync>
-      <Box sx={{ display: 'flex', width: '100%' }}>
+      <Box sx={{ display: 'flex', width: '100%', marginLeft: '7px' }}>
         <ScrollSyncPane>
           <textarea
             id='line-numbering'
-            style={textAreaStyles}
+            style={{
+              ...textAreaStyles,
+              borderRight: 0,
+              borderRadius: '5px 0 0 5px',
+            }}
             name='line-numbering'
+            disabled={'true'}
             cols='3'
             rows='20'
             value={lineNumbering}
@@ -45,7 +51,8 @@ const CodeField = () => {
         </ScrollSyncPane>
         <ScrollSyncPane>
           <textarea
-            style={textAreaStyles}
+            id='code-area'
+            style={{ ...textAreaStyles, borderRadius: '0 5px 5px 0px' }}
             name='code'
             cols='120'
             rows='20'
