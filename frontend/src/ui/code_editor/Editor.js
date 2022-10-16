@@ -1,11 +1,14 @@
 import { Container, Box } from '@mui/material';
-import React from 'react';
+import { useState } from 'react';
 import LanguageSelector from './LanguageSelector';
 import CodeField from './CodeField';
 import RunButton from './RunButton';
 import OutputField from './OutputField';
 
 const Editor = () => {
+  const [code, setCode] = useState('');
+  const [output, setOutput] = useState(null);
+
   return (
     <Container
       sx={{
@@ -24,12 +27,12 @@ const Editor = () => {
             flexDirection: 'column',
           }}
         >
-          <LanguageSelector /> <RunButton />
+          <LanguageSelector /> <RunButton code={code} setOutput={setOutput} />
         </Box>{' '}
         <br />
-        <CodeField />
+        <CodeField code={code} setCode={setCode} />
       </Box>
-      <OutputField />
+      {output && <OutputField output={output} />}
     </Container>
   );
 };

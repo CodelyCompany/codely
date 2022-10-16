@@ -1,6 +1,6 @@
 import React from 'react';
 
-const OutputField = () => {
+const OutputField = ({ output }) => {
   return (
     <div
       style={{
@@ -10,7 +10,7 @@ const OutputField = () => {
         marginTop: '10px',
       }}
     >
-      OutputField
+      {output}
     </div>
   );
 };

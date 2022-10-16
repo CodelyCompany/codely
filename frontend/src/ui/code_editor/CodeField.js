@@ -3,8 +3,7 @@ import { Box } from '@mui/material';
 import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync';
 import CodeEditor from '@uiw/react-textarea-code-editor';
 
-const CodeField = () => {
-  const [code, setCode] = useState('');
+const CodeField = ({ code, setCode }) => {
   const [lineNumbering, setLineNumbering] = useState('');
 
   const textAreaStyles = {
@@ -45,18 +44,6 @@ const CodeField = () => {
           />
         </ScrollSyncPane>
         <ScrollSyncPane>
-          {/* <textarea
-            id='code-area'
-            style={{
-              ...textAreaStyles,
-              borderRadius: '0 5px 5px 0px',
-              width: '100%',
-            }}
-            name='code'
-            rows='20'
-            value={code}
-            onChange={handleCodeChange}
-          /> */}
           <CodeEditor
             id='code-area'
             style={{
@@ -68,7 +55,6 @@ const CodeField = () => {
               fontSize: '14px',
             }}
             padding={'2px'}
-            // fontFamily='JetBrains Mono'
             name='code'
             value={code}
             language='js'
