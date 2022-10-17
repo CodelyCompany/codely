@@ -2,13 +2,21 @@ import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync';
 import CodeEditor from '@uiw/react-textarea-code-editor';
+import autocompleteData from '.././../languages-syntax/javascript.json';
+import * as _ from 'lodash';
 
 const CodeField = ({ code, setCode }) => {
   const [lineNumbering, setLineNumbering] = useState('');
+  const [autocomplete, setAutocomplete] = useState([]);
 
   useEffect(() => {
-    if (code[code.length - 1] === '(') setCode((prev) => prev + ')');
-    if (code[code.length - 1] === '{') setCode((prev) => prev + '}');
+    if (code.length > 0 && code.split(' ')[code.split(' ').length - 1]) {
+      console.log(
+        autocompleteData['functions'].filter((el) =>
+          _.startsWith(el, code.split(' ')[code.split(' ').length - 1])
+        )
+      );
+    }
   }, [code]);
 
   const textAreaStyles = {
@@ -16,13 +24,13 @@ const CodeField = ({ code, setCode }) => {
   };
 
   useEffect(() => {
-    if (code === '') setLineNumbering('');
-    else
-      setLineNumbering(
-        Array.from({ length: code.split('\n').length }, (v, k) => k + 1).join(
-          '\n'
-        )
-      );
+    // if (code === '') setLineNumbering('');
+    // else
+    // setLineNumbering(
+    //   Array.from({ length: code.split('\n').length }, (v, k) => k + 1).join(
+    //     '\n'
+    //   )
+    // );
   }, [code]);
 
   const handleCodeChange = (e) => {

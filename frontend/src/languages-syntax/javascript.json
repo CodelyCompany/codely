@@ -38,6 +38,7 @@
     "setMinutes()",
     "setMonth()",
     "setSeconds()",
-    "setTime()"
+    "setTime()",
+    "console.log()"
   ]
 }
