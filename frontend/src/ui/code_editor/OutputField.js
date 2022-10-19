@@ -34,7 +34,7 @@ const OutputField = ({ output }) => {
       >
         <ScrollSyncPane>
           <textarea
-            id='line-numbering'
+            id="line-numbering"
             style={{
               ...textAreaStyles,
               borderRadius: '5px 0 0 5px',
@@ -42,9 +42,9 @@ const OutputField = ({ output }) => {
               border: '3px solid rgb(25, 118, 210)',
               borderRight: 0,
             }}
-            name='line-numbering'
+            name="line-numbering"
             disabled={true}
-            cols='3'
+            cols="3"
             value={lineNumbering}
           />
         </ScrollSyncPane>
@@ -52,25 +52,29 @@ const OutputField = ({ output }) => {
           <div
             style={{
               width: '100%',
-              border: '3px solid rgb(25, 118, 210)',
+              // border: '3px solid rgb(25, 118, 210)',
               overflow: 'auto',
             }}
           >
             <CodeEditor
-              id='code-area'
+              id="code-area"
               style={{
                 ...textAreaStyles,
-                borderRadius: '5px',
+                borderRadius: '0 5px 5px 0',
+                position: 'relative',
+                top: ' 1px',
                 width: '100%',
                 backgroundColor: 'white',
                 fontFamily: 'JetBrains Mono',
+                border: '3px solid rgb(25, 118, 210)',
+
                 fontSize: '14px',
               }}
               padding={'2px'}
               disabled={true}
-              name='code'
+              name="code"
               value={output}
-              language='js'
+              language="js"
             />
           </div>
         </ScrollSyncPane>
