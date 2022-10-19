@@ -1,20 +1,50 @@
-import React from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { DiJsBadge } from 'react-icons/di';
 import { DiLinux } from 'react-icons/di';
+import { FaJava, FaPython } from 'react-icons/fa';
+import { SiCplusplus, SiC, SiR } from 'react-icons/si';
 
-const LanguageSelector = () => {
-  const [language, setLanguage] = React.useState('JavaScript');
+const LanguageSelector = ({ language, setLanguage }) => {
+  const style = {
+    marginRight: '5px',
+  };
+
+  const languagesWithIcons = [
+    {
+      lang: 'JavaScript',
+      icon: <DiJsBadge style={style} />,
+    },
+    {
+      lang: 'Bash',
+      icon: <DiLinux style={style} />,
+    },
+    {
+      lang: 'C',
+      icon: <SiC style={style} />,
+    },
+    {
+      lang: 'C++',
+      icon: <SiCplusplus style={style} />,
+    },
+    {
+      lang: 'Java',
+      icon: <FaJava style={style} />,
+    },
+    {
+      lang: 'Python',
+      icon: <FaPython style={style} />,
+    },
+    {
+      lang: 'R',
+      icon: <SiR style={style} />,
+    },
+  ];
 
   const handleChange = (event) => {
     setLanguage(event.target.value);
-  };
-
-  const style = {
-    marginRight: '5px',
   };
 
   return (
@@ -27,14 +57,11 @@ const LanguageSelector = () => {
         label='Language'
         onChange={handleChange}
       >
-        <MenuItem value={'JavaScript'}>
-          {' '}
-          <DiJsBadge style={style} /> JavaScript
-        </MenuItem>
-        <MenuItem value={'Bash'}>
-          {' '}
-          <DiLinux style={style} /> Bash
-        </MenuItem>
+        {languagesWithIcons.map((el) => (
+          <MenuItem key={el.lang} value={el.lang}>
+            {el.icon} {el.lang}
+          </MenuItem>
+        ))}
       </Select>
     </FormControl>
   );

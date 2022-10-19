@@ -8,6 +8,7 @@ import OutputField from './OutputField';
 const Editor = () => {
   const [code, setCode] = useState('');
   const [output, setOutput] = useState(null);
+  const [language, setLanguage] = useState('JavaScript');
 
   return (
     <Container
@@ -28,10 +29,11 @@ const Editor = () => {
             flexDirection: 'column',
           }}
         >
-          <LanguageSelector /> <RunButton code={code} setOutput={setOutput} />
+          <LanguageSelector language={language} setLanguage={setLanguage} />{' '}
+          <RunButton code={code} setOutput={setOutput} />
         </Box>{' '}
         <br />
-        <CodeField code={code} setCode={setCode} />
+        <CodeField language={language} code={code} setCode={setCode} />
       </Box>
       {output && <OutputField output={output} />}
     </Container>
