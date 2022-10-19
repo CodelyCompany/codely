@@ -3,7 +3,7 @@ import { Button } from '@mui/material';
 import axios from 'axios';
 import { VscDebugStart } from 'react-icons/vsc';
 
-const RunButton = ({ code, setOutput }) => {
+const RunButton = ({ code, setOutput, language }) => {
   const style = {
     height: '40px',
     width: 180,
@@ -13,17 +13,22 @@ const RunButton = ({ code, setOutput }) => {
 
   const runCode = (code) => {
     axios
-      .post(process.env.REACT_APP_JAVASCRIPT_CONTAINER_ADDRESS, {
-        toExecute: code,
-      })
+      .post(
+        `${process.env.REACT_APP_CONTAINERS_ADDRESS}/${
+          language.toLowerCase() === 'c++' ? 'cpp' : language.toLowerCase()
+        }`,
+        {
+          toExecute: code,
+        }
+      )
       .then((response) => {
-        setOutput(response.data.toString());
+        setOutput(response.data.output.toString());
       })
       .catch((err) => console.log(err));
   };
 
   return (
-    <Button variant='outlined' sx={style} onClick={() => runCode(code)}>
+    <Button variant="outlined" sx={style} onClick={() => runCode(code)}>
       <VscDebugStart />
       Run
     </Button>

@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 import Editor from '@monaco-editor/react';
 import texts from './languages-properties/startText';
 import { useEffect } from 'react';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const CodeField = ({ code, setCode, language }) => {
   const handleCodeChange = (value) => {
@@ -27,13 +28,14 @@ const CodeField = ({ code, setCode, language }) => {
         }}
       >
         <Editor
-          height='100%'
+          loading={<CircularProgress />}
+          height="100%"
           language={
             language.toLowerCase() === 'c++' ? 'cpp' : language.toLowerCase()
           }
           value={code}
           onChange={handleCodeChange}
-          width='100%'
+          width="100%"
         />
       </div>
     </Box>

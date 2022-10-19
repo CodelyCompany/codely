@@ -48,28 +48,28 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar position='static'>
-      <Container maxWidth='xl'>
+    <AppBar position="static">
+      <Container maxWidth="xl">
         <Toolbar disableGutters>
           <img
-            id='logo'
+            id="logo"
             style={{ height: '50px' }}
             src={logo}
-            alt='codely logo'
+            alt="codely logo"
           />
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
-              size='large'
-              aria-label='account of current user'
-              aria-controls='menu-appbar'
-              aria-haspopup='true'
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color='inherit'
+              color="inherit"
             >
               <MenuIcon />
             </IconButton>
             <Menu
-              id='menu-appbar'
+              id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
                 vertical: 'bottom',
@@ -88,16 +88,16 @@ const Navbar = () => {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign='center'>{page}</Typography>
+                  <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
           <Typography
-            variant='h5'
+            variant="h5"
             noWrap
-            component='a'
-            href=''
+            component="a"
+            href=""
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -139,7 +139,6 @@ const Navbar = () => {
               <Typography>LOGIN</Typography>
             </Tooltip> */}
             {/* <button onClick={() => loginWithRedirect()}>Log In</button>; */}
-            {console.log(isAuthenticated)}
             {!isAuthenticated ? (
               <Typography
                 sx={{ cursor: 'pointer' }}

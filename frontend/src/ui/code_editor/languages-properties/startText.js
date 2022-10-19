@@ -1,24 +1,24 @@
 const texts = {
-  javascript: 'console.log("hello world!");',
+  javascript: 'console.log("Hello JavaScript!");',
   java: `public class Main {
     public static void main(String[] args){
-      System.out.print("Hello World");
+      System.out.print("Hello Java!");
     }
   }`,
-  bash: 'echo "Hello world!"',
+  bash: 'echo "Hello Bash!"',
   c: `#include <stdio.h>
   
   int main() {
-      printf("Hello World");
+      printf("Hello C!");
       return 0;
   }`,
-  python: 'print("Hello world!")',
-  r: 'print("Hello world!")',
+  python: 'print("Hello Python!")',
+  r: 'print("Hello R!")',
   'c++': `#include <iostream>
   using namespace std;
     
   int main() {
-      cout << "Hello World";
+      cout << "Hello C++!";
       return 0;
   }`,
 };

@@ -30,7 +30,7 @@ const Editor = () => {
           }}
         >
           <LanguageSelector language={language} setLanguage={setLanguage} />{' '}
-          <RunButton code={code} setOutput={setOutput} />
+          <RunButton code={code} setOutput={setOutput} language={language} />
         </Box>{' '}
         <br />
         <CodeField language={language} code={code} setCode={setCode} />
