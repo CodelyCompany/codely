@@ -6,6 +6,7 @@ const exerciseSchema = new Schema({
         required: true,
         minlength: 3,
         maxlength: 50,
+        unique: true,
     },
     description: { type: String, maxlength: 500 },
     difficulty: { type: Number, min: 1, max: 5 },
@@ -21,6 +22,7 @@ const exerciseSchema = new Schema({
         maxlength: 2000,
     },
     doneCounter: { type: Number, default: 0 },
+    hints: [{ type: String, maxlength: 500 }],
 });
 
 module.exports = model("Exercise", exerciseSchema);

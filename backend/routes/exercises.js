@@ -46,6 +46,7 @@ router.post("/addExercise", async (req, res) => {
             author: user._id,
             programmingLanguage: data.programmingLanguage,
             correctOutput: data.correctOutput,
+            hints: data.hints,
         });
         await newExercise.save();
         await User.findByIdAndUpdate(user._id, {
