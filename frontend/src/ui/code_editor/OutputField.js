@@ -46,6 +46,7 @@ const OutputField = ({ output }) => {
               overflow: 'auto',
               border: '3px solid rgb(25, 118, 210)',
               borderRight: 0,
+              paddingTop: '2px',
             }}
             name="line-numbering"
             disabled={true}
@@ -57,7 +58,7 @@ const OutputField = ({ output }) => {
           <div
             style={{
               width: '100%',
-              // border: '3px solid rgb(25, 118, 210)',
+              border: '3px solid rgb(25, 118, 210)',
               overflow: 'auto',
             }}
           >
@@ -71,11 +72,11 @@ const OutputField = ({ output }) => {
                 width: '100%',
                 backgroundColor: 'white',
                 fontFamily: 'JetBrains Mono',
-                border: '3px solid rgb(25, 118, 210)',
+                // border: '3px solid rgb(25, 118, 210)',
 
                 fontSize: '14px',
               }}
-              padding={'2px'}
+              padding={2}
               disabled={true}
               name="code"
               value={output}
