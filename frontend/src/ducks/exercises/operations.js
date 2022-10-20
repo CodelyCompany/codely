@@ -6,7 +6,6 @@ export const GetExercises = () =>
   createAction({
     endpoint: 'http://localhost:5000/exercises/',
     method: 'GET',
-    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     },
