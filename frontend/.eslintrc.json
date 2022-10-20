@@ -19,7 +19,6 @@
     "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
     "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies
     "quotes": ["error", "single"],
-    "indent": ["error", 2],
     "semi": [2, "always"],
     "max-len": [
       "warn",
@@ -74,7 +73,8 @@
       {
         "objects": "always-multiline",
         "functions": "never",
-        "arrays": "always-multiline"
+        "arrays": "always-multiline",
+        "imports": "always-multiline"
       }
     ],
     "no-unused-vars": [

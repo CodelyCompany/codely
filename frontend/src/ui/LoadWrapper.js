@@ -36,5 +36,5 @@ const LoadWrapper = ({ children }) => {
 export default LoadWrapper;
 
 LoadWrapper.propTypes = {
-  children: PropTypes.element.required,
+  children: PropTypes.func.required,
 };

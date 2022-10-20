@@ -25,7 +25,7 @@ const Navbar = () => {
   const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
 
   const pages = useMemo(
-    () => (isAuthenticated ? ['Editor'] : []),
+    () => (isAuthenticated ? ['Editor', 'Exercises'] : []),
     [isAuthenticated]
   );
 

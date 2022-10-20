@@ -3,6 +3,7 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Editor from './ui/code_editor/Editor';
+import ExercisesList from './ui/exercises/ExercisesList';
 import LoadWrapper from './ui/LoadWrapper';
 import MainPage from './ui/MainPage';
 import Navbar from './ui/Navbar';
@@ -18,6 +19,7 @@ function App() {
           <Routes>
             <Route path="/" element={<MainPage />} />
             <Route path="/Editor" element={<Editor />} />
+            <Route path="/Exercises" element={<ExercisesList />} />
           </Routes>
         </BrowserRouter>
       </div>
