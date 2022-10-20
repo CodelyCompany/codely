@@ -22,8 +22,14 @@ programmingLanguages.map((n) =>
             );
             return res.status(200).send(response.data);
         } catch (error) {
-            console.log(error);
-            res.status(500).send(error);
+            if (error.response.data.stderr) {
+                return res
+                    .status(202)
+                    .send({ output: error.response.data.stderr });
+            } else {
+                console.log(error);
+                res.status(500).send(error);
+            }
         }
     })
 );
