@@ -6,7 +6,7 @@ const Comment = require("../models/Comment");
 
 router.get("/", async (req, res) => {
     try {
-        const data = await Exercise.find({});
+        const data = await Comment.find({});
         res.status(200).send(data);
     } catch (error) {
         console.log(error);
@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
     try {
         const id = req.params.id;
-        const data = await Exercise.findById(id);
+        const data = await Comment.findById(id);
         res.status(200).send(data);
     } catch (error) {
         console.log(error);
@@ -25,10 +25,10 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-router.get("/user/:id", async (req, res) => {
+router.get("/exercise/:id", async (req, res) => {
     try {
         const id = req.params.id;
-        const data = await User.findById(id).populate("preparedExercises");
+        const data = await Exercise.findById(id).populate("comments");
         res.status(200).send(data.preparedExcercises);
     } catch (error) {
         console.log(error);
@@ -36,22 +36,23 @@ router.get("/user/:id", async (req, res) => {
     }
 });
 
-router.post("/addExercise", async (req, res) => {
+router.post("/addComment", async (req, res) => {
     try {
         const data = req.body;
         const user = await User.findById(data.author);
-        const newExercise = new Exercise({
+        const exercise = await Exercise.findById(data.exercise);
+        const newComment = new Comment({
             title: data.title,
-            description: data.description,
-            difficulty: data.difficulty,
+            comment: data.comment,
             author: user._id,
-            programmingLanguage: data.programmingLanguage,
-            correctOutput: data.correctOutput,
-            hints: data.hints,
+            exercise: exercise._id,
         });
-        await newExercise.save();
+        await newComment.save();
         await User.findByIdAndUpdate(user._id, {
-            preparedExcercises: [...user.preparedExcercises, newExercise._id],
+            writtenComments: [...user.writtenComments, newComment._id],
+        });
+        await Exercise.findByIdAndUpdate(exercise._id, {
+            comments: [...exercise.comments, newComment._id],
         });
         return res.status(200).send(true);
     } catch (error) {
@@ -60,10 +61,10 @@ router.post("/addExercise", async (req, res) => {
     }
 });
 
-router.put("/editExercise", async (req, res) => {
+router.put("/editComment", async (req, res) => {
     try {
         const id = req.body._id;
-        await Exercise.findByIdAndUpdate(id, req.body);
+        await Comment.findByIdAndUpdate(id, req.body);
         return res.status(200).send(id);
     } catch (error) {
         console.log(error);
@@ -71,22 +72,20 @@ router.put("/editExercise", async (req, res) => {
     }
 });
 
-router.delete("/deleteExercise/:id", async (req, res) => {
+router.delete("/deleteComment/:id", async (req, res) => {
     try {
         const id = req.params.id;
-        const exercise = await Exercise.findById(id);
-        await Exercise.findByIdAndDelete(id);
-        const user = await User.findById(exercise.author);
+        const comment = await Comment.findById(id);
+        await Comment.findByIdAndDelete(id);
+        const user = await User.findById(comment.author);
+        const exercise = await Exercise.findById(comment.exercise);
         if (user) {
-            await User.findByIdAndUpdate(exercise.author, {
-                preparedExcercises: user.preparedExcercises.filter(
+            await User.findByIdAndUpdate(comment.author, {
+                writtenComments: user.writtenComments.filter(
                     (n) => n.toString() !== id.toString()
                 ),
             });
         }
-        await Comment.deleteMany({
-            exercise: exercise._id,
-        });
         return res.status(200).send(id);
     } catch (error) {
         console.log(error);

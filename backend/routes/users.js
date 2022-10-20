@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 const Exercise = require("../models/Exercise");
+const Comment = require("../models/Comment");
 
 router.get("/", async (req, res) => {
     try {
@@ -55,9 +56,23 @@ router.delete("/deleteUserExercise/:id", async (req, res) => {
     try {
         const data = req.params;
         const account = await User.findById(data.id);
+        const exercise = await Exercise.find({
+            author: account._id,
+        });
+        exercise.forEach(async (n) => {
+            await Comment.deleteMany({
+                exercise: n._id,
+            });
+        });
         await Exercise.deleteMany({
             author: account._id,
         });
+        await Comment.updateMany(
+            {
+                author: account._id,
+            },
+            { author: null }
+        );
         await User.findByIdAndDelete(data.id);
         return res.status(200).send(true);
     } catch (error) {
@@ -71,6 +86,12 @@ router.delete("/deleteUser/:id", async (req, res) => {
         const data = req.params;
         const account = await User.findById(data.id);
         await Exercise.updateMany(
+            {
+                author: account._id,
+            },
+            { author: null }
+        );
+        await Comment.updateMany(
             {
                 author: account._id,
             },

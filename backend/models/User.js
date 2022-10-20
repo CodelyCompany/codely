@@ -8,8 +8,10 @@ const userSchema = new Schema({
         maxlength: 50,
         unique: true,
     },
+    creationDate: { type: Date, default: Date.now },
     preparedExcercises: [{ type: Schema.Types.ObjectId, ref: "Exercise" }],
     doneExcercises: [{ type: Schema.Types.ObjectId, ref: "Exercise" }],
+    writtenComments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
 });
 
 module.exports = model("User", userSchema);
