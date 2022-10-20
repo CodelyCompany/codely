@@ -1,7 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import React from 'react';
+
 import { Box } from '@mui/material';
-import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync';
 import CodeEditor from '@uiw/react-textarea-code-editor';
+import PropTypes from 'prop-types';
+import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync';
 
 const OutputField = ({ output }) => {
   const [lineNumbering, setLineNumbering] = useState('');
@@ -11,13 +14,15 @@ const OutputField = ({ output }) => {
   };
 
   useEffect(() => {
-    if (output === '') setLineNumbering('');
-    else
-      setLineNumbering(
-        Array.from({ length: output.split('\n').length }, (v, k) => k + 1).join(
-          '\n'
-        )
-      );
+    if (!output) {
+      setLineNumbering('');
+      return;
+    }
+    setLineNumbering(
+      Array.from({ length: output.split('\n').length }, (v, k) => k + 1).join(
+        '\n'
+      )
+    );
   }, [output]);
 
   return (
@@ -84,3 +89,7 @@ const OutputField = ({ output }) => {
 };
 
 export default OutputField;
+
+OutputField.propTypes = {
+  output: PropTypes.string.required,
+};

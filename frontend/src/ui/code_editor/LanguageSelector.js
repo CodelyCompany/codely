@@ -1,11 +1,14 @@
+import React from 'react';
+
+import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import PropTypes from 'prop-types';
 import { DiJsBadge } from 'react-icons/di';
 import { DiLinux } from 'react-icons/di';
 import { FaJava, FaPython } from 'react-icons/fa';
-import { SiCplusplus, SiC, SiR } from 'react-icons/si';
+import { SiC, SiCplusplus, SiR } from 'react-icons/si';
 
 const LanguageSelector = ({ language, setLanguage }) => {
   const style = {
@@ -68,3 +71,8 @@ const LanguageSelector = ({ language, setLanguage }) => {
 };
 
 export default LanguageSelector;
+
+LanguageSelector.propTypes = {
+  language: PropTypes.string.isRequired,
+  setLanguage: PropTypes.func.isRequired,
+};

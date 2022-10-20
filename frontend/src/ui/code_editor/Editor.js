@@ -1,9 +1,12 @@
-import { Container, Box } from '@mui/material';
 import { useState } from 'react';
-import LanguageSelector from './LanguageSelector';
+import React from 'react';
+
+import { Box, Container } from '@mui/material';
+
 import CodeField from './CodeField';
-import RunButton from './RunButton';
+import LanguageSelector from './LanguageSelector';
 import OutputField from './OutputField';
+import RunButton from './RunButton';
 
 const Editor = () => {
   const [code, setCode] = useState('');

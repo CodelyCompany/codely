@@ -1,9 +1,12 @@
-import { Box } from '@mui/material';
-import * as _ from 'lodash';
-import Editor from '@monaco-editor/react';
-import texts from './languages-properties/startText';
 import { useEffect } from 'react';
+import React from 'react';
+
+import Editor from '@monaco-editor/react';
+import { Box } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
+import PropTypes from 'prop-types';
+
+import texts from './languages-properties/startText';
 
 const CodeField = ({ code, setCode, language }) => {
   const handleCodeChange = (value) => {
@@ -43,3 +46,9 @@ const CodeField = ({ code, setCode, language }) => {
 };
 
 export default CodeField;
+
+CodeField.propTypes = {
+  code: PropTypes.string.isRequired,
+  setCode: PropTypes.func.isRequired,
+  language: PropTypes.string.isRequired,
+};

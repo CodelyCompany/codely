@@ -1,6 +1,8 @@
 import React from 'react';
+
 import { Button } from '@mui/material';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import { VscDebugStart } from 'react-icons/vsc';
 
 const RunButton = ({ code, setOutput, language }) => {
@@ -36,3 +38,9 @@ const RunButton = ({ code, setOutput, language }) => {
 };
 
 export default RunButton;
+
+RunButton.propTypes = {
+  code: PropTypes.string.isRequired,
+  setOutput: PropTypes.func.isRequired,
+  language: PropTypes.string.isRequired,
+};
