@@ -1,10 +1,10 @@
 const express = require("express");
 const cors = require("cors");
-const swaggerUi = require("swagger-ui-express");
-const swaggerDocument = require("./swagger.json");
 const execSync = require("child_process").execSync;
 const http = require("http");
 const containers = require("./routes/containers");
+const programmingLanguages =
+    require("../programmingLanguages.json").programmingLanguages;
 
 const app = express();
 
@@ -15,18 +15,7 @@ app.use(
         methods: ["POST"],
     })
 );
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/", containers);
-
-const programmingLanguages = [
-    "javascript",
-    "python",
-    "bash",
-    "java",
-    "cpp",
-    "c",
-    "r",
-];
 
 // Uruchomienie kontenerów
 programmingLanguages.forEach((n) => {

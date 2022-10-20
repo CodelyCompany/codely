@@ -2,15 +2,8 @@ const axios = require("axios");
 const express = require("express");
 const router = express.Router();
 
-const programmingLanguages = [
-    "javascript",
-    "python",
-    "bash",
-    "java",
-    "cpp",
-    "c",
-    "r",
-];
+const programmingLanguages =
+    require("../../programmingLanguages.json").programmingLanguages;
 
 programmingLanguages.map((n) =>
     router.post("/" + n, async (req, res) => {
