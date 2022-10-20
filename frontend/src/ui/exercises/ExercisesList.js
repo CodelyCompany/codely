@@ -1,17 +1,38 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
+import { Box, Container } from '@mui/material';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { GetExercises } from '../../ducks/exercises/operations';
 import { getExercisesFromState } from '../../ducks/exercises/selectors';
 
+import Exercise from './Exercise';
+import PaginationExercises from './PaginationExercises';
+
 const ExercisesList = ({ exercises, GetExercises }) => {
+  const [page, setPage] = useState(1);
+
   useEffect(() => {
     GetExercises();
   }, []);
 
-  return <div>{console.log(exercises)}ExercisesList</div>;
+  return (
+    <Container
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+    >
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', height: '550px' }}>
+        {exercises.slice((page - 1) * 6, page * 6).map((exercise) => (
+          <Exercise key={exercise._id} exercise={exercise} />
+        ))}
+      </Box>
+      <PaginationExercises page={page} setPage={setPage} />
+    </Container>
+  );
 };
 
 const mapStateToProps = (state) => ({

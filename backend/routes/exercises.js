@@ -6,7 +6,7 @@ const Comment = require("../models/Comment");
 
 router.get("/", async (req, res) => {
     try {
-        const data = await Exercise.find({});
+        const data = await Exercise.find({}).populate("author");
         res.status(200).send(data);
     } catch (error) {
         console.log(error);
