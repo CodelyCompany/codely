@@ -4,8 +4,9 @@ import FormatColorTextIcon from '@mui/icons-material/FormatColorText';
 import GTranslateIcon from '@mui/icons-material/GTranslate';
 import PersonIcon from '@mui/icons-material/Person';
 import PsychologyIcon from '@mui/icons-material/Psychology';
-import TitleIcon from '@mui/icons-material/Title';
-import { Box, Container } from '@mui/material';
+import StarRateIcon from '@mui/icons-material/StarRate';
+// import TitleIcon from '@mui/icons-material/Title';
+import { Box, Container, Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -42,12 +43,13 @@ const ExerciseDetail = ({ GetExercises }) => {
             }}
           >
             <ListItem>
-              <ListItemAvatar>
-                <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
-                  <TitleIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary="Title" secondary={exercise.title} />
+              <Typography
+                variant="h3"
+                color="primary"
+                sx={{ borderBottom: '3px solid rgb(25, 118, 210)' }}
+              >
+                {exercise.title}
+              </Typography>
             </ListItem>
             <ListItem>
               <ListItemAvatar>
@@ -79,7 +81,9 @@ const ExerciseDetail = ({ GetExercises }) => {
               </ListItemAvatar>
               <ListItemText
                 primary="Difficulty"
-                secondary={exercise.difficulty}
+                secondary={[...Array(exercise.difficulty).keys()].map((el) => (
+                  <StarRateIcon sx={{ color: 'gold' }} key={el} />
+                ))}
               />
             </ListItem>
             <ListItem>

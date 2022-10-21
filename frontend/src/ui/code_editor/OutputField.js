@@ -2,10 +2,9 @@ import { useEffect, useState } from 'react';
 import React from 'react';
 
 import { Box } from '@mui/material';
-import CodeEditor from '@uiw/react-textarea-code-editor';
+// import CodeEditor from '@uiw/react-textarea-code-editor';
 import PropTypes from 'prop-types';
 import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync';
-
 const OutputField = ({ output }) => {
   const [lineNumbering, setLineNumbering] = useState('');
 
@@ -58,29 +57,24 @@ const OutputField = ({ output }) => {
           <div
             style={{
               width: '100%',
-              border: '3px solid rgb(25, 118, 210)',
               overflow: 'auto',
+              height: '100%',
             }}
           >
-            <CodeEditor
+            <textarea
               id="code-area"
               style={{
                 ...textAreaStyles,
                 borderRadius: '0 5px 5px 0',
-                position: 'relative',
-                top: ' 1px',
-                width: '100%',
                 backgroundColor: 'white',
                 fontFamily: 'JetBrains Mono',
-                // border: '3px solid rgb(25, 118, 210)',
-
+                border: '3px solid rgb(25, 118, 210)',
                 fontSize: '14px',
+                width: 'calc(100% - 10px)',
               }}
-              padding={2}
               disabled={true}
               name="code"
               value={output}
-              language="js"
             />
           </div>
         </ScrollSyncPane>
