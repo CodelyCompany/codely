@@ -20,6 +20,8 @@ import { useParams } from 'react-router-dom';
 import { GetExercises } from '../../ducks/exercises/operations';
 import { getExerciseById } from '../../ducks/exercises/selectors';
 
+import EditorField from './editor_to_exercises/EditorField';
+
 const ExerciseDetail = ({ GetExercises }) => {
   const { id } = useParams();
   const exercise = useSelector((state) => getExerciseById(state, id));
@@ -93,7 +95,9 @@ const ExerciseDetail = ({ GetExercises }) => {
             </ListItem>
           </List>
         </Box>
-        <Box></Box>
+        <Box>
+          <EditorField language={exercise.programmingLanguage} />
+        </Box>
       </Container>
     )
   );
