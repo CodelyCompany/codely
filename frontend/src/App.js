@@ -13,9 +13,9 @@ import './App.css';
 
 function App() {
   return (
-    <LoadWrapper>
-      <div className="App">
-        <BrowserRouter>
+    <div className="App">
+      <BrowserRouter>
+        <LoadWrapper>
           <Navbar />
           <Routes>
             <Route path="/" element={<MainPage />} />
@@ -23,9 +23,9 @@ function App() {
             <Route path="/Exercises" element={<ExercisesList />} />
             <Route path="/Exercise/:id" element={<ExerciseDetail />} />
           </Routes>
-        </BrowserRouter>
-      </div>
-    </LoadWrapper>
+        </LoadWrapper>
+      </BrowserRouter>
+    </div>
   );
 }
 
