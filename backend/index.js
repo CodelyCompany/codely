@@ -25,15 +25,20 @@ app.use("/comments", comments);
 
 require("dotenv").config();
 
+// const username = encodeURIComponent(process.env.MON);
+// const password = encodeURIComponent("YOUR_DATABASE_PASSWORD");
+
 const dbConnData = {
     host: process.env.MONGO_HOST || "127.0.0.1",
     port: process.env.MONGO_PORT || 27017,
     database: process.env.MONGO_DATABASE || "local",
+    user: process.env.MONGO_USERNAME || "user",
+    password: process.env.MONGO_PASSWORD || "secr3t",
 };
 
 mongoose
     .connect(
-        `mongodb://${dbConnData.host}:${dbConnData.port}/${dbConnData.database}`,
+        `mongodb://${dbConnData.user}:${dbConnData.password}@mongodb:${dbConnData.port}/`,
         {
             useNewUrlParser: true,
             useUnifiedTopology: true,

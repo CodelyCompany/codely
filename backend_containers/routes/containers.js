@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 const programmingLanguages =
-    require("../../programmingLanguages.json").programmingLanguages;
+    require("../programmingLanguages.json").programmingLanguages;
 
 programmingLanguages.map((n) =>
     router.post("/" + n, async (req, res) => {

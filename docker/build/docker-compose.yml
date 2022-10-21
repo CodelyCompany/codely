@@ -1,0 +1,109 @@
+version: "3"
+
+services:
+    mongodb:
+        container_name: mongodb
+        image: mongo:latest
+        ports:
+            - "27017:27017"
+        volumes:
+            - /home/mtx22/mongodb/database:/data/db
+        environment:
+            - MONGO_INITDB_DATABASE=local
+            - MONGO_INITDB_ROOT_USERNAME=user
+            - MONGO_INITDB_ROOT_PASSWORD=secr3t
+    backend:
+        restart: always
+        build:
+            dockerfile: Dockerfile
+            context: ../../backend
+        ports:
+            - "5000:5000"
+        depends_on:
+            - "mongodb"
+        environment:
+            - MONGO_HOST=user
+            - MONGO_PORT=27017
+            - MONGO_DATABASE=local
+            - MONGO_USERNAME=user
+            - MONGO_PASSWORD=secr3t
+    backend_containers:
+        restart: always
+        build:
+            dockerfile: Dockerfile
+            context: ../../backend_containers
+        ports:
+            - "5001:5001"
+        depends_on:
+            - "javascript"
+            - "python"
+            - "bash"
+            - "java"
+            - "cpp"
+            - "c"
+            - "r"
+    javascript:
+        restart: always
+        build:
+            dockerfile: Dockerfile
+            context: ../../containers/javascript
+        ports:
+            - "6000:5000"
+    python:
+        restart: always
+        build:
+            dockerfile: Dockerfile
+            context: ../../containers/python
+        ports:
+            - "6001:5000"
+    bash:
+        restart: always
+        build:
+            dockerfile: Dockerfile
+            context: ../../containers/bash
+        ports:
+            - "6002:5000"
+    java:
+        restart: always
+        build:
+            dockerfile: Dockerfile
+            context: ../../containers/java
+        ports:
+            - "6003:5000"
+    cpp:
+        restart: always
+        build:
+            dockerfile: Dockerfile
+            context: ../../containers/cpp
+        ports:
+            - "6004:5000"
+    c:
+        restart: always
+        build:
+            dockerfile: Dockerfile
+            context: ../../containers/c
+        ports:
+            - "6005:5000"
+    r:
+        restart: always
+        build:
+            dockerfile: Dockerfile
+            context: ../../containers/r
+        ports:
+            - "6006:5000"
+    frontend:
+        build:
+            dockerfile: Dockerfile
+            context: ../../frontend
+        depends_on:
+            - "backend"
+            - "backend_containers"
+        ports:
+            - "3000:3000"
+    nginx:
+        restart: always
+        build:
+            dockerfile: Dockerfile
+            context: ../../nginx
+        ports:
+            - "9090:80"
