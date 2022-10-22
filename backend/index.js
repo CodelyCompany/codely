@@ -25,9 +25,6 @@ app.use("/comments", comments);
 
 require("dotenv").config();
 
-// const username = encodeURIComponent(process.env.MON);
-// const password = encodeURIComponent("YOUR_DATABASE_PASSWORD");
-
 const dbConnData = {
     host: process.env.MONGO_HOST || "127.0.0.1",
     port: process.env.MONGO_PORT || 27017,
