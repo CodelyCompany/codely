@@ -1,6 +1,6 @@
-const execSync = require("child_process").execSync;
-const fs = require("fs");
-const express = require("express");
+const execSync = require('child_process').execSync;
+const fs = require('fs');
+const express = require('express');
 const app = express();
 
 app.use(express.json());
@@ -10,12 +10,12 @@ app.listen(port, () => {
     console.log(`API server listening on port ${port}`);
 });
 
-app.post("/", async (req, res) => {
+app.post('/', async (req, res) => {
     try {
         data = req.body;
-        fs.writeFileSync("./execute.c", data.toExecute);
-        execSync("gcc execute.c -o program", { encoding: "utf-8" });
-        const output = execSync("./program", { encoding: "utf-8" });
+        fs.writeFileSync('./execute.c', data.toExecute);
+        execSync('gcc execute.c -o program', { encoding: 'utf-8' });
+        const output = execSync('./program', { encoding: 'utf-8' });
         return res.status(200).send({ output });
     } catch (error) {
         console.log(error);

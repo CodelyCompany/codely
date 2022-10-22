@@ -17,8 +17,6 @@ services:
         build:
             dockerfile: Dockerfile.dev
             context: ../../backend
-        ports:
-            - '5000:5000'
         depends_on:
             - 'mongodb'
         environment:
@@ -34,8 +32,6 @@ services:
         build:
             dockerfile: Dockerfile.dev
             context: ../../backend_containers
-        ports:
-            - '5001:5001'
         depends_on:
             - 'javascript'
             - 'python'
@@ -51,50 +47,50 @@ services:
         build:
             dockerfile: Dockerfile
             context: ../../containers/javascript
-        ports:
-            - '6000:5000'
+        environment:
+            - PORT=6000
     python:
         restart: always
         build:
             dockerfile: Dockerfile
             context: ../../containers/python
-        ports:
-            - '6001:5000'
+        environment:
+            - PORT=6001
     bash:
         restart: always
         build:
             dockerfile: Dockerfile
             context: ../../containers/bash
-        ports:
-            - '6002:5000'
+        environment:
+            - PORT=6002
     java:
         restart: always
         build:
             dockerfile: Dockerfile
             context: ../../containers/java
-        ports:
-            - '6003:5000'
+        environment:
+            - PORT=6003
     cpp:
         restart: always
         build:
             dockerfile: Dockerfile
             context: ../../containers/cpp
-        ports:
-            - '6004:5000'
+        environment:
+            - PORT=6004
     c:
         restart: always
         build:
             dockerfile: Dockerfile
             context: ../../containers/c
-        ports:
-            - '6005:5000'
+        environment:
+            - PORT=6005
     r:
         restart: always
         build:
             dockerfile: Dockerfile
             context: ../../containers/r
-        ports:
-            - '6006:5000'
+        environment:
+            - PORT=6006
     frontend:
         build:
             dockerfile: Dockerfile.dev
@@ -107,6 +103,8 @@ services:
         volumes:
             - ../../frontend/node_modules:/app/node_modules
             - ../../frontend:/app
+        environment:
+            - REACT_APP_CONTAINERS_ADDRESS=http://backend_containters:5001
     nginx:
         restart: always
         build:

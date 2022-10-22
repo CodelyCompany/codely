@@ -1,16 +1,16 @@
-const axios = require("axios");
-const express = require("express");
+const axios = require('axios');
+const express = require('express');
 const router = express.Router();
 
 const programmingLanguages =
-    require("../programmingLanguages.json").programmingLanguages;
+    require('../programmingLanguages.json').programmingLanguages;
 
 programmingLanguages.map((n) =>
-    router.post("/" + n, async (req, res) => {
+    router.post('/' + n, async (req, res) => {
         try {
             const data = req.body;
             const response = await axios.post(
-                "http://localhost:600" + programmingLanguages.indexOf(n),
+                'http://' + n + ':600' + programmingLanguages.indexOf(n),
                 data
             );
             return res.status(200).send(response.data);

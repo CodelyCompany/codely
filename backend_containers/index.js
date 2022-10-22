@@ -1,8 +1,8 @@
-const express = require("express");
-const cors = require("cors");
-const execSync = require("child_process").execSync;
-const http = require("http");
-const containers = require("./routes/containers");
+const express = require('express');
+const cors = require('cors');
+const execSync = require('child_process').execSync;
+const http = require('http');
+const containers = require('./routes/containers');
 // const programmingLanguages =
 //     require("../programmingLanguages.json").programmingLanguages;
 
@@ -11,11 +11,11 @@ const app = express();
 app.use(express.json());
 app.use(
     cors({
-        origin: "*",
-        methods: ["POST"],
+        origin: '*',
+        methods: ['POST'],
     })
 );
-app.use("/", containers);
+app.use('/', containers);
 
 // Uruchomienie kontenerów
 // programmingLanguages.forEach((n) => {
@@ -38,7 +38,7 @@ app.use("/", containers);
 
 const port = process.env.PORT || 5001;
 http.createServer(app).listen(port, () => {
-    console.log(`API server listening at https://localhost:${port}`);
+    console.log(`API server listening at http://localhost:${port}`);
 });
 
 // async function closingContainers() {
