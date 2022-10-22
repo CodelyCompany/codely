@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Editor from './ui/code_editor/Editor';
 import ExerciseDetail from './ui/exercises/ExerciseDetail';
+import ExercisesForm from './ui/exercises/ExercisesForm';
 import ExercisesList from './ui/exercises/ExercisesList';
 import LoadWrapper from './ui/LoadWrapper';
 import MainPage from './ui/MainPage';
@@ -22,6 +23,7 @@ function App() {
             <Route path="/Editor" element={<Editor />} />
             <Route path="/Exercises" element={<ExercisesList />} />
             <Route path="/Exercise/:id" element={<ExerciseDetail />} />
+            <Route path="/Exercises/form" element={<ExercisesForm />} />
           </Routes>
         </LoadWrapper>
       </BrowserRouter>
