@@ -38,7 +38,7 @@ const dbConnData = {
 
 mongoose
     .connect(
-        `mongodb://${dbConnData.user}:${dbConnData.password}@mongodb:${dbConnData.port}/`,
+        `mongodb://${dbConnData.user}:${dbConnData.password}@${dbConnData.host}:${dbConnData.port}/`,
         {
             useNewUrlParser: true,
             useUnifiedTopology: true,
