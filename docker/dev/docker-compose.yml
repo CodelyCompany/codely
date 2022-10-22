@@ -26,7 +26,9 @@ services:
             - MONGO_USERNAME=user
             - MONGO_PASSWORD=secr3t
         volumes:
-            - ../../backend:/app
+            - ../../backend:/opt/app
+        ports:
+            - '5000:5000'
     backend_containers:
         restart: always
         build:
@@ -41,7 +43,9 @@ services:
             - 'c'
             - 'r'
         volumes:
-            - ../../backend_containers:/app
+            - ../../backend_containers:/opt/app
+        ports:
+            - '5001:5001'
     javascript:
         restart: always
         build:
@@ -49,6 +53,8 @@ services:
             context: ../../containers/javascript
         environment:
             - PORT=6000
+        ports:
+            - '6000:6000'
     python:
         restart: always
         build:
@@ -56,6 +62,8 @@ services:
             context: ../../containers/python
         environment:
             - PORT=6001
+        ports:
+            - '6001:6001'
     bash:
         restart: always
         build:
@@ -63,6 +71,8 @@ services:
             context: ../../containers/bash
         environment:
             - PORT=6002
+        ports:
+            - '6002:6002'
     java:
         restart: always
         build:
@@ -70,6 +80,8 @@ services:
             context: ../../containers/java
         environment:
             - PORT=6003
+        ports:
+            - '6003:6003'
     cpp:
         restart: always
         build:
@@ -77,6 +89,8 @@ services:
             context: ../../containers/cpp
         environment:
             - PORT=6004
+        ports:
+            - '6004:6004'
     c:
         restart: always
         build:
@@ -84,6 +98,8 @@ services:
             context: ../../containers/c
         environment:
             - PORT=6005
+        ports:
+            - '6005:6005'
     r:
         restart: always
         build:
@@ -91,6 +107,8 @@ services:
             context: ../../containers/r
         environment:
             - PORT=6006
+        ports:
+            - '6006:6006'
     frontend:
         restart: always
         build:
@@ -102,19 +120,11 @@ services:
         ports:
             - '3000:3000'
         volumes:
-            - ../../frontend/node_modules:/app/node_modules
-            - ../../frontend:/app
+            - ../../frontend/node_modules:/opt/app/node_modules
+            - ../../frontend:/opt/app
         environment:
-            - REACT_APP_CONTAINERS_ADDRESS=http://backend_containters:5001
-            - REACT_APP_BACKEND=http://backend:5000
-    # nginx:
-    #     restart: always
-    #     build:
-    #         dockerfile: Dockerfile
-    #         context: ../../nginx
-    #     ports:
-    #         - '9090:80'
-
+            - REACT_APP_CONTAINERS_ADDRESS=http://localhost:5001
+            - REACT_APP_BACKEND=http://localhost:5000
     auth0:
         restart: always
         image: yannj/auth0-docker:latest
