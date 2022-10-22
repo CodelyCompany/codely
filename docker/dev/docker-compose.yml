@@ -132,3 +132,11 @@ services:
             - AUTH0_CLIENT_ID=S78rEYoT9kikIwcv3l0AI1Lg49AxSmMb
             - AUTH0_DOMAIN=dev-v6t-co5x.us.auth0.com
             - AUTH0_CLIENT_SECRET=c-aZ9-dAmNzjT7c0D7yfxwZ4vo8n2e2te9_qEF5yX-XoSHjRcY64DgWLbPF8dkq3
+    nginx:
+        restart: always
+        build:
+            dockerfile: Dockerfile
+            context: ../../nginx
+            target: nginx
+        ports:
+            - '9090:80'

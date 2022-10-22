@@ -1,11 +1,9 @@
-version: "3"
+version: '3'
 
 services:
     mongodb:
         container_name: mongodb
         image: mongo:latest
-        ports:
-            - "27017:27017"
         volumes:
             - /home/mtx22/mongodb/database:/data/db
         environment:
@@ -17,93 +15,108 @@ services:
         build:
             dockerfile: Dockerfile
             context: ../../backend
-        ports:
-            - "5000:5000"
         depends_on:
-            - "mongodb"
+            - 'mongodb'
         environment:
-            - MONGO_HOST=user
+            - MONGO_HOST=mongodb
             - MONGO_PORT=27017
             - MONGO_DATABASE=local
             - MONGO_USERNAME=user
             - MONGO_PASSWORD=secr3t
+        volumes:
+            - ../../backend:/opt/app
     backend_containers:
         restart: always
         build:
             dockerfile: Dockerfile
             context: ../../backend_containers
-        ports:
-            - "5001:5001"
         depends_on:
-            - "javascript"
-            - "python"
-            - "bash"
-            - "java"
-            - "cpp"
-            - "c"
-            - "r"
+            - 'javascript'
+            - 'python'
+            - 'bash'
+            - 'java'
+            - 'cpp'
+            - 'c'
+            - 'r'
+        volumes:
+            - ../../backend_containers:/opt/app
     javascript:
         restart: always
         build:
             dockerfile: Dockerfile
             context: ../../containers/javascript
-        ports:
-            - "6000:5000"
+        environment:
+            - PORT=6000
     python:
         restart: always
         build:
             dockerfile: Dockerfile
             context: ../../containers/python
-        ports:
-            - "6001:5000"
+        environment:
+            - PORT=6001
     bash:
         restart: always
         build:
             dockerfile: Dockerfile
             context: ../../containers/bash
-        ports:
-            - "6002:5000"
+        environment:
+            - PORT=6002
     java:
         restart: always
         build:
             dockerfile: Dockerfile
             context: ../../containers/java
-        ports:
-            - "6003:5000"
+        environment:
+            - PORT=6003
     cpp:
         restart: always
         build:
             dockerfile: Dockerfile
             context: ../../containers/cpp
-        ports:
-            - "6004:5000"
+        environment:
+            - PORT=6004
     c:
         restart: always
         build:
             dockerfile: Dockerfile
             context: ../../containers/c
-        ports:
-            - "6005:5000"
+        environment:
+            - PORT=6005
     r:
         restart: always
         build:
             dockerfile: Dockerfile
             context: ../../containers/r
-        ports:
-            - "6006:5000"
+        environment:
+            - PORT=6006
     frontend:
+        restart: always
         build:
             dockerfile: Dockerfile
             context: ../../frontend
         depends_on:
-            - "backend"
-            - "backend_containers"
-        ports:
-            - "3000:3000"
+            - 'backend'
+            - 'backend_containers'
+        volumes:
+            - ../../frontend/node_modules:/opt/app/node_modules
+            - ../../frontend:/opt/app
+        environment:
+            - REACT_APP_CONTAINERS_ADDRESS=http://backend_containers:5001
+            - REACT_APP_BACKEND=http://backend:5000
+            - REACT_APP_DOMAIN=dev-v6t-co5x.us.auth0.com
+            - REACT_APP_CLIENT_ID=S78rEYoT9kikIwcv3l0AI1Lg49AxSmMb
+    auth0:
+        restart: always
+        image: yannj/auth0-docker:latest
+        environment:
+            - AUTH0_CLIENT_ID=S78rEYoT9kikIwcv3l0AI1Lg49AxSmMb
+            - AUTH0_DOMAIN=dev-v6t-co5x.us.auth0.com
+            - AUTH0_CLIENT_SECRET=c-aZ9-dAmNzjT7c0D7yfxwZ4vo8n2e2te9_qEF5yX-XoSHjRcY64DgWLbPF8dkq3
     nginx:
         restart: always
         build:
             dockerfile: Dockerfile
-            context: ../../nginx
+            context: ../../frontend
+            target: nginx
         ports:
-            - "9090:80"
+            - '9090:80'
