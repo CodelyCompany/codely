@@ -4,9 +4,10 @@ import { MenuItem } from '@mui/material';
 import { Button, TextField } from '@mui/material';
 import { Box } from '@mui/system';
 import { useFormik } from 'formik';
+import { PropTypes } from 'prop-types';
 import * as yup from 'yup';
 
-const ExercisesForm = () => {
+const ExercisesForm = ({ setStep }) => {
   const programmingLanguages = [
     'JavaScript',
     'Bash',
@@ -46,12 +47,16 @@ const ExercisesForm = () => {
     },
     validationSchema,
     onSubmit: (values) => {
-      console.log(values);
+      setStep((prev) => ({
+        ...prev,
+        currentStep: 2,
+        dataFromStep1: values,
+      }));
     },
   });
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', textAlign: 'start' }}>
       <form
         style={{
           display: 'flex',
@@ -125,7 +130,7 @@ const ExercisesForm = () => {
         </TextField>
 
         <Button color="primary" variant="contained" type="submit">
-          Submit
+          Next
         </Button>
       </form>
     </Box>
@@ -133,3 +138,7 @@ const ExercisesForm = () => {
 };
 
 export default ExercisesForm;
+
+ExercisesForm.propTypes = {
+  setStep: PropTypes.func.isRequired,
+};
