@@ -92,6 +92,7 @@ services:
         environment:
             - PORT=6006
     frontend:
+        restart: always
         build:
             dockerfile: Dockerfile.dev
             context: ../../frontend
@@ -105,13 +106,14 @@ services:
             - ../../frontend:/app
         environment:
             - REACT_APP_CONTAINERS_ADDRESS=http://backend_containters:5001
-    nginx:
-        restart: always
-        build:
-            dockerfile: Dockerfile
-            context: ../../nginx
-        ports:
-            - '9090:80'
+            - REACT_APP_BACKEND=http://backend:5000
+    # nginx:
+    #     restart: always
+    #     build:
+    #         dockerfile: Dockerfile
+    #         context: ../../nginx
+    #     ports:
+    #         - '9090:80'
 
     auth0:
         restart: always
