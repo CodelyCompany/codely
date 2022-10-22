@@ -4,7 +4,9 @@ import { types } from './types';
 
 export const GetExercises = () =>
   createAction({
-    endpoint: 'http://localhost:5000/exercises/',
+    endpoint: `${
+      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+    }/exercises/`,
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
