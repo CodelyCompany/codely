@@ -30,7 +30,7 @@ export const AddExercise = (body) =>
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
     }/exercises/addExercise`,
     method: 'POST',
-    body,
+    body: JSON.stringify(body),
     headers: {
       'Content-Type': 'application/json',
     },
