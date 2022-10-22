@@ -24,24 +24,25 @@ export const GetExercises = () =>
     ],
   });
 
-export const AddExercise = () =>
+export const AddExercise = (body) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
     }/exercises/addExercise`,
     method: 'POST',
+    body,
     headers: {
       'Content-Type': 'application/json',
     },
     types: [
-      types.GET_EXERCISES_REQUEST,
+      types.POST_EXERCISE_REQUEST,
       {
-        type: types.GET_EXERCISES_SUCCESS,
+        type: types.POST_EXERCISE_SUCCESS,
         payload: async (action, state, res) => {
           const json = await res.json();
           return json;
         },
       },
-      types.GET_EXERCISES_FAILURE,
+      types.POST_EXERCISE_FAILURE,
     ],
   });

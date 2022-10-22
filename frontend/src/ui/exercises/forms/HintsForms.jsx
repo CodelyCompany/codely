@@ -1,21 +1,51 @@
 import React, { useEffect, useState } from 'react';
 
+// import { useAuth0 } from '@auth0/auth0-react';
 import { Box, MenuItem } from '@mui/material';
 import { Button, TextField } from '@mui/material';
+import axios from 'axios';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-const HintsForms = ({ setStep }) => {
+import { AddExercise } from '../../../ducks/exercises/operations';
+
+const HintsForms = ({ AddExercise }) => {
   const [hintsQuantity, setHintsQuantity] = useState('');
-
+  const navigate = useNavigate();
   const [hints, setHints] = useState([]);
+  //   const { user } = useAuth0();
 
+  // It should be changed in the future
   const submitValues = () => {
+    // let id;
     if (canSubmit())
-      setStep((prev) => ({
-        ...prev,
-        currentStep: 4,
-        dataFromStep3: hints,
-      }));
+      axios
+        .get(`${process.env.REACT_APP_BACKEND}/users/`)
+        .then(() => {
+          //   id = response.data.find((us) => us.username === user.nickname);
+
+          AddExercise({
+            author: '635448a3736c85f0a1c03428',
+            title: 'asdkk123',
+            description: 'asd',
+            difficulty: '1',
+            programmingLanguage: 'JavaScript',
+            correctOutput: [{ input: 'asd', output: 'asd' }],
+            hints: ['asdasd'],
+          });
+          //   setStep((prev) => {
+          //       return ({
+          //       ...prev,
+          //       currentStep: 4,
+          //       dataFromStep3: hints,
+          //     }))
+
+          navigate('/Exercises');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
   };
 
   const canSubmit = () => {
@@ -121,8 +151,13 @@ const HintsForms = ({ setStep }) => {
   );
 };
 
-export default HintsForms;
+const mapDispatchToProps = {
+  AddExercise,
+};
+
+export default connect(null, mapDispatchToProps)(HintsForms);
 
 HintsForms.propTypes = {
-  setStep: PropTypes.func.isRequired,
+  AddExercise: PropTypes.func.isRequired,
+  //   step: PropTypes.object.isRequired,
 };

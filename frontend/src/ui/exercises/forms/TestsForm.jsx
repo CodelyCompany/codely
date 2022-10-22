@@ -97,6 +97,7 @@ const TestsForm = ({ setStep }) => {
           [...Array(testsQuantity).keys()].map((number) => (
             <div key={number} style={{ width: '100%' }}>
               <TextField
+                required
                 sx={{
                   marginBottom: '10px',
                   marginRight: '10px',
@@ -108,6 +109,7 @@ const TestsForm = ({ setStep }) => {
                 onChange={(e) => handleValue(e, number, 'input')}
               />
               <TextField
+                required
                 sx={{ marginBottom: '10px', width: 'calc(50% - 10px)' }}
                 label={number === 0 ? 'Outputs' : ''}
                 name="output"
@@ -119,7 +121,7 @@ const TestsForm = ({ setStep }) => {
 
         <Button
           fullWidth
-          type="button"
+          type="submit"
           onClick={() => submitValues()}
           variant="contained"
         >

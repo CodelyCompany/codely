@@ -113,7 +113,7 @@ function MainForm() {
             Here you can choose quantity of your tests. Remember that not all
             users will be able to solve your exercise without some help.
           </Typography>
-          <HintsForms setStep={setStep} />
+          <HintsForms step={step} />
         </AccordionDetails>
       </Accordion>
     </div>
