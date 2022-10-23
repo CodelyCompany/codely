@@ -15,7 +15,7 @@ const PaginationExercises = ({ quantity, page, setPage }) => {
     <Pagination
       page={page}
       onChange={handleChange}
-      count={parseInt(Math.ceil(quantity / 6))}
+      count={parseInt(Math.ceil(quantity / 8))}
       color="primary"
     />
   );

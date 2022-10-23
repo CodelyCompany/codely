@@ -21,7 +21,9 @@ const HintsForms = ({ step, AddExercise }) => {
     let id;
     if (canSubmit())
       axios
-        .get(`${process.env.REACT_APP_BACKEND}/users/`)
+        .get(
+          `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}/users/`
+        )
         .then((response) => {
           id = response.data.find((us) => us.username === user.nickname);
 
@@ -40,12 +42,6 @@ const HintsForms = ({ step, AddExercise }) => {
             ),
             hints: hints.map((el) => el[1]),
           });
-          //   setStep((prev) => {
-          //       return ({
-          //       ...prev,
-          //       currentStep: 4,
-          //       dataFromStep3: hints,
-          //     }))
 
           navigate('/Exercises');
         })

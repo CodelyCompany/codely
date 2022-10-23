@@ -13,6 +13,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import logo from '../logo.png';
 
@@ -21,11 +22,12 @@ import logo from '../logo.png';
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const navigate = useNavigate();
   // const [anchorElUser, setAnchorElUser] = React.useState(null);
   const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
 
   const pages = useMemo(
-    () => (isAuthenticated ? ['Editor', 'Exercises'] : []),
+    () => (isAuthenticated ? ['Editor', 'Exercises', 'Versus'] : []),
     [isAuthenticated]
   );
 
@@ -50,9 +52,10 @@ const Navbar = () => {
         <Toolbar disableGutters>
           <img
             id="logo"
-            style={{ height: '50px' }}
+            style={{ height: '50px', cursor: 'pointer' }}
             src={logo}
             alt="codely logo"
+            onClick={() => navigate('/')}
           />
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton

@@ -39,7 +39,14 @@ const ExercisesList = ({ exercises, GetExercises }) => {
       >
         Create your exercise!
       </Button>
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', height: '550px' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          height: '100%',
+          justifyContent: 'center',
+        }}
+      >
         {exercises.slice((page - 1) * 8, page * 8).map((exercise) => (
           <Exercise key={exercise._id} exercise={exercise} />
         ))}
