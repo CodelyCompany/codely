@@ -141,6 +141,7 @@ const Navbar = () => {
               <Button
                 key={page}
                 sx={{
+                  fontWeight: 'bolder',
                   my: 2,
                   color: 'white',
                   display: 'block',
@@ -166,14 +167,14 @@ const Navbar = () => {
             {/* <button onClick={() => loginWithRedirect()}>Log In</button>; */}
             {!isAuthenticated ? (
               <Typography
-                sx={{ cursor: 'pointer' }}
+                sx={{ cursor: 'pointer', fontWeight: 'bolder' }}
                 onClick={() => loginWithRedirect()}
               >
                 LOGIN
               </Typography>
             ) : (
               <Typography
-                sx={{ cursor: 'pointer' }}
+                sx={{ cursor: 'pointer', fontWeight: 'bolder' }}
                 onClick={() => logout({ returnTo: window.location.origin })}
               >
                 LOGOUT
