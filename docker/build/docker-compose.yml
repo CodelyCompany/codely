@@ -23,6 +23,7 @@ services:
             - MONGO_DATABASE=local
             - MONGO_USERNAME=user
             - MONGO_PASSWORD=secr3t
+            - BACKEND_CONTAINERS=http://backend_containers:5001'
         volumes:
             - ../../backend:/opt/app
     backend_containers:
