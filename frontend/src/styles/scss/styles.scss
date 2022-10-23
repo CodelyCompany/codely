@@ -3,6 +3,12 @@ $background-blue: rgb(25, 118, 210);
 html {
   body {
     .main-page-container {
+      @media (max-width: 1500px) {
+        flex-direction: column;
+        margin: 50px;
+        text-align: center;
+        justify-content: center;
+      }
       display: flex;
       img {
         align-self: center;
@@ -12,75 +18,54 @@ html {
         display: flex;
         height: 85vh;
         align-items: center;
-        ul {
-          list-style-type: none;
-          li {
-            a {
-              font-size: 100px;
-              color: $background-blue;
-              font-weight: bolder;
-              -webkit-animation: appear 1s linear 0s 1 normal;
-              -moz-animation: appear 1s linear 0s 1 normal;
-              -ms-animation: appear 1s linear 0s 1 normal;
-              animation: appear 1s linear 0s 1 normal;
+        @media (max-width: 1500px) {
+          height: 100%;
+        }
+        img {
+          width: 60vh;
+          margin: 100px;
+          @media (max-width: 1000px) {
+            width: 70%;
+          }
+          @media (max-width: 1750px) {
+            margin: 0;
+            margin-right: 50px;
+          }
+        }
 
-              @-webkit-keyframes appear {
-                0% {
-                  opacity: 0;
-                  -webkit-transform: scale3d(0.3, 0.3, 0.3);
-                  transform: scale3d(0.3, 0.3, 0.3);
-                }
-                60% {
-                  opacity: 1;
-                  -webkit-transform: scale3d(1, 1, 1);
-                  transform: scale3d(1, 1, 1);
-                }
-              }
-              @keyframes appear {
-                0% {
-                  opacity: 0;
-                  transform: scale3d(0.3, 0.3, 0.3);
-                }
-                60% {
-                  opacity: 1;
-                  transform: scale3d(1, 1, 1);
-                }
-              }
-            }
-            .border {
-              background-color: $background-blue;
-              height: 5px;
-              width: 35vw;
-              margin-right: 80px;
-              opacity: 0;
-              -webkit-animation: nav-line 1s linear 0s 1 normal;
-              -moz-animation: nav-line 1s linear 0s 1 normal;
-              -ms-animation: nav-line 1s linear 0s 1 normal;
-              @keyframes nav-line {
-                0% {
-                  transform: scaleX(0);
-                  transform-origin: 0 50%;
-                  opacity: 1;
-                }
-                35% {
-                  transform: scaleX(1.001);
-                  transform-origin: 0 50%;
-                }
-                65% {
-                  transform: scaleX(1.001);
-                  transform-origin: 100% 50%;
-                }
-                100% {
-                  transform: scaleX(0);
-                  transform-origin: 100% 50%;
-                  opacity: 0;
-                }
-              }
-            }
-            margin-bottom: 20px;
+        @media (max-width: 1500px) {
+          display: inline;
+        }
+      }
+      .right-panel {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        a {
+          font-size: 70px;
+          font-weight: bolder;
+          color: $background-blue;
+        }
+        @media (max-width: 1500px) {
+          margin-top: 50px;
+          width: 100%;
+          height: 100%;
+          text-align: center;
+        }
+        @media (max-width: 1000px) {
+          img {
+            width: 90%;
           }
         }
       }
     }
   }
+}
+
+.editor-tag {
+  font-size: 50px;
+  font-weight: bolder;
+  color: $background-blue;
+  position: relative;
+  top: 20px;
 }

@@ -31,7 +31,7 @@ const RunButton = ({ code, setOutput, language }) => {
 
   return (
     <Button variant="outlined" sx={style} onClick={() => runCode(code)}>
-      <VscDebugStart />
+      <VscDebugStart style={{ position: 'relative', bottom: '3px' }} />
       Run
     </Button>
   );
