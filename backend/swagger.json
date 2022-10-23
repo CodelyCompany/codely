@@ -201,6 +201,27 @@
         }
       }
     },
+    "/exercises/withTest/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/exercises/addExercise": {
       "post": {
         "description": "",
@@ -230,6 +251,12 @@
                   "example": "any"
                 },
                 "hints": {
+                  "example": "any"
+                },
+                "exampleSolution": {
+                  "example": "any"
+                },
+                "tests": {
                   "example": "any"
                 }
               }

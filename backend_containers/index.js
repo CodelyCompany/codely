@@ -3,8 +3,6 @@ const cors = require('cors');
 const execSync = require('child_process').execSync;
 const http = require('http');
 const containers = require('./routes/containers');
-// const programmingLanguages =
-//     require("../programmingLanguages.json").programmingLanguages;
 
 const app = express();
 

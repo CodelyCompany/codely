@@ -73,38 +73,38 @@ services:
             - PORT=6002
         ports:
             - '6002:6002'
+    r:
+        restart: always
+        build:
+            dockerfile: Dockerfile
+            context: ../../containers/r
+        environment:
+            - PORT=6003
+        ports:
+            - '6003:6003'
     java:
         restart: always
         build:
             dockerfile: Dockerfile
             context: ../../containers/java
         environment:
-            - PORT=6003
+            - PORT=6004
         ports:
-            - '6003:6003'
+            - '600:6004'
     cpp:
         restart: always
         build:
             dockerfile: Dockerfile
             context: ../../containers/cpp
         environment:
-            - PORT=6004
+            - PORT=6005
         ports:
-            - '6004:6004'
+            - '6005:6005'
     c:
         restart: always
         build:
             dockerfile: Dockerfile
             context: ../../containers/c
-        environment:
-            - PORT=6005
-        ports:
-            - '6005:6005'
-    r:
-        restart: always
-        build:
-            dockerfile: Dockerfile
-            context: ../../containers/r
         environment:
             - PORT=6006
         ports:
@@ -132,11 +132,3 @@ services:
             - AUTH0_CLIENT_ID=S78rEYoT9kikIwcv3l0AI1Lg49AxSmMb
             - AUTH0_DOMAIN=dev-v6t-co5x.us.auth0.com
             - AUTH0_CLIENT_SECRET=c-aZ9-dAmNzjT7c0D7yfxwZ4vo8n2e2te9_qEF5yX-XoSHjRcY64DgWLbPF8dkq3
-    nginx:
-        restart: always
-        build:
-            dockerfile: Dockerfile
-            context: ../../nginx
-            target: nginx
-        ports:
-            - '9090:80'
