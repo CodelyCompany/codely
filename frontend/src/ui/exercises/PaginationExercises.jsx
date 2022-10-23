@@ -13,6 +13,7 @@ const PaginationExercises = ({ quantity, page, setPage }) => {
 
   return (
     <Pagination
+      sx={{ marginTop: '10px' }}
       page={page}
       onChange={handleChange}
       count={parseInt(Math.ceil(quantity / 8))}

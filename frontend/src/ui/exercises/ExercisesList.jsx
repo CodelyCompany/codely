@@ -30,6 +30,7 @@ const ExercisesList = ({ exercises, GetExercises }) => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        height: '70vh',
       }}
     >
       <Button
@@ -44,7 +45,10 @@ const ExercisesList = ({ exercises, GetExercises }) => {
           display: 'flex',
           flexWrap: 'wrap',
           height: '100%',
-          justifyContent: 'center',
+          width: '100%',
+          // justifyContent: 'center',
+          flexDirection: 'row',
+          alignItems: 'space-between',
         }}
       >
         {exercises.slice((page - 1) * 8, page * 8).map((exercise) => (

@@ -1,7 +1,6 @@
 import * as React from 'react';
 
-import WhatshotIcon from '@mui/icons-material/Whatshot';
-import { Button } from '@mui/material';
+import StarIcon from '@mui/icons-material/Star';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Rating from '@mui/material/Rating';
@@ -12,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 
 const StyledRating = styled(Rating)({
   '& .MuiRating-iconFilled': {
-    color: '#ff6d75',
+    color: 'gold',
   },
   '& .MuiRating-iconHover': {
     color: '#ff3d47',
@@ -20,52 +19,59 @@ const StyledRating = styled(Rating)({
 });
 
 const Exercise = ({ exercise }) => {
-  const navigation = useNavigate();
-
-  const navigateToExercise = (id) => {
-    navigation(`/Exercise/${id}`);
-  };
+  const navigate = useNavigate();
 
   return (
     <Card
+      onClick={() => navigate(`/Exercise/${exercise._id}`)}
       sx={{
-        width: '250px',
-        height: '250px',
+        width: 'calc((95% - 30px) / 4)',
+        height: 'calc(95% / 2)',
+        backgroundColor: 'rgb(25, 118, 210)',
+        cursor: 'pointer',
         margin: '10px',
-        backgroundColor: 'rgba(25, 118, 210, 0.56)',
+        '&:hover': { transform: 'scale(1.1)' },
       }}
     >
       <CardContent>
         <Typography
-          sx={{ fontWeight: 'bolder' }}
-          variant="h5"
-          color="text.secondary"
+          sx={{
+            fontWeight: 'bolder',
+            textAlign: 'center',
+            borderBottom: '1px solid white',
+          }}
+          variant="h4"
+          color="white"
         >
           {exercise.title}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Author: {exercise.author.username}
+        <Typography sx={{ fontWeight: 'bolder' }} variant="h6" color="white">
+          {exercise.author.username}
         </Typography>
       </CardContent>
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
+        <Typography sx={{ fontWeight: 'bolder' }} variant="body2" color="white">
           Language: {exercise.programmingLanguage}
         </Typography>
         <StyledRating
           readOnly
           defaultValue={exercise.difficulty}
           precision={0.5}
-          icon={<WhatshotIcon fontSize="inherit" />}
-          emptyIcon={<WhatshotIcon fontSize="inherit" />}
+          icon={<StarIcon fontSize="inherit" />}
+          emptyIcon={<StarIcon fontSize="inherit" />}
         />
       </CardContent>
-      <CardContent sx={{ textAlign: 'center' }}>
-        <Button
-          variant="contained"
-          onClick={() => navigateToExercise(exercise._id)}
+      <CardContent>
+        <Typography
+          color="white"
+          sx={{
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+          }}
         >
-          Try to solve!
-        </Button>{' '}
+          {exercise.description}
+        </Typography>
       </CardContent>
     </Card>
   );
