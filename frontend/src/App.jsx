@@ -11,6 +11,7 @@ import MainPage from './ui/MainPage';
 import Navbar from './ui/Navbar';
 import Versus from './ui/versus/Versus';
 
+import './styles/css/styles.css';
 import './App.css';
 
 function App() {
