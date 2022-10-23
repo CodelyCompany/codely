@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useMemo } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
@@ -12,6 +12,8 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import axios from 'axios';
+// import * as _ from 'lodash';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
@@ -24,12 +26,34 @@ const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const navigate = useNavigate();
   // const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
+  const { loginWithRedirect, isAuthenticated, logout, user } = useAuth0();
 
   const pages = useMemo(
     () => (isAuthenticated ? ['Editor', 'Exercises', 'Versus'] : []),
     [isAuthenticated]
   );
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      axios
+        .get(
+          `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}/users`
+        )
+        .then((response) => {
+          const found = response.data.find(
+            (us) => us.username === user.nickname
+          );
+          if (!found) {
+            axios.post(
+              `${
+                process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+              }/users/addUser`,
+              { username: user.nickname }
+            );
+          }
+        });
+    }
+  }, [isAuthenticated]);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
