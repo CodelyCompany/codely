@@ -1,15 +1,19 @@
 $background-blue: rgb(25, 118, 210);
 
 html {
+  height: 100vh;
   body {
     .main-page-container {
+      height: 80vh;
+      @media (max-width: 900px) {
+        height: 90vh;
+      }
       display: flex;
       justify-content: space-evenly;
       align-items: center;
-
       @media (max-width: 900px) {
         img {
-          width: 100%;
+          width: 90%;
         }
       }
 
@@ -101,4 +105,12 @@ html {
       }
     }
   }
+}
+
+.editor-tag {
+  font-weight: bolder;
+  font-size: 50px;
+  color: $background-blue;
+  position: relative;
+  top: 20px;
 }
