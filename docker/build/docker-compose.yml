@@ -10,6 +10,8 @@ services:
             - MONGO_INITDB_DATABASE=local
             - MONGO_INITDB_ROOT_USERNAME=user
             - MONGO_INITDB_ROOT_PASSWORD=secr3t
+        networks:
+            - container_network
     backend:
         restart: always
         build:
@@ -26,6 +28,8 @@ services:
             - BACKEND_CONTAINERS=http://backend_containers:5001'
         volumes:
             - ../../backend:/opt/app
+        networks:
+            - container_network
     backend_containers:
         restart: always
         build:
@@ -41,6 +45,8 @@ services:
             - 'r'
         volumes:
             - ../../backend_containers:/opt/app
+        networks:
+            - container_network
     javascript:
         restart: always
         build:
@@ -48,6 +54,8 @@ services:
             context: ../../containers/javascript
         environment:
             - PORT=6000
+        networks:
+            - container_network
     python:
         restart: always
         build:
@@ -55,6 +63,8 @@ services:
             context: ../../containers/python
         environment:
             - PORT=6001
+        networks:
+            - container_network
     bash:
         restart: always
         build:
@@ -62,6 +72,8 @@ services:
             context: ../../containers/bash
         environment:
             - PORT=6002
+        networks:
+            - container_network
     java:
         restart: always
         build:
@@ -69,6 +81,8 @@ services:
             context: ../../containers/java
         environment:
             - PORT=6003
+        networks:
+            - container_network
     cpp:
         restart: always
         build:
@@ -76,6 +90,8 @@ services:
             context: ../../containers/cpp
         environment:
             - PORT=6004
+        networks:
+            - container_network
     c:
         restart: always
         build:
@@ -83,6 +99,8 @@ services:
             context: ../../containers/c
         environment:
             - PORT=6005
+        networks:
+            - container_network
     r:
         restart: always
         build:
@@ -90,6 +108,8 @@ services:
             context: ../../containers/r
         environment:
             - PORT=6006
+        networks:
+            - container_network
     frontend:
         restart: always
         build:
@@ -106,6 +126,8 @@ services:
             - REACT_APP_BACKEND=http://backend:5000
             - REACT_APP_DOMAIN=dev-v6t-co5x.us.auth0.com
             - REACT_APP_CLIENT_ID=S78rEYoT9kikIwcv3l0AI1Lg49AxSmMb
+        networks:
+            - container_network
     auth0:
         restart: always
         image: yannj/auth0-docker:latest
@@ -113,6 +135,8 @@ services:
             - AUTH0_CLIENT_ID=S78rEYoT9kikIwcv3l0AI1Lg49AxSmMb
             - AUTH0_DOMAIN=dev-v6t-co5x.us.auth0.com
             - AUTH0_CLIENT_SECRET=c-aZ9-dAmNzjT7c0D7yfxwZ4vo8n2e2te9_qEF5yX-XoSHjRcY64DgWLbPF8dkq3
+        networks:
+            - container_network
     nginx:
         restart: always
         build:
@@ -121,3 +145,8 @@ services:
             target: nginx
         ports:
             - '9090:80'
+        networks:
+            - container_network
+networks:
+    container_network:
+        driver: bridge
