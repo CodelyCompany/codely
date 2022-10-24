@@ -7,6 +7,10 @@ import Rating from '@mui/material/Rating';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
+import { DiJsBadge } from 'react-icons/di';
+import { DiLinux } from 'react-icons/di';
+import { FaJava, FaPython } from 'react-icons/fa';
+import { SiC, SiCplusplus, SiR } from 'react-icons/si';
 import { useNavigate } from 'react-router-dom';
 
 const StyledRating = styled(Rating)({
@@ -19,21 +23,66 @@ const StyledRating = styled(Rating)({
 });
 
 const Exercise = ({ exercise }) => {
+  const style = {
+    marginRight: '5px',
+    fontSize: '40px',
+    position: 'relative',
+    top: '15px',
+  };
+
+  const languagesWithIcons = [
+    {
+      lang: 'JavaScript',
+      icon: <DiJsBadge style={style} />,
+    },
+    {
+      lang: 'Bash',
+      icon: <DiLinux style={style} />,
+    },
+    {
+      lang: 'C',
+      icon: <SiC style={style} />,
+    },
+    {
+      lang: 'C++',
+      icon: <SiCplusplus style={style} />,
+    },
+    {
+      lang: 'Java',
+      icon: <FaJava style={style} />,
+    },
+    {
+      lang: 'Python',
+      icon: <FaPython style={style} />,
+    },
+    {
+      lang: 'R',
+      icon: <SiR style={style} />,
+    },
+  ];
+
   const navigate = useNavigate();
 
   return (
     <Card
       onClick={() => navigate(`/Exercise/${exercise._id}`)}
       sx={{
-        width: 'calc((95% - 30px) / 4)',
-        height: 'calc(95% / 2)',
         backgroundColor: 'rgb(25, 118, 210)',
+        width: '100%',
         cursor: 'pointer',
-        margin: '10px',
-        '&:hover': { transform: 'scale(1.1)' },
+        marginTop: '10px',
+        '&:hover': { transform: 'scale(1.05)' },
       }}
     >
-      <CardContent>
+      <CardContent sx={{ position: 'relative' }}>
+        <StyledRating
+          sx={{ position: 'absolute' }}
+          readOnly
+          defaultValue={exercise.difficulty}
+          precision={0.5}
+          icon={<StarIcon fontSize="inherit" />}
+          emptyIcon={<StarIcon fontSize="inherit" />}
+        />
         <Typography
           sx={{
             fontWeight: 'bolder',
@@ -50,16 +99,18 @@ const Exercise = ({ exercise }) => {
         </Typography>
       </CardContent>
       <CardContent>
-        <Typography sx={{ fontWeight: 'bolder' }} variant="body2" color="white">
-          Language: {exercise.programmingLanguage}
+        <Typography
+          sx={{ fontWeight: 'bolder', position: 'relative', bottom: '20px' }}
+          variant="body2"
+          color="white"
+        >
+          {
+            languagesWithIcons.find(
+              (el) => el.lang === exercise.programmingLanguage
+            ).icon
+          }{' '}
+          {exercise.programmingLanguage}
         </Typography>
-        <StyledRating
-          readOnly
-          defaultValue={exercise.difficulty}
-          precision={0.5}
-          icon={<StarIcon fontSize="inherit" />}
-          emptyIcon={<StarIcon fontSize="inherit" />}
-        />
       </CardContent>
       <CardContent>
         <Typography

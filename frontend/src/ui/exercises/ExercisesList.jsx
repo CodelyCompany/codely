@@ -42,7 +42,6 @@ const ExercisesList = ({ exercises, GetExercises }) => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        height: '70vh',
       }}
     >
       {console.log(sort)}
@@ -97,7 +96,7 @@ const ExercisesList = ({ exercises, GetExercises }) => {
               : ['difficulty']
           )
         )
-          .slice((page - 1) * 8, page * 8)
+          .slice((page - 1) * 3, page * 3)
           .map((exercise) => (
             <Exercise key={exercise._id} exercise={exercise} />
           ))}
