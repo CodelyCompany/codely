@@ -30,7 +30,7 @@ const HintsForms = ({ step, AddExercise }) => {
           AddExercise({
             author: id._id,
             ...step.dataFromStep1,
-            correctOutput: step.dataFromStep2.reduce(
+            tests: step.dataFromStep2.reduce(
               (prev, curr) => [
                 ...prev,
                 {
