@@ -1,10 +1,11 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const User = require("../models/User");
-const Exercise = require("../models/Exercise");
-const Comment = require("../models/Comment");
+const User = require('../models/User');
+const Exercise = require('../models/Exercise');
+const Comment = require('../models/Comment');
+const checkJwt = require('../auth');
 
-router.get("/", async (req, res) => {
+router.get('/', checkJwt, async (req, res) => {
     try {
         const data = await User.find({});
         res.status(200).send(data);
@@ -14,7 +15,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.get("/:id", async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
         const id = req.params.id;
         const data = await User.findById(id);
@@ -25,7 +26,7 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-router.post("/addUser", async (req, res) => {
+router.post('/addUser', async (req, res) => {
     try {
         const data = req.body;
         const newUser = new User({
@@ -39,7 +40,7 @@ router.post("/addUser", async (req, res) => {
     }
 });
 
-router.put("/editUser", async (req, res) => {
+router.put('/editUser', async (req, res) => {
     try {
         const data = req.body;
         await User.findByIdAndUpdate(data.id, {
@@ -52,7 +53,7 @@ router.put("/editUser", async (req, res) => {
     }
 });
 
-router.delete("/deleteUserExercise/:id", async (req, res) => {
+router.delete('/deleteUserExercise/:id', async (req, res) => {
     try {
         const data = req.params;
         const account = await User.findById(data.id);
@@ -81,7 +82,7 @@ router.delete("/deleteUserExercise/:id", async (req, res) => {
     }
 });
 
-router.delete("/deleteUser/:id", async (req, res) => {
+router.delete('/deleteUser/:id', async (req, res) => {
     try {
         const data = req.params;
         const account = await User.findById(data.id);

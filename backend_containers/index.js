@@ -3,6 +3,7 @@ const cors = require('cors');
 const execSync = require('child_process').execSync;
 const http = require('http');
 const containers = require('./routes/containers');
+const jwtCheck = require('./auth');
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(
         methods: ['GET', 'POST'],
     })
 );
+app.use(jwtCheck);
 app.use('/', containers);
 
 // Uruchomienie kontenerów

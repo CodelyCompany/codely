@@ -7,6 +7,7 @@ const exercises = require('./routes/exercises');
 const comments = require('./routes/comments');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
+const jwtCheck = require('./auth');
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(
         methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT'],
     })
 );
+app.use(jwtCheck);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use('/users', users);
