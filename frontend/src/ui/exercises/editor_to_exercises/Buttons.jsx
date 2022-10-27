@@ -9,18 +9,43 @@ const Buttons = ({ setOutput, code, language }) => {
   const navigate = useNavigate();
 
   const runCode = (code) => {
-    axios
-      .post(
-        `${
-          process.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
-        }/${language.toLowerCase() === 'c++' ? 'cpp' : language.toLowerCase()}`,
-        {
-          toExecute: code,
-        }
-      )
-      .then((response) => {
-        setOutput(response.data.output.toString());
-      });
+    (async () => {
+      await axios
+        .post(`https://${process.env.REACT_APP_DOMAIN}/oauth/token`, {
+          client_id: process.env.REACT_APP_CONTAINERS_CLIENT_ID,
+          client_secret: process.env.REACT_APP_CONTAINERS_CLIENT_SECRET,
+          audience: `${
+            process.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
+          }`,
+          grant_type: 'client_credentials',
+        })
+        .then((token) => {
+          axios
+            .post(
+              `${
+                process.env.REACT_APP_CONTAINERS_ADDRESS ||
+                'http://localhost:5001'
+              }/${
+                language.toLowerCase() === 'c++'
+                  ? 'cpp'
+                  : language.toLowerCase()
+              }`,
+              {
+                toExecute: code,
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${token.data.access_token}`,
+                },
+              }
+            )
+            .then((response) => {
+              setOutput(response.data.output.toString());
+            })
+            .catch((err) => console.log(err));
+        })
+        .catch((e) => console.log(e));
+    })();
   };
 
   const submitExercise = () => {

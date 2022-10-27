@@ -37,7 +37,6 @@
     "no-useless-return": "error",
     "no-extra-semi": "warn",
     "eqeqeq": ["warn", "always"],
-    "camelcase": ["error"],
     "simple-import-sort/imports": [
       "error",
       {
@@ -78,7 +77,7 @@
       }
     ],
     "no-unused-vars": [
-      "error",
+      "warn",
       { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }
     ],
     "arrow-body-style": ["error", "as-needed"],
