@@ -2,7 +2,7 @@ import { createAction } from 'redux-api-middleware';
 
 import { types } from './types';
 
-export const GetExercises = () =>
+export const GetExercises = (token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
@@ -10,6 +10,7 @@ export const GetExercises = () =>
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
     types: [
       types.GET_EXERCISES_REQUEST,
@@ -24,7 +25,7 @@ export const GetExercises = () =>
     ],
   });
 
-export const AddExercise = (body) =>
+export const AddExercise = (body, token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
@@ -33,6 +34,7 @@ export const AddExercise = (body) =>
     body: JSON.stringify(body),
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
     types: [
       types.POST_EXERCISE_REQUEST,

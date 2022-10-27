@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Container } from '@mui/material';
 import { Button } from '@mui/material';
 import * as _ from 'lodash';
@@ -23,6 +24,7 @@ const ExercisesList = ({ exercises, GetExercises }) => {
   });
   const [sort, setSort] = useState(0);
   const navigate = useNavigate();
+  const { getAccessTokenSilently } = useAuth0();
 
   const goToExercisesForm = () => {
     navigate('/Exercises/form');
@@ -32,8 +34,12 @@ const ExercisesList = ({ exercises, GetExercises }) => {
     condition ? _.reverse(array) : array;
 
   useEffect(() => {
-    console.log(exercises[0]);
-    GetExercises();
+    (async () => {
+      const token = await getAccessTokenSilently({
+        audience: `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}`,
+      });
+      await GetExercises(token);
+    })();
   }, []);
 
   return (

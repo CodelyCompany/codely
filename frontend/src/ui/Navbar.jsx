@@ -26,7 +26,13 @@ const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const navigate = useNavigate();
   // const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const { loginWithRedirect, isAuthenticated, logout, user } = useAuth0();
+  const {
+    loginWithRedirect,
+    isAuthenticated,
+    logout,
+    user,
+    getAccessTokenSilently,
+  } = useAuth0();
 
   const pages = useMemo(
     () => (isAuthenticated ? ['Editor', 'Exercises', 'Versus'] : []),
@@ -35,23 +41,38 @@ const Navbar = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      axios
-        .get(
-          `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}/users`
-        )
-        .then((response) => {
-          const found = response.data.find(
-            (us) => us.username === user.nickname
-          );
-          if (!found) {
-            axios.post(
+      (async () => {
+        try {
+          const token = await getAccessTokenSilently({
+            audience: `${
+              process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+            }`,
+          });
+          await axios
+            .get(
               `${
                 process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-              }/users/addUser`,
-              { username: user.nickname }
-            );
-          }
-        });
+              }/users`,
+              { headers: { Authorization: `Bearer ${token}` } }
+            )
+            .then((response) => {
+              const found = response.data.find(
+                (us) => us.username === user.nickname
+              );
+              if (!found) {
+                axios.post(
+                  `${
+                    process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+                  }/users/addUser`,
+                  { username: user.nickname },
+                  { headers: { Authorization: `Bearer ${token}` } }
+                );
+              }
+            });
+        } catch (e) {
+          console.error(e);
+        }
+      })();
     }
   }, [isAuthenticated]);
 

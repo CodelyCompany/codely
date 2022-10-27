@@ -14,40 +14,59 @@ const HintsForms = ({ step, AddExercise }) => {
   const [hintsQuantity, setHintsQuantity] = useState('');
   const navigate = useNavigate();
   const [hints, setHints] = useState([]);
-  const { user } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
 
   // It should be changed in the future
   const submitValues = () => {
     let id;
-    if (canSubmit())
-      axios
-        .get(
-          `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}/users/`
-        )
-        .then((response) => {
-          id = response.data.find((us) => us.username === user.nickname);
-
-          AddExercise({
-            author: id._id,
-            ...step.dataFromStep1,
-            tests: step.dataFromStep2.reduce(
-              (prev, curr) => [
-                ...prev,
-                {
-                  input: curr[1],
-                  output: curr[2],
-                },
-              ],
-              []
-            ),
-            hints: hints.map((el) => el[1]),
+    if (canSubmit()) {
+      (async () => {
+        try {
+          const token = await getAccessTokenSilently({
+            audience: `${
+              process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+            }`,
           });
+          axios
+            .get(
+              `${
+                process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+              }/users/`,
+              {
+                headers: {
+                  authorization: `Bearer ${token}`,
+                },
+              }
+            )
+            .then((response) => {
+              id = response.data.find((us) => us.username === user.nickname);
 
-          navigate('/Exercises');
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+              AddExercise(
+                {
+                  author: id._id,
+                  ...step.dataFromStep1,
+                  tests: step.dataFromStep2.reduce(
+                    (prev, curr) => [
+                      ...prev,
+                      {
+                        input: curr[1],
+                        output: curr[2],
+                      },
+                    ],
+                    []
+                  ),
+                  hints: hints.map((el) => el[1]),
+                },
+                token
+              );
+
+              navigate('/Exercises');
+            });
+        } catch (e) {
+          console.error(e);
+        }
+      })();
+    }
   };
 
   const canSubmit = () => {
