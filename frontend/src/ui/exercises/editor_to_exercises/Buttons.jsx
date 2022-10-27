@@ -1,12 +1,16 @@
 import React from 'react';
 
+import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Button } from '@mui/material';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const Buttons = ({ setOutput, code, language }) => {
   const navigate = useNavigate();
+  const { id } = useParams();
+  const { getAccessTokenSilently } = useAuth0();
 
   const runCode = (code) => {
     (async () => {
@@ -49,7 +53,22 @@ const Buttons = ({ setOutput, code, language }) => {
   };
 
   const submitExercise = () => {
-    console.log('Submit exercise');
+    (async () => {
+      const token = await getAccessTokenSilently({
+        audience: `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}`,
+      });
+      await axios
+        .post(
+          `${
+            process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+          }/exercises/checkSolution/${id}`,
+          { solution: code },
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        .then((response) => {
+          console.log('Response: ' + response.data);
+        });
+    })();
   };
 
   return (
