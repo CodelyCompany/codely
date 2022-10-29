@@ -25,6 +25,7 @@ const ExercisesList = ({ exercises, GetExercises }) => {
   const [sort, setSort] = useState(0);
   const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
+  const [itemsPerPage, setItemsPerPage] = useState(3);
 
   const goToExercisesForm = () => {
     navigate('/Exercises/form');
@@ -102,12 +103,17 @@ const ExercisesList = ({ exercises, GetExercises }) => {
               : ['difficulty']
           )
         )
-          .slice((page - 1) * 3, page * 3)
+          .slice((page - 1) * itemsPerPage, page * itemsPerPage)
           .map((exercise) => (
             <Exercise key={exercise._id} exercise={exercise} />
           ))}
       </Box>
-      <PaginationExercises page={page} setPage={setPage} />
+      <PaginationExercises
+        page={page}
+        setPage={setPage}
+        setItemsPerPage={setItemsPerPage}
+        itemsPerPage={itemsPerPage}
+      />
     </Container>
   );
 };
