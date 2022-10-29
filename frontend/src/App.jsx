@@ -28,7 +28,7 @@ function App() {
             <Route path="/exercise/:id" element={<ExerciseDetail />} />
             <Route path="/exercises/form" element={<MainForm />} />
             <Route path="/versus" element={<Versus />} />
-            <Route path="/user/:id" element={<UserDetails />} />
+            <Route path="/user" element={<UserDetails />} />
           </Routes>
         </LoadWrapper>
       </BrowserRouter>

@@ -26,7 +26,6 @@ const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const navigate = useNavigate();
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const [userInfo, setUserInfo] = useState(null);
   const {
     loginWithRedirect,
     isAuthenticated,
@@ -61,17 +60,14 @@ const Navbar = () => {
               const found = response.data.find(
                 (us) => us.username === user.nickname
               );
-              setUserInfo(found);
               if (!found) {
-                axios
-                  .post(
-                    `${
-                      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-                    }/users/addUser`,
-                    { username: user.nickname },
-                    { headers: { Authorization: `Bearer ${token}` } }
-                  )
-                  .then((createdUser) => setUserInfo(createdUser.data));
+                axios.post(
+                  `${
+                    process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+                  }/users/addUser`,
+                  { username: user.nickname },
+                  { headers: { Authorization: `Bearer ${token}` } }
+                );
               }
             });
         } catch (e) {
@@ -95,7 +91,7 @@ const Navbar = () => {
 
   const handleCloseUserMenu = (setting) => {
     setting === 'Logout' && logout();
-    setting === 'Profile' && navigate(`/user/${userInfo._id}`);
+    setting === 'Profile' && navigate('/user');
     setAnchorElUser(null);
   };
 
