@@ -1,31 +1,32 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMemo } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import MenuIcon from '@mui/icons-material/Menu';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
+import {
+  AppBar,
+  Avatar,
+  Box,
+  Button,
+  Container,
+  IconButton,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import axios from 'axios';
-// import * as _ from 'lodash';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 import logo from '../logo.png';
 
-// const pages = ['Products', 'Pricing', 'Blog'];
-// const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-
 const Navbar = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null);
   const navigate = useNavigate();
-  // const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
   const {
     loginWithRedirect,
     isAuthenticated,
@@ -34,6 +35,7 @@ const Navbar = () => {
     getAccessTokenSilently,
   } = useAuth0();
 
+  const settings = ['Profile', 'Logout'];
   const pages = useMemo(
     () => (isAuthenticated ? ['Editor', 'Exercises', 'Versus'] : []),
     [isAuthenticated]
@@ -59,14 +61,17 @@ const Navbar = () => {
               const found = response.data.find(
                 (us) => us.username === user.nickname
               );
+              setUserInfo(found);
               if (!found) {
-                axios.post(
-                  `${
-                    process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-                  }/users/addUser`,
-                  { username: user.nickname },
-                  { headers: { Authorization: `Bearer ${token}` } }
-                );
+                axios
+                  .post(
+                    `${
+                      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+                    }/users/addUser`,
+                    { username: user.nickname },
+                    { headers: { Authorization: `Bearer ${token}` } }
+                  )
+                  .then((createdUser) => setUserInfo(createdUser.data));
               }
             });
         } catch (e) {
@@ -79,18 +84,20 @@ const Navbar = () => {
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  // const handleOpenUserMenu = event => {
-  //   setAnchorElUser(event.currentTarget);
-  // };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
 
   const handleCloseNavMenu = (page) => {
     setAnchorElNav(null);
-    navigate(`/${page}`);
+    navigate(`/${page.toLowerCase()}`);
   };
 
-  // const handleCloseUserMenu = () => {
-  //   setAnchorElUser(null);
-  // };
+  const handleCloseUserMenu = (setting) => {
+    setting === 'Logout' && logout();
+    setting === 'Profile' && navigate(`/user/${userInfo._id}`);
+    setAnchorElUser(null);
+  };
 
   return (
     <AppBar position="static">
@@ -171,7 +178,7 @@ const Navbar = () => {
               >
                 <Link
                   style={{ textDecoration: 'none', color: 'white' }}
-                  to={`/${page}`}
+                  to={`/${page.toLowerCase()}`}
                 >
                   {page}
                 </Link>
@@ -179,32 +186,25 @@ const Navbar = () => {
             ))}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
-            {/* <Tooltip title='Open settings'>
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' />
-              </IconButton>
-              <Typography>LOGIN</Typography>
-            </Tooltip> */}
-            {/* <button onClick={() => loginWithRedirect()}>Log In</button>; */}
-            {!isAuthenticated ? (
+            {isAuthenticated && (
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="User image" />
+                </IconButton>
+              </Tooltip>
+            )}
+            {!isAuthenticated && (
               <Typography
                 sx={{ cursor: 'pointer', fontWeight: 'bolder' }}
                 onClick={() => loginWithRedirect()}
               >
                 LOGIN
               </Typography>
-            ) : (
-              <Typography
-                sx={{ cursor: 'pointer', fontWeight: 'bolder' }}
-                onClick={() => logout({ returnTo: window.location.origin })}
-              >
-                LOGOUT
-              </Typography>
             )}
 
-            {/* <Menu
+            <Menu
               sx={{ mt: '45px' }}
-              id='menu-appbar'
+              id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
                 vertical: 'top',
@@ -219,11 +219,14 @@ const Navbar = () => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign='center'>{setting}</Typography>
+                <MenuItem
+                  key={setting}
+                  onClick={() => handleCloseUserMenu(setting)}
+                >
+                  <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
-            </Menu> */}
+            </Menu>
           </Box>
         </Toolbar>
       </Container>

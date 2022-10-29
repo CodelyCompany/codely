@@ -9,6 +9,7 @@ import MainForm from './ui/exercises/forms/MainForm';
 import LoadWrapper from './ui/LoadWrapper';
 import MainPage from './ui/MainPage';
 import Navbar from './ui/Navbar';
+import UserDetails from './ui/user/UserDetails';
 import Versus from './ui/versus/Versus';
 
 import './styles/css/styles.css';
@@ -22,11 +23,12 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<MainPage />} />
-            <Route path="/Editor" element={<Editor />} />
-            <Route path="/Exercises" element={<ExercisesList />} />
-            <Route path="/Exercise/:id" element={<ExerciseDetail />} />
-            <Route path="/Exercises/form" element={<MainForm />} />
-            <Route path="/Versus" element={<Versus />} />
+            <Route path="/editor" element={<Editor />} />
+            <Route path="/exercises" element={<ExercisesList />} />
+            <Route path="/exercise/:id" element={<ExerciseDetail />} />
+            <Route path="/exercises/form" element={<MainForm />} />
+            <Route path="/versus" element={<Versus />} />
+            <Route path="/user/:id" element={<UserDetails />} />
           </Routes>
         </LoadWrapper>
       </BrowserRouter>
