@@ -35,12 +35,16 @@ const ExercisesList = ({ exercises, GetExercises }) => {
     condition ? _.reverse(array) : array;
 
   useEffect(() => {
-    (async () => {
-      const token = await getAccessTokenSilently({
-        audience: `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}`,
-      });
-      await GetExercises(token);
-    })();
+    if (_.isEmpty(exercises)) {
+      (async () => {
+        const token = await getAccessTokenSilently({
+          audience: `${
+            process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+          }`,
+        });
+        await GetExercises(token);
+      })();
+    }
   }, []);
 
   return (
