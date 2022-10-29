@@ -19,8 +19,8 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        <Navbar />
         <LoadWrapper>
-          <Navbar />
           <Routes>
             <Route path="/" element={<MainPage />} />
             <Route path="/editor" element={<Editor />} />

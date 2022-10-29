@@ -1,18 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Container } from '@mui/system';
 import PropTypes from 'prop-types';
 import { ProgressBar } from 'react-loader-spinner';
-import { useNavigate } from 'react-router-dom';
+
+import MainPage from './MainPage';
 
 const LoadWrapper = ({ children }) => {
   const { isLoading, isAuthenticated } = useAuth0();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!isLoading) if (!isAuthenticated) navigate('/');
-  }, [isLoading]);
 
   return isLoading ? (
     <Container
@@ -34,8 +30,10 @@ const LoadWrapper = ({ children }) => {
         barColor="#51E5FF"
       />
     </Container>
-  ) : (
+  ) : isAuthenticated ? (
     children
+  ) : (
+    <MainPage />
   );
 };
 
