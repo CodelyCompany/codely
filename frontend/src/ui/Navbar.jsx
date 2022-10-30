@@ -16,13 +16,16 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import axios from 'axios';
+import * as _ from 'lodash';
+import { PropTypes } from 'prop-types';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
+import { AddUser, GetUsers } from '../ducks/user/operations';
 import logo from '../logo.png';
 
-const Navbar = () => {
+const Navbar = ({ GetUsers, AddUser, users }) => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const navigate = useNavigate();
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -49,27 +52,10 @@ const Navbar = () => {
               process.env.REACT_APP_BACKEND || 'http://localhost:5000'
             }`,
           });
-          await axios
-            .get(
-              `${
-                process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-              }/users`,
-              { headers: { Authorization: `Bearer ${token}` } }
-            )
-            .then((response) => {
-              const found = response.data.find(
-                (us) => us.username === user.nickname
-              );
-              if (!found) {
-                axios.post(
-                  `${
-                    process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-                  }/users/addUser`,
-                  { username: user.nickname },
-                  { headers: { Authorization: `Bearer ${token}` } }
-                );
-              }
-            });
+          await GetUsers(token);
+          const foundUser = users.find((usr) => usr.username === user.nickname);
+          if (_.isEmpty(foundUser))
+            await AddUser({ username: user.nickname }, token);
         } catch (e) {
           console.error(e);
         }
@@ -96,29 +82,29 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
+    <AppBar position='static'>
+      <Container maxWidth='xl'>
         <Toolbar disableGutters>
           <img
-            id="logo"
+            id='logo'
             style={{ height: '50px', cursor: 'pointer' }}
             src={logo}
-            alt="codely logo"
+            alt='codely logo'
             onClick={() => navigate('/')}
           />
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
+              size='large'
+              aria-label='account of current user'
+              aria-controls='menu-appbar'
+              aria-haspopup='true'
               onClick={handleOpenNavMenu}
-              color="inherit"
+              color='inherit'
             >
               <MenuIcon />
             </IconButton>
             <Menu
-              id="menu-appbar"
+              id='menu-appbar'
               anchorEl={anchorElNav}
               anchorOrigin={{
                 vertical: 'bottom',
@@ -137,16 +123,16 @@ const Navbar = () => {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={() => handleCloseNavMenu(page)}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography textAlign='center'>{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
           <Typography
-            variant="h5"
+            variant='h5'
             noWrap
-            component="a"
-            href=""
+            component='a'
+            href=''
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -183,9 +169,9 @@ const Navbar = () => {
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             {isAuthenticated && (
-              <Tooltip title="Open settings">
+              <Tooltip title='Open settings'>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="User image" />
+                  <Avatar alt='User image' />
                 </IconButton>
               </Tooltip>
             )}
@@ -200,7 +186,7 @@ const Navbar = () => {
 
             <Menu
               sx={{ mt: '45px' }}
-              id="menu-appbar"
+              id='menu-appbar'
               anchorEl={anchorElUser}
               anchorOrigin={{
                 vertical: 'top',
@@ -219,7 +205,7 @@ const Navbar = () => {
                   key={setting}
                   onClick={() => handleCloseUserMenu(setting)}
                 >
-                  <Typography textAlign="center">{setting}</Typography>
+                  <Typography textAlign='center'>{setting}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -229,4 +215,20 @@ const Navbar = () => {
     </AppBar>
   );
 };
-export default Navbar;
+
+const mapStateToProps = (state) => ({
+  users: state.users.users,
+});
+
+const mapDispatchToProps = {
+  GetUsers,
+  AddUser,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
+
+Navbar.propTypes = {
+  GetUsers: PropTypes.func,
+  AddUser: PropTypes.func,
+  users: PropTypes.array,
+};

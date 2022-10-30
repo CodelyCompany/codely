@@ -1,62 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Container, Typography } from '@mui/material';
-import axios from 'axios';
 import * as _ from 'lodash';
+import { connect, useSelector } from 'react-redux';
+
+import { getUserByUsername } from '../../ducks/user/selectors';
 
 import SectionWrapper from './SectionWrapper';
 import UserExercisesList from './UserExercisesList';
 import WrittenComments from './WrittenComments';
 
 const UserDetails = () => {
-  const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
-  const [userDetails, setUserDetails] = useState({});
+  const { user } = useAuth0();
 
-  useEffect(() => {
-    if (isAuthenticated && _.isEmpty(userDetails)) {
-      (async () => {
-        try {
-          const token = await getAccessTokenSilently({
-            audience: `${
-              process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-            }`,
-          });
-          await axios
-            .get(
-              `${
-                process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-              }/users`,
-              { headers: { Authorization: `Bearer ${token}` } }
-            )
-            .then((response) => {
-              setUserDetails(
-                response.data.find((us) => us.username === user.nickname)
-              );
-            });
-        } catch (e) {
-          console.error(e);
-        }
-      })();
-    }
-  }, [isAuthenticated]);
-
-  //   response
-  //[
-  //     {
-  //         "_id": "635ea903bab7b1331427fda5",
-  //         "username": "grubyalancio",
-  //         "preparedExcercises": [],
-  //         "doneExcercises": [],
-  //         "writtenComments": [],
-  //         "creationDate": "2022-10-30T16:40:35.340Z",
-  //         "__v": 0
-  //     }
-  // ]
+  const foundUser = useSelector((state) =>
+    getUserByUsername(state, user.nickname)
+  );
 
   return (
     <Container sx={{ height: '100%' }}>
-      {!_.isEmpty(userDetails) && (
+      {console.log(foundUser)}
+      {!_.isEmpty(foundUser) && (
         <Box sx={{ margin: '20px' }}>
           <Box
             sx={{
@@ -73,36 +38,36 @@ const UserDetails = () => {
                 fontWeight: 'bolder',
               }}
             >
-              {userDetails.username}
+              {foundUser.username}
             </Typography>
             <Typography color='primary' variant='h6'>
               User since:{' '}
-              {new Date(userDetails.creationDate).toLocaleDateString()}
+              {new Date(foundUser.creationDate).toLocaleDateString()}
             </Typography>
           </Box>
           <SectionWrapper
-            condition={!_.isEmpty(userDetails.doneExcercises)}
+            condition={!_.isEmpty(foundUser.doneExcercises)}
             mode='done'
           >
             <UserExercisesList
-              exercises={userDetails.doneExcercises}
+              exercises={foundUser.doneExcercises}
               mode='done'
             />
           </SectionWrapper>
           <SectionWrapper
-            condition={!_.isEmpty(userDetails.preparedExcercises)}
+            condition={!_.isEmpty(foundUser.preparedExcercises)}
             mode='prepared'
           >
             <UserExercisesList
-              exercises={userDetails.preparedExcercises}
+              exercises={foundUser.preparedExcercises}
               mode='prepared'
             />
           </SectionWrapper>
           <SectionWrapper
             mode='comments'
-            condition={!_.isEmpty(userDetails.writtenComments)}
+            condition={!_.isEmpty(foundUser.writtenComments)}
           >
-            <WrittenComments comments={userDetails.writtenComments} />
+            <WrittenComments comments={foundUser.writtenComments} />
           </SectionWrapper>
         </Box>
       )}
@@ -110,4 +75,4 @@ const UserDetails = () => {
   );
 };
 
-export default UserDetails;
+export default connect(null, null)(UserDetails);

@@ -4,11 +4,13 @@ import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 
 import { exercisesReducer } from './exercises/reducer';
+import { usersReducer } from './user/reducer';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const combinedReducers = combineReducers({
   exercises: exercisesReducer,
+  users: usersReducer,
 });
 
 const store = createStore(
