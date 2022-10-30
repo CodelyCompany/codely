@@ -5,8 +5,8 @@ import { Box, Container, Typography } from '@mui/material';
 import axios from 'axios';
 import * as _ from 'lodash';
 
-import DoneExercises from './DoneExercises';
-import PreparedExercises from './PreparedExercises';
+import SectionWrapper from './SectionWrapper';
+import UserExercisesList from './UserExercisesList';
 import WrittenComments from './WrittenComments';
 
 const UserDetails = () => {
@@ -81,15 +81,30 @@ const UserDetails = () => {
               {new Date(userDetails.creationDate).toLocaleDateString()}
             </Typography>
           </Box>
-          {!_.isEmpty(userDetails.doneExcercises) && (
-            <DoneExercises exercises={userDetails.doneExcercises} />
-          )}
-          {!_.isEmpty(userDetails.preparedExcercises) && (
-            <PreparedExercises exercises={userDetails.preparedExcercises} />
-          )}
-          {!_.isEmpty(userDetails.writtenComments) && (
+          <SectionWrapper
+            condition={!_.isEmpty(userDetails.doneExcercises)}
+            mode="done"
+          >
+            <UserExercisesList
+              exercises={userDetails.doneExcercises}
+              mode="done"
+            />
+          </SectionWrapper>
+          <SectionWrapper
+            condition={!_.isEmpty(userDetails.preparedExcercises)}
+            mode="prepared"
+          >
+            <UserExercisesList
+              exercises={userDetails.preparedExcercises}
+              mode="prepared"
+            />
+          </SectionWrapper>
+          <SectionWrapper
+            mode="comments"
+            condition={!_.isEmpty(userDetails.writtenComments)}
+          >
             <WrittenComments comments={userDetails.writtenComments} />
-          )}
+          </SectionWrapper>
         </Box>
       )}
     </Container>

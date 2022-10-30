@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 
+import { useAuth0 } from '@auth0/auth0-react';
 import FormatColorTextIcon from '@mui/icons-material/FormatColorText';
 import GTranslateIcon from '@mui/icons-material/GTranslate';
 import PersonIcon from '@mui/icons-material/Person';
 import PsychologyIcon from '@mui/icons-material/Psychology';
 import StarRateIcon from '@mui/icons-material/StarRate';
-// import TitleIcon from '@mui/icons-material/Title';
 import { Box, Container, Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import List from '@mui/material/List';
@@ -26,9 +26,19 @@ import EditorField from './editor_to_exercises/EditorField';
 const ExerciseDetail = ({ GetExercises }) => {
   const { id } = useParams();
   const exercise = useSelector((state) => getExerciseById(state, id));
+  const { getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
-    if (_.isEmpty(exercise)) GetExercises();
+    if (_.isEmpty(exercise)) {
+      (async () => {
+        const token = await getAccessTokenSilently({
+          audience: `${
+            process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+          }`,
+        });
+        await GetExercises(token);
+      })();
+    }
   }, []);
 
   return (
@@ -44,8 +54,8 @@ const ExerciseDetail = ({ GetExercises }) => {
           >
             <ListItem>
               <Typography
-                variant="h3"
-                color="primary"
+                variant='h3'
+                color='primary'
                 sx={{ borderBottom: '3px solid rgb(25, 118, 210)' }}
               >
                 {exercise.title}
@@ -58,7 +68,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary="Author"
+                primary='Author'
                 secondary={exercise.author.username}
               />
             </ListItem>
@@ -69,7 +79,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary="Programming Language"
+                primary='Programming Language'
                 secondary={exercise.programmingLanguage}
               />
             </ListItem>
@@ -80,7 +90,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary="Difficulty"
+                primary='Difficulty'
                 secondary={[...Array(exercise.difficulty).keys()].map((el) => (
                   <StarRateIcon sx={{ color: 'gold' }} key={el} />
                 ))}
@@ -93,7 +103,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary="Description"
+                primary='Description'
                 secondary={exercise.description}
               />
             </ListItem>
