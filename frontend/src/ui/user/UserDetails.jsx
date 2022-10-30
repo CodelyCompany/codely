@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
-import { Box } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import axios from 'axios';
 import * as _ from 'lodash';
+
+import DoneExercises from './DoneExercises';
+import PreparedExercises from './PreparedExercises';
+import WrittenComments from './WrittenComments';
 
 const UserDetails = () => {
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
@@ -37,7 +41,59 @@ const UserDetails = () => {
     }
   }, [isAuthenticated]);
 
-  return <Box>You are logged as: {userDetails && userDetails.username}</Box>;
+  //   response
+  //[
+  //     {
+  //         "_id": "635ea903bab7b1331427fda5",
+  //         "username": "grubyalancio",
+  //         "preparedExcercises": [],
+  //         "doneExcercises": [],
+  //         "writtenComments": [],
+  //         "creationDate": "2022-10-30T16:40:35.340Z",
+  //         "__v": 0
+  //     }
+  // ]
+
+  return (
+    <Container>
+      {console.log(userDetails)}
+      {!_.isEmpty(userDetails) && (
+        <Box sx={{ margin: '20px' }}>
+          <Box
+            sx={{
+              borderBottom: '3px solid rgb(25, 118, 210)',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'end',
+            }}
+          >
+            <Typography
+              color="primary"
+              variant="h2"
+              sx={{
+                fontWeight: 'bolder',
+              }}
+            >
+              {userDetails.username}
+            </Typography>
+            <Typography color="primary" variant="h6">
+              User since:{' '}
+              {new Date(userDetails.creationDate).toLocaleDateString()}
+            </Typography>
+          </Box>
+          {!_.isEmpty(userDetails.doneExcercises) && (
+            <DoneExercises exercises={userDetails.doneExcercises} />
+          )}
+          {!_.isEmpty(userDetails.preparedExcercises) && (
+            <PreparedExercises exercises={userDetails.preparedExcercises} />
+          )}
+          {!_.isEmpty(userDetails.writtenComments) && (
+            <WrittenComments comments={userDetails.writtenComments} />
+          )}
+        </Box>
+      )}
+    </Container>
+  );
 };
 
 export default UserDetails;

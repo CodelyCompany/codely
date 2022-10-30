@@ -7,7 +7,10 @@ const checkJwt = require('../auth');
 
 router.get('/', checkJwt, async (req, res) => {
   try {
-    const data = await User.find({});
+    const data = await User.find({}).populate([
+      'preparedExcercises',
+      'doneExcercises',
+    ]);
     res.status(200).send(data);
   } catch (error) {
     console.log(error);
