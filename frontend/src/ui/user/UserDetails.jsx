@@ -55,8 +55,7 @@ const UserDetails = () => {
   // ]
 
   return (
-    <Container>
-      {console.log(userDetails)}
+    <Container sx={{ height: '100%' }}>
       {!_.isEmpty(userDetails) && (
         <Box sx={{ margin: '20px' }}>
           <Box
@@ -68,39 +67,39 @@ const UserDetails = () => {
             }}
           >
             <Typography
-              color="primary"
-              variant="h2"
+              color='primary'
+              variant='h2'
               sx={{
                 fontWeight: 'bolder',
               }}
             >
               {userDetails.username}
             </Typography>
-            <Typography color="primary" variant="h6">
+            <Typography color='primary' variant='h6'>
               User since:{' '}
               {new Date(userDetails.creationDate).toLocaleDateString()}
             </Typography>
           </Box>
           <SectionWrapper
             condition={!_.isEmpty(userDetails.doneExcercises)}
-            mode="done"
+            mode='done'
           >
             <UserExercisesList
               exercises={userDetails.doneExcercises}
-              mode="done"
+              mode='done'
             />
           </SectionWrapper>
           <SectionWrapper
             condition={!_.isEmpty(userDetails.preparedExcercises)}
-            mode="prepared"
+            mode='prepared'
           >
             <UserExercisesList
               exercises={userDetails.preparedExcercises}
-              mode="prepared"
+              mode='prepared'
             />
           </SectionWrapper>
           <SectionWrapper
-            mode="comments"
+            mode='comments'
             condition={!_.isEmpty(userDetails.writtenComments)}
           >
             <WrittenComments comments={userDetails.writtenComments} />
