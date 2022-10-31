@@ -121,6 +121,11 @@ router.post('/checkSolution/:id', async (req, res) => {
                 counterCorrect++;
             }
         }
+        if (counterCorrect === exercise.tests.length) {
+            await Exercise.findByIdAndUpdate(id, {
+                doneCounter: exercise.doneCounter + 1,
+            });
+        }
         return res
             .status(200)
             .send({ tests: exercise.tests.length, correct: counterCorrect });
