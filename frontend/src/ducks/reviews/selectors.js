@@ -1,0 +1,2 @@
+export const getReviewsByExerciseId = (state) => (id) => state.reviews.filter(review => review.exercise == id);
+export const getReviewsByUserId = (state) => (id) => state.reviews.filter(review => review.user == id);
