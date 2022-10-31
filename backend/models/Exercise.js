@@ -19,7 +19,7 @@ const exerciseSchema = new Schema({
     },
     doneCounter: { type: Number, default: 0 },
     hints: [{ type: String, maxlength: 1000 }],
-    comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
+    reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
     exampleSolution: { type: String, maxlength: 5000 },
     tests: [{ type: Schema.Types.ObjectId, ref: 'Test' }],
 });

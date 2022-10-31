@@ -1,11 +1,11 @@
 const { Schema, model } = require("mongoose");
 
-const commentSchema = new Schema({
-    title: {
-        type: String,
+const reviewSchema = new Schema({
+    score: {
+        type: Number,
         required: true,
-        minlength: 3,
-        maxlength: 50,
+        min: 1,
+        max: 10
     },
     comment: { type: String, minlength: 2, maxlength: 5000 },
     author: { type: Schema.Types.ObjectId, ref: "User" },
@@ -13,4 +13,4 @@ const commentSchema = new Schema({
     creationDate: { type: Date, default: Date.now },
 });
 
-module.exports = model("Comment", commentSchema);
+module.exports = model("Review", reviewSchema);

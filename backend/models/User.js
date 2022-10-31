@@ -11,7 +11,7 @@ const userSchema = new Schema({
     creationDate: { type: Date, default: Date.now },
     preparedExcercises: [{ type: Schema.Types.ObjectId, ref: "Exercise" }],
     doneExcercises: [{ type: Schema.Types.ObjectId, ref: "Exercise" }],
-    writtenComments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
+    writtenReviews: [{ type: Schema.Types.ObjectId, ref: "Review" }],
 });
 
 module.exports = model("User", userSchema);

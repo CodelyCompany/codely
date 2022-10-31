@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const Exercise = require('../models/Exercise');
-const Comment = require('../models/Comment');
+const Review = require('../models/Review');
 const checkJwt = require('../auth');
 
 router.get('/', checkJwt, async (req, res) => {
@@ -95,7 +95,7 @@ router.delete('/deleteUser/:id', async (req, res) => {
       },
       { author: null }
     );
-    await Comment.updateMany(
+    await Review.updateMany(
       {
         author: account._id,
       },
