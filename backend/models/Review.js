@@ -12,7 +12,8 @@ const reviewSchema = new Schema({
     downvotes: [{ type: Schema.Types.ObjectId, ref: "User" }],
     author: { type: Schema.Types.ObjectId, ref: "User" },
     exercise: { type: Schema.Types.ObjectId, ref: "Exercise" },
-    creationDate: { type: Date, default: Date.now }
+    creationDate: { type: Date, default: Date.now },
+    editedAt: { type: Date }
 });
 
 module.exports = model("Review", reviewSchema);

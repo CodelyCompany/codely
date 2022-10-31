@@ -64,14 +64,14 @@ router.delete('/deleteUserExercise/:id', async (req, res) => {
       author: account._id,
     });
     exercise.forEach(async (n) => {
-      await Comment.deleteMany({
+      await Review.deleteMany({
         exercise: n._id,
       });
     });
     await Exercise.deleteMany({
       author: account._id,
     });
-    await Comment.updateMany(
+    await Review.updateMany(
       {
         author: account._id,
       },
