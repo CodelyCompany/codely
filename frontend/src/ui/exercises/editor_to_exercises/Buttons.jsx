@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
-const Buttons = ({ setOutput, code, language }) => {
+const Buttons = ({ setOutput, code, language, setTests }) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { getAccessTokenSilently } = useAuth0();
@@ -66,7 +66,7 @@ const Buttons = ({ setOutput, code, language }) => {
           { headers: { Authorization: `Bearer ${token}` } }
         )
         .then((response) => {
-          console.log('Response: ' + response.data);
+          setTests(response.data);
         });
     })();
   };
@@ -78,14 +78,14 @@ const Buttons = ({ setOutput, code, language }) => {
         <Button
           onClick={() => runCode(code)}
           sx={{ margin: '5px', width: '100px' }}
-          variant="contained"
+          variant='contained'
         >
           Run
         </Button>
         <Button
           onClick={() => submitExercise()}
           sx={{ width: '100px' }}
-          variant="contained"
+          variant='contained'
         >
           Submit
         </Button>
@@ -94,7 +94,7 @@ const Buttons = ({ setOutput, code, language }) => {
         <Button
           onClick={() => navigate(-1)}
           sx={{ width: '100px', margin: '5px' }}
-          variant="contained"
+          variant='contained'
         >
           Undo
         </Button>
@@ -109,4 +109,5 @@ Buttons.propTypes = {
   setOutput: PropTypes.func.isRequired,
   code: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,
+  setTests: PropTypes.func,
 };
