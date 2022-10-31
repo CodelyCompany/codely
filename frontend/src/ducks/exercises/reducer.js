@@ -6,6 +6,12 @@ export const exercisesReducer = (state = { exercises: [] }, action) => {
       return { exercises: action.payload };
     case types.POST_EXERCISE_SUCCESS:
       return { exercises: [...state.exercises, action.payload] };
+    case types.DELETE_EXERCISE_SUCCESS:
+      return {
+        exercises: [
+          ...state.exercises.filter((ex) => ex._id !== action.payload.id),
+        ],
+      };
     default:
       return state;
   }

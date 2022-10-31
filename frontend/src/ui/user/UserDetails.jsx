@@ -1,18 +1,30 @@
 import React from 'react';
+import { useEffect } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Container, Typography } from '@mui/material';
 import * as _ from 'lodash';
+import { PropTypes } from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 
+import { GetUsers } from '../../ducks/user/operations';
 import { getUserByUsername } from '../../ducks/user/selectors';
 
 import SectionWrapper from './SectionWrapper';
 import UserExercisesList from './UserExercisesList';
 import WrittenComments from './WrittenComments';
 
-const UserDetails = () => {
-  const { user } = useAuth0();
+const UserDetails = ({ GetUsers }) => {
+  const { user, getAccessTokenSilently } = useAuth0();
+
+  useEffect(() => {
+    (async () => {
+      const token = await getAccessTokenSilently({
+        audience: `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}`,
+      });
+      await GetUsers(token);
+    })();
+  }, []);
 
   const foundUser = useSelector((state) =>
     getUserByUsername(state, user.nickname)
@@ -75,4 +87,12 @@ const UserDetails = () => {
   );
 };
 
-export default connect(null, null)(UserDetails);
+const mapDispatchToProps = {
+  GetUsers,
+};
+
+export default connect(null, mapDispatchToProps)(UserDetails);
+
+UserDetails.propTypes = {
+  GetUsers: PropTypes.func.isRequired,
+};

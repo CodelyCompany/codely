@@ -48,3 +48,26 @@ export const AddExercise = (body, token) =>
       types.POST_EXERCISE_FAILURE,
     ],
   });
+
+export const DeleteExercise = (id, token) =>
+  createAction({
+    endpoint: `${
+      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+    }/exercises/deleteExercise/${id}`,
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    types: [
+      types.DELETE_EXERCISE_REQUEST,
+      {
+        type: types.DELETE_EXERCISE_SUCCESS,
+        payload: async (action, state, res) => {
+          const json = await res.json();
+          return json;
+        },
+      },
+      types.DELETE_EXERCISE_FAILURE,
+    ],
+  });

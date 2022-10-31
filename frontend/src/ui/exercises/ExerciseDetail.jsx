@@ -7,6 +7,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import PsychologyIcon from '@mui/icons-material/Psychology';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import { Box, Container, Typography } from '@mui/material';
+import { Button } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -17,16 +18,18 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-import { GetExercises } from '../../ducks/exercises/operations';
+import { DeleteExercise, GetExercises } from '../../ducks/exercises/operations';
 import { getExerciseById } from '../../ducks/exercises/selectors';
 
 import EditorField from './editor_to_exercises/EditorField';
 
-const ExerciseDetail = ({ GetExercises }) => {
+const ExerciseDetail = ({ GetExercises, DeleteExercise }) => {
   const { id } = useParams();
   const exercise = useSelector((state) => getExerciseById(state, id));
-  const { getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently, user } = useAuth0();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (_.isEmpty(exercise)) {
@@ -41,10 +44,18 @@ const ExerciseDetail = ({ GetExercises }) => {
     }
   }, []);
 
+  const deleteExercise = async () => {
+    const token = await getAccessTokenSilently({
+      audience: `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}`,
+    });
+    await DeleteExercise(id, token);
+    navigate('/exercises');
+  };
+
   return (
     exercise && (
       <Container sx={{ marginTop: '10px' }}>
-        <Box sx={{ width: '100%' }}>
+        <Box sx={{ width: '100%', display: 'flex' }}>
           <List
             sx={{
               width: '100%',
@@ -108,6 +119,15 @@ const ExerciseDetail = ({ GetExercises }) => {
               />
             </ListItem>
           </List>
+          {user.nickname === exercise.author.username && (
+            <Button
+              variant='contained'
+              sx={{ height: '40px', marginTop: '50px', width: '100px' }}
+              onClick={() => deleteExercise()}
+            >
+              Delete
+            </Button>
+          )}
         </Box>
         <Box>
           <EditorField language={exercise.programmingLanguage} />
@@ -119,10 +139,12 @@ const ExerciseDetail = ({ GetExercises }) => {
 
 const mapDispatchToProps = {
   GetExercises,
+  DeleteExercise,
 };
 
 export default connect(null, mapDispatchToProps)(ExerciseDetail);
 
 ExerciseDetail.propTypes = {
   GetExercises: PropTypes.func.isRequired,
+  DeleteExercise: PropTypes.func.isRequired,
 };
