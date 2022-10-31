@@ -110,7 +110,7 @@ function MainForm() {
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
           <Typography sx={{ margin: '10px' }}>
-            Here you can choose quantity of your tests. Remember that not all
+            Here you can choose quantity of your hints. Remember that not all
             users will be able to solve your exercise without some help.
           </Typography>
           <HintsForms step={step} />
