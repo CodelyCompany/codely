@@ -22,6 +22,7 @@ import { GetExercises } from '../../ducks/exercises/operations';
 import { getExerciseById } from '../../ducks/exercises/selectors';
 
 import EditorField from './editor_to_exercises/EditorField';
+import Reviews from './reviews/Reviews';
 
 const ExerciseDetail = ({ GetExercises }) => {
   const { id } = useParams();
@@ -111,6 +112,9 @@ const ExerciseDetail = ({ GetExercises }) => {
         </Box>
         <Box>
           <EditorField language={exercise.programmingLanguage} />
+        </Box>
+        <Box>
+          <Reviews />
         </Box>
       </Container>
     )

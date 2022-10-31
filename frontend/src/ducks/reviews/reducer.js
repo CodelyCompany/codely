@@ -7,11 +7,11 @@ export const reviewsReducer = (state = { reviews: [] }, action) => {
     case types.POST_REVIEWS_SUCCESS:
       return { reviews: [...state.reviews, action.payload] };
     case types.EDIT_REVIEWS_SUCCESS || types.DOWNVOTE_REVIEW_SUCCESS || types.UPVOTE_REVIEW_SUCCESS:
-      return { reviews: state.reviews.map(review => 
+      return { reviews: state.reviews.map((review) =>
         review._id == action.payload._id ?
         action.payload :
         review
-        )}
+        )};
     default:
       return state;
   }
