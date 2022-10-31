@@ -18,7 +18,7 @@ app.use(
         methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT'],
     })
 );
-app.use(jwtCheck);
+// app.use(jwtCheck);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use('/users', users);
