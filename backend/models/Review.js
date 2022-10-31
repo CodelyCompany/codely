@@ -8,9 +8,11 @@ const reviewSchema = new Schema({
         max: 10
     },
     comment: { type: String, minlength: 2, maxlength: 5000 },
+    upvotes: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    downvotes: [{ type: Schema.Types.ObjectId, ref: "User" }],
     author: { type: Schema.Types.ObjectId, ref: "User" },
     exercise: { type: Schema.Types.ObjectId, ref: "Exercise" },
-    creationDate: { type: Date, default: Date.now },
+    creationDate: { type: Date, default: Date.now }
 });
 
 module.exports = model("Review", reviewSchema);

@@ -46,6 +46,8 @@ router.post("/addReview", async (req, res) => {
             review: data.review,
             author: user._id,
             exercise: exercise._id,
+            upvotes: [],
+            downvotes: []
         });
         await newReview.save();
         await User.findByIdAndUpdate(user._id, {
