@@ -4,13 +4,19 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Button } from '@mui/material';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import { connect, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+
+import { getUserByUsername } from '../../../ducks/user/selectors';
 
 const Buttons = ({ setOutput, code, language, setTests }) => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently, user } = useAuth0();
+  const foundUser = useSelector((state) =>
+    getUserByUsername(state, user.nickname)
+  );
 
   const runCode = (code) => {
     (async () => {
@@ -62,7 +68,7 @@ const Buttons = ({ setOutput, code, language, setTests }) => {
           `${
             process.env.REACT_APP_BACKEND || 'http://localhost:5000'
           }/exercises/checkSolution/${id}`,
-          { solution: code },
+          { solution: code, user: foundUser._id },
           { headers: { Authorization: `Bearer ${token}` } }
         )
         .then((response) => {
@@ -103,7 +109,7 @@ const Buttons = ({ setOutput, code, language, setTests }) => {
   );
 };
 
-export default Buttons;
+export default connect(null, null)(Buttons);
 
 Buttons.propTypes = {
   setOutput: PropTypes.func.isRequired,
