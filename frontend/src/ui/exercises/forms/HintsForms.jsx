@@ -14,7 +14,13 @@ import {
   UpdateExercise,
 } from '../../../ducks/exercises/operations';
 
-const HintsForms = ({ step, AddExercise, dataToEdit, UpdateExercise }) => {
+const HintsForms = ({
+  step,
+  AddExercise,
+  dataToEdit,
+  UpdateExercise,
+  setStep,
+}) => {
   const [hintsQuantity, setHintsQuantity] = useState('');
   const navigate = useNavigate();
   const [hints, setHints] = useState([]);
@@ -23,16 +29,28 @@ const HintsForms = ({ step, AddExercise, dataToEdit, UpdateExercise }) => {
   const { id } = useParams();
 
   useEffect(() => {
+    if (step.dataFromStep3) {
+      setHintsQuantity(step.dataFromStep3.length);
+      return;
+    }
     dataToEdit && setHintsQuantity(dataToEdit.hints.length);
   }, []);
 
   useEffect(() => {
-    if (dataToEdit && !triggered) {
+    if (dataToEdit && !triggered && !step.dataFromStep3) {
       dataToEdit &&
         setHints(dataToEdit.hints.map((hint, index) => [index, hint]));
       setTriggered((prev) => !prev);
     }
   }, [hintsQuantity]);
+
+  useEffect(() => {
+    step.dataFromStep3 && setHints(step.dataFromStep3);
+  }, [hintsQuantity]);
+
+  const goToPreviousStage = () => {
+    setStep((prev) => ({ ...prev, currentStep: 2, dataFromStep3: hints }));
+  };
 
   // It should be changed in the future
   const submitValues = () => {
@@ -181,6 +199,15 @@ const HintsForms = ({ step, AddExercise, dataToEdit, UpdateExercise }) => {
 
         <Button
           fullWidth
+          sx={{ marginBottom: '10px' }}
+          type='button'
+          onClick={() => goToPreviousStage()}
+          variant='contained'
+        >
+          Previous
+        </Button>
+        <Button
+          fullWidth
           type='button'
           onClick={() => submitValues()}
           variant='contained'
@@ -203,5 +230,6 @@ HintsForms.propTypes = {
   AddExercise: PropTypes.func.isRequired,
   step: PropTypes.object.isRequired,
   dataToEdit: PropTypes.object,
+  setStep: PropTypes.func.isRequired,
   UpdateExercise: PropTypes.func,
 };

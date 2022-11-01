@@ -7,7 +7,7 @@ import { useFormik } from 'formik';
 import { PropTypes } from 'prop-types';
 import * as yup from 'yup';
 
-const ExercisesForm = ({ setStep, dataToEdit }) => {
+const ExercisesForm = ({ setStep, dataToEdit, step }) => {
   const programmingLanguages = [
     'JavaScript',
     'Bash',
@@ -40,10 +40,15 @@ const ExercisesForm = ({ setStep, dataToEdit }) => {
 
   const formik = useFormik({
     initialValues: {
-      title: dataToEdit?.title || '',
-      description: dataToEdit?.description || '',
-      difficulty: dataToEdit?.difficulty || '',
-      programmingLanguage: dataToEdit?.programmingLanguage || '',
+      title: step.dataFromStep1?.title || dataToEdit?.title || '',
+      description:
+        step.dataFromStep1?.description || dataToEdit?.description || '',
+      difficulty:
+        step.dataFromStep1?.difficulty || dataToEdit?.difficulty || '',
+      programmingLanguage:
+        step.dataFromStep1?.programmingLanguage ||
+        dataToEdit?.programmingLanguage ||
+        '',
     },
     validationSchema,
     onSubmit: (values) => {
@@ -142,4 +147,5 @@ export default ExercisesForm;
 ExercisesForm.propTypes = {
   setStep: PropTypes.func.isRequired,
   dataToEdit: PropTypes.object,
+  step: PropTypes.object.isRequired,
 };

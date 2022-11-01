@@ -4,25 +4,37 @@ import { Box, MenuItem } from '@mui/material';
 import { Button, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
 
-const TestsForm = ({ setStep, dataToEdit }) => {
+const TestsForm = ({ setStep, dataToEdit, step }) => {
   const [testsQuantity, setTestsQuantity] = useState('');
 
   const [tests, setTests] = useState([]);
   const [triggered, setTriggered] = useState(false);
+  const [triggeringChangeQuantity, setTriggeringChangeQuantity] =
+    useState(false);
 
   // it will change size of the form
   useEffect(() => {
+    if (step.dataFromStep2) {
+      setTestsQuantity(step.dataFromStep2.length);
+      return;
+    }
     dataToEdit && setTestsQuantity(dataToEdit.tests.length);
   }, []);
 
+  useEffect(() => {
+    if (!triggeringChangeQuantity)
+      step.dataFromStep2 && setTests(step.dataFromStep2);
+    setTriggeringChangeQuantity((prev) => !prev);
+  }, [testsQuantity]);
+
   //it will be triggered when form increase its size to fill it asynchronously
   useEffect(() => {
-    if (dataToEdit && !triggered) {
+    if (dataToEdit && !triggered && !step.dataFromStep2) {
       setTests(
         dataToEdit.tests.map((test, index) => [index, test.input, test.output])
       );
-      setTriggered((prev) => !prev);
     }
+    setTriggered((prev) => !prev);
   }, [testsQuantity]);
 
   const submitValues = () => {
@@ -32,6 +44,14 @@ const TestsForm = ({ setStep, dataToEdit }) => {
         currentStep: 3,
         dataFromStep2: tests,
       }));
+  };
+
+  const goToPreviousStage = () => {
+    setStep((prev) => ({
+      ...prev,
+      currentStep: 1,
+      dataFromStep2: tests,
+    }));
   };
 
   const canSubmit = () => {
@@ -137,6 +157,15 @@ const TestsForm = ({ setStep, dataToEdit }) => {
 
         <Button
           fullWidth
+          sx={{ marginBottom: '10px' }}
+          type='submit'
+          onClick={() => goToPreviousStage()}
+          variant='contained'
+        >
+          Previous
+        </Button>
+        <Button
+          fullWidth
           type='submit'
           onClick={() => submitValues()}
           variant='contained'
@@ -153,4 +182,5 @@ export default TestsForm;
 TestsForm.propTypes = {
   setStep: PropTypes.func.isRequired,
   dataToEdit: PropTypes.object,
+  step: PropTypes.object.isRequired,
 };
