@@ -139,7 +139,8 @@ router.put('/editExercise', async (req, res) => {
   try {
     const id = req.body._id;
     await Exercise.findByIdAndUpdate(id, req.body);
-    return res.status(200).send(id);
+    const data = await Exercise.findById(id);
+    return res.status(200).send(data);
   } catch (error) {
     console.log(error);
     res.status(500).send(error);
