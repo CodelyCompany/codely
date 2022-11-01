@@ -11,7 +11,6 @@ const TestsForm = ({ setStep, dataToEdit }) => {
 
   // if exercise exists then fill the form to edit
   useEffect(() => {
-    console.log(dataToEdit);
     dataToEdit && setTestsQuantity(dataToEdit.tests.length);
     dataToEdit &&
       setTests(

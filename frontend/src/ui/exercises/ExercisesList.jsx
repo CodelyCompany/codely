@@ -55,10 +55,9 @@ const ExercisesList = ({ exercises, GetExercises }) => {
         alignItems: 'center',
       }}
     >
-      {console.log(sort)}
       <Button
         onClick={goToExercisesForm}
-        variant="contained"
+        variant='contained'
         sx={{ margin: '10px', width: '100%' }}
       >
         Create your exercise!

@@ -7,6 +7,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import {
   AddExercise,
@@ -18,6 +19,7 @@ const HintsForms = ({ step, AddExercise, dataToEdit, UpdateExercise }) => {
   const navigate = useNavigate();
   const [hints, setHints] = useState([]);
   const { user, getAccessTokenSilently } = useAuth0();
+  const { id } = useParams();
 
   useEffect(() => {
     dataToEdit && setHintsQuantity(dataToEdit.hints.length);
@@ -27,7 +29,7 @@ const HintsForms = ({ step, AddExercise, dataToEdit, UpdateExercise }) => {
 
   // It should be changed in the future
   const submitValues = () => {
-    let id;
+    let userId;
     if (canSubmit()) {
       (async () => {
         try {
@@ -48,10 +50,12 @@ const HintsForms = ({ step, AddExercise, dataToEdit, UpdateExercise }) => {
               }
             )
             .then((response) => {
-              id = response.data.find((us) => us.username === user.nickname);
+              userId = response.data.find(
+                (us) => us.username === user.nickname
+              );
 
               const data = {
-                author: id._id,
+                author: userId._id,
                 ...step.dataFromStep1,
                 tests: step.dataFromStep2.reduce(
                   (prev, curr) => [
@@ -66,8 +70,8 @@ const HintsForms = ({ step, AddExercise, dataToEdit, UpdateExercise }) => {
                 hints: hints.map((el) => el[1]),
               };
               dataToEdit
-                ? UpdateExercise(data, token)
-                : AddExercise(data, token);
+                ? UpdateExercise({ id, ...data }, token)
+                : AddExercise({ ...data }, token);
 
               navigate('/Exercises');
             });
