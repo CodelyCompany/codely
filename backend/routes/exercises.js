@@ -140,8 +140,19 @@ router.post('/checkSolution/:id', async (req, res) => {
 
 router.put('/editExercise', async (req, res) => {
   try {
-    const { id } = req.body;
-    await Exercise.findByIdAndUpdate(id, { ...req.body, tests: [] });
+    const { id, tests } = req.body;
+    let testsToAdd = [];
+    for (let i = 0; i < tests.length; i++) {
+      const element = tests[i];
+      const newTest = new Test({
+        input: element.input,
+        output: element.output,
+        exercise: id,
+      });
+      await newTest.save();
+      testsToAdd.push(newTest._id);
+    }
+    await Exercise.findByIdAndUpdate(id, { ...req.body, tests: testsToAdd });
     const data = await Exercise.findById(id).populate(['author', 'tests']);
     return res.status(200).send(data);
   } catch (error) {

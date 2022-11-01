@@ -15,7 +15,7 @@ export const exercisesReducer = (state = { exercises: [] }, action) => {
     case types.UPDATE_EXERCISE_SUCCESS:
       return {
         exercises: [
-          ...state.exercises.filter((ex) => ex._id !== action.payload.id),
+          ...state.exercises.filter((ex) => ex._id !== action.payload._id),
           action.payload,
         ],
       };
