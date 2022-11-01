@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model } = require('mongoose');
 
 const userSchema = new Schema({
     username: {
@@ -9,9 +9,9 @@ const userSchema = new Schema({
         unique: true,
     },
     creationDate: { type: Date, default: Date.now },
-    preparedExcercises: [{ type: Schema.Types.ObjectId, ref: "Exercise" }],
-    doneExcercises: [{ type: Schema.Types.ObjectId, ref: "Exercise" }],
-    writtenComments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
+    preparedExercises: [{ type: Schema.Types.ObjectId, ref: 'Exercise' }],
+    doneExercises: [{ type: Schema.Types.ObjectId, ref: 'Exercise' }],
+    writtenComments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
 });
 
-module.exports = model("User", userSchema);
+module.exports = model('User', userSchema);

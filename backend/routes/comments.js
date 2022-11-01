@@ -1,10 +1,10 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const User = require("../models/User");
-const Exercise = require("../models/Exercise");
-const Comment = require("../models/Comment");
+const User = require('../models/User');
+const Exercise = require('../models/Exercise');
+const Comment = require('../models/Comment');
 
-router.get("/", async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const data = await Comment.find({});
         res.status(200).send(data);
@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.get("/:id", async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
         const id = req.params.id;
         const data = await Comment.findById(id);
@@ -25,18 +25,18 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-router.get("/exercise/:id", async (req, res) => {
+router.get('/exercise/:id', async (req, res) => {
     try {
         const id = req.params.id;
-        const data = await Exercise.findById(id).populate("comments");
-        res.status(200).send(data.preparedExcercises);
+        const data = await Exercise.findById(id).populate('comments');
+        res.status(200).send(data.preparedExercises);
     } catch (error) {
         console.log(error);
         res.status(500).send(error);
     }
 });
 
-router.post("/addComment", async (req, res) => {
+router.post('/addComment', async (req, res) => {
     try {
         const data = req.body;
         const user = await User.findById(data.author);
@@ -61,7 +61,7 @@ router.post("/addComment", async (req, res) => {
     }
 });
 
-router.put("/editComment", async (req, res) => {
+router.put('/editComment', async (req, res) => {
     try {
         const id = req.body._id;
         await Comment.findByIdAndUpdate(id, req.body);
@@ -72,7 +72,7 @@ router.put("/editComment", async (req, res) => {
     }
 });
 
-router.delete("/deleteComment/:id", async (req, res) => {
+router.delete('/deleteComment/:id', async (req, res) => {
     try {
         const id = req.params.id;
         const comment = await Comment.findById(id);
