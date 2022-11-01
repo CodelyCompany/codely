@@ -27,6 +27,8 @@ const HintsForms = ({
   const [triggered, setTriggered] = useState(false);
   const { user, getAccessTokenSilently } = useAuth0();
   const { id } = useParams();
+  const [triggeringChangeQuantity, setTriggeringChangeQuantity] =
+    useState(false);
 
   useEffect(() => {
     if (step.dataFromStep3) {
@@ -45,7 +47,10 @@ const HintsForms = ({
   }, [hintsQuantity]);
 
   useEffect(() => {
-    step.dataFromStep3 && setHints(step.dataFromStep3);
+    if (!triggeringChangeQuantity) {
+      step.dataFromStep3 && setHints(step.dataFromStep3);
+      setTriggeringChangeQuantity((prev) => !prev);
+    }
   }, [hintsQuantity]);
 
   const goToPreviousStage = () => {

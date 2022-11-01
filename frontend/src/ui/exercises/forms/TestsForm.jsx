@@ -22,9 +22,10 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
   }, []);
 
   useEffect(() => {
-    if (!triggeringChangeQuantity)
+    if (!triggeringChangeQuantity) {
       step.dataFromStep2 && setTests(step.dataFromStep2);
-    setTriggeringChangeQuantity((prev) => !prev);
+      setTriggeringChangeQuantity((prev) => !prev);
+    }
   }, [testsQuantity]);
 
   //it will be triggered when form increase its size to fill it asynchronously
@@ -33,8 +34,8 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
       setTests(
         dataToEdit.tests.map((test, index) => [index, test.input, test.output])
       );
+      setTriggered((prev) => !prev);
     }
-    setTriggered((prev) => !prev);
   }, [testsQuantity]);
 
   const submitValues = () => {
