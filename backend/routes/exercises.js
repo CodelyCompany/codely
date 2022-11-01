@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const id = req.params.id;
-    const data = await Exercise.findById(id);
+    const data = await Exercise.findById(id).populate('author');
     res.status(200).send(data);
   } catch (error) {
     console.log(error);

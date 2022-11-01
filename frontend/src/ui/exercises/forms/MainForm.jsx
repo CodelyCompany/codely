@@ -8,10 +8,11 @@ import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { PropTypes } from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { GetExercise } from '../../../ducks/exercises/operations';
+import { getExerciseById } from '../../../ducks/exercises/selectors';
 
 import ExercisesForm from './ExercisesForm';
 import HintsForms from './HintsForms';
@@ -27,6 +28,7 @@ function MainForm({ GetExercise }) {
 
   const { getAccessTokenSilently } = useAuth0();
   const { id } = useParams();
+  const exercise = useSelector((state) => getExerciseById(state, id));
 
   useEffect(() => {
     id &&
@@ -38,6 +40,10 @@ function MainForm({ GetExercise }) {
         });
         await GetExercise(id, token);
       })();
+  }, []);
+
+  useEffect(() => {
+    console.log(exercise);
   }, []);
 
   const Accordion = styled((props) => (
