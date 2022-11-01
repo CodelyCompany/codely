@@ -1,23 +1,44 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
+import { useAuth0 } from '@auth0/auth0-react';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion from '@mui/material/Accordion';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
+import { PropTypes } from 'prop-types';
+import { connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
+
+import { GetExercise } from '../../../ducks/exercises/operations';
 
 import ExercisesForm from './ExercisesForm';
 import HintsForms from './HintsForms';
 import TestsForm from './TestsForm';
 
-function MainForm() {
+function MainForm({ GetExercise }) {
   const [step, setStep] = useState({
     currentStep: 1,
     dataFromStep1: '',
     dataFromStep2: '',
     dataFromStep3: '',
   });
+
+  const { getAccessTokenSilently } = useAuth0();
+  const { id } = useParams();
+
+  useEffect(() => {
+    id &&
+      (async () => {
+        const token = await getAccessTokenSilently({
+          audience: `${
+            process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+          }`,
+        });
+        await GetExercise(id, token);
+      })();
+  }, []);
 
   const Accordion = styled((props) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -65,8 +86,8 @@ function MainForm() {
       >
         <AccordionSummary
           sx={{ backgroundColor: 'rgb(25, 118, 210)' }}
-          aria-controls="panel1d-content"
-          id="panel1d-header"
+          aria-controls='panel1d-content'
+          id='panel1d-header'
         >
           <Typography sx={{ color: 'white' }}>Main info</Typography>
         </AccordionSummary>
@@ -84,8 +105,8 @@ function MainForm() {
       >
         <AccordionSummary
           sx={{ backgroundColor: 'rgb(25, 118, 210)' }}
-          aria-controls="panel2d-content"
-          id="panel2d-header"
+          aria-controls='panel2d-content'
+          id='panel2d-header'
         >
           <Typography sx={{ color: 'white' }}>Inputs \ Outputs</Typography>
         </AccordionSummary>
@@ -103,8 +124,8 @@ function MainForm() {
       >
         <AccordionSummary
           sx={{ backgroundColor: 'rgb(25, 118, 210)' }}
-          aria-controls="panel3d-content"
-          id="panel3d-header"
+          aria-controls='panel3d-content'
+          id='panel3d-header'
         >
           <Typography sx={{ color: 'white' }}>Hints</Typography>
         </AccordionSummary>
@@ -120,4 +141,12 @@ function MainForm() {
   );
 }
 
-export default MainForm;
+const mapDispatchToProps = {
+  GetExercise,
+};
+
+export default connect(null, mapDispatchToProps)(MainForm);
+
+MainForm.propTypes = {
+  GetExercise: PropTypes.func,
+};

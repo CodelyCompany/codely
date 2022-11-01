@@ -19,6 +19,13 @@ export const exercisesReducer = (state = { exercises: [] }, action) => {
           action.payload,
         ],
       };
+    case types.GET_EXERCISE_SUCCESS:
+      return {
+        exercises: [
+          ...state.exercises.filter((ex) => ex._id !== action.payload._id),
+          action.payload,
+        ],
+      };
     default:
       return state;
   }

@@ -119,14 +119,30 @@ const ExerciseDetail = ({ GetExercises, DeleteExercise }) => {
               />
             </ListItem>
           </List>
+
           {user.nickname === exercise.author.username && (
-            <Button
-              variant='contained'
-              sx={{ height: '40px', marginTop: '50px', width: '100px' }}
-              onClick={() => deleteExercise()}
+            <Box
+              sx={{
+                display: 'flex',
+                marginRight: '5px',
+                flexDirection: 'column',
+              }}
             >
-              Delete
-            </Button>
+              <Button
+                variant='contained'
+                sx={{ height: '40px', marginTop: '50px', width: '100px' }}
+                onClick={() => deleteExercise()}
+              >
+                Delete
+              </Button>
+              <Button
+                variant='contained'
+                sx={{ height: '40px', marginTop: '10px', width: '100px' }}
+                onClick={() => navigate(`/exercises/edit/${id}`)}
+              >
+                Edit
+              </Button>
+            </Box>
           )}
         </Box>
         <Box>
