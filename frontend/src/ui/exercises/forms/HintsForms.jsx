@@ -18,14 +18,21 @@ const HintsForms = ({ step, AddExercise, dataToEdit, UpdateExercise }) => {
   const [hintsQuantity, setHintsQuantity] = useState('');
   const navigate = useNavigate();
   const [hints, setHints] = useState([]);
+  const [triggered, setTriggered] = useState(false);
   const { user, getAccessTokenSilently } = useAuth0();
   const { id } = useParams();
 
   useEffect(() => {
     dataToEdit && setHintsQuantity(dataToEdit.hints.length);
-    dataToEdit &&
-      setHints(dataToEdit.hints.map((hint, index) => [index, hint]));
   }, []);
+
+  useEffect(() => {
+    if (dataToEdit && !triggered) {
+      dataToEdit &&
+        setHints(dataToEdit.hints.map((hint, index) => [index, hint]));
+      setTriggered((prev) => !prev);
+    }
+  }, [hintsQuantity]);
 
   // It should be changed in the future
   const submitValues = () => {
@@ -92,14 +99,13 @@ const HintsForms = ({ step, AddExercise, dataToEdit, UpdateExercise }) => {
   };
 
   useEffect(() => {
-    !dataToEdit &&
-      setHints((prev) =>
-        [...Array(hintsQuantity).keys()].map((number) => {
-          const found = prev.find((el) => el[0] === number);
-          if (!found) return [number, ''];
-          return found;
-        })
-      );
+    setHints((prev) =>
+      [...Array(hintsQuantity).keys()].map((number) => {
+        const found = prev.find((el) => el[0] === number);
+        if (!found) return [number, ''];
+        return found;
+      })
+    );
   }, [hintsQuantity]);
 
   const getValue = (number) => {

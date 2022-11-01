@@ -8,15 +8,22 @@ const TestsForm = ({ setStep, dataToEdit }) => {
   const [testsQuantity, setTestsQuantity] = useState('');
 
   const [tests, setTests] = useState([]);
+  const [triggered, setTriggered] = useState(false);
 
-  // if exercise exists then fill the form to edit
+  // it will change size of the form
   useEffect(() => {
     dataToEdit && setTestsQuantity(dataToEdit.tests.length);
-    dataToEdit &&
+  }, []);
+
+  //it will be triggered when form increase its size to fill it asynchronously
+  useEffect(() => {
+    if (dataToEdit && !triggered) {
       setTests(
         dataToEdit.tests.map((test, index) => [index, test.input, test.output])
       );
-  }, []);
+      setTriggered((prev) => !prev);
+    }
+  }, [testsQuantity]);
 
   const submitValues = () => {
     if (canSubmit())
@@ -37,14 +44,13 @@ const TestsForm = ({ setStep, dataToEdit }) => {
   };
 
   useEffect(() => {
-    !dataToEdit &&
-      setTests((prev) =>
-        [...Array(testsQuantity).keys()].map((number) => {
-          const found = prev.find((el) => el[0] === number);
-          if (!found) return [number, '', ''];
-          return found;
-        })
-      );
+    setTests((prev) =>
+      [...Array(testsQuantity).keys()].map((number) => {
+        const found = prev.find((el) => el[0] === number);
+        if (!found) return [number, '', ''];
+        return found;
+      })
+    );
   }, [testsQuantity]);
 
   const getValue = (number, type) => {
