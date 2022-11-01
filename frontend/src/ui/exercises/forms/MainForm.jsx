@@ -42,10 +42,6 @@ function MainForm({ GetExercise }) {
       })();
   }, []);
 
-  useEffect(() => {
-    console.log(exercise);
-  }, []);
-
   const Accordion = styled((props) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />
   ))(({ theme }) => ({
@@ -102,7 +98,7 @@ function MainForm({ GetExercise }) {
             Here you can set title, description and difficulty of your exercise.
             Remember to set the most proper programming language!
           </Typography>
-          <ExercisesForm setStep={setStep} />
+          <ExercisesForm setStep={setStep} dataToEdit={exercise} />
         </AccordionDetails>
       </Accordion>
       <Accordion
@@ -121,7 +117,7 @@ function MainForm({ GetExercise }) {
             Choose quantity of your tests, then write expected outputs for each
             of your inputs.
           </Typography>
-          <TestsForm setStep={setStep} />
+          <TestsForm setStep={setStep} dataToEdit={exercise} />
         </AccordionDetails>
       </Accordion>
       <Accordion
@@ -140,7 +136,7 @@ function MainForm({ GetExercise }) {
             Here you can choose quantity of your tests. Remember that not all
             users will be able to solve your exercise without some help.
           </Typography>
-          <HintsForms step={step} />
+          <HintsForms step={step} dataToEdit={exercise} />
         </AccordionDetails>
       </Accordion>
     </div>

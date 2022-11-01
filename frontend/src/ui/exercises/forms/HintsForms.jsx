@@ -8,13 +8,22 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { AddExercise } from '../../../ducks/exercises/operations';
+import {
+  AddExercise,
+  UpdateExercise,
+} from '../../../ducks/exercises/operations';
 
-const HintsForms = ({ step, AddExercise }) => {
+const HintsForms = ({ step, AddExercise, dataToEdit, UpdateExercise }) => {
   const [hintsQuantity, setHintsQuantity] = useState('');
   const navigate = useNavigate();
   const [hints, setHints] = useState([]);
   const { user, getAccessTokenSilently } = useAuth0();
+
+  useEffect(() => {
+    dataToEdit && setHintsQuantity(dataToEdit.hints.length);
+    dataToEdit &&
+      setHints(dataToEdit.hints.map((hint, index) => [index, hint]));
+  }, []);
 
   // It should be changed in the future
   const submitValues = () => {
@@ -41,24 +50,24 @@ const HintsForms = ({ step, AddExercise }) => {
             .then((response) => {
               id = response.data.find((us) => us.username === user.nickname);
 
-              AddExercise(
-                {
-                  author: id._id,
-                  ...step.dataFromStep1,
-                  tests: step.dataFromStep2.reduce(
-                    (prev, curr) => [
-                      ...prev,
-                      {
-                        input: curr[1],
-                        output: curr[2],
-                      },
-                    ],
-                    []
-                  ),
-                  hints: hints.map((el) => el[1]),
-                },
-                token
-              );
+              const data = {
+                author: id._id,
+                ...step.dataFromStep1,
+                tests: step.dataFromStep2.reduce(
+                  (prev, curr) => [
+                    ...prev,
+                    {
+                      input: curr[1],
+                      output: curr[2],
+                    },
+                  ],
+                  []
+                ),
+                hints: hints.map((el) => el[1]),
+              };
+              dataToEdit
+                ? UpdateExercise(data, token)
+                : AddExercise(data, token);
 
               navigate('/Exercises');
             });
@@ -79,13 +88,14 @@ const HintsForms = ({ step, AddExercise }) => {
   };
 
   useEffect(() => {
-    setHints((prev) =>
-      [...Array(hintsQuantity).keys()].map((number) => {
-        const found = prev.find((el) => el[0] === number);
-        if (!found) return [number, ''];
-        return found;
-      })
-    );
+    !dataToEdit &&
+      setHints((prev) =>
+        [...Array(hintsQuantity).keys()].map((number) => {
+          const found = prev.find((el) => el[0] === number);
+          if (!found) return [number, ''];
+          return found;
+        })
+      );
   }, [hintsQuantity]);
 
   const getValue = (number) => {
@@ -118,9 +128,9 @@ const HintsForms = ({ step, AddExercise }) => {
       >
         <TextField
           sx={{ marginBottom: '10px', width: '900px' }}
-          id="hintsQuantity"
-          name="hintsQuantity"
-          label="Choose hints quantity"
+          id='hintsQuantity'
+          name='hintsQuantity'
+          label='Choose hints quantity'
           value={hintsQuantity}
           onChange={(e) => setHintsQuantity(parseInt(e.target.value))}
           select
@@ -152,7 +162,7 @@ const HintsForms = ({ step, AddExercise }) => {
                   width: '100%',
                 }}
                 label={number === 0 ? 'Hints' : ''}
-                name="hint"
+                name='hint'
                 value={getValue(number)}
                 onChange={(e) => handleValue(e, number)}
               />
@@ -161,9 +171,9 @@ const HintsForms = ({ step, AddExercise }) => {
 
         <Button
           fullWidth
-          type="button"
+          type='button'
           onClick={() => submitValues()}
-          variant="contained"
+          variant='contained'
         >
           Submit
         </Button>
@@ -174,6 +184,7 @@ const HintsForms = ({ step, AddExercise }) => {
 
 const mapDispatchToProps = {
   AddExercise,
+  UpdateExercise,
 };
 
 export default connect(null, mapDispatchToProps)(HintsForms);
@@ -181,4 +192,6 @@ export default connect(null, mapDispatchToProps)(HintsForms);
 HintsForms.propTypes = {
   AddExercise: PropTypes.func.isRequired,
   step: PropTypes.object.isRequired,
+  dataToEdit: PropTypes.object,
+  UpdateExercise: PropTypes.func,
 };

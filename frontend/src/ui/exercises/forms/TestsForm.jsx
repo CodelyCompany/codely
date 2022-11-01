@@ -4,10 +4,20 @@ import { Box, MenuItem } from '@mui/material';
 import { Button, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
 
-const TestsForm = ({ setStep }) => {
+const TestsForm = ({ setStep, dataToEdit }) => {
   const [testsQuantity, setTestsQuantity] = useState('');
 
   const [tests, setTests] = useState([]);
+
+  // if exercise exists then fill the form to edit
+  useEffect(() => {
+    console.log(dataToEdit);
+    dataToEdit && setTestsQuantity(dataToEdit.tests.length);
+    dataToEdit &&
+      setTests(
+        dataToEdit.tests.map((test, index) => [index, test.input, test.output])
+      );
+  }, []);
 
   const submitValues = () => {
     if (canSubmit())
@@ -28,13 +38,14 @@ const TestsForm = ({ setStep }) => {
   };
 
   useEffect(() => {
-    setTests((prev) =>
-      [...Array(testsQuantity).keys()].map((number) => {
-        const found = prev.find((el) => el[0] === number);
-        if (!found) return [number, '', ''];
-        return found;
-      })
-    );
+    !dataToEdit &&
+      setTests((prev) =>
+        [...Array(testsQuantity).keys()].map((number) => {
+          const found = prev.find((el) => el[0] === number);
+          if (!found) return [number, '', ''];
+          return found;
+        })
+      );
   }, [testsQuantity]);
 
   const getValue = (number, type) => {
@@ -69,9 +80,9 @@ const TestsForm = ({ setStep }) => {
       >
         <TextField
           sx={{ marginBottom: '10px', width: '900px' }}
-          id="testsQuantity"
-          name="testsQuantity"
-          label="Choose tests quantity"
+          id='testsQuantity'
+          name='testsQuantity'
+          label='Choose tests quantity'
           value={testsQuantity}
           onChange={(e) => setTestsQuantity(parseInt(e.target.value))}
           select
@@ -104,7 +115,7 @@ const TestsForm = ({ setStep }) => {
                   width: 'calc(50% - 10px)',
                 }}
                 label={number === 0 ? 'Inputs' : ''}
-                name="input"
+                name='input'
                 value={getValue(number, 'input')}
                 onChange={(e) => handleValue(e, number, 'input')}
               />
@@ -112,7 +123,7 @@ const TestsForm = ({ setStep }) => {
                 required
                 sx={{ marginBottom: '10px', width: 'calc(50% - 10px)' }}
                 label={number === 0 ? 'Outputs' : ''}
-                name="output"
+                name='output'
                 value={getValue(number, 'output')}
                 onChange={(e) => handleValue(e, number, 'output')}
               />
@@ -121,9 +132,9 @@ const TestsForm = ({ setStep }) => {
 
         <Button
           fullWidth
-          type="submit"
+          type='submit'
           onClick={() => submitValues()}
-          variant="contained"
+          variant='contained'
         >
           Next
         </Button>
@@ -136,4 +147,5 @@ export default TestsForm;
 
 TestsForm.propTypes = {
   setStep: PropTypes.func.isRequired,
+  dataToEdit: PropTypes.object,
 };

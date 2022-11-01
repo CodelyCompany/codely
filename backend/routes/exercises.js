@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const id = req.params.id;
-    const data = await Exercise.findById(id).populate('author');
+    const data = await Exercise.findById(id).populate(['author', 'tests']);
     res.status(200).send(data);
   } catch (error) {
     console.log(error);
@@ -83,7 +83,10 @@ router.post('/addExercise', async (req, res) => {
     await User.findByIdAndUpdate(user._id, {
       preparedExcercises: [...user.preparedExcercises, newExercise._id],
     });
-    return res.status(200).send(newExercise);
+    const addedExercise = await Exercise.findById(newExercise._id).populate(
+      'author'
+    );
+    return res.status(200).send(addedExercise);
   } catch (error) {
     console.log(error);
     res.status(500).send(error);
