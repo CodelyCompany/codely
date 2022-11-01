@@ -84,14 +84,14 @@ export const UpdateExercise = (body, token) =>
       Authorization: `Bearer ${token}`,
     },
     types: [
-      types.DELETE_EXERCISE_REQUEST,
+      types.UPDATE_EXERCISE_REQUEST,
       {
-        type: types.DELETE_EXERCISE_SUCCESS,
+        type: types.UPDATE_EXERCISE_SUCCESS,
         payload: async (action, state, res) => {
           const json = await res.json();
           return json;
         },
       },
-      types.DELETE_EXERCISE_FAILURE,
+      types.UPDATE_EXERCISE_FAILURE,
     ],
   });
