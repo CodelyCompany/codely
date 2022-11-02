@@ -29,15 +29,50 @@ spec:
                       - name: MONGO_HOST
                         valueFrom:
                             configMapKeyRef:
-                                name: mongodb-configmap
+                                name: backend-configmap
                                 key: MONGO_HOST
                       - name: MONGO_PORT
                         valueFrom:
                             configMapKeyRef:
-                                name: mongodb-configmap
+                                name: backend-configmap
                                 key: MONGO_PORT
                       - name: MONGO_DATABASE
                         valueFrom:
                             configMapKeyRef:
-                                name: mongodb-configmap
+                                name: backend-configmap
                                 key: MONGO_DATABASE
+                      - name: PORT
+                        valueFrom:
+                            configMapKeyRef:
+                                name: backend-configmap
+                                key: PORT
+                      - name: APP_BACKEND_CONTAINERS
+                        valueFrom:
+                            configMapKeyRef:
+                                name: backend-configmap
+                                key: APP_BACKEND_CONTAINERS
+                      - name: APP_AUDIENCE
+                        valueFrom:
+                            configMapKeyRef:
+                                name: backend-configmap
+                                key: APP_AUDIENCE
+                      - name: MONGO_USERNAME
+                        valueFrom:
+                            secretKeyRef:
+                                name: backend-secret
+                                key: MONGO_USERNAME
+                      - name: MONGO_PASSWORD
+                        valueFrom:
+                            secretKeyRef:
+                                name: backend-secret
+                                key: MONGO_PASSWORD
+                      - name: APP_ISSUER
+                        valueFrom:
+                            secretKeyRef:
+                                name: backend-secret
+                                key: APP_ISSUER
+                      - name: APP_JWKS_URI
+                        valueFrom:
+                            secretKeyRef:
+                                name: backend-secret
+                                key: APP_JWKS_URI

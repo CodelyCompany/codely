@@ -13,7 +13,6 @@ spec:
             name: mongodb-deployment
             labels:
                 run: mongodb-deployment
-
         spec:
             containers:
                 - name: mongodb-deployment
@@ -24,6 +23,22 @@ spec:
                         mountPath: /data/db
                   ports:
                       - containerPort: 27017
+                  env:
+                      - name: MONGO_INITDB_DATABASE
+                        valueFrom:
+                            configMapKeyRef:
+                                key: MONGO_INITDB_DATABASE
+                                name: mongodb-configmap
+                      - name: MONGO_INITDB_ROOT_USERNAME
+                        valueFrom:
+                            secretKeyRef:
+                                name: mongodb-secret
+                                key: MONGO_INITDB_ROOT_USERNAME
+                      - name: MONGO_INITDB_ROOT_PASSWORD
+                        valueFrom:
+                            secretKeyRef:
+                                name: mongodb-secret
+                                key: MONGO_INITDB_ROOT_PASSWORD
             volumes:
                 - name: mongodbvolume
                   persistentVolumeClaim:

@@ -1,7 +1,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-    name: backend_containers-service
+    name: backend-containers-service
     namespace: production
 spec:
     type: ClusterIP
@@ -11,4 +11,4 @@ spec:
           protocol: TCP
     selector:
         app: codely
-        type: backend_containers
+        type: backend-containers

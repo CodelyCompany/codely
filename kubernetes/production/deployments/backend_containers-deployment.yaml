@@ -1,26 +1,42 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: backend_containers-deployment
+    name: backend-containers-deployment
     namespace: production
     labels:
         app: codely
-        type: backend_containers
+        type: backend-containers
 spec:
     selector:
         matchLabels:
             app: codely
-            type: backend_containers
+            type: backend-containers
     replicas: 2
     template:
         metadata:
-            name: backend_containers-pod
+            name: backend-containers-pod
             labels:
                 app: codely
-                type: backend_containers
+                type: backend-containers
         spec:
             containers:
                 - name:
-                      backend_containers-container
+                      backend-containers-container
                       # TODO Add image name
                   image: image_name
+                  env:
+                      - name: APP_AUDIENCE
+                        valueFrom:
+                            configMapKeyRef:
+                                key: APP_AUDIENCE
+                                name: backend-containers-configmap
+                      - name: APP_ISSUER
+                        valueFrom:
+                            secretKeyRef:
+                                name: backend-containers-secret
+                                key: APP_ISSUER
+                      - name: APP_JWKS_URI
+                        valueFrom:
+                            secretKeyRef:
+                                name: backend-containers-secret
+                                key: APP_JWKS_URI

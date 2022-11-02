@@ -8,10 +8,6 @@ data:
     MONGO_HOST: mongodb
     MONGO_PORT: '27017'
     MONGO_DATABASE: local
-    MONGO_USERNAME: user
-    MONGO_PASSWORD: secr3t
     PORT: '5000'
-    APP_BACKEND_CONTAINERS: http://backend_containers:5001
+    APP_BACKEND_CONTAINERS: http://backend-containers:5001
     APP_AUDIENCE: http://localhost:5000
-    APP_ISSUER: https://dev-v6t-co5x.us.auth0.com/
-    APP_JWKS_URI: https://dev-v6t-co5x.us.auth0.com/.well-known/jwks.json

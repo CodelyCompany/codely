@@ -6,5 +6,3 @@ metadata:
     namespace: production
 data:
     MONGO_INITDB_DATABASE: production
-    MONGO_INITDB_ROOT_USERNAME: user
-    MONGO_INITDB_ROOT_PASSWORD: secr3t
