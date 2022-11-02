@@ -11,7 +11,7 @@ export const reviewsReducer = (state = { reviews: [] }, action) => {
         review._id == action.payload._id ?
         action.payload :
         review
-        )};
+        ) };
     default:
       return state;
   }

@@ -14,9 +14,7 @@ import WrittenComments from './WrittenComments';
 const UserDetails = () => {
   const { user } = useAuth0();
 
-  const foundUser = useSelector((state) =>
-    getUserByUsername(state, user.nickname)
-  );
+  const foundUser = useSelector(getUserByUsername(user.nickname));
 
   return (
     <Container sx={{ height: '100%' }}>

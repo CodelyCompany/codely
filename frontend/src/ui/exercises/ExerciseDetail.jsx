@@ -26,7 +26,7 @@ import Reviews from './reviews/Reviews';
 
 const ExerciseDetail = ({ GetExercises }) => {
   const { id } = useParams();
-  const exercise = useSelector((state) => getExerciseById(state, id));
+  const exercise = useSelector(getExerciseById(id));
   const { getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
