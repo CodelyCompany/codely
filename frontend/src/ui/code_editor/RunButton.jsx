@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { useAuth0 } from '@auth0/auth0-react';
 import { Button } from '@mui/material';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { VscDebugStart } from 'react-icons/vsc';
+
+import RunAlert from '../popups/RunAlert';
 
 const RunButton = ({ code, setOutput, language }) => {
   const style = {
@@ -14,7 +15,8 @@ const RunButton = ({ code, setOutput, language }) => {
     marginLeft: '8px',
   };
 
-  // const { getAccessTokenSilently } = useAuth0();
+  const [triggerAlert, setTriggerAlert] = useState(false);
+  const [status, setStatus] = useState(null);
 
   const runCode = (code) => {
     (async () => {
@@ -48,6 +50,8 @@ const RunButton = ({ code, setOutput, language }) => {
               }
             )
             .then((response) => {
+              setStatus(response.status);
+              setTriggerAlert(true);
               setOutput(response.data.output.toString());
             })
             .catch((err) => console.log(err));
@@ -57,10 +61,17 @@ const RunButton = ({ code, setOutput, language }) => {
   };
 
   return (
-    <Button variant="outlined" sx={style} onClick={() => runCode(code)}>
-      <VscDebugStart style={{ position: 'relative', bottom: '3px' }} />
-      Run
-    </Button>
+    <>
+      <RunAlert
+        triggered={triggerAlert}
+        setTriggered={setTriggerAlert}
+        code={status}
+      />
+      <Button variant='outlined' sx={style} onClick={() => runCode(code)}>
+        <VscDebugStart style={{ position: 'relative', bottom: '3px' }} />
+        Run
+      </Button>
+    </>
   );
 };
 
