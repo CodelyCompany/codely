@@ -28,6 +28,7 @@ const EditorField = ({ language }) => {
           setOutput={setOutput}
           code={code}
           language={language}
+          tests={tests}
           setTests={setTests}
         />
       </Box>

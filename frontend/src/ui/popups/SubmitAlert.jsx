@@ -5,17 +5,23 @@ import { Alert, Box, Collapse } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { PropTypes } from 'prop-types';
 
-const RunAlert = ({ triggered, setTriggered, code }) => {
+const SubmitAlert = ({ triggered, setTriggered, passed }) => {
   const handleTrigger = () => {
     setTriggered((prev) => !prev);
   };
 
   const messages = useMemo(
     () =>
-      code === 200
-        ? { severity: 'success', message: 'Your code compiled successfully' }
-        : { severity: 'error', message: 'Your code compiled with errors' },
-    [code]
+      passed
+        ? {
+            severity: 'success',
+            message: 'Congratulation! Your code passed all tests',
+          }
+        : {
+            severity: 'error',
+            message: "Unfortunately, your code didn't pass tests",
+          },
+    [passed]
   );
 
   return (
@@ -44,10 +50,10 @@ const RunAlert = ({ triggered, setTriggered, code }) => {
   );
 };
 
-export default RunAlert;
+export default SubmitAlert;
 
-RunAlert.propTypes = {
+SubmitAlert.propTypes = {
   triggered: PropTypes.bool.isRequired,
   setTriggered: PropTypes.func.isRequired,
-  code: PropTypes.number,
+  passed: PropTypes.bool,
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Button } from '@mui/material';
@@ -9,14 +9,19 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
 import { getUserByUsername } from '../../../ducks/user/selectors';
+import RunAlert from '../../popups/RunAlert';
+import SubmitAlert from '../../popups/SubmitAlert';
 
-const Buttons = ({ setOutput, code, language, setTests }) => {
+const Buttons = ({ setOutput, code, language, setTests, tests }) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { getAccessTokenSilently, user } = useAuth0();
   const foundUser = useSelector((state) =>
     getUserByUsername(state, user.nickname)
   );
+  const [triggerAlert, setTriggerAlert] = useState(false);
+  const [triggerSubmitAlert, setTriggerSubmitAlert] = useState(false);
+  const [status, setStatus] = useState(null);
 
   const runCode = (code) => {
     (async () => {
@@ -50,6 +55,8 @@ const Buttons = ({ setOutput, code, language, setTests }) => {
               }
             )
             .then((response) => {
+              setStatus(response.status);
+              setTriggerAlert(true);
               setOutput(response.data.output.toString());
             })
             .catch((err) => console.log(err));
@@ -72,40 +79,53 @@ const Buttons = ({ setOutput, code, language, setTests }) => {
           { headers: { Authorization: `Bearer ${token}` } }
         )
         .then((response) => {
+          setTriggerSubmitAlert(true);
           setTests(response.data);
         });
     })();
   };
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-      <Box>
-        {' '}
-        <Button
-          onClick={() => runCode(code)}
-          sx={{ margin: '5px', width: '100px' }}
-          variant='contained'
-        >
-          Run
-        </Button>
-        <Button
-          onClick={() => submitExercise()}
-          sx={{ width: '100px' }}
-          variant='contained'
-        >
-          Submit
-        </Button>
+    <>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Box>
+          {' '}
+          <Button
+            onClick={() => runCode(code)}
+            sx={{ margin: '5px', width: '100px' }}
+            variant='contained'
+          >
+            Run
+          </Button>
+          <Button
+            onClick={() => submitExercise()}
+            sx={{ width: '100px' }}
+            variant='contained'
+          >
+            Submit
+          </Button>
+        </Box>
+        <Box>
+          <Button
+            onClick={() => navigate(-1)}
+            sx={{ width: '100px', margin: '5px' }}
+            variant='contained'
+          >
+            Undo
+          </Button>
+        </Box>
       </Box>
-      <Box>
-        <Button
-          onClick={() => navigate(-1)}
-          sx={{ width: '100px', margin: '5px' }}
-          variant='contained'
-        >
-          Undo
-        </Button>
-      </Box>
-    </Box>
+      <RunAlert
+        triggered={triggerAlert}
+        setTriggered={setTriggerAlert}
+        code={status}
+      />
+      <SubmitAlert
+        triggered={triggerSubmitAlert}
+        setTriggered={setTriggerAlert}
+        passed={tests.tests === tests.correct}
+      />
+    </>
   );
 };
 
@@ -116,4 +136,5 @@ Buttons.propTypes = {
   code: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,
   setTests: PropTypes.func,
+  tests: PropTypes.object,
 };
