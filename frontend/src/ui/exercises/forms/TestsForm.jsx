@@ -4,10 +4,39 @@ import { Box, MenuItem } from '@mui/material';
 import { Button, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
 
-const TestsForm = ({ setStep }) => {
+const TestsForm = ({ setStep, dataToEdit, step }) => {
   const [testsQuantity, setTestsQuantity] = useState('');
 
   const [tests, setTests] = useState([]);
+  const [triggered, setTriggered] = useState(false);
+  const [triggeringChangeQuantity, setTriggeringChangeQuantity] =
+    useState(false);
+
+  // it will change size of the form
+  useEffect(() => {
+    if (step.dataFromStep2) {
+      setTestsQuantity(step.dataFromStep2.length);
+      return;
+    }
+    dataToEdit && setTestsQuantity(dataToEdit.tests.length);
+  }, []);
+
+  useEffect(() => {
+    if (!triggeringChangeQuantity) {
+      step.dataFromStep2 && setTests(step.dataFromStep2);
+      setTriggeringChangeQuantity((prev) => !prev);
+    }
+  }, [testsQuantity]);
+
+  //it will be triggered when form increase its size to fill it asynchronously
+  useEffect(() => {
+    if (dataToEdit && !triggered && !step.dataFromStep2) {
+      setTests(
+        dataToEdit.tests.map((test, index) => [index, test.input, test.output])
+      );
+      setTriggered((prev) => !prev);
+    }
+  }, [testsQuantity]);
 
   const submitValues = () => {
     if (canSubmit())
@@ -16,6 +45,14 @@ const TestsForm = ({ setStep }) => {
         currentStep: 3,
         dataFromStep2: tests,
       }));
+  };
+
+  const goToPreviousStage = () => {
+    setStep((prev) => ({
+      ...prev,
+      currentStep: 1,
+      dataFromStep2: tests,
+    }));
   };
 
   const canSubmit = () => {
@@ -69,9 +106,9 @@ const TestsForm = ({ setStep }) => {
       >
         <TextField
           sx={{ marginBottom: '10px', width: '900px' }}
-          id="testsQuantity"
-          name="testsQuantity"
-          label="Choose tests quantity"
+          id='testsQuantity'
+          name='testsQuantity'
+          label='Choose tests quantity'
           value={testsQuantity}
           onChange={(e) => setTestsQuantity(parseInt(e.target.value))}
           select
@@ -104,7 +141,7 @@ const TestsForm = ({ setStep }) => {
                   width: 'calc(50% - 10px)',
                 }}
                 label={number === 0 ? 'Inputs' : ''}
-                name="input"
+                name='input'
                 value={getValue(number, 'input')}
                 onChange={(e) => handleValue(e, number, 'input')}
               />
@@ -112,7 +149,7 @@ const TestsForm = ({ setStep }) => {
                 required
                 sx={{ marginBottom: '10px', width: 'calc(50% - 10px)' }}
                 label={number === 0 ? 'Outputs' : ''}
-                name="output"
+                name='output'
                 value={getValue(number, 'output')}
                 onChange={(e) => handleValue(e, number, 'output')}
               />
@@ -121,9 +158,18 @@ const TestsForm = ({ setStep }) => {
 
         <Button
           fullWidth
-          type="submit"
+          sx={{ marginBottom: '10px' }}
+          type='submit'
+          onClick={() => goToPreviousStage()}
+          variant='contained'
+        >
+          Previous
+        </Button>
+        <Button
+          fullWidth
+          type='submit'
           onClick={() => submitValues()}
-          variant="contained"
+          variant='contained'
         >
           Next
         </Button>
@@ -136,4 +182,6 @@ export default TestsForm;
 
 TestsForm.propTypes = {
   setStep: PropTypes.func.isRequired,
+  dataToEdit: PropTypes.object,
+  step: PropTypes.object.isRequired,
 };

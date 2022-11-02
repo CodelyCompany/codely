@@ -71,3 +71,50 @@ export const DeleteExercise = (id, token) =>
       types.DELETE_EXERCISE_FAILURE,
     ],
   });
+
+export const UpdateExercise = (body, token) =>
+  createAction({
+    endpoint: `${
+      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+    }/exercises/editExercise/`,
+    method: 'PUT',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    types: [
+      types.UPDATE_EXERCISE_REQUEST,
+      {
+        type: types.UPDATE_EXERCISE_SUCCESS,
+        payload: async (action, state, res) => {
+          const json = await res.json();
+          return json;
+        },
+      },
+      types.UPDATE_EXERCISE_FAILURE,
+    ],
+  });
+
+export const GetExercise = (id, token) =>
+  createAction({
+    endpoint: `${
+      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+    }/exercises/${id}`,
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    types: [
+      types.GET_EXERCISE_REQUEST,
+      {
+        type: types.GET_EXERCISE_SUCCESS,
+        payload: async (action, state, res) => {
+          const json = await res.json();
+          return json;
+        },
+      },
+      types.GET_EXERCISE_FAILURE,
+    ],
+  });

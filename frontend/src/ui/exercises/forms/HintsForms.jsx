@@ -7,18 +7,59 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
-import { AddExercise } from '../../../ducks/exercises/operations';
+import {
+  AddExercise,
+  UpdateExercise,
+} from '../../../ducks/exercises/operations';
 
-const HintsForms = ({ step, AddExercise }) => {
+const HintsForms = ({
+  step,
+  AddExercise,
+  dataToEdit,
+  UpdateExercise,
+  setStep,
+}) => {
   const [hintsQuantity, setHintsQuantity] = useState('');
   const navigate = useNavigate();
   const [hints, setHints] = useState([]);
+  const [triggered, setTriggered] = useState(false);
   const { user, getAccessTokenSilently } = useAuth0();
+  const { id } = useParams();
+  const [triggeringChangeQuantity, setTriggeringChangeQuantity] =
+    useState(false);
+
+  useEffect(() => {
+    if (step.dataFromStep3) {
+      setHintsQuantity(step.dataFromStep3.length);
+      return;
+    }
+    dataToEdit && setHintsQuantity(dataToEdit.hints.length);
+  }, []);
+
+  useEffect(() => {
+    if (dataToEdit && !triggered && !step.dataFromStep3) {
+      dataToEdit &&
+        setHints(dataToEdit.hints.map((hint, index) => [index, hint]));
+      setTriggered((prev) => !prev);
+    }
+  }, [hintsQuantity]);
+
+  useEffect(() => {
+    if (!triggeringChangeQuantity) {
+      step.dataFromStep3 && setHints(step.dataFromStep3);
+      setTriggeringChangeQuantity((prev) => !prev);
+    }
+  }, [hintsQuantity]);
+
+  const goToPreviousStage = () => {
+    setStep((prev) => ({ ...prev, currentStep: 2, dataFromStep3: hints }));
+  };
 
   // It should be changed in the future
   const submitValues = () => {
-    let id;
+    let userId;
     if (canSubmit()) {
       (async () => {
         try {
@@ -39,26 +80,28 @@ const HintsForms = ({ step, AddExercise }) => {
               }
             )
             .then((response) => {
-              id = response.data.find((us) => us.username === user.nickname);
-
-              AddExercise(
-                {
-                  author: id._id,
-                  ...step.dataFromStep1,
-                  tests: step.dataFromStep2.reduce(
-                    (prev, curr) => [
-                      ...prev,
-                      {
-                        input: curr[1],
-                        output: curr[2],
-                      },
-                    ],
-                    []
-                  ),
-                  hints: hints.map((el) => el[1]),
-                },
-                token
+              userId = response.data.find(
+                (us) => us.username === user.nickname
               );
+
+              const data = {
+                author: userId._id,
+                ...step.dataFromStep1,
+                tests: step.dataFromStep2.reduce(
+                  (prev, curr) => [
+                    ...prev,
+                    {
+                      input: curr[1],
+                      output: curr[2],
+                    },
+                  ],
+                  []
+                ),
+                hints: hints.map((el) => el[1]),
+              };
+              dataToEdit
+                ? UpdateExercise({ id, ...data }, token)
+                : AddExercise({ ...data }, token);
 
               navigate('/Exercises');
             });
@@ -118,9 +161,9 @@ const HintsForms = ({ step, AddExercise }) => {
       >
         <TextField
           sx={{ marginBottom: '10px', width: '900px' }}
-          id="hintsQuantity"
-          name="hintsQuantity"
-          label="Choose hints quantity"
+          id='hintsQuantity'
+          name='hintsQuantity'
+          label='Choose hints quantity'
           value={hintsQuantity}
           onChange={(e) => setHintsQuantity(parseInt(e.target.value))}
           select
@@ -152,7 +195,7 @@ const HintsForms = ({ step, AddExercise }) => {
                   width: '100%',
                 }}
                 label={number === 0 ? 'Hints' : ''}
-                name="hint"
+                name='hint'
                 value={getValue(number)}
                 onChange={(e) => handleValue(e, number)}
               />
@@ -161,9 +204,18 @@ const HintsForms = ({ step, AddExercise }) => {
 
         <Button
           fullWidth
-          type="button"
+          sx={{ marginBottom: '10px' }}
+          type='button'
+          onClick={() => goToPreviousStage()}
+          variant='contained'
+        >
+          Previous
+        </Button>
+        <Button
+          fullWidth
+          type='button'
           onClick={() => submitValues()}
-          variant="contained"
+          variant='contained'
         >
           Submit
         </Button>
@@ -174,6 +226,7 @@ const HintsForms = ({ step, AddExercise }) => {
 
 const mapDispatchToProps = {
   AddExercise,
+  UpdateExercise,
 };
 
 export default connect(null, mapDispatchToProps)(HintsForms);
@@ -181,4 +234,7 @@ export default connect(null, mapDispatchToProps)(HintsForms);
 HintsForms.propTypes = {
   AddExercise: PropTypes.func.isRequired,
   step: PropTypes.object.isRequired,
+  dataToEdit: PropTypes.object,
+  setStep: PropTypes.func.isRequired,
+  UpdateExercise: PropTypes.func,
 };

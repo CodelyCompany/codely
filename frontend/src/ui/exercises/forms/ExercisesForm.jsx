@@ -7,7 +7,7 @@ import { useFormik } from 'formik';
 import { PropTypes } from 'prop-types';
 import * as yup from 'yup';
 
-const ExercisesForm = ({ setStep }) => {
+const ExercisesForm = ({ setStep, dataToEdit, step }) => {
   const programmingLanguages = [
     'JavaScript',
     'Bash',
@@ -40,10 +40,15 @@ const ExercisesForm = ({ setStep }) => {
 
   const formik = useFormik({
     initialValues: {
-      title: '',
-      description: '',
-      difficulty: '',
-      programmingLanguage: '',
+      title: step.dataFromStep1?.title || dataToEdit?.title || '',
+      description:
+        step.dataFromStep1?.description || dataToEdit?.description || '',
+      difficulty:
+        step.dataFromStep1?.difficulty || dataToEdit?.difficulty || '',
+      programmingLanguage:
+        step.dataFromStep1?.programmingLanguage ||
+        dataToEdit?.programmingLanguage ||
+        '',
     },
     validationSchema,
     onSubmit: (values) => {
@@ -68,9 +73,9 @@ const ExercisesForm = ({ setStep }) => {
       >
         <TextField
           sx={{ marginBottom: '10px' }}
-          id="title"
-          name="title"
-          label="Title"
+          id='title'
+          name='title'
+          label='Title'
           value={formik.values.title}
           onChange={formik.handleChange}
           error={formik.touched.title && Boolean(formik.errors.title)}
@@ -78,9 +83,9 @@ const ExercisesForm = ({ setStep }) => {
         />
         <TextField
           sx={{ marginBottom: '10px' }}
-          id="description"
-          name="description"
-          label="Description"
+          id='description'
+          name='description'
+          label='Description'
           value={formik.values.description}
           onChange={formik.handleChange}
           error={
@@ -90,9 +95,9 @@ const ExercisesForm = ({ setStep }) => {
         />
         <TextField
           sx={{ marginBottom: '10px' }}
-          id="difficulty"
-          name="difficulty"
-          label="Difficulty"
+          id='difficulty'
+          name='difficulty'
+          label='Difficulty'
           select
           value={formik.values.difficulty}
           onChange={formik.handleChange}
@@ -107,9 +112,9 @@ const ExercisesForm = ({ setStep }) => {
         </TextField>
         <TextField
           sx={{ marginBottom: '10px' }}
-          id="programmingLanguage"
-          name="programmingLanguage"
-          label="Programming language"
+          id='programmingLanguage'
+          name='programmingLanguage'
+          label='Programming language'
           select
           value={formik.values.programmingLanguage}
           onChange={formik.handleChange}
@@ -129,7 +134,7 @@ const ExercisesForm = ({ setStep }) => {
           ))}
         </TextField>
 
-        <Button color="primary" variant="contained" type="submit">
+        <Button color='primary' variant='contained' type='submit'>
           Next
         </Button>
       </form>
@@ -141,4 +146,6 @@ export default ExercisesForm;
 
 ExercisesForm.propTypes = {
   setStep: PropTypes.func.isRequired,
+  dataToEdit: PropTypes.object,
+  step: PropTypes.object.isRequired,
 };
