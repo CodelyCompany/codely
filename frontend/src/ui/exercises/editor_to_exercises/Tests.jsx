@@ -3,33 +3,38 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { PropTypes } from 'prop-types';
 
+import ConfettiAfterSolve from '../../popups/ConfettiAfterSolve';
+
 function Tests({ tests }) {
   return (
-    <Box
-      sx={{
-        width: 'calc(100% - 6px)',
-        border: '3px solid rgb(25, 118, 210)',
-        marginTop: '10px',
-        padding: '10px 0',
-        borderRadius: '5px',
-        display: 'flex',
-        justifyContent: 'center',
-      }}
-    >
-      <Typography
-        variant='h6'
-        color='primary'
-        sx={{ marginRight: '3px', fontWeight: 'bolder' }}
+    <>
+      {tests.correct === tests.tests && <ConfettiAfterSolve />}
+      <Box
+        sx={{
+          width: 'calc(100% - 6px)',
+          border: '3px solid rgb(25, 118, 210)',
+          marginTop: '10px',
+          padding: '10px 0',
+          borderRadius: '5px',
+          display: 'flex',
+          justifyContent: 'center',
+        }}
       >
-        Tests passed:
-      </Typography>
-      <Typography
-        variant='h6'
-        sx={{ color: tests.correct === tests.tests ? 'green' : 'red' }}
-      >
-        {tests.correct} / {tests.tests}
-      </Typography>
-    </Box>
+        <Typography
+          variant='h6'
+          color='primary'
+          sx={{ marginRight: '3px', fontWeight: 'bolder' }}
+        >
+          Tests passed:
+        </Typography>
+        <Typography
+          variant='h6'
+          sx={{ color: tests.correct === tests.tests ? 'green' : 'red' }}
+        >
+          {tests.correct} / {tests.tests}
+        </Typography>
+      </Box>
+    </>
   );
 }
 
