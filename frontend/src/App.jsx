@@ -9,6 +9,7 @@ import MainForm from './ui/exercises/forms/MainForm';
 import LoadWrapper from './ui/LoadWrapper';
 import MainPage from './ui/MainPage';
 import Navbar from './ui/Navbar';
+import ExerciseAlert from './ui/popups/ExercisesAlert';
 import UserDetails from './ui/user/UserDetails';
 import Versus from './ui/versus/Versus';
 
@@ -32,6 +33,7 @@ function App() {
             <Route path='/user' element={<UserDetails />} />
           </Routes>
         </LoadWrapper>
+        <ExerciseAlert />
       </BrowserRouter>
     </div>
   );
