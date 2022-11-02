@@ -21,8 +21,7 @@ spec:
         spec:
             containers:
                 - name: frontend-container
-                  # TODO Add image name
-                  image: image_name
+                  image: mtx22/codely-frontend
                   ports:
                       - containerPort: 80
                   env:

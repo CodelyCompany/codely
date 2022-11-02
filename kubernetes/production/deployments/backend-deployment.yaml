@@ -20,10 +20,8 @@ spec:
                 type: backend
         spec:
             containers:
-                - name:
-                      backend-container
-                      # TODO Add image name
-                  image: image_name
+                - name: backend-container
+                  image: mtx22/codely-backend
                   imagePullPolicy: Never
                   env:
                       - name: MONGO_HOST

@@ -20,10 +20,8 @@ spec:
                 type: backend-containers
         spec:
             containers:
-                - name:
-                      backend-containers-container
-                      # TODO Add image name
-                  image: image_name
+                - name: backend-containers-container
+                  image: mtx22/codely-backend-containers
                   env:
                       - name: APP_AUDIENCE
                         valueFrom:
