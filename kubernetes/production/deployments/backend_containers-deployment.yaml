@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: backend_containers-deployment
+    namespace: production
+    labels:
+        app: codely
+        type: backend_containers
+spec:
+    selector:
+        matchLabels:
+            app: codely
+            type: backend_containers
+    replicas: 2
+    template:
+        metadata:
+            name: backend_containers-pod
+            labels:
+                app: codely
+                type: backend_containers
+        spec:
+            containers:
+                - name:
+                      backend_containers-container
+                      # TODO Add image name
+                  image: image_name

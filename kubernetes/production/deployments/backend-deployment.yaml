@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: backend-deployment
+    namespace: production
+    labels:
+        app: codely
+        type: backend
+spec:
+    selector:
+        matchLabels:
+            app: codely
+            type: backend
+    replicas: 2
+    template:
+        metadata:
+            name: backend-pod
+            labels:
+                app: codely
+                type: backend
+        spec:
+            containers:
+                - name:
+                      backend-container
+                      # TODO Add image name
+                  image: image_name
+                  imagePullPolicy: Never
+                  env:
+                      - name: MONGO_HOST
+                        valueFrom:
+                            configMapKeyRef:
+                                name: mongodb-configmap
+                                key: MONGO_HOST
+                      - name: MONGO_PORT
+                        valueFrom:
+                            configMapKeyRef:
+                                name: mongodb-configmap
+                                key: MONGO_PORT
+                      - name: MONGO_DATABASE
+                        valueFrom:
+                            configMapKeyRef:
+                                name: mongodb-configmap
+                                key: MONGO_DATABASE
