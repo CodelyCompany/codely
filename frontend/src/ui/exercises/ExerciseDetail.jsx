@@ -22,10 +22,15 @@ import { useNavigate } from 'react-router-dom';
 
 import { DeleteExercise, GetExercises } from '../../ducks/exercises/operations';
 import { getExerciseById } from '../../ducks/exercises/selectors';
+import { ChangeDeleteStatus } from '../../ducks/popups/actions';
 
 import EditorField from './editor_to_exercises/EditorField';
 
-const ExerciseDetail = ({ GetExercises, DeleteExercise }) => {
+const ExerciseDetail = ({
+  GetExercises,
+  DeleteExercise,
+  ChangeDeleteStatus,
+}) => {
   const { id } = useParams();
   const exercise = useSelector((state) => getExerciseById(state, id));
   const { getAccessTokenSilently, user } = useAuth0();
@@ -131,7 +136,10 @@ const ExerciseDetail = ({ GetExercises, DeleteExercise }) => {
               <Button
                 variant='contained'
                 sx={{ height: '40px', marginTop: '50px', width: '100px' }}
-                onClick={() => deleteExercise()}
+                onClick={() => {
+                  deleteExercise();
+                  ChangeDeleteStatus();
+                }}
               >
                 Delete
               </Button>
@@ -156,6 +164,7 @@ const ExerciseDetail = ({ GetExercises, DeleteExercise }) => {
 const mapDispatchToProps = {
   GetExercises,
   DeleteExercise,
+  ChangeDeleteStatus,
 };
 
 export default connect(null, mapDispatchToProps)(ExerciseDetail);
@@ -163,4 +172,5 @@ export default connect(null, mapDispatchToProps)(ExerciseDetail);
 ExerciseDetail.propTypes = {
   GetExercises: PropTypes.func.isRequired,
   DeleteExercise: PropTypes.func.isRequired,
+  ChangeDeleteStatus: PropTypes.func,
 };

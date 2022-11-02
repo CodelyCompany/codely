@@ -6,11 +6,11 @@ export const popupsReducer = (
 ) => {
   switch (action.type) {
     case types.ADD_EXERCISE:
-      return { ...store, add: !store.add };
+      return { ...state, add: !state.add };
     case types.DELETE_EXERCISE:
-      return { ...store, delete: !store.delete };
+      return { ...state, delete: !state.delete };
     case types.UPDATE_EXERCISE:
-      return { ...state, update: !store.update };
+      return { ...state, update: !state.update };
     default:
       return state;
   }
