@@ -29,6 +29,7 @@ const RunAlert = ({ triggered, setTriggered, code }) => {
     >
       <Collapse in={triggered}>
         <Alert
+          variant='filled'
           severity={messages.severity}
           action={
             <IconButton color='inherit' size='medium' onClick={handleTrigger}>

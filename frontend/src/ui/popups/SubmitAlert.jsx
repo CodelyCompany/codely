@@ -7,7 +7,7 @@ import { PropTypes } from 'prop-types';
 
 const SubmitAlert = ({ triggered, setTriggered, passed }) => {
   const handleTrigger = () => {
-    setTriggered((prev) => !prev);
+    setTriggered(false);
   };
 
   const messages = useMemo(
@@ -35,6 +35,7 @@ const SubmitAlert = ({ triggered, setTriggered, passed }) => {
     >
       <Collapse in={triggered}>
         <Alert
+          variant='filled'
           severity={messages.severity}
           action={
             <IconButton color='inherit' size='medium' onClick={handleTrigger}>

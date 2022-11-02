@@ -122,7 +122,7 @@ const Buttons = ({ setOutput, code, language, setTests, tests }) => {
       />
       <SubmitAlert
         triggered={triggerSubmitAlert}
-        setTriggered={setTriggerAlert}
+        setTriggered={setTriggerSubmitAlert}
         passed={tests.tests === tests.correct}
       />
     </>
