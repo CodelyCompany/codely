@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
 import { getUserByUsername } from '../../../ducks/user/selectors';
+import ExerciseHints from '../../popups/ExerciseHints';
 import RunAlert from '../../popups/RunAlert';
 import SubmitAlert from '../../popups/SubmitAlert';
 
@@ -105,7 +106,8 @@ const Buttons = ({ setOutput, code, language, setTests, tests }) => {
             Submit
           </Button>
         </Box>
-        <Box>
+        <Box sx={{ display: 'flex' }}>
+          <ExerciseHints />
           <Button
             onClick={() => navigate(-1)}
             sx={{ width: '100px', margin: '5px' }}
