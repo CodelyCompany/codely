@@ -124,9 +124,11 @@ router.post('/checkSolution/:id', async (req, res) => {
         }
         if (counterCorrect === exercise.tests.length) {
             const user = await User.findById(data.user);
-            await User.findByIdAndUpdate(data.user, {
-                doneExercises: [...user.doneExercises, exercise._id],
-            });
+            if (!user.doneExercises.includes(exercise._id)) {
+                await User.findByIdAndUpdate(data.user, {
+                    doneExercises: [...user.doneExercises, exercise._id],
+                });
+            }
             await Exercise.findByIdAndUpdate(id, {
                 doneCounter: exercise.doneCounter + 1,
             });
