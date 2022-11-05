@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: javascript-container-deployment
+    namespace: production
+    labels:
+        app: codely
+        type: javascript-container
+spec:
+    selector:
+        matchLabels:
+            app: codely
+            type: javascript-container
+    replicas: 2
+    template:
+        metadata:
+            name: javascript-container-pod
+            labels:
+                app: codely
+                type: javascript-container
+        spec:
+            containers:
+                - name: javascript-container
+                  image: mtx22/codely-javascript
+                  env:
+                      - name: PORT
+                        valueFrom:
+                            configMapKeyRef:
+                                key: JAVASCRIPT_PORT
+                                name: containers-configmap

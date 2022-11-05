@@ -22,7 +22,6 @@ spec:
             containers:
                 - name: backend-container
                   image: mtx22/codely-backend
-                  imagePullPolicy: Never
                   env:
                       - name: MONGO_HOST
                         valueFrom:
