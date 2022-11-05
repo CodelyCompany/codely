@@ -2,6 +2,18 @@ const axios = require('axios');
 const express = require('express');
 const router = express.Router();
 
+require('dotenv').config();
+
+const urlData = {
+    javascript_url: process.env.JAVASCRIPT_URL || 'http://javascript:6000',
+    python_url: process.env.PYTHON_URL || 'http://python:6001',
+    bash_url: process.env.BASH_URL || 'http://bash:6002',
+    r_url: process.env.R_URL || 'http://r:6003',
+    java_url: process.env.JAVA_URL || 'http://java:6004',
+    cpp_url: process.env.CPP_URL || 'http://cpp:6005',
+    c_url: process.env.C_URL || 'http://c:6006',
+};
+
 router.post('/javascript', async (req, res) => {
     try {
         let data = req.body;
@@ -14,7 +26,7 @@ router.post('/javascript', async (req, res) => {
                 data.args.join(', ') +
                 '));';
         }
-        const response = await axios.post('http://javascript:6000', {
+        const response = await axios.post(urlData.javascript_url, {
             toExecute: data.toExecute,
         });
         return res.status(200).send(response.data);
@@ -40,7 +52,7 @@ router.post('/python', async (req, res) => {
                 data.args.join(', ') +
                 '));';
         }
-        const response = await axios.post('http://python:6001', {
+        const response = await axios.post(urlData.python_url, {
             toExecute: data.toExecute,
         });
         return res.status(200).send(response.data);
@@ -61,7 +73,7 @@ router.post('/bash', async (req, res) => {
             data.toExecute =
                 data.toExecute + '\n' + data.func + ' ' + data.args.join(' ');
         }
-        const response = await axios.post('http://bash:6002', {
+        const response = await axios.post(urlData.bash_url, {
             toExecute: data.toExecute,
         });
         return res.status(200).send(response.data);
@@ -87,7 +99,7 @@ router.post('/r', async (req, res) => {
                 data.args.join(', ') +
                 '))';
         }
-        const response = await axios.post('http://r:6003', {
+        const response = await axios.post(urlData.r_url, {
             toExecute: data.toExecute,
         });
         return res.status(200).send(response.data);
@@ -118,7 +130,7 @@ router.post('/java', async (req, res) => {
                 '));' +
                 splitedData[1];
         }
-        const response = await axios.post('http://java:6004', {
+        const response = await axios.post(urlData.java_url, {
             toExecute: data.toExecute,
         });
         return res.status(200).send(response.data);
@@ -148,7 +160,7 @@ router.post('/cpp', async (req, res) => {
                 'return 0;' +
                 lastElem;
         }
-        const response = await axios.post('http://cpp:6005', {
+        const response = await axios.post(urlData.cpp_url, {
             toExecute: data.toExecute,
         });
         return res.status(200).send(response.data);
@@ -177,7 +189,7 @@ router.post('/c', async (req, res) => {
                 'return 0;' +
                 lastElem;
         }
-        const response = await axios.post('http://c:6006', {
+        const response = await axios.post(urlData.c_url, {
             toExecute: data.toExecute,
         });
         return res.status(200).send(response.data);

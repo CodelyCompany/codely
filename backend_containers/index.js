@@ -5,6 +5,8 @@ const http = require('http');
 const containers = require('./routes/containers');
 const jwtCheck = require('./auth');
 
+require('dotenv').config();
+
 const app = express();
 
 app.use(express.json());
