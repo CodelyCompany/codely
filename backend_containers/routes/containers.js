@@ -5,13 +5,15 @@ const router = express.Router();
 router.post('/javascript', async (req, res) => {
     try {
         let data = req.body;
-        data.toExecute =
-            data.toExecute +
-            '\n console.log(' +
-            data.func +
-            '(' +
-            data.args.join(', ') +
-            '));';
+        if (data.func && data.args) {
+            data.toExecute =
+                data.toExecute +
+                '\n console.log(' +
+                data.func +
+                '(' +
+                data.args.join(', ') +
+                '));';
+        }
         const response = await axios.post('http://javascript:6000', {
             toExecute: data.toExecute,
         });
@@ -29,13 +31,15 @@ router.post('/javascript', async (req, res) => {
 router.post('/python', async (req, res) => {
     try {
         let data = req.body;
-        data.toExecute =
-            data.toExecute +
-            '\n print(' +
-            data.func +
-            '(' +
-            data.args.join(', ') +
-            '));';
+        if (data.func && data.args) {
+            data.toExecute =
+                data.toExecute +
+                '\n print(' +
+                data.func +
+                '(' +
+                data.args.join(', ') +
+                '));';
+        }
         const response = await axios.post('http://python:6001', {
             toExecute: data.toExecute,
         });
@@ -53,8 +57,10 @@ router.post('/python', async (req, res) => {
 router.post('/bash', async (req, res) => {
     try {
         let data = req.body;
-        data.toExecute =
-            data.toExecute + '\n' + data.func + ' ' + data.args.join(' ');
+        if (data.func && data.args) {
+            data.toExecute =
+                data.toExecute + '\n' + data.func + ' ' + data.args.join(' ');
+        }
         const response = await axios.post('http://bash:6002', {
             toExecute: data.toExecute,
         });
@@ -72,13 +78,15 @@ router.post('/bash', async (req, res) => {
 router.post('/r', async (req, res) => {
     try {
         let data = req.body;
-        data.toExecute =
-            data.toExecute +
-            '\n cat(' +
-            data.func +
-            '(' +
-            data.args.join(', ') +
-            '))';
+        if (data.func && data.args) {
+            data.toExecute =
+                data.toExecute +
+                '\n cat(' +
+                data.func +
+                '(' +
+                data.args.join(', ') +
+                '))';
+        }
         const response = await axios.post('http://r:6003', {
             toExecute: data.toExecute,
         });
@@ -96,7 +104,7 @@ router.post('/r', async (req, res) => {
 router.post('/java', async (req, res) => {
     try {
         let data = req.body;
-        if (data.args) {
+        if (data.func && data.args) {
             const splitedData = data.toExecute.split(
                 'public static void main(String[] args) {'
             );
@@ -127,7 +135,7 @@ router.post('/java', async (req, res) => {
 router.post('/cpp', async (req, res) => {
     try {
         let data = req.body;
-        if (data.args) {
+        if (data.func && data.args) {
             const splitedData = data.toExecute.split('return 0;');
             const lastElem = splitedData.pop();
             data.toExecute =
@@ -157,7 +165,7 @@ router.post('/cpp', async (req, res) => {
 router.post('/c', async (req, res) => {
     try {
         let data = req.body;
-        if (data.args) {
+        if (data.func && data.args) {
             const splitedData = data.toExecute.split('return 0;');
             const lastElem = splitedData.pop();
             data.toExecute =
