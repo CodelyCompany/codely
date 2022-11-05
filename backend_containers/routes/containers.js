@@ -162,11 +162,10 @@ router.post('/c', async (req, res) => {
             const lastElem = splitedData.pop();
             data.toExecute =
                 splitedData.join(' \n') +
-                ' printf("%d", ' +
                 data.func +
                 '(' +
                 data.args.join(', ') +
-                '));\n' +
+                ');\n' +
                 'return 0;' +
                 lastElem;
         }
