@@ -1,7 +1,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-    name: backend-containers-service
+    name: backend-containers
     namespace: production
 spec:
     type: ClusterIP

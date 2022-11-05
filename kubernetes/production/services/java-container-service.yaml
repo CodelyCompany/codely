@@ -1,7 +1,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-    name: java-container-service
+    name: java
     namespace: production
 spec:
     type: ClusterIP

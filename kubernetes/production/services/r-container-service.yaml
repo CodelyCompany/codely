@@ -1,7 +1,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-    name: r-container-service
+    name: r
     namespace: production
 spec:
     type: ClusterIP

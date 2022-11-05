@@ -7,4 +7,4 @@ kubectl apply -f ../production/volumes/
 sleep 10
 kubectl apply -f ../production/volumeclaims/
 kubectl apply -f ../production/deployments/
-# kubectl apply -f ../production/my-ingress.yaml
+kubectl apply -f ../production/ingress.yaml

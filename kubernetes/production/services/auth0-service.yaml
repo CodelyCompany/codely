@@ -1,14 +1,14 @@
 kind: Service
 apiVersion: v1
 metadata:
-    name: backend
+    name: auth0
     namespace: production
 spec:
     type: ClusterIP
     ports:
-        - port: 5000
-          targetPort: 5000
+        - port: 3000
+          targetPort: 3000
           protocol: TCP
     selector:
         app: codely
-        type: backend
+        type: auth0

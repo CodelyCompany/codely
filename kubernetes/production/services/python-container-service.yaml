@@ -1,7 +1,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-    name: python-container-service
+    name: python
     namespace: production
 spec:
     type: ClusterIP

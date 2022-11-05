@@ -1,5 +1,5 @@
 #!/bin/bash
-# kubectl delete -f ../production/my-ingress.yaml
+kubectl delete -f ../production/ingress.yaml
 kubectl delete -f ../production/deployments/
 kubectl delete -f ../production/volumeclaims/
 kubectl delete -f ../production/volumes/
