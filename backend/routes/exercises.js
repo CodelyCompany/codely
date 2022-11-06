@@ -5,6 +5,7 @@ const Exercise = require('../models/Exercise');
 const Comment = require('../models/Comment');
 const Test = require('../models/Test');
 const axios = require('axios');
+require('dotenv').config();
 const backendContainersAddress =
     process.env.APP_BACKEND_CONTAINERS || 'http://localhost:5001';
 

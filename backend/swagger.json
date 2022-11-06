@@ -273,6 +273,42 @@
         }
       }
     },
+    "/exercises/checkSolution/{id}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "solution": {
+                  "example": "any"
+                },
+                "user": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/exercises/editExercise": {
       "put": {
         "description": "",
@@ -283,7 +319,10 @@
             "schema": {
               "type": "object",
               "properties": {
-                "_id": {
+                "id": {
+                  "example": "any"
+                },
+                "tests": {
                   "example": "any"
                 }
               }
