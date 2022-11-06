@@ -3,6 +3,8 @@ const cors = require('cors');
 const execSync = require('child_process').execSync;
 const http = require('http');
 const containers = require('./routes/containers');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 const jwtCheck = require('./auth');
 
 require('dotenv').config();
@@ -17,6 +19,7 @@ app.use(
     })
 );
 // app.use(jwtCheck);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/', containers);
 
 const port = process.env.PORT || 5001;
