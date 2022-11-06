@@ -35,10 +35,10 @@ spec:
                             configMapKeyRef:
                                 key: REACT_APP_BACKEND
                                 name: frontend-configmap
-                      - name: REACT_APP_ADDRESS
+                      - name: REACT_APP_REDIRECT_URI
                         valueFrom:
                             configMapKeyRef:
-                                key: REACT_APP_ADDRESS
+                                key: REACT_APP_REDIRECT_URI
                                 name: frontend-configmap
                       - name: REACT_APP_DOMAIN
                         valueFrom:

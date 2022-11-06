@@ -12,20 +12,21 @@ import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <Auth0Provider
-        domain={process.env.REACT_APP_DOMAIN}
-        clientId={process.env.REACT_APP_CLIENT_ID}
-        redirectUri={`${
-          process.env.REACT_APP_ADDRESS || 'http://localhost:3000'
-        }/user`}
-        audience={process.env.REACT_APP_BACKEND}
-      >
-        <App />
-      </Auth0Provider>
-    </Provider>
-  </React.StrictMode>
+    <React.StrictMode>
+        <Provider store={store}>
+            <Auth0Provider
+                domain={process.env.REACT_APP_DOMAIN}
+                clientId={process.env.REACT_APP_CLIENT_ID}
+                redirectUri={`${
+                    process.env.REACT_APP_REDIRECT_URI ||
+                    'http://localhost:3000'
+                }/user`}
+                audience={process.env.REACT_APP_BACKEND}
+            >
+                <App />
+            </Auth0Provider>
+        </Provider>
+    </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

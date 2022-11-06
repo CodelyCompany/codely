@@ -130,6 +130,11 @@ services:
         environment:
             - REACT_APP_CONTAINERS_ADDRESS=http://localhost:5001
             - REACT_APP_BACKEND=http://localhost:5000
+            - REACT_APP_DOMAIN=dev-v6t-co5x.us.auth0.com
+            - REACT_APP_CLIENT_ID=S78rEYoT9kikIwcv3l0AI1Lg49AxSmMb
+            - REACT_APP_CONTAINERS_CLIENT_ID=7iSINn2Fvm0tkLKH8XwwyiqYYEzJFYSM
+            - REACT_APP_CONTAINERS_CLIENT_SECRET=D61mgH5J4q7CqwvcO6iJtggeL65qQZnWrdhRS2SXwoJTtgHSMJbGhdUWiAGWmVFJ
+            - REACT_APP_REDIRECT_URI=https://localhost:3000
     auth0:
         restart: always
         image: yannj/auth0-docker:latest
