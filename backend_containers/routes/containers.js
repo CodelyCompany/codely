@@ -16,18 +16,18 @@ const urlData = {
 
 router.post('/javascript', async (req, res) => {
     try {
-        let data = req.body;
-        if (data.func && data.args) {
-            data.toExecute =
-                data.toExecute +
-                '\n console.log(' +
-                data.func +
-                '(' +
-                data.args.join(', ') +
-                '));';
-        }
+        const data = req.body;
+        const toExecute =
+            data.func && data.args
+                ? data.toExecute +
+                  '\n console.log(' +
+                  data.func +
+                  '(' +
+                  data.args.join(', ') +
+                  '));'
+                : data.toExecute;
         const response = await axios.post(urlData.javascript_url, {
-            toExecute: data.toExecute,
+            toExecute,
         });
         return res.status(200).send(response.data);
     } catch (error) {
@@ -42,18 +42,19 @@ router.post('/javascript', async (req, res) => {
 
 router.post('/python', async (req, res) => {
     try {
-        let data = req.body;
-        if (data.func && data.args) {
-            data.toExecute =
-                data.toExecute +
-                '\n print(' +
-                data.func +
-                '(' +
-                data.args.join(', ') +
-                '));';
-        }
+        const data = req.body;
+        const toExecute =
+            data.func && data.args
+                ? (data.toExecute =
+                      data.toExecute +
+                      '\n print(' +
+                      data.func +
+                      '(' +
+                      data.args.join(', ') +
+                      '));')
+                : data.toExecute;
         const response = await axios.post(urlData.python_url, {
-            toExecute: data.toExecute,
+            toExecute,
         });
         return res.status(200).send(response.data);
     } catch (error) {
@@ -68,13 +69,13 @@ router.post('/python', async (req, res) => {
 
 router.post('/bash', async (req, res) => {
     try {
-        let data = req.body;
-        if (data.func && data.args) {
-            data.toExecute =
-                data.toExecute + '\n' + data.func + ' ' + data.args.join(' ');
-        }
+        const data = req.body;
+        const toExecute =
+            data.func && data.args
+                ? data.toExecute + '\n' + data.func + ' ' + data.args.join(' ')
+                : data.toExecute;
         const response = await axios.post(urlData.bash_url, {
-            toExecute: data.toExecute,
+            toExecute,
         });
         return res.status(200).send(response.data);
     } catch (error) {
@@ -89,18 +90,19 @@ router.post('/bash', async (req, res) => {
 
 router.post('/r', async (req, res) => {
     try {
-        let data = req.body;
-        if (data.func && data.args) {
-            data.toExecute =
-                data.toExecute +
-                '\n cat(' +
-                data.func +
-                '(' +
-                data.args.join(', ') +
-                '))';
-        }
+        const data = req.body;
+        const toExecute =
+            data.func && data.args
+                ? (data.toExecute =
+                      data.toExecute +
+                      '\n cat(' +
+                      data.func +
+                      '(' +
+                      data.args.join(', ') +
+                      '))')
+                : data.toExecute;
         const response = await axios.post(urlData.r_url, {
-            toExecute: data.toExecute,
+            toExecute,
         });
         return res.status(200).send(response.data);
     } catch (error) {
@@ -115,12 +117,12 @@ router.post('/r', async (req, res) => {
 
 router.post('/java', async (req, res) => {
     try {
-        let data = req.body;
-        if (data.func && data.args) {
+        const data = req.body;
+        const prepareData = () => {
             const splitedData = data.toExecute.split(
                 'public static void main(String[] args) {'
             );
-            data.toExecute =
+            return (
                 splitedData[0] +
                 'public static void main(String[] args) {' +
                 '\n System.out.println(' +
@@ -128,10 +130,13 @@ router.post('/java', async (req, res) => {
                 '(' +
                 data.args.join(', ') +
                 '));' +
-                splitedData[1];
-        }
+                splitedData[1]
+            );
+        };
+        const toExecute =
+            data.func && data.args ? prepareData() : data.toExecute;
         const response = await axios.post(urlData.java_url, {
-            toExecute: data.toExecute,
+            toExecute,
         });
         return res.status(200).send(response.data);
     } catch (error) {
@@ -146,11 +151,11 @@ router.post('/java', async (req, res) => {
 
 router.post('/cpp', async (req, res) => {
     try {
-        let data = req.body;
-        if (data.func && data.args) {
+        const data = req.body;
+        const prepareData = () => {
             const splitedData = data.toExecute.split('return 0;');
             const lastElem = splitedData.pop();
-            data.toExecute =
+            return (
                 splitedData.join(' \n') +
                 ' cout << ' +
                 data.func +
@@ -158,10 +163,13 @@ router.post('/cpp', async (req, res) => {
                 data.args.join(', ') +
                 ');\n' +
                 'return 0;' +
-                lastElem;
-        }
+                lastElem
+            );
+        };
+        const toExecute =
+            data.func && data.args ? prepareData() : data.toExecute;
         const response = await axios.post(urlData.cpp_url, {
-            toExecute: data.toExecute,
+            toExecute,
         });
         return res.status(200).send(response.data);
     } catch (error) {
@@ -176,21 +184,24 @@ router.post('/cpp', async (req, res) => {
 
 router.post('/c', async (req, res) => {
     try {
-        let data = req.body;
-        if (data.func && data.args) {
+        const data = req.body;
+        const prepareData = () => {
             const splitedData = data.toExecute.split('return 0;');
             const lastElem = splitedData.pop();
-            data.toExecute =
+            return (
                 splitedData.join(' \n') +
                 data.func +
                 '(' +
                 data.args.join(', ') +
                 ');\n' +
                 'return 0;' +
-                lastElem;
-        }
+                lastElem
+            );
+        };
+        const toExecute =
+            data.func && data.args ? prepareData() : data.toExecute;
         const response = await axios.post(urlData.c_url, {
-            toExecute: data.toExecute,
+            toExecute,
         });
         return res.status(200).send(response.data);
     } catch (error) {
