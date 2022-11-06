@@ -73,3 +73,23 @@ spec:
                             secretKeyRef:
                                 name: backend-secret
                                 key: APP_JWKS_URI
+                      - name: APP_DOMAIN
+                        valueFrom:
+                            secretKeyRef:
+                                name: backend-secret
+                                key: APP_DOMAIN
+                      - name: APP_CONTAINERS_CLIENT_ID
+                        valueFrom:
+                            secretKeyRef:
+                                name: backend-secret
+                                key: APP_CONTAINERS_CLIENT_ID
+                      - name: APP_CONTAINERS_CLIENT_SECRET
+                        valueFrom:
+                            secretKeyRef:
+                                name: backend-secret
+                                key: APP_CONTAINERS_CLIENT_SECRET
+                      - name: APP_CONTAINERS_ADDRESS
+                        valueFrom:
+                            configMapKeyRef:
+                                name: backend-configmap
+                                key: APP_CONTAINERS_ADDRESS
