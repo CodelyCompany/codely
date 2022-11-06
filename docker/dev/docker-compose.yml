@@ -25,6 +25,10 @@ services:
             - MONGO_DATABASE=local
             - MONGO_USERNAME=user
             - MONGO_PASSWORD=secr3t
+            - APP_DOMAIN=dev-v6t-co5x.us.auth0.com
+            - APP_CONTAINERS_CLIENT_ID=dzGcSwBjm0Roj6eZhnc1tjC284q242fW
+            - APP_CONTAINERS_CLIENT_SECRET=1ZgtLjP2kkJpJGK8xQ2uqCoJuKcZxCgiJVuBUFbY83MLHXlgEYGoro2y8zdsOLLz
+            - APP_CONTAINERS_ADDRESS=http://localhost:5001
             - APP_BACKEND_CONTAINERS=http://backend_containers:5001
         volumes:
             - ../../backend:/opt/app

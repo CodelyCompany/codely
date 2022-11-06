@@ -14,7 +14,7 @@ app.use(
         methods: ['GET', 'POST'],
     })
 );
-// app.use(jwtCheck);
+app.use(jwtCheck);
 app.use('/', containers);
 
 // Uruchomienie kontenerów
