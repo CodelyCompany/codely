@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import FormatColorTextIcon from '@mui/icons-material/FormatColorText';
@@ -23,18 +23,16 @@ import { useNavigate } from 'react-router-dom';
 import { DeleteExercise, GetExercises } from '../../ducks/exercises/operations';
 import { getExerciseById } from '../../ducks/exercises/selectors';
 import { ChangeDeleteStatus } from '../../ducks/popups/actions';
+import Confirmation from '../popups/Confirmation';
 
 import EditorField from './editor_to_exercises/EditorField';
 
-const ExerciseDetail = ({
-  GetExercises,
-  DeleteExercise,
-  ChangeDeleteStatus,
-}) => {
+const ExerciseDetail = ({ GetExercises }) => {
   const { id } = useParams();
   const exercise = useSelector((state) => getExerciseById(state, id));
   const { getAccessTokenSilently, user } = useAuth0();
   const navigate = useNavigate();
+  const [toDelete, setToDelete] = useState(false);
 
   useEffect(() => {
     if (_.isEmpty(exercise)) {
@@ -49,114 +47,118 @@ const ExerciseDetail = ({
     }
   }, []);
 
-  const deleteExercise = async () => {
-    const token = await getAccessTokenSilently({
-      audience: `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}`,
-    });
-    await DeleteExercise(id, token);
-    navigate('/exercises');
-  };
+  // const deleteExercise = async () => {
+  //   const token = await getAccessTokenSilently({
+  //     audience: `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}`,
+  //   });
+  //   await DeleteExercise(id, token);
+  //   navigate('/exercises');
+  // };
 
   return (
     exercise && (
-      <Container sx={{ marginTop: '10px' }}>
-        <Box sx={{ width: '100%', display: 'flex' }}>
-          <List
-            sx={{
-              width: '100%',
-              height: '100%',
-              bgcolor: 'background.paper',
-            }}
-          >
-            <ListItem>
-              <Typography
-                variant='h3'
-                color='primary'
-                sx={{ borderBottom: '3px solid rgb(25, 118, 210)' }}
-              >
-                {exercise.title}
-              </Typography>
-            </ListItem>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
-                  <PersonIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary='Author'
-                secondary={exercise.author.username}
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
-                  <GTranslateIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary='Programming Language'
-                secondary={exercise.programmingLanguage}
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
-                  <PsychologyIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary='Difficulty'
-                secondary={[...Array(exercise.difficulty).keys()].map((el) => (
-                  <StarRateIcon sx={{ color: 'gold' }} key={el} />
-                ))}
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
-                  <FormatColorTextIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary='Description'
-                secondary={exercise.description}
-              />
-            </ListItem>
-          </List>
-
-          {user.nickname === exercise.author.username && (
-            <Box
+      <>
+        <Container sx={{ marginTop: '10px' }}>
+          <Box sx={{ width: '100%', display: 'flex' }}>
+            <List
               sx={{
-                display: 'flex',
-                marginRight: '5px',
-                flexDirection: 'column',
+                width: '100%',
+                height: '100%',
+                bgcolor: 'background.paper',
               }}
             >
-              <Button
-                variant='contained'
-                sx={{ height: '40px', marginTop: '50px', width: '100px' }}
-                onClick={() => {
-                  deleteExercise();
-                  ChangeDeleteStatus();
+              <ListItem>
+                <Typography
+                  variant='h3'
+                  color='primary'
+                  sx={{ borderBottom: '3px solid rgb(25, 118, 210)' }}
+                >
+                  {exercise.title}
+                </Typography>
+              </ListItem>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
+                    <PersonIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary='Author'
+                  secondary={exercise.author.username}
+                />
+              </ListItem>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
+                    <GTranslateIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary='Programming Language'
+                  secondary={exercise.programmingLanguage}
+                />
+              </ListItem>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
+                    <PsychologyIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary='Difficulty'
+                  secondary={[...Array(exercise.difficulty).keys()].map(
+                    (el) => (
+                      <StarRateIcon sx={{ color: 'gold' }} key={el} />
+                    )
+                  )}
+                />
+              </ListItem>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
+                    <FormatColorTextIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary='Description'
+                  secondary={exercise.description}
+                />
+              </ListItem>
+            </List>
+
+            {user.nickname === exercise.author.username && (
+              <Box
+                sx={{
+                  display: 'flex',
+                  marginRight: '5px',
+                  flexDirection: 'column',
                 }}
               >
-                Delete
-              </Button>
-              <Button
-                variant='contained'
-                sx={{ height: '40px', marginTop: '10px', width: '100px' }}
-                onClick={() => navigate(`/exercises/edit/${id}`)}
-              >
-                Edit
-              </Button>
-            </Box>
-          )}
-        </Box>
-        <Box>
-          <EditorField language={exercise.programmingLanguage} />
-        </Box>
-      </Container>
+                <Button
+                  variant='contained'
+                  sx={{ height: '40px', marginTop: '50px', width: '100px' }}
+                  onClick={() => {
+                    setToDelete(true);
+                  }}
+                >
+                  Delete
+                </Button>
+                <Button
+                  variant='contained'
+                  sx={{ height: '40px', marginTop: '10px', width: '100px' }}
+                  onClick={() => navigate(`/exercises/edit/${id}`)}
+                >
+                  Edit
+                </Button>
+              </Box>
+            )}
+          </Box>
+          <Box>
+            <EditorField language={exercise.programmingLanguage} />
+          </Box>
+        </Container>
+        <Confirmation open={toDelete} setOpen={setToDelete} />
+      </>
     )
   );
 };
@@ -171,6 +173,4 @@ export default connect(null, mapDispatchToProps)(ExerciseDetail);
 
 ExerciseDetail.propTypes = {
   GetExercises: PropTypes.func.isRequired,
-  DeleteExercise: PropTypes.func.isRequired,
-  ChangeDeleteStatus: PropTypes.func,
 };
