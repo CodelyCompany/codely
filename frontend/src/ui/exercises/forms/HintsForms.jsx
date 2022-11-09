@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, MenuItem } from '@mui/material';
 import { Button, TextField } from '@mui/material';
-import axios from 'axios';
+// import axios from 'axios';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -20,19 +20,19 @@ import {
 
 const HintsForms = ({
   step,
-  AddExercise,
+  // AddExercise,
   dataToEdit,
-  UpdateExercise,
+  // UpdateExercise,
   setStep,
-  ChangeAddStatus,
-  ChangeUpdateStatus,
+  // ChangeAddStatus,
+  // ChangeUpdateStatus,
 }) => {
   const [hintsQuantity, setHintsQuantity] = useState('');
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [hints, setHints] = useState([]);
   const [triggered, setTriggered] = useState(false);
-  const { user, getAccessTokenSilently } = useAuth0();
-  const { id } = useParams();
+  // const { user, getAccessTokenSilently } = useAuth0();
+  // const { id } = useParams();
   const [triggeringChangeQuantity, setTriggeringChangeQuantity] =
     useState(false);
 
@@ -133,14 +133,14 @@ const HintsForms = ({
   //   }
   // };
 
-  const canSubmit = () => {
-    let submit = true;
-    if (hintsQuantity === '') return false;
-    hints.forEach((el) => {
-      if (el[1] === '') submit = false;
-    });
-    return submit;
-  };
+  // const canSubmit = () => {
+  //   let submit = true;
+  //   if (hintsQuantity === '') return false;
+  //   hints.forEach((el) => {
+  //     if (el[1] === '') submit = false;
+  //   });
+  //   return submit;
+  // };
 
   useEffect(() => {
     setHints((prev) =>
@@ -255,11 +255,11 @@ const mapDispatchToProps = {
 export default connect(null, mapDispatchToProps)(HintsForms);
 
 HintsForms.propTypes = {
-  AddExercise: PropTypes.func.isRequired,
+  // AddExercise: PropTypes.func.isRequired,
   step: PropTypes.object.isRequired,
   dataToEdit: PropTypes.object,
   setStep: PropTypes.func.isRequired,
-  UpdateExercise: PropTypes.func,
-  ChangeAddStatus: PropTypes.func,
-  ChangeUpdateStatus: PropTypes.func,
+  // UpdateExercise: PropTypes.func,
+  // ChangeAddStatus: PropTypes.func,
+  // ChangeUpdateStatus: PropTypes.func,
 };

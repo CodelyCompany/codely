@@ -120,8 +120,8 @@ function MainForm({ GetExercise }) {
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
           <Typography sx={{ margin: '10px' }}>
-            Here you can choose quantity of your tests. Remember that not all
-            users will be able to solve your exercise without some help.
+            Here you can set amount of arguments for your function. You have to
+            set name for each argument.
           </Typography>
           <CustomizeExercise step={step} setStep={setStep} />
         </AccordionDetails>
@@ -178,8 +178,9 @@ function MainForm({ GetExercise }) {
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
           <Typography sx={{ margin: '10px' }}>
-            Here you can choose quantity of your tests. Remember that not all
-            users will be able to solve your exercise without some help.
+            Here you have to write an example solution to guarantee that your
+            exercise is solvable. After solving, your exercise will be send to
+            the admin to get an agreement.
           </Typography>
           <ExampleSolution step={step} setStep={setStep} />
         </AccordionDetails>

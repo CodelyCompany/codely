@@ -9,18 +9,6 @@ const CustomizeExercise = ({ step, setStep }) => {
   const [argumentsName, setArgumentsName] = useState([]);
   const [checked, setChecked] = useState(false);
 
-  const next = () => {
-    setStep((prev) => ({
-      ...prev,
-      currentStep: 3,
-      dataFromStep2: {
-        functionName: formik.values.functionName,
-        argumentsQuantity: formik.values.argumentsQuantity,
-        argumentsName,
-      },
-    }));
-  };
-
   const prev = () => {
     setStep((prev) => ({
       ...prev,
@@ -56,9 +44,8 @@ const CustomizeExercise = ({ step, setStep }) => {
       setStep((prev) => ({
         ...prev,
         currentStep: 3,
-        dataFromStep2: values,
+        dataFromStep2: { ...values, argumentsName },
       }));
-      next();
     },
   });
 
