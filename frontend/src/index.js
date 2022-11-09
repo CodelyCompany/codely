@@ -10,17 +10,21 @@ import reportWebVitals from './reportWebVitals';
 
 import './index.css';
 
+const redirectUri =
+    process.env.REACT_APP_REDIRECT_URI || 'http://localhost:3000';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+console.log('Redirect URI', redirectUri);
+console.log('Process env', process.env);
+
 root.render(
     <React.StrictMode>
         <Provider store={store}>
             <Auth0Provider
                 domain={process.env.REACT_APP_DOMAIN}
                 clientId={process.env.REACT_APP_CLIENT_ID}
-                redirectUri={`${
-                    process.env.REACT_APP_REDIRECT_URI ||
-                    'http://localhost:3000'
-                }/user`}
+                redirectUri={redirectUri + '/user'}
                 audience={process.env.REACT_APP_BACKEND}
             >
                 <App />

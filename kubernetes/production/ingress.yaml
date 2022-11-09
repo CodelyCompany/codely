@@ -6,6 +6,8 @@ metadata:
     annotations:
         kubernetes.io/ingress.class: nginx
         nginx.ingress.kubernetes.io/rewrite-target: /$1
+        # nginx.ingress.kubernetes.io/auth-url: 'https://codely.prod/oauth2/auth'
+        # nginx.ingress.kubernetes.io/auth-signin: 'https://codely.prod/oauth2/start?rd=$escaped_request_uri'
 spec:
     rules:
         - host: codely.prod
