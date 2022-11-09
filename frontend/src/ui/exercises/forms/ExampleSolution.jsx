@@ -3,21 +3,54 @@ import React, { useState } from 'react';
 import Editor from '@monaco-editor/react';
 import { Box, Button } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
+import axios from 'axios';
 import { PropTypes } from 'prop-types';
 
 const ExampleSolution = ({ step, setStep }) => {
   const [code, setCode] = useState('');
 
-  const submit = () => {
-    console.log('submit');
-  };
-
   const prev = () => {
-    setStep((prev) => ({ ...prev, currentStep: 4 }));
+    setStep((prev) => ({ ...prev, currentStep: 4, dataFromStep4: code }));
   };
 
   const handleCodeChange = (e) => {
     setCode(e);
+  };
+
+  const verifySolution = () => {
+    console.log({
+      exampleSolution: code,
+      tests: step.dataFromStep3,
+      ...step.dataFromStep1,
+    });
+    axios
+      .post(`https://${process.env.REACT_APP_DOMAIN}/oauth/token`, {
+        client_id: process.env.REACT_APP_CONTAINERS_CLIENT_ID,
+        client_secret: process.env.REACT_APP_CONTAINERS_CLIENT_SECRET,
+        audience: `${
+          process.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
+        }`,
+        grant_type: 'client_credentials',
+      })
+      .then((token) => {
+        axios
+          .post(
+            'http://localhost:5000/exercises/checkBeforeAddExercise',
+            {
+              exampleSolution: code,
+              tests: step.dataFromStep3,
+              ...step.dataFromStep1,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token.data.access_token}`,
+              },
+            }
+          )
+          .then((response) => {
+            console.log(response.data);
+          });
+      });
   };
 
   return (
@@ -70,7 +103,7 @@ const ExampleSolution = ({ step, setStep }) => {
         >
           Previous
         </Button>
-        <Button variant='contained' onClick={submit}>
+        <Button variant='contained' onClick={verifySolution}>
           Submit
         </Button>
       </Box>
