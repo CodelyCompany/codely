@@ -9,6 +9,28 @@ require('dotenv').config();
 const backendContainersAddress =
     process.env.APP_BACKEND_CONTAINERS || 'http://localhost:5001';
 
+async function runTests(exercise, solution) {
+    let counterCorrect = 0;
+    for (let i = 0; i < exercise.tests.length; i++) {
+        const element = exercise.tests[i];
+        const response = await axios.post(
+            backendContainersAddress +
+                '/' +
+                exercise.programmingLanguage.toLowerCase(),
+            {
+                toExecute: solution,
+                args: element.input,
+            }
+        );
+        const res1 = response.data.output.replace(/(\r\n|\n|\r)/gm, '');
+        const res2 = element.output.replace(/(\r\n|\n|\r)/gm, '');
+        if (res1 === res2) {
+            counterCorrect++;
+        }
+    }
+    return counterCorrect;
+}
+
 router.get('/', async (req, res) => {
     try {
         const data = await Exercise.find({}).populate('author');
@@ -75,40 +97,52 @@ router.get('/withTest/:id', async (req, res) => {
 router.post('/addExercise', async (req, res) => {
     try {
         const data = req.body;
-        const user = await User.findById(data.author);
-        const newExercise = new Exercise({
-            title: data.title,
-            description: data.description,
-            difficulty: data.difficulty,
-            author: user._id,
-            programmingLanguage: data.programmingLanguage,
-            correctOutput: data.correctOutput,
-            hints: data.hints,
-            exampleSolution: data.exampleSolution,
-        });
-        await newExercise.save();
-        let tests = [];
-        for (let i = 0; i < data.tests.length; i++) {
-            const element = data.tests[i];
-            const newTest = new Test({
-                input: element.input,
-                output: element.output,
-                exercise: newExercise._id,
+        const counterCorrect = await runTests(data, data.exampleSolution);
+        if (counterCorrect === data.tests.length) {
+            const user = await User.findById(data.author);
+            const newExercise = new Exercise({
+                title: data.title,
+                description: data.description,
+                difficulty: data.difficulty,
+                author: user._id,
+                programmingLanguage: data.programmingLanguage,
+                hints: data.hints,
+                exampleSolution: data.exampleSolution,
             });
-            await newTest.save();
-            tests.push(newTest._id);
+            await newExercise.save();
+            let tests = [];
+            for (let i = 0; i < data.tests.length; i++) {
+                const element = data.tests[i];
+                const newTest = new Test({
+                    input: element.input,
+                    output: element.output,
+                    exercise: newExercise._id,
+                });
+                await newTest.save();
+                tests.push(newTest._id);
+            }
+            await Exercise.findByIdAndUpdate(newExercise._id, {
+                tests,
+            });
+            await User.findByIdAndUpdate(user._id, {
+                preparedExercises: [...user.preparedExercises, newExercise._id],
+            });
+            return res.status(200).send(newExercise);
+        } else {
+            return res.status(400).send('Wrong example solution');
         }
-        await Exercise.findByIdAndUpdate(newExercise._id, {
-            tests,
-        });
-        await User.findByIdAndUpdate(user._id, {
-            preparedExercises: [...user.preparedExercises, newExercise._id],
-        });
-        return res.status(200).send(newExercise);
     } catch (error) {
         console.log(error);
         res.status(500).send(error);
     }
+});
+
+router.post('/checkBeforeAddExercise', async (req, res) => {
+    const data = req.body;
+    const counterCorrect = await runTests(data, data.exampleSolution);
+    return res
+        .status(200)
+        .send({ tests: data.tests.length, correct: counterCorrect });
 });
 
 router.post('/checkSolution/:id', async (req, res) => {
@@ -124,24 +158,7 @@ router.post('/checkSolution/:id', async (req, res) => {
         const id = req.params.id;
         const data = req.body;
         const exercise = await Exercise.findById(id).populate('tests');
-        let counterCorrect = 0;
-        for (let i = 0; i < exercise.tests.length; i++) {
-            const element = exercise.tests[i];
-            const response = await axios.post(
-                backendContainersAddress +
-                    '/' +
-                    exercise.programmingLanguage.toLowerCase(),
-                {
-                    toExecute: data.solution,
-                    args: element.input,
-                }
-            );
-            const res1 = response.data.output.replace(/(\r\n|\n|\r)/gm, '');
-            const res2 = element.output.replace(/(\r\n|\n|\r)/gm, '');
-            if (res1 === res2) {
-                counterCorrect++;
-            }
-        }
+        const counterCorrect = await runTests(exercise, data.solution);
         if (counterCorrect === exercise.tests.length) {
             const user = await User.findById(data.user);
             if (!user.doneExercises.includes(exercise._id)) {
