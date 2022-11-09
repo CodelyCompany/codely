@@ -19,6 +19,26 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/checked', async (req, res) => {
+    try {
+        const data = await Exercise.find({ checked: true }).populate('author');
+        res.status(200).send(data);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error);
+    }
+});
+
+router.get('/unchecked', async (req, res) => {
+    try {
+        const data = await Exercise.find({ checked: false }).populate('author');
+        res.status(200).send(data);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error);
+    }
+});
+
 router.get('/:id', async (req, res) => {
     try {
         const id = req.params.id;
@@ -162,6 +182,23 @@ router.put('/editExercise', async (req, res) => {
         });
         const data = await Exercise.findById(id).populate(['author', 'tests']);
         return res.status(200).send(data);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error);
+    }
+});
+
+router.put('/checkExercise/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const exercise = await Exercise.findById(id);
+        await Exercise.findByIdAndUpdate(id, {
+            checked: !exercise.checked,
+        });
+        return res.status(200).send({
+            ...exercise._doc,
+            checked: !exercise.checked,
+        });
     } catch (error) {
         console.log(error);
         res.status(500).send(error);
