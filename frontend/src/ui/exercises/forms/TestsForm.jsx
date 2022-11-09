@@ -13,84 +13,133 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
     useState(false);
 
   // it will change size of the form
-  useEffect(() => {
-    if (step.dataFromStep2) {
-      setTestsQuantity(step.dataFromStep2.length);
-      return;
-    }
-    dataToEdit && setTestsQuantity(dataToEdit.tests.length);
-  }, []);
+  // useEffect(() => {
+  //   if (step.dataFromStep3) {
+  //     setTestsQuantity(step.dataFromStep3.length);
+  //     return;
+  //   }
+  //   dataToEdit && setTestsQuantity(dataToEdit.tests.length);
+  // }, []);
 
-  useEffect(() => {
-    if (!triggeringChangeQuantity) {
-      step.dataFromStep2 && setTests(step.dataFromStep2);
-      setTriggeringChangeQuantity((prev) => !prev);
-    }
-  }, [testsQuantity]);
+  // useEffect(() => {
+  //   if (!triggeringChangeQuantity) {
+  //     step.dataFromStep3 && setTests(step.dataFromStep3);
+  //     setTriggeringChangeQuantity((prev) => !prev);
+  //   }
+  // }, [testsQuantity]);
 
   //it will be triggered when form increase its size to fill it asynchronously
-  useEffect(() => {
-    if (dataToEdit && !triggered && !step.dataFromStep2) {
-      setTests(
-        dataToEdit.tests.map((test, index) => [index, test.input, test.output])
-      );
-      setTriggered((prev) => !prev);
-    }
-  }, [testsQuantity]);
+  // useEffect(() => {
+  //   if (dataToEdit && !triggered && !step.dataFromStep3) {
+  //     setTests(
+  //       dataToEdit.tests.map((test, index) => [index, test.input, test.output])
+  //     );
+  //     setTriggered((prev) => !prev);
+  //   }
+  // }, [testsQuantity]);
 
   const submitValues = () => {
     if (canSubmit())
       setStep((prev) => ({
         ...prev,
-        currentStep: 3,
-        dataFromStep2: tests,
+        currentStep: 4,
+        // dataFromStep3: tests,
       }));
   };
 
   const goToPreviousStage = () => {
     setStep((prev) => ({
       ...prev,
-      currentStep: 1,
-      dataFromStep2: tests,
+      currentStep: 2,
+      dataFromStep3: tests,
     }));
   };
 
-  const canSubmit = () => {
-    let submit = true;
-    if (!tests || testsQuantity === '') return false;
-    tests.forEach((el) => {
-      if (el[1] === '' || el[2] === '') submit = false;
-    });
-    return submit;
-  };
+  // const canSubmit = () => {
+  //   let submit = true;
+  //   if (!tests || testsQuantity === '') return false;
+  //   tests.forEach((el) => {
+  //     if (el[1] === '' || el[2] === '') submit = false;
+  //   });
+  //   return submit;
+  // };
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   setTests((prev) =>
+  //     [...Array(testsQuantity).keys()].map((number) => {
+  //       const found = prev.find((el) => el[0] === number);
+  //       if (!found) return [number, [], ''];
+  //       return found;
+  //     })
+  //   );
+  // }, [testsQuantity]);
+
+  // const getValue = (number, type) => {
+  //   const found = tests.find((el) => el[0] === number);
+  //   if (!found) return '';
+  //   return type === 'input' ? found[1] : found[2];
+  // };
+
+  // const handleValue = (event, number, type) => {
+  //   setTests((prev) =>
+  //     prev.map((el) => {
+  //       if (el[0] === number) {
+  //         if (type === 'input') return [el[0], event.target.value, el[2]];
+  //         return [el[0], el[1], event.target.value];
+  //       }
+  //       return el;
+  //     })
+  //   );
+  // };
+
+  const handleOutput = (testIndex, e) => {
     setTests((prev) =>
-      [...Array(testsQuantity).keys()].map((number) => {
-        const found = prev.find((el) => el[0] === number);
-        if (!found) return [number, '', ''];
-        return found;
-      })
-    );
-  }, [testsQuantity]);
-
-  const getValue = (number, type) => {
-    const found = tests.find((el) => el[0] === number);
-    if (!found) return '';
-    return type === 'input' ? found[1] : found[2];
-  };
-
-  const handleValue = (event, number, type) => {
-    setTests((prev) =>
-      prev.map((el) => {
-        if (el[0] === number) {
-          if (type === 'input') return [el[0], event.target.value, el[2]];
-          return [el[0], el[1], event.target.value];
+      prev.map((el, index) => {
+        if (testIndex === index) {
+          return {
+            ...el,
+            output: e.target.value,
+          };
         }
         return el;
       })
     );
   };
+
+  // to uncomment
+  const handleTests = (testNumber, argNumber, e) => {
+    setTests((prev) =>
+      prev.map((test, index) => {
+        if (testNumber === index) {
+          return {
+            ...test,
+            input: test.input.map((input, argIndex) => {
+              if (argNumber === argIndex) {
+                return e.target.value;
+              }
+              return input;
+            }),
+          };
+        }
+        return test;
+      })
+    );
+  };
+
+  useEffect(() => {
+    setTests((prev) =>
+      [...Array(testsQuantity).keys()].map((el, index) => {
+        if (!prev[index])
+          return {
+            input: [...Array(step.dataFromStep2.argumentsQuantity).keys()].map(
+              () => ''
+            ),
+            output: '',
+          };
+        return prev[index];
+      })
+    );
+  }, [testsQuantity]);
 
   return (
     <Box
@@ -101,6 +150,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
         textAlign: 'start',
       }}
     >
+      {console.log(tests)}
       <Box
         sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
       >
@@ -131,29 +181,39 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
         }}
       >
         {testsQuantity !== '' &&
-          [...Array(testsQuantity).keys()].map((number) => (
-            <div key={number} style={{ width: '100%' }}>
-              <TextField
-                required
-                sx={{
-                  marginBottom: '10px',
-                  marginRight: '10px',
-                  width: 'calc(50% - 10px)',
-                }}
-                label={number === 0 ? 'Inputs' : ''}
-                name='input'
-                value={getValue(number, 'input')}
-                onChange={(e) => handleValue(e, number, 'input')}
-              />
-              <TextField
-                required
-                sx={{ marginBottom: '10px', width: 'calc(50% - 10px)' }}
-                label={number === 0 ? 'Outputs' : ''}
-                name='output'
-                value={getValue(number, 'output')}
-                onChange={(e) => handleValue(e, number, 'output')}
-              />
-            </div>
+          [...Array(testsQuantity).keys()].map((number, index) => (
+            <Box
+              key={number}
+              style={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                marginBottom: '10px',
+              }}
+            >
+              <Box sx={{ display: 'flex', marginRight: '10px' }}>
+                {[...Array(step.dataFromStep2.argumentsQuantity).keys()].map(
+                  (argNumber) => (
+                    <TextField
+                      key={argNumber}
+                      value={tests[index]?.input[argNumber] || ''}
+                      onChange={(e) => handleTests(index, argNumber, e)}
+                      label={
+                        index === 0 &&
+                        `${step.dataFromStep2.argumentsName[argNumber]}`
+                      }
+                    />
+                  )
+                )}
+              </Box>
+              <Box>
+                <TextField
+                  label={index === 0 && 'output'}
+                  value={tests[index]?.output || ''}
+                  onChange={(e) => handleOutput(index, e)}
+                />
+              </Box>
+            </Box>
           ))}
 
         <Button

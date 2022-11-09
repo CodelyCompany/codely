@@ -14,6 +14,8 @@ import { useParams } from 'react-router-dom';
 import { GetExercise } from '../../../ducks/exercises/operations';
 import { getExerciseById } from '../../../ducks/exercises/selectors';
 
+import CustomizeExercise from './CustomizeExercise';
+import ExampleSolution from './ExampleSolution';
 import ExercisesForm from './ExercisesForm';
 import HintsForms from './HintsForms';
 import TestsForm from './TestsForm';
@@ -24,6 +26,8 @@ function MainForm({ GetExercise }) {
     dataFromStep1: '',
     dataFromStep2: '',
     dataFromStep3: '',
+    dataFromStep4: '',
+    dataFromStep5: '',
   });
 
   const { getAccessTokenSilently } = useAuth0();
@@ -107,6 +111,27 @@ function MainForm({ GetExercise }) {
       >
         <AccordionSummary
           sx={{ backgroundColor: 'rgb(25, 118, 210)' }}
+          aria-controls='panel3d-content'
+          id='panel3d-header'
+        >
+          <Typography sx={{ color: 'white' }}>
+            Customize exercise function
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails sx={{ textAlign: 'center' }}>
+          <Typography sx={{ margin: '10px' }}>
+            Here you can choose quantity of your tests. Remember that not all
+            users will be able to solve your exercise without some help.
+          </Typography>
+          <CustomizeExercise step={step} setStep={setStep} />
+        </AccordionDetails>
+      </Accordion>
+      <Accordion
+        disabled={step.currentStep !== 3}
+        expanded={step.currentStep === 3}
+      >
+        <AccordionSummary
+          sx={{ backgroundColor: 'rgb(25, 118, 210)' }}
           aria-controls='panel2d-content'
           id='panel2d-header'
         >
@@ -121,8 +146,8 @@ function MainForm({ GetExercise }) {
         </AccordionDetails>
       </Accordion>
       <Accordion
-        disabled={step.currentStep !== 3}
-        expanded={step.currentStep === 3}
+        disabled={step.currentStep !== 4}
+        expanded={step.currentStep === 4}
       >
         <AccordionSummary
           sx={{ backgroundColor: 'rgb(25, 118, 210)' }}
@@ -137,6 +162,26 @@ function MainForm({ GetExercise }) {
             users will be able to solve your exercise without some help.
           </Typography>
           <HintsForms step={step} setStep={setStep} dataToEdit={exercise} />
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion
+        disabled={step.currentStep !== 5}
+        expanded={step.currentStep === 5}
+      >
+        <AccordionSummary
+          sx={{ backgroundColor: 'rgb(25, 118, 210)' }}
+          aria-controls='panel3d-content'
+          id='panel3d-header'
+        >
+          <Typography sx={{ color: 'white' }}>Example Solution</Typography>
+        </AccordionSummary>
+        <AccordionDetails sx={{ textAlign: 'center' }}>
+          <Typography sx={{ margin: '10px' }}>
+            Here you can choose quantity of your tests. Remember that not all
+            users will be able to solve your exercise without some help.
+          </Typography>
+          <ExampleSolution step={step} setStep={setStep} />
         </AccordionDetails>
       </Accordion>
     </div>

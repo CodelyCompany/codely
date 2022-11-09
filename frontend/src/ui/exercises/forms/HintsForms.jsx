@@ -37,15 +37,15 @@ const HintsForms = ({
     useState(false);
 
   useEffect(() => {
-    if (step.dataFromStep3) {
-      setHintsQuantity(step.dataFromStep3.length);
+    if (step.dataFromStep4) {
+      setHintsQuantity(step.dataFromStep4.length);
       return;
     }
     dataToEdit && setHintsQuantity(dataToEdit.hints.length);
   }, []);
 
   useEffect(() => {
-    if (dataToEdit && !triggered && !step.dataFromStep3) {
+    if (dataToEdit && !triggered && !step.dataFromStep4) {
       dataToEdit &&
         setHints(dataToEdit.hints.map((hint, index) => [index, hint]));
       setTriggered((prev) => !prev);
@@ -54,72 +54,84 @@ const HintsForms = ({
 
   useEffect(() => {
     if (!triggeringChangeQuantity) {
-      step.dataFromStep3 && setHints(step.dataFromStep3);
+      step.dataFromStep4 && setHints(step.dataFromStep4);
       setTriggeringChangeQuantity((prev) => !prev);
     }
   }, [hintsQuantity]);
 
   const goToPreviousStage = () => {
-    setStep((prev) => ({ ...prev, currentStep: 2, dataFromStep3: hints }));
+    setStep((prev) => ({
+      ...prev,
+      currentStep: 3,
+      dataFromStep4: hints,
+    }));
+  };
+
+  const goToNextStage = () => {
+    setStep((prev) => ({
+      ...prev,
+      currentStep: 5,
+      dataFromStep4: hints,
+    }));
   };
 
   // It should be changed in the future
-  const submitValues = () => {
-    let userId;
-    if (canSubmit()) {
-      (async () => {
-        try {
-          const token = await getAccessTokenSilently({
-            audience: `${
-              process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-            }`,
-          });
-          axios
-            .get(
-              `${
-                process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-              }/users/`,
-              {
-                headers: {
-                  authorization: `Bearer ${token}`,
-                },
-              }
-            )
-            .then((response) => {
-              userId = response.data.find(
-                (us) => us.username === user.nickname
-              );
+  // const submitValues = () => {
+  //   let userId;
+  //   if (canSubmit()) {
+  //     (async () => {
+  //       try {
+  //         const token = await getAccessTokenSilently({
+  //           audience: `${
+  //             process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+  //           }`,
+  //         });
+  //         axios
+  //           .get(
+  //             `${
+  //               process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+  //             }/users/`,
+  //             {
+  //               headers: {
+  //                 authorization: `Bearer ${token}`,
+  //               },
+  //             }
+  //           )
+  //           .then((response) => {
+  //             userId = response.data.find(
+  //               (us) => us.username === user.nickname
+  //             );
 
-              const data = {
-                author: userId._id,
-                ...step.dataFromStep1,
-                tests: step.dataFromStep2.reduce(
-                  (prev, curr) => [
-                    ...prev,
-                    {
-                      input: curr[1],
-                      output: curr[2],
-                    },
-                  ],
-                  []
-                ),
-                hints: hints.map((el) => el[1]),
-              };
-              if (dataToEdit) {
-                UpdateExercise({ id, ...data }, token);
-                ChangeUpdateStatus();
-              } else {
-                AddExercise({ ...data }, token);
-                ChangeAddStatus();
-              }
-              navigate('/Exercises');
-            });
-        } catch (e) {
-          console.error(e);
-        }
-      })();
-    }
-  };
+  //             const data = {
+  //               author: userId._id,
+  //               ...step.dataFromStep1,
+  //               tests: step.dataFromStep2.reduce(
+  //                 (prev, curr) => [
+  //                   ...prev,
+  //                   {
+  //                     input: curr[1],
+  //                     output: curr[2],
+  //                   },
+  //                 ],
+  //                 []
+  //               ),
+  //               hints: hints.map((el) => el[1]),
+  //             };
+  //             if (dataToEdit) {
+  //               UpdateExercise({ id, ...data }, token);
+  //               ChangeUpdateStatus();
+  //             } else {
+  //               AddExercise({ ...data }, token);
+  //               ChangeAddStatus();
+  //             }
+  //             navigate('/Exercises');
+  //           });
+  //       } catch (e) {
+  //         console.error(e);
+  //       }
+  //     })();
+  //   }
+  // };
 
   const canSubmit = () => {
     let submit = true;
@@ -223,10 +235,10 @@ const HintsForms = ({
         <Button
           fullWidth
           type='button'
-          onClick={() => submitValues()}
+          onClick={() => goToNextStage()}
           variant='contained'
         >
-          Submit
+          Next
         </Button>
       </form>
     </Box>
