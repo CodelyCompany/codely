@@ -7,7 +7,7 @@ const Test = require('../models/Test');
 const axios = require('axios');
 require('dotenv').config();
 const backendContainersAddress =
-    process.env.APP_BACKEND_CONTAINERS || 'http://localhost:5001';
+  process.env.APP_BACKEND_CONTAINERS || 'http://localhost:5001';
 
 async function runTests(exercise, solution) {
     let counterCorrect = 0;
@@ -32,13 +32,13 @@ async function runTests(exercise, solution) {
 }
 
 router.get('/', async (req, res) => {
-    try {
-        const data = await Exercise.find({}).populate('author');
-        res.status(200).send(data);
-    } catch (error) {
-        console.log(error);
-        res.status(500).send(error);
-    }
+  try {
+    const data = await Exercise.find({}).populate('author');
+    res.status(200).send(data);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
 });
 
 router.get('/checked', async (req, res) => {
@@ -62,36 +62,36 @@ router.get('/unchecked', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-    try {
-        const id = req.params.id;
-        const data = await Exercise.findById(id).populate(['author', 'tests']);
-        res.status(200).send(data);
-    } catch (error) {
-        console.log(error);
-        res.status(500).send(error);
-    }
+  try {
+    const id = req.params.id;
+    const data = await Exercise.findById(id).populate(['author', 'tests']);
+    res.status(200).send(data);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
 });
 
 router.get('/user/:id', async (req, res) => {
-    try {
-        const id = req.params.id;
-        const data = await User.findById(id).populate('preparedExercises');
-        res.status(200).send(data.preparedExercises);
-    } catch (error) {
-        console.log(error);
-        res.status(500).send(error);
-    }
+  try {
+    const id = req.params.id;
+    const data = await User.findById(id).populate('preparedExercises');
+    res.status(200).send(data.preparedExercises);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
 });
 
 router.get('/withTest/:id', async (req, res) => {
-    try {
-        const id = req.params.id;
-        const data = await Exercise.findById(id).populate('tests');
-        res.status(200).send(data);
-    } catch (error) {
-        console.log(error);
-        res.status(500).send(error);
-    }
+  try {
+    const id = req.params.id;
+    const data = await Exercise.findById(id).populate('tests');
+    res.status(200).send(data);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
 });
 
 router.post('/addExercise', async (req, res) => {
@@ -99,38 +99,38 @@ router.post('/addExercise', async (req, res) => {
         const data = req.body;
         const counterCorrect = await runTests(data, data.exampleSolution);
         if (counterCorrect === data.tests.length) {
-            const user = await User.findById(data.author);
-            const newExercise = new Exercise({
-                title: data.title,
-                description: data.description,
-                difficulty: data.difficulty,
-                author: user._id,
-                programmingLanguage: data.programmingLanguage,
-                hints: data.hints,
-                exampleSolution: data.exampleSolution,
+        const user = await User.findById(data.author);
+        const newExercise = new Exercise({
+            title: data.title,
+            description: data.description,
+            difficulty: data.difficulty,
+            author: user._id,
+            programmingLanguage: data.programmingLanguage,
+            functionName: data.functionName,
+            hints: data.hints,
+            exampleSolution: data.exampleSolution,
+        });
+        await newExercise.save();
+        let tests = [];
+        for (let i = 0; i < data.tests.length; i++) {
+            const element = data.tests[i];
+            const newTest = new Test({
+                input: element.input,
+                output: element.output,
+                exercise: newExercise._id,
             });
-            await newExercise.save();
-            let tests = [];
-            for (let i = 0; i < data.tests.length; i++) {
-                const element = data.tests[i];
-                const newTest = new Test({
-                    input: element.input,
-                    output: element.output,
-                    exercise: newExercise._id,
-                });
-                await newTest.save();
-                tests.push(newTest._id);
-            }
-            await Exercise.findByIdAndUpdate(newExercise._id, {
-                tests,
-            });
-            await User.findByIdAndUpdate(user._id, {
-                preparedExercises: [...user.preparedExercises, newExercise._id],
-            });
-            return res.status(200).send(newExercise);
-        } else {
-            return res.status(400).send('Wrong example solution');
+            await newTest.save();
+            tests.push(newTest._id);
         }
+        await Exercise.findByIdAndUpdate(newExercise._id, {
+            tests,
+        });
+        await User.findByIdAndUpdate(user._id, {
+            preparedExercises: [...user.preparedExercises, newExercise._id],
+        });
+        return res.status(200).send(newExercise);}
+        return res.status(400).send('Wrong example solution');
+
     } catch (error) {
         console.log(error);
         res.status(500).send(error);
@@ -180,29 +180,29 @@ router.post('/checkSolution/:id', async (req, res) => {
 });
 
 router.put('/editExercise', async (req, res) => {
-    try {
-        const { id, tests } = req.body;
-        let testsToAdd = [];
-        for (let i = 0; i < tests.length; i++) {
-            const element = tests[i];
-            const newTest = new Test({
-                input: element.input,
-                output: element.output,
-                exercise: id,
-            });
-            await newTest.save();
-            testsToAdd.push(newTest._id);
-        }
-        await Exercise.findByIdAndUpdate(id, {
-            ...req.body,
-            tests: testsToAdd,
-        });
-        const data = await Exercise.findById(id).populate(['author', 'tests']);
-        return res.status(200).send(data);
-    } catch (error) {
-        console.log(error);
-        res.status(500).send(error);
+  try {
+    const { id, tests } = req.body;
+    let testsToAdd = [];
+    for (let i = 0; i < tests.length; i++) {
+      const element = tests[i];
+      const newTest = new Test({
+        input: element.input,
+        output: element.output,
+        exercise: id,
+      });
+      await newTest.save();
+      testsToAdd.push(newTest._id);
     }
+    await Exercise.findByIdAndUpdate(id, {
+      ...req.body,
+      tests: testsToAdd,
+    });
+    const data = await Exercise.findById(id).populate(['author', 'tests']);
+    return res.status(200).send(data);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
 });
 
 router.put('/checkExercise/:id', async (req, res) => {
@@ -223,34 +223,34 @@ router.put('/checkExercise/:id', async (req, res) => {
 });
 
 router.delete('/deleteExercise/:id', async (req, res) => {
-    try {
-        const id = req.params.id;
-        const exercise = await Exercise.findById(id);
-        await Exercise.findByIdAndDelete(id);
-        const user = await User.findById(exercise.author);
-        if (user) {
-            await User.findByIdAndUpdate(exercise.author, {
-                preparedExercises: user.preparedExercises.filter(
-                    (n) => n.toString() !== id.toString()
-                ),
-            });
-            await User.findByIdAndUpdate(exercise.author, {
-                doneExercises: user.doneExercises.filter(
-                    (n) => n.toString() !== id.toString()
-                ),
-            });
-        }
-        await Comment.deleteMany({
-            exercise: exercise._id,
-        });
-        await Test.deleteMany({
-            exercise: exercise._id,
-        });
-        return res.status(200).send({ id });
-    } catch (error) {
-        console.log(error);
-        res.status(500).send(error);
+  try {
+    const id = req.params.id;
+    const exercise = await Exercise.findById(id);
+    await Exercise.findByIdAndDelete(id);
+    const user = await User.findById(exercise.author);
+    if (user) {
+      await User.findByIdAndUpdate(exercise.author, {
+        preparedExercises: user.preparedExercises.filter(
+          (n) => n.toString() !== id.toString()
+        ),
+      });
+      await User.findByIdAndUpdate(exercise.author, {
+        doneExercises: user.doneExercises.filter(
+          (n) => n.toString() !== id.toString()
+        ),
+      });
     }
+    await Comment.deleteMany({
+      exercise: exercise._id,
+    });
+    await Test.deleteMany({
+      exercise: exercise._id,
+    });
+    return res.status(200).send({ id });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
 });
 
 module.exports = router;
