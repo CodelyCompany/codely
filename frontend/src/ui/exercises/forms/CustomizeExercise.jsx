@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
-import { Box, Button, MenuItem, TextField } from '@mui/material';
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  TextField,
+} from '@mui/material';
 import { useFormik } from 'formik';
 import { PropTypes } from 'prop-types';
 import * as yup from 'yup';
@@ -21,17 +28,36 @@ const CustomizeExercise = ({ step, setStep }) => {
     }));
   };
 
+  const argumentsNameSchema = yup.object({
+    argumentsName: yup
+      .array('Eneter all arguments name')
+      .of(
+        yup
+          .string('Enter all arguments name')
+          .required('All arguments are required')
+          .matches(
+            /^[a-zA-Z0-9]*[a-z][a-zA-Z0-9]*$/,
+            'Arguments name should consist only of letters and numbers'
+          )
+      )
+      .required('All arguments are required'),
+  });
+
   const validationSchema = yup.object({
     functionName: yup
       .string('Enter a function name')
       .min(1, 'Function name should be of minimum 1 character length')
       .max(50, 'Function name should be of maximum 50 characters length')
-      .required('Function name is required'),
+      .required('Function name is required')
+      .matches(
+        /^[a-zA-Z0-9]*[a-z][a-zA-Z0-9]*$/,
+        'Function name should consist of letters and numbers only'
+      ),
     argumentsQuantity: yup
-      .number('Enter a arguments quantity')
+      .number('Enter arguments quantity')
       .min(1, 'Arguments quantity should be higher than 0')
       .max(5, "Arguments quantity shouldn't be higher than 5")
-      .required('Arguments quantity is required'),
+      .required('Arguments quantity are required'),
   });
 
   const formik = useFormik({
@@ -41,11 +67,17 @@ const CustomizeExercise = ({ step, setStep }) => {
     },
     validationSchema,
     onSubmit: (values) => {
-      setStep((prev) => ({
-        ...prev,
-        currentStep: 3,
-        dataFromStep2: { ...values, argumentsName },
-      }));
+      argumentsNameSchema
+        .validate({ argumentsName })
+        .then(() => console.log('Object is valid'))
+        .catch((err) => {
+          console.log(err);
+        });
+      // setStep((prev) => ({
+      //   ...prev,
+      //   currentStep: 3,
+      //   dataFromStep2: { ...values, argumentsName },
+      // }));
     },
   });
 
@@ -104,6 +136,7 @@ const CustomizeExercise = ({ step, setStep }) => {
             id='argumentsQuantity'
             name='argumentsQuantity'
             label='Function arguments quantity'
+            InputProps={{ inputProps: { min: 0 } }}
             value={formik.values.argumentsQuantity}
             onChange={formik.handleChange}
             error={
@@ -116,21 +149,21 @@ const CustomizeExercise = ({ step, setStep }) => {
             }
           />
           {formik.values.argumentsQuantity &&
-            [
-              ...Array(
-                formik.values.argumentsQuantity < 0
-                  ? 0
-                  : formik.values.argumentsQuantity
-              ).keys(),
-            ].map((argNumber) => (
-              <TextField
-                sx={{ marginTop: '10px' }}
-                key={argNumber}
-                value={argumentsName[argNumber] || ''}
-                onChange={(e) => handleArgumentName(e, argNumber)}
-                label={`${argNumber + 1}. Argument name `}
-              />
-            ))}
+          formik.values.argumentsQuantity > 0
+            ? [...Array(formik.values.argumentsQuantity).keys()].map(
+                (argNumber) => (
+                  <FormControl key={argNumber} sx={{ marginTop: '10px' }}>
+                    <InputLabel>{argNumber + 1}. Argument name</InputLabel>
+                    <OutlinedInput
+                      label={`${argNumber + 1}. Argument name`}
+                      key={argNumber}
+                      value={argumentsName[argNumber] || ''}
+                      onChange={(e) => handleArgumentName(e, argNumber)}
+                    />
+                  </FormControl>
+                )
+              )
+            : ''}
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Button
               color='primary'
