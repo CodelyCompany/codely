@@ -7,6 +7,7 @@ import {
   InputLabel,
   OutlinedInput,
   TextField,
+  Typography,
 } from '@mui/material';
 import { useFormik } from 'formik';
 import { PropTypes } from 'prop-types';
@@ -16,6 +17,10 @@ const CustomizeExercise = ({ step, setStep }) => {
   const [argumentsName, setArgumentsName] = useState([]);
   const [checked, setChecked] = useState(false);
   const [error, setError] = useState({});
+
+  useEffect(() => {
+    setError({});
+  }, [argumentsName]);
 
   const prev = () => {
     setStep((prev) => ({
@@ -29,10 +34,23 @@ const CustomizeExercise = ({ step, setStep }) => {
     }));
   };
 
+  yup.addMethod(yup.array, 'unique', function (message, mapper = (a) => a) {
+    return this.test('unique', message, function (list) {
+      return list.length === new Set(list.map(mapper)).size;
+    });
+  });
+
+  yup.addMethod(yup.mixed, 'uniqueIn', function (array = [], message) {
+    return this.test('uniqueIn', message, function (value) {
+      return array.filter((item) => item === value).length < 2;
+    });
+  });
+
   const argumentSchema = yup
     .string()
     .required()
-    .matches(/^[a-zA-Z0-9]*[a-z][a-zA-Z0-9]*$/);
+    .matches(/^[a-zA-Z0-9]*[a-z][a-zA-Z0-9]*$/)
+    .uniqueIn(argumentsName);
 
   const argumentsNameSchema = yup.object({
     argumentsName: yup
@@ -46,7 +64,8 @@ const CustomizeExercise = ({ step, setStep }) => {
             'Arguments name should consist only of letters and numbers'
           )
       )
-      .required('All arguments are required'),
+      .required('All arguments are required')
+      .unique('All arguments should be unique'),
   });
 
   const validationSchema = yup.object({
