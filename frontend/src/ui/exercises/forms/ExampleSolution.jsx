@@ -1,28 +1,49 @@
 import React, { useState } from 'react';
 
+import { useAuth0 } from '@auth0/auth0-react';
 import Editor from '@monaco-editor/react';
 import { Box, Button } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import axios from 'axios';
 import { PropTypes } from 'prop-types';
+import { connect } from 'react-redux';
 
-const ExampleSolution = ({ step, setStep }) => {
+import { AddExercise } from '../../../ducks/exercises/operations';
+
+const ExampleSolution = ({ step, setStep, AddExercise }) => {
   const [code, setCode] = useState('');
+  const [tests, setTests] = useState(null);
 
   const prev = () => {
-    setStep((prev) => ({ ...prev, currentStep: 4, dataFromStep4: code }));
+    setStep((prev) => ({ ...prev, currentStep: 4 }));
   };
 
   const handleCodeChange = (e) => {
     setCode(e);
   };
 
+  // add validation
+  // add solving exercise
+  // add checking exercise
+  // add checking exercise by admin
+
+  const submit = () => {
+    axios
+      .post(`https://${process.env.REACT_APP_DOMAIN}/oauth/token`, {
+        client_id: process.env.REACT_APP_CONTAINERS_CLIENT_ID,
+        client_secret: process.env.REACT_APP_CONTAINERS_CLIENT_SECRET,
+        audience: `${
+          process.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
+        }`,
+        grant_type: 'client_credentials',
+      })
+      .then((token) => {
+        console.log('submited');
+        // AddExercise(step, token);
+      });
+  };
+
   const verifySolution = () => {
-    console.log({
-      exampleSolution: code,
-      tests: step.dataFromStep3,
-      ...step.dataFromStep1,
-    });
     axios
       .post(`https://${process.env.REACT_APP_DOMAIN}/oauth/token`, {
         client_id: process.env.REACT_APP_CONTAINERS_CLIENT_ID,
@@ -39,6 +60,7 @@ const ExampleSolution = ({ step, setStep }) => {
             {
               exampleSolution: code,
               tests: step.dataFromStep3,
+              ...step.dataFromStep2,
               ...step.dataFromStep1,
             },
             {
@@ -48,7 +70,7 @@ const ExampleSolution = ({ step, setStep }) => {
             }
           )
           .then((response) => {
-            console.log(response.data);
+            setTests(response.data);
           });
       });
   };
@@ -103,17 +125,36 @@ const ExampleSolution = ({ step, setStep }) => {
         >
           Previous
         </Button>
-        <Button variant='contained' onClick={verifySolution}>
-          Submit
+        <Button
+          variant='contained'
+          onClick={() =>
+            tests
+              ? tests.correct !== tests.tests
+                ? verifySolution()
+                : submit()
+              : verifySolution()
+          }
+        >
+          {tests
+            ? tests.correct !== tests.tests
+              ? `Submit (Last run: ${tests.correct} / ${tests.tests})`
+              : `Your solution passed all tests.
+               Click again to pass your exercise for admin verification.`
+            : 'Submit'}
         </Button>
       </Box>
     </Box>
   );
 };
 
-export default ExampleSolution;
+const mapDispatchToProps = {
+  AddExercise,
+};
+
+export default connect(null, mapDispatchToProps)(ExampleSolution);
 
 ExampleSolution.propTypes = {
   step: PropTypes.object.isRequired,
   setStep: PropTypes.func.isRequired,
+  AddExercise: PropTypes.func,
 };

@@ -20,6 +20,7 @@ async function runTests(exercise, solution) {
       {
         toExecute: solution,
         args: element.input,
+        func: exercise.functionName,
       }
     );
     const res1 = response.data.output.replace(/(\r\n|\n|\r)/gm, '');
