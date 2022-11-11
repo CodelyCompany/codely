@@ -64,7 +64,7 @@ const ExampleSolution = ({ step, setStep, AddExercise, ChangeAddStatus }) => {
             ...step.dataFromStep1,
             ...step.dataFromStep2,
             tests: step.dataFromStep3,
-            hints: step.dataFromStep4.filter((el, index) => index % 2 !== 0),
+            hints: step.dataFromStep4.map((el) => el[1]),
             exampleSolution: code,
           },
           token

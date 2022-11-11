@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import * as yup from 'yup';
 
 import {
   AddExercise,
@@ -35,6 +36,7 @@ const HintsForms = ({
   // const { id } = useParams();
   const [triggeringChangeQuantity, setTriggeringChangeQuantity] =
     useState(false);
+  const [error, setError] = useState({});
 
   useEffect(() => {
     if (step.dataFromStep4) {
@@ -63,14 +65,6 @@ const HintsForms = ({
     setStep((prev) => ({
       ...prev,
       currentStep: 3,
-      dataFromStep4: hints,
-    }));
-  };
-
-  const goToNextStage = () => {
-    setStep((prev) => ({
-      ...prev,
-      currentStep: 5,
       dataFromStep4: hints,
     }));
   };
@@ -168,6 +162,29 @@ const HintsForms = ({
       })
     );
   };
+
+  const hintSchema = yup.string().required();
+
+  const hintsSchema = yup
+    .array('Enter all hints')
+    .of(yup.string('Enter the hint').required('This hint is required'));
+
+  const goToNextStage = () => {
+    hintsSchema
+      .validate(hints.map((el) => el[1]))
+      .then((valid) => {
+        if (valid) {
+          setError({});
+          setStep((prev) => ({
+            ...prev,
+            currentStep: 5,
+            dataFromStep4: hints,
+          }));
+        }
+      })
+      .catch((err) => setError({ error: err.errors }));
+  };
+
   return (
     <Box
       sx={{
@@ -218,6 +235,12 @@ const HintsForms = ({
                 label={number === 0 ? 'Hints' : ''}
                 name='hint'
                 value={getValue(number)}
+                error={error.error && !hintSchema.isValidSync(getValue(number))}
+                helperText={
+                  error &&
+                  !hintSchema.isValidSync(getValue(number)) &&
+                  error.error
+                }
                 onChange={(e) => handleValue(e, number)}
               />
             </div>

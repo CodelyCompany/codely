@@ -4,18 +4,51 @@ import { Box, MenuItem } from '@mui/material';
 import { Button, TextField } from '@mui/material';
 import * as _ from 'lodash';
 import PropTypes from 'prop-types';
+import * as yup from 'yup';
 
 const TestsForm = ({ setStep, dataToEdit, step }) => {
   const [testsQuantity, setTestsQuantity] = useState('');
   const [tests, setTests] = useState([]);
   const [triggered, setTriggered] = useState(false);
+  const [error, setError] = useState({});
+
+  const inputValidation = yup
+    .string('Enter an input')
+    .required('Input is required');
+
+  const outputValidation = yup
+    .string('Enter an output')
+    .required('Output is required');
+
+  const testsValidationSchema = yup.object({
+    tests: yup.array('Enter all tests').of(
+      yup.object({
+        input: yup
+          .array('Enter this field')
+          .of(
+            yup.string('Enter this field').required('This field is required')
+          ),
+        output: yup
+          .string('Enter this field')
+          .required('This field is required'),
+      })
+    ),
+  });
 
   const submitValues = () => {
-    setStep((prev) => ({
-      ...prev,
-      currentStep: 4,
-      dataFromStep3: tests,
-    }));
+    testsValidationSchema
+      .validate({ tests })
+      .then((valid) => {
+        if (valid) {
+          setError({});
+          setStep((prev) => ({
+            ...prev,
+            currentStep: 4,
+            dataFromStep3: tests,
+          }));
+        }
+      })
+      .catch((err) => setError({ error: err.errors }));
   };
 
   const goToPreviousStage = () => {
@@ -148,6 +181,19 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
                       key={argNumber}
                       value={tests[index]?.input[argNumber] || ''}
                       onChange={(e) => handleTests(index, argNumber, e)}
+                      error={
+                        error.error &&
+                        !inputValidation.isValidSync(
+                          tests[index]?.input[argNumber] || ''
+                        )
+                      }
+                      helperText={
+                        error &&
+                        !inputValidation.isValidSync(
+                          tests[index]?.input[argNumber] || ''
+                        ) &&
+                        error.error
+                      }
                       label={
                         index === 0 &&
                         `${step.dataFromStep2.argumentsName[argNumber]}`
@@ -161,6 +207,15 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
                   label={index === 0 && 'output'}
                   value={tests[index]?.output || ''}
                   onChange={(e) => handleOutput(index, e)}
+                  error={
+                    error.error &&
+                    !outputValidation.isValidSync(tests[index]?.output || '')
+                  }
+                  helperText={
+                    error.error &&
+                    !outputValidation.isValidSync(tests[index]?.output || '') &&
+                    error.error
+                  }
                 />
               </Box>
             </Box>
@@ -169,7 +224,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
         <Button
           fullWidth
           sx={{ marginBottom: '10px' }}
-          type='submit'
+          type='button'
           onClick={() => goToPreviousStage()}
           variant='contained'
         >
@@ -177,7 +232,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
         </Button>
         <Button
           fullWidth
-          type='submit'
+          type='button'
           onClick={() => submitValues()}
           variant='contained'
         >

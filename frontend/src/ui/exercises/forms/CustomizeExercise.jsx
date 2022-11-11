@@ -75,13 +75,15 @@ const CustomizeExercise = ({ step, setStep }) => {
     onSubmit: (values) => {
       argumentsNameSchema
         .validate({ argumentsName })
-        .then(() => {
-          setError({});
-          setStep((prev) => ({
-            ...prev,
-            currentStep: 3,
-            dataFromStep2: { ...values, argumentsName },
-          }));
+        .then((valid) => {
+          if (valid) {
+            setError({});
+            setStep((prev) => ({
+              ...prev,
+              currentStep: 3,
+              dataFromStep2: { ...values, argumentsName },
+            }));
+          }
         })
         .catch((err) => {
           setError({ error: err.errors });
@@ -167,6 +169,7 @@ const CustomizeExercise = ({ step, setStep }) => {
                     value={argumentsName[argNumber] || ''}
                     onChange={(e) => handleArgumentName(e, argNumber)}
                     error={
+                      error.error &&
                       !argumentSchema.isValidSync(
                         argumentsName[argNumber] || ''
                       )
