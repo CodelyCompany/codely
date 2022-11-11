@@ -150,7 +150,7 @@ const CustomizeExercise = ({ step, setStep }) => {
       })
     );
     setTypes((prev) =>
-      [...Array(formik.values.argumentsQuantity).keys()].map((el) => {
+      [...Array(formik.values.argumentsQuantity + 1).keys()].map((el) => {
         if (prev[el]) return prev[el];
         return '';
       })
@@ -238,7 +238,7 @@ const CustomizeExercise = ({ step, setStep }) => {
                         error.error
                       }
                     />
-                    {console.log(types[argNumber])}
+                    {console.log(types)}
 
                     {formWithTypes && (
                       <TextField
@@ -265,6 +265,24 @@ const CustomizeExercise = ({ step, setStep }) => {
                 )
               )
             : ''}
+          {formWithTypes && (
+            <TextField
+              select
+              fullWidth
+              label={`Output type`}
+              value={types[formik.values.argumentsQuantity] || ''}
+              sx={{ marginTop: '10px' }}
+              onChange={(e) =>
+                setType(formik.values.argumentsQuantity, e.target.value)
+              }
+            >
+              {dropdownOptions.map((opt) => (
+                <MenuItem key={opt} value={opt}>
+                  {opt}
+                </MenuItem>
+              ))}
+            </TextField>
+          )}
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Button
               color='primary'
