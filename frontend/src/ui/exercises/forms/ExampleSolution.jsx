@@ -58,7 +58,6 @@ const ExampleSolution = ({ step, setStep, AddExercise, ChangeAddStatus }) => {
         grant_type: 'client_credentials',
       })
       .then((token) => {
-        ChangeAddStatus();
         AddExercise(
           {
             author: foundUser._id,
@@ -71,6 +70,7 @@ const ExampleSolution = ({ step, setStep, AddExercise, ChangeAddStatus }) => {
           token
         );
       });
+    ChangeAddStatus();
   };
 
   const verifySolution = () => {
