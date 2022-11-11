@@ -15,6 +15,7 @@ import * as yup from 'yup';
 const CustomizeExercise = ({ step, setStep }) => {
   const [argumentsName, setArgumentsName] = useState([]);
   const [checked, setChecked] = useState(false);
+  const [error, setError] = useState({});
 
   const prev = () => {
     setStep((prev) => ({
@@ -27,6 +28,11 @@ const CustomizeExercise = ({ step, setStep }) => {
       },
     }));
   };
+
+  const argumentSchema = yup
+    .string()
+    .required()
+    .matches(/^[a-zA-Z0-9]*[a-z][a-zA-Z0-9]*$/);
 
   const argumentsNameSchema = yup.object({
     argumentsName: yup
@@ -69,15 +75,17 @@ const CustomizeExercise = ({ step, setStep }) => {
     onSubmit: (values) => {
       argumentsNameSchema
         .validate({ argumentsName })
-        .then(() => console.log('Object is valid'))
+        .then(() => {
+          setError({});
+          setStep((prev) => ({
+            ...prev,
+            currentStep: 3,
+            dataFromStep2: { ...values, argumentsName },
+          }));
+        })
         .catch((err) => {
-          console.log(err);
+          setError({ error: err.errors });
         });
-      // setStep((prev) => ({
-      //   ...prev,
-      //   currentStep: 3,
-      //   dataFromStep2: { ...values, argumentsName },
-      // }));
     },
   });
 
@@ -152,15 +160,25 @@ const CustomizeExercise = ({ step, setStep }) => {
           formik.values.argumentsQuantity > 0
             ? [...Array(formik.values.argumentsQuantity).keys()].map(
                 (argNumber) => (
-                  <FormControl key={argNumber} sx={{ marginTop: '10px' }}>
-                    <InputLabel>{argNumber + 1}. Argument name</InputLabel>
-                    <OutlinedInput
-                      label={`${argNumber + 1}. Argument name`}
-                      key={argNumber}
-                      value={argumentsName[argNumber] || ''}
-                      onChange={(e) => handleArgumentName(e, argNumber)}
-                    />
-                  </FormControl>
+                  <TextField
+                    key={argNumber}
+                    sx={{ marginTop: '10px' }}
+                    label={`${argNumber + 1}. Argument name`}
+                    value={argumentsName[argNumber] || ''}
+                    onChange={(e) => handleArgumentName(e, argNumber)}
+                    error={
+                      !argumentSchema.isValidSync(
+                        argumentsName[argNumber] || ''
+                      )
+                    }
+                    helperText={
+                      error &&
+                      !argumentSchema.isValidSync(
+                        argumentsName[argNumber] || ''
+                      ) &&
+                      error.error
+                    }
+                  />
                 )
               )
             : ''}
