@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import Editor from '@monaco-editor/react';
@@ -6,13 +6,35 @@ import { Box, Button } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import axios from 'axios';
 import { PropTypes } from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import { AddExercise } from '../../../ducks/exercises/operations';
+import { ChangeAddStatus } from '../../../ducks/popups/actions';
+import { getUserByUsername } from '../../../ducks/user/selectors';
 
-const ExampleSolution = ({ step, setStep, AddExercise }) => {
+import { getSignature } from './functionSignatures';
+
+const ExampleSolution = ({ step, setStep, AddExercise, ChangeAddStatus }) => {
   const [code, setCode] = useState('');
   const [tests, setTests] = useState(null);
+  const { user } = useAuth0();
+
+  const foundUser = useSelector((state) =>
+    getUserByUsername(state, user.nickname)
+  );
+
+  useEffect(() => {
+    step.dataFromStep1.programmingLanguage &&
+      step.dataFromStep2.functionName &&
+      step.dataFromStep2.argumentsName &&
+      setCode(
+        getSignature(
+          step.dataFromStep1.programmingLanguage.toLowerCase(),
+          step.dataFromStep2.functionName,
+          step.dataFromStep2.argumentsName
+        )
+      );
+  }, []);
 
   const prev = () => {
     setStep((prev) => ({ ...prev, currentStep: 4 }));
@@ -23,8 +45,6 @@ const ExampleSolution = ({ step, setStep, AddExercise }) => {
   };
 
   // add validation
-  // add solving exercise
-  // add checking exercise
   // add checking exercise by admin
 
   const submit = () => {
@@ -38,8 +58,18 @@ const ExampleSolution = ({ step, setStep, AddExercise }) => {
         grant_type: 'client_credentials',
       })
       .then((token) => {
-        console.log('submited');
-        // AddExercise(step, token);
+        ChangeAddStatus();
+        AddExercise(
+          {
+            author: foundUser._id,
+            ...step.dataFromStep1,
+            ...step.dataFromStep2,
+            tests: step.dataFromStep3,
+            hints: step.dataFromStep4.filter((el, index) => index % 2 !== 0),
+            exampleSolution: code,
+          },
+          token
+        );
       });
   };
 
@@ -102,7 +132,9 @@ const ExampleSolution = ({ step, setStep, AddExercise }) => {
           height='100%'
           language={
             step.dataFromStep1
-              ? step.dataFromStep1.programmingLanguage.toLowerCase()
+              ? step.dataFromStep1.programmingLanguage === 'C++'
+                ? 'cpp'
+                : step.dataFromStep1.programmingLanguage.toLowerCase()
               : 'javascript'
           }
           value={code}
@@ -149,6 +181,7 @@ const ExampleSolution = ({ step, setStep, AddExercise }) => {
 
 const mapDispatchToProps = {
   AddExercise,
+  ChangeAddStatus,
 };
 
 export default connect(null, mapDispatchToProps)(ExampleSolution);
@@ -157,4 +190,5 @@ ExampleSolution.propTypes = {
   step: PropTypes.object.isRequired,
   setStep: PropTypes.func.isRequired,
   AddExercise: PropTypes.func,
+  ChangeAddStatus: PropTypes.func,
 };
