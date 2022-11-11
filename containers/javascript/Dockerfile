@@ -1,7 +1,10 @@
-FROM node:alpine
+FROM node:16.13.0-alpine as builder
 WORKDIR /opt/app
 COPY ./package.json ./
 RUN yarn install
 COPY . .
-EXPOSE 5000
+
+FROM node:16.13.0-alpine
+WORKDIR /opt/app
+COPY --from=builder /opt/app  .
 CMD ["yarn","start"]
