@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 
 import {
   Box,
   Button,
   FormControl,
   InputLabel,
+  MenuItem,
   OutlinedInput,
   TextField,
   Typography,
@@ -13,10 +15,24 @@ import { useFormik } from 'formik';
 import { PropTypes } from 'prop-types';
 import * as yup from 'yup';
 
+import { getDataTypes } from './dataTypes';
+
 const CustomizeExercise = ({ step, setStep }) => {
   const [argumentsName, setArgumentsName] = useState([]);
   const [checked, setChecked] = useState(false);
   const [error, setError] = useState({});
+  const [types, setTypes] = useState([]);
+
+  const languagesWithTypes = ['Java', 'C++', 'C'];
+  const formWithTypes = useMemo(
+    () => languagesWithTypes.includes(step.dataFromStep1?.programmingLanguage),
+    [step.dataFromStep1]
+  );
+
+  const dropdownOptions = useMemo(
+    () => getDataTypes('java'),
+    [step.dataFromStep1]
+  );
 
   useEffect(() => {
     setError({});
@@ -30,8 +46,18 @@ const CustomizeExercise = ({ step, setStep }) => {
         functionName: formik.values.functionName,
         argumentsQuantity: formik.values.argumentsQuantity,
         argumentsName,
+        types,
       },
     }));
+  };
+
+  const setType = (index, value) => {
+    setTypes((prev) =>
+      prev.map((type, typeIndex) => {
+        if (index === typeIndex) return value;
+        return type;
+      })
+    );
   };
 
   yup.addMethod(yup.array, 'unique', function (message, mapper = (a) => a) {
@@ -100,7 +126,7 @@ const CustomizeExercise = ({ step, setStep }) => {
             setStep((prev) => ({
               ...prev,
               currentStep: 3,
-              dataFromStep2: { ...values, argumentsName },
+              dataFromStep2: { ...values, argumentsName, types },
             }));
           }
         })
@@ -113,10 +139,17 @@ const CustomizeExercise = ({ step, setStep }) => {
   useEffect(() => {
     if (step.dataFromStep2.argumentsName && !checked) {
       setArgumentsName(step.dataFromStep2.argumentsName);
+      setTypes(step.dataFromStep2.types);
       setChecked(true);
       return;
     }
     setArgumentsName((prev) =>
+      [...Array(formik.values.argumentsQuantity).keys()].map((el) => {
+        if (prev[el]) return prev[el];
+        return '';
+      })
+    );
+    setTypes((prev) =>
       [...Array(formik.values.argumentsQuantity).keys()].map((el) => {
         if (prev[el]) return prev[el];
         return '';
@@ -181,26 +214,54 @@ const CustomizeExercise = ({ step, setStep }) => {
           formik.values.argumentsQuantity > 0
             ? [...Array(formik.values.argumentsQuantity).keys()].map(
                 (argNumber) => (
-                  <TextField
-                    key={argNumber}
-                    sx={{ marginTop: '10px' }}
-                    label={`${argNumber + 1}. Argument name`}
-                    value={argumentsName[argNumber] || ''}
-                    onChange={(e) => handleArgumentName(e, argNumber)}
-                    error={
-                      error.error &&
-                      !argumentSchema.isValidSync(
-                        argumentsName[argNumber] || ''
-                      )
-                    }
-                    helperText={
-                      error &&
-                      !argumentSchema.isValidSync(
-                        argumentsName[argNumber] || ''
-                      ) &&
-                      error.error
-                    }
-                  />
+                  <Box key={argNumber}>
+                    <TextField
+                      sx={{
+                        marginTop: '10px',
+                        width: `${formWithTypes ? 'calc(50% - 5px)' : '100%'}`,
+                        marginRight: `${formWithTypes ? '5px' : '0'}`,
+                      }}
+                      label={`${argNumber + 1}. Argument name`}
+                      value={argumentsName[argNumber] || ''}
+                      onChange={(e) => handleArgumentName(e, argNumber)}
+                      error={
+                        error.error &&
+                        !argumentSchema.isValidSync(
+                          argumentsName[argNumber] || ''
+                        )
+                      }
+                      helperText={
+                        error &&
+                        !argumentSchema.isValidSync(
+                          argumentsName[argNumber] || ''
+                        ) &&
+                        error.error
+                      }
+                    />
+                    {console.log(types[argNumber])}
+
+                    {formWithTypes && (
+                      <TextField
+                        select
+                        sx={{
+                          marginTop: '10px',
+                          width: `${
+                            formWithTypes ? 'calc(50% - 5px)' : '100%'
+                          }`,
+                          marginLeft: `${formWithTypes ? '5px' : '0'}`,
+                        }}
+                        label={`${argNumber + 1}. Argument type`}
+                        value={types[argNumber] || ''}
+                        onChange={(e) => setType(argNumber, e.target.value)}
+                      >
+                        {dropdownOptions.map((opt) => (
+                          <MenuItem key={opt} value={opt}>
+                            {opt}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    )}
+                  </Box>
                 )
               )
             : ''}
