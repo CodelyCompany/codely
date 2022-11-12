@@ -1,7 +1,11 @@
-FROM node:alpine
+FROM node:16.13.0-alpine as builder
 WORKDIR /opt/app
 COPY ./package.json ./
-RUN apk --update add openjdk11
 RUN yarn install
 COPY . .
+
+FROM node:16.13.0-alpine
+WORKDIR /opt/app
+COPY --from=builder /opt/app  .
+RUN apk --update add openjdk11
 CMD ["yarn","start"]

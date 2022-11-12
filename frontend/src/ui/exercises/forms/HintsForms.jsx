@@ -13,6 +13,10 @@ import {
   AddExercise,
   UpdateExercise,
 } from '../../../ducks/exercises/operations';
+import {
+  ChangeAddStatus,
+  ChangeUpdateStatus,
+} from '../../../ducks/popups/actions';
 
 const HintsForms = ({
   step,
@@ -20,6 +24,8 @@ const HintsForms = ({
   dataToEdit,
   UpdateExercise,
   setStep,
+  ChangeAddStatus,
+  ChangeUpdateStatus,
 }) => {
   const [hintsQuantity, setHintsQuantity] = useState('');
   const navigate = useNavigate();
@@ -99,10 +105,13 @@ const HintsForms = ({
                 ),
                 hints: hints.map((el) => el[1]),
               };
-              dataToEdit
-                ? UpdateExercise({ id, ...data }, token)
-                : AddExercise({ ...data }, token);
-
+              if (dataToEdit) {
+                UpdateExercise({ id, ...data }, token);
+                ChangeUpdateStatus();
+              } else {
+                AddExercise({ ...data }, token);
+                ChangeAddStatus();
+              }
               navigate('/Exercises');
             });
         } catch (e) {
@@ -227,6 +236,8 @@ const HintsForms = ({
 const mapDispatchToProps = {
   AddExercise,
   UpdateExercise,
+  ChangeAddStatus,
+  ChangeUpdateStatus,
 };
 
 export default connect(null, mapDispatchToProps)(HintsForms);
@@ -237,4 +248,6 @@ HintsForms.propTypes = {
   dataToEdit: PropTypes.object,
   setStep: PropTypes.func.isRequired,
   UpdateExercise: PropTypes.func,
+  ChangeAddStatus: PropTypes.func,
+  ChangeUpdateStatus: PropTypes.func,
 };
