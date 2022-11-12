@@ -31,7 +31,8 @@ const ExampleSolution = ({ step, setStep, AddExercise, ChangeAddStatus }) => {
         getSignature(
           step.dataFromStep1.programmingLanguage.toLowerCase(),
           step.dataFromStep2.functionName,
-          step.dataFromStep2.argumentsName
+          step.dataFromStep2.argumentsName,
+          step.dataFromStep2.types ? step.dataFromStep2.types : []
         )
       );
   }, []);

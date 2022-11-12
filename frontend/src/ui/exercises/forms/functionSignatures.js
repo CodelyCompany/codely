@@ -1,5 +1,15 @@
-export const getSignature = (language, functionName, args) => {
-  const argsAsString = args ? args.join(', ') : '';
+const mapArgs = (language, args, argsType) => {
+  const languagesWithTypes = ['c++', 'c', 'java'];
+  if (languagesWithTypes.includes(language)) {
+    return args
+      ? args.map((arg, index) => `${argsType[index]} ${arg}`).join(', ')
+      : '';
+  }
+  return args ? args.join(', ') : '';
+};
+
+export const getSignature = (language, functionName, args, argsType = []) => {
+  const argsAsString = mapArgs(language, args, argsType);
   const functionsMap = {
     javascript: `const ${functionName} = (${argsAsString}) => {
     //write your code here
@@ -9,16 +19,22 @@ export const getSignature = (language, functionName, args) => {
 }`,
     c: `#include <stdio.h>
   
-int ${functionName} (${argsAsString}) {
+${
+  argsType ? argsType[argsType.length - 1] : 'void'
+} ${functionName} (${argsAsString}) {
     // write your code here
 }`,
     'c++': `#include <iostream>
 using namespace std;
           
-int ${functionName}(${argsAsString}) {
+${
+  argsType ? argsType[argsType.length - 1] : 'void'
+} ${functionName}(${argsAsString}) {
     // write your code here
 }`,
-    java: `public static void ${functionName}(${argsAsString}){
+    java: `public static ${
+      argsType ? argsType[argsType.length - 1] : 'void'
+    } ${functionName}(${argsAsString}){
     // write your code here
 }`,
     python: `def ${functionName}(${argsAsString}):

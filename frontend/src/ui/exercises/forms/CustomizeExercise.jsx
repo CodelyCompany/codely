@@ -238,8 +238,6 @@ const CustomizeExercise = ({ step, setStep }) => {
                         error.error
                       }
                     />
-                    {console.log(types)}
-
                     {formWithTypes && (
                       <TextField
                         select
