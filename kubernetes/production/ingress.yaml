@@ -10,7 +10,7 @@ metadata:
         # nginx.ingress.kubernetes.io/auth-signin: 'https://codely.prod/oauth2/start?rd=$escaped_request_uri'
 spec:
     rules:
-        - host: codely.prod
+        - host: codely.io
           http:
               paths:
                   - path: /(.*)
