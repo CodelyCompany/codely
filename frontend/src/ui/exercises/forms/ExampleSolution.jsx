@@ -12,7 +12,7 @@ import { AddExercise } from '../../../ducks/exercises/operations';
 import { ChangeAddStatus } from '../../../ducks/popups/actions';
 import { getUserByUsername } from '../../../ducks/user/selectors';
 
-import { getSignature } from './functionSignatures';
+import { getSignature } from './utils/functionSignatures';
 
 const ExampleSolution = ({ step, setStep, AddExercise, ChangeAddStatus }) => {
   const [code, setCode] = useState('');

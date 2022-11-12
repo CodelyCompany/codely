@@ -15,7 +15,7 @@ import { useFormik } from 'formik';
 import { PropTypes } from 'prop-types';
 import * as yup from 'yup';
 
-import { getDataTypes } from './dataTypes';
+import { getDataTypes } from './utils/dataTypes';
 
 const CustomizeExercise = ({ step, setStep }) => {
   const [argumentsName, setArgumentsName] = useState([]);
@@ -78,6 +78,10 @@ const CustomizeExercise = ({ step, setStep }) => {
     .matches(/^[a-zA-Z0-9]*[a-z][a-zA-Z0-9]*$/)
     .uniqueIn(argumentsName);
 
+  const typesSchema = yup
+    .string('Enter all arguments type')
+    .required('Argument type is required');
+
   const argumentsNameSchema = yup.object({
     argumentsName: yup
       .array('Eneter all arguments name')
@@ -92,6 +96,14 @@ const CustomizeExercise = ({ step, setStep }) => {
       )
       .required('All arguments are required')
       .unique('All arguments should be unique'),
+    types: yup
+      .array('Enter all argument types')
+      .of(
+        yup
+          .string('Enter all arguments type')
+          .required('Argument type is required')
+      )
+      .notRequired(),
   });
 
   const validationSchema = yup.object({
@@ -119,7 +131,7 @@ const CustomizeExercise = ({ step, setStep }) => {
     validationSchema,
     onSubmit: (values) => {
       argumentsNameSchema
-        .validate({ argumentsName })
+        .validate({ argumentsName, types: formWithTypes ? types : [] })
         .then((valid) => {
           if (valid) {
             setError({});
@@ -131,6 +143,7 @@ const CustomizeExercise = ({ step, setStep }) => {
           }
         })
         .catch((err) => {
+          console.error(err, types);
           setError({ error: err.errors });
         });
     },
@@ -251,6 +264,15 @@ const CustomizeExercise = ({ step, setStep }) => {
                         label={`${argNumber + 1}. Argument type`}
                         value={types[argNumber] || ''}
                         onChange={(e) => setType(argNumber, e.target.value)}
+                        error={
+                          error.error &&
+                          !typesSchema.isValidSync(types[argNumber] || '')
+                        }
+                        helperText={
+                          error &&
+                          !typesSchema.isValidSync(types[argNumber] || '') &&
+                          error.error
+                        }
                       >
                         {dropdownOptions.map((opt) => (
                           <MenuItem key={opt} value={opt}>
@@ -272,6 +294,19 @@ const CustomizeExercise = ({ step, setStep }) => {
               sx={{ marginTop: '10px' }}
               onChange={(e) =>
                 setType(formik.values.argumentsQuantity, e.target.value)
+              }
+              error={
+                error.error &&
+                !typesSchema.isValidSync(
+                  types[formik.values.argumentsQuantity] || ''
+                )
+              }
+              helperText={
+                error &&
+                !typesSchema.isValidSync(
+                  types[formik.values.argumentsQuantity] || ''
+                ) &&
+                error.error
               }
             >
               {dropdownOptions.map((opt) => (
