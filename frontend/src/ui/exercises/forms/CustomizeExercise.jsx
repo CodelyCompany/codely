@@ -143,7 +143,6 @@ const CustomizeExercise = ({ step, setStep }) => {
           }
         })
         .catch((err) => {
-          console.error(err, types);
           setError({ error: err.errors });
         });
     },

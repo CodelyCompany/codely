@@ -30,8 +30,8 @@ const ExerciseAlert = ({
 }) => {
   const messages = {
     add: {
-      success: 'Exercise addded successfuly',
-      error: 'Error occured during adding exercise',
+      success: 'Exercise passed for admin verification',
+      error: 'Error occured during passing exercise for admin verification',
     },
     delete: {
       success: 'Exercise deleted successfuly',

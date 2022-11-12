@@ -164,62 +164,77 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
         }}
       >
         {testsQuantity !== '' &&
-          [...Array(testsQuantity).keys()].map((number, index) => (
-            <Box
-              key={number}
-              style={{
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-                marginBottom: '10px',
-              }}
-            >
-              <Box sx={{ display: 'flex', marginRight: '10px' }}>
-                {[...Array(step.dataFromStep2.argumentsQuantity).keys()].map(
-                  (argNumber) => (
-                    <TextField
-                      key={argNumber}
-                      value={tests[index]?.input[argNumber] || ''}
-                      onChange={(e) => handleTests(index, argNumber, e)}
-                      error={
-                        error.error &&
-                        !inputValidation.isValidSync(
-                          tests[index]?.input[argNumber] || ''
-                        )
-                      }
-                      helperText={
-                        error &&
-                        !inputValidation.isValidSync(
-                          tests[index]?.input[argNumber] || ''
-                        ) &&
-                        error.error
-                      }
-                      label={
-                        index === 0 &&
-                        `${step.dataFromStep2.argumentsName[argNumber]}`
-                      }
-                    />
-                  )
-                )}
-              </Box>
-              <Box>
-                <TextField
-                  label={index === 0 && 'output'}
-                  value={tests[index]?.output || ''}
-                  onChange={(e) => handleOutput(index, e)}
-                  error={
-                    error.error &&
-                    !outputValidation.isValidSync(tests[index]?.output || '')
+          [...Array(testsQuantity).keys()].map((number, index) => {
+            const outputLabel =
+              index === 0
+                ? {
+                    label: `output`,
                   }
-                  helperText={
-                    error.error &&
-                    !outputValidation.isValidSync(tests[index]?.output || '') &&
-                    error.error
-                  }
-                />
+                : {};
+            return (
+              <Box
+                key={number}
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  marginBottom: '10px',
+                }}
+              >
+                <Box sx={{ display: 'flex', marginRight: '10px' }}>
+                  {[...Array(step.dataFromStep2.argumentsQuantity).keys()].map(
+                    (argNumber) => {
+                      const label =
+                        index === 0
+                          ? {
+                              label: `${step.dataFromStep2.argumentsName[argNumber]}`,
+                            }
+                          : {};
+                      return (
+                        <TextField
+                          {...label}
+                          key={argNumber}
+                          value={tests[index]?.input[argNumber] || ''}
+                          onChange={(e) => handleTests(index, argNumber, e)}
+                          error={
+                            error.error &&
+                            !inputValidation.isValidSync(
+                              tests[index]?.input[argNumber] || ''
+                            )
+                          }
+                          helperText={
+                            error &&
+                            !inputValidation.isValidSync(
+                              tests[index]?.input[argNumber] || ''
+                            ) &&
+                            error.error
+                          }
+                        />
+                      );
+                    }
+                  )}
+                </Box>
+                <Box>
+                  <TextField
+                    {...outputLabel}
+                    value={tests[index]?.output || ''}
+                    onChange={(e) => handleOutput(index, e)}
+                    error={
+                      error.error &&
+                      !outputValidation.isValidSync(tests[index]?.output || '')
+                    }
+                    helperText={
+                      error.error &&
+                      !outputValidation.isValidSync(
+                        tests[index]?.output || ''
+                      ) &&
+                      error.error
+                    }
+                  />
+                </Box>
               </Box>
-            </Box>
-          ))}
+            );
+          })}
 
         <Button
           fullWidth

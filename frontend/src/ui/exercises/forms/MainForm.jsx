@@ -10,9 +10,12 @@ import Typography from '@mui/material/Typography';
 import { PropTypes } from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { GetExercise } from '../../../ducks/exercises/operations';
 import { getExerciseById } from '../../../ducks/exercises/selectors';
+import { StopRedirect } from '../../../ducks/redirects/actions';
+import { isRedirect } from '../../../ducks/redirects/selector';
 
 import CustomizeExercise from './CustomizeExercise';
 import ExampleSolution from './ExampleSolution';
@@ -20,7 +23,7 @@ import ExercisesForm from './ExercisesForm';
 import HintsForms from './HintsForms';
 import TestsForm from './TestsForm';
 
-function MainForm({ GetExercise }) {
+function MainForm({ GetExercise, redirect, StopRedirect }) {
   const [step, setStep] = useState({
     currentStep: 1,
     dataFromStep1: '',
@@ -30,9 +33,17 @@ function MainForm({ GetExercise }) {
     dataFromStep5: '',
   });
 
+  const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
   const { id } = useParams();
   const exercise = useSelector((state) => getExerciseById(state, id));
+
+  useEffect(() => {
+    if (redirect) {
+      navigate('/exercises');
+      StopRedirect();
+    }
+  }, [redirect]);
 
   useEffect(() => {
     id &&
@@ -86,6 +97,7 @@ function MainForm({ GetExercise }) {
 
   return (
     <div>
+      {console.log('redirect: ', redirect)}
       <Accordion
         disabled={step.currentStep !== 1}
         expanded={step.currentStep === 1}
@@ -204,12 +216,19 @@ function MainForm({ GetExercise }) {
   );
 }
 
+const mapStateToProps = (state) => ({
+  redirect: isRedirect(state),
+});
+
 const mapDispatchToProps = {
   GetExercise,
+  StopRedirect,
 };
 
-export default connect(null, mapDispatchToProps)(MainForm);
+export default connect(mapStateToProps, mapDispatchToProps)(MainForm);
 
 MainForm.propTypes = {
   GetExercise: PropTypes.func,
+  redirect: PropTypes.bool,
+  StopRedirect: PropTypes.func,
 };
