@@ -98,7 +98,10 @@ function MainForm({ GetExercise }) {
           <Typography sx={{ color: 'white' }}>Main info</Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
-          <Typography sx={{ margin: '10px' }}>
+          <Typography
+            color='primary'
+            sx={{ margin: '10px', fontWeight: 'bolder' }}
+          >
             Here you can set title, description and difficulty of your exercise.
             Remember to set the most proper programming language!
           </Typography>
@@ -119,9 +122,12 @@ function MainForm({ GetExercise }) {
           </Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
-          <Typography sx={{ margin: '10px' }}>
+          <Typography
+            color='primary'
+            sx={{ margin: '10px', fontWeight: 'bolder' }}
+          >
             Here you can set amount of arguments for your function. You have to
-            set name for each argument.
+            set the name for each argument.
           </Typography>
           <CustomizeExercise step={step} setStep={setStep} />
         </AccordionDetails>
@@ -138,7 +144,10 @@ function MainForm({ GetExercise }) {
           <Typography sx={{ color: 'white' }}>Inputs \ Outputs</Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
-          <Typography sx={{ margin: '10px' }}>
+          <Typography
+            color='primary'
+            sx={{ margin: '10px', fontWeight: 'bolder' }}
+          >
             Choose quantity of your tests, then write expected outputs for each
             of your inputs.
           </Typography>
@@ -157,7 +166,10 @@ function MainForm({ GetExercise }) {
           <Typography sx={{ color: 'white' }}>Hints</Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
-          <Typography sx={{ margin: '10px' }}>
+          <Typography
+            color='primary'
+            sx={{ margin: '10px', fontWeight: 'bolder' }}
+          >
             Here you can choose quantity of your tests. Remember that not all
             users will be able to solve your exercise without some help.
           </Typography>
@@ -177,7 +189,10 @@ function MainForm({ GetExercise }) {
           <Typography sx={{ color: 'white' }}>Example Solution</Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
-          <Typography sx={{ margin: '10px' }}>
+          <Typography
+            color='primary'
+            sx={{ margin: '10px', fontWeight: 'bolder' }}
+          >
             Here you have to write an example solution to guarantee that your
             exercise is solvable. After solving, your exercise will be send to
             the admin to get an agreement.

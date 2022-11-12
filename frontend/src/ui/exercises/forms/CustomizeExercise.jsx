@@ -30,7 +30,7 @@ const CustomizeExercise = ({ step, setStep }) => {
   );
 
   const dropdownOptions = useMemo(
-    () => getDataTypes('java'),
+    () => getDataTypes(step.dataFromStep1?.programmingLanguage || 'java'),
     [step.dataFromStep1]
   );
 
