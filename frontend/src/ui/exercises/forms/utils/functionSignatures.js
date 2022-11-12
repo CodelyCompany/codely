@@ -14,7 +14,7 @@ export const getSignature = (language, functionName, args, argsType = []) => {
     javascript: `const ${functionName} = (${argsAsString}) => {
     //write your code here
 }`,
-    bash: `${functionName} (${argsAsString}) {
+    bash: `${functionName} () {
     #write your code here
 }`,
     c: `#include <stdio.h>
@@ -32,10 +32,12 @@ ${
 } ${functionName}(${argsAsString}) {
     // write your code here
 }`,
-    java: `public static ${
-      argsType ? argsType[argsType.length - 1] : 'void'
-    } ${functionName}(${argsAsString}){
+    java: `public class Main() {
+  public static ${
+    argsType ? argsType[argsType.length - 1] : 'void'
+  } ${functionName}(${argsAsString}){
     // write your code here
+  }
 }`,
     python: `def ${functionName}(${argsAsString}):
     # write your code here`,

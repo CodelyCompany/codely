@@ -45,7 +45,6 @@ const ExampleSolution = ({ step, setStep, AddExercise, ChangeAddStatus }) => {
     setCode(e);
   };
 
-  // add validation
   // add checking exercise by admin
 
   const submit = () => {
@@ -93,6 +92,10 @@ const ExampleSolution = ({ step, setStep, AddExercise, ChangeAddStatus }) => {
               tests: step.dataFromStep3,
               ...step.dataFromStep2,
               ...step.dataFromStep1,
+              programmingLanguage:
+                step.dataFromStep1.programmingLanguage === 'C++'
+                  ? 'cpp'
+                  : step.dataFromStep1.programmingLanguage,
             },
             {
               headers: {

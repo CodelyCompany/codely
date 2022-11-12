@@ -97,7 +97,6 @@ function MainForm({ GetExercise, redirect, StopRedirect }) {
 
   return (
     <div>
-      {console.log('redirect: ', redirect)}
       <Accordion
         disabled={step.currentStep !== 1}
         expanded={step.currentStep === 1}
