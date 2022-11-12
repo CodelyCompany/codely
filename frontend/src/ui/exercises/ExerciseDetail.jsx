@@ -20,13 +20,16 @@ import { useParams } from 'react-router-dom';
 
 import { GetExercises } from '../../ducks/exercises/operations';
 import { getExerciseById } from '../../ducks/exercises/selectors';
+import { getRatingByExerciseId } from '../../ducks/reviews/selectors';
 
 import EditorField from './editor_to_exercises/EditorField';
 import Reviews from './reviews/Reviews';
 
 const ExerciseDetail = ({ GetExercises }) => {
+
   const { id } = useParams();
   const exercise = useSelector(getExerciseById(id));
+  const rating = useSelector(getRatingByExerciseId(id));
   const { getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
@@ -106,6 +109,19 @@ const ExerciseDetail = ({ GetExercises }) => {
               <ListItemText
                 primary='Description'
                 secondary={exercise.description}
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
+                  <StarRateIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary='Rating'
+                secondary={rating ? [...Array(rating).keys()].map((num) => (
+                  <StarRateIcon sx={{ color: 'gold' }} key={`rating-${num}`} />
+                )) : "no reviews"}
               />
             </ListItem>
           </List>

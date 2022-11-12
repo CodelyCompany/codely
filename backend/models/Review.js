@@ -5,7 +5,7 @@ const reviewSchema = new Schema({
         type: Number,
         required: true,
         min: 1,
-        max: 10
+        max: 5
     },
     comment: { type: String, minlength: 2, maxlength: 5000 },
     upvotes: [{ type: Schema.Types.ObjectId, ref: "User" }],

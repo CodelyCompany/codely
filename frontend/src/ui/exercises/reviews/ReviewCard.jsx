@@ -1,5 +1,10 @@
 import React from 'react';
 
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import { Typography } from '@mui/material';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 import PropTypes from 'prop-types';
 
 const ReviewCard = ({ review }) => {
@@ -7,7 +12,13 @@ const ReviewCard = ({ review }) => {
     const xd = 'xd';
 
     return (
-        <div>XD</div>
+        <Card>
+            <CardContent>
+                <Typography>
+                    {review.comment}
+                </Typography>
+            </CardContent>
+        </Card>
     );
 };
 

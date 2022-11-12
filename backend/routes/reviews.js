@@ -42,10 +42,11 @@ router.post("/addReview", async (req, res) => {
         const user = await User.findById(data.author);
         const exercise = await Exercise.findById(data.exercise);
         const newReview = new Review({
-            title: data.title,
-            review: data.review,
+            rating: data.rating,
+            comment: data.comment,
             author: user._id,
             exercise: exercise._id,
+            creationDate: Date.now(),
             upvotes: [],
             downvotes: []
         });
@@ -56,7 +57,7 @@ router.post("/addReview", async (req, res) => {
         await Exercise.findByIdAndUpdate(exercise._id, {
             reviews: [...exercise.reviews, newReview._id],
         });
-        return res.status(200).send(true);
+        return res.status(200).send(newReview);
     } catch (error) {
         console.log(error);
         res.status(500).send(error);
@@ -66,30 +67,9 @@ router.post("/addReview", async (req, res) => {
 router.put("/editReview", async (req, res) => {
     try {
         const id = req.body._id;
-        await Review.findByIdAndUpdate(id, { ...req.body, editedAt: new Date().now() });
+        await Review.findByIdAndUpdate(id, { ...req.body, editedAt: Date.now() });
         const updated = await Review.findById(id);
         return res.status(200).send(updated);
-    } catch (error) {
-        console.log(error);
-        res.status(500).send(error);
-    }
-});
-
-router.delete("/deleteReview/:id", async (req, res) => {
-    try {
-        const id = req.params.id;
-        const review = await Review.findById(id);
-        await Review.findByIdAndDelete(id);
-        const user = await User.findById(comment.author);
-        const exercise = await Exercise.findById(review.exercise);
-        if (user) {
-            await User.findByIdAndUpdate(review.author, {
-                writtenReviews: user.writtenReviews.filter(
-                    (n) => n.toString() !== id.toString()
-                ),
-            });
-        }
-        return res.status(200).send(id);
     } catch (error) {
         console.log(error);
         res.status(500).send(error);
