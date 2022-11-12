@@ -2,7 +2,7 @@
 
 containers=(bash c cpp java javascript python r)
 
-cd ../../
+cd ../
 
 for item in ${containers[*]}
 do

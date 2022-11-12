@@ -95,7 +95,7 @@ services:
         environment:
             - PORT=6004
         ports:
-            - '600:6004'
+            - '6004:6004'
     cpp:
         restart: always
         build:

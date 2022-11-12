@@ -1,8 +1,0 @@
-#!/bin/bash
-kubectl delete -f ../production/ingress.yaml
-kubectl delete -f ../production/deployments/
-kubectl delete -f ../production/volumeclaims/
-kubectl delete -f ../production/volumes/
-kubectl delete -f ../production/services/
-kubectl delete -f ../production/configmaps/
-kubectl delete -f ../production/production-namespace.yaml
