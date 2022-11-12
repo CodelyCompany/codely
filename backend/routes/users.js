@@ -3,9 +3,8 @@ const router = express.Router();
 const User = require('../models/User');
 const Exercise = require('../models/Exercise');
 const Comment = require('../models/Comment');
-const checkJwt = require('../auth');
 
-router.get('/', checkJwt, async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const data = await User.find({}).populate([
             'preparedExercises',
@@ -21,8 +20,26 @@ router.get('/', checkJwt, async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const id = req.params.id;
-        const data = await User.findById(id);
-        res.status(200).send(data);
+        const data = await User.findById(id).populate([
+            'preparedExercises',
+            'doneExercises',
+        ]);
+        const checkedExercises = data.preparedExercises.filter(
+            (n) => n.checked
+        );
+        const uncheckedExercises = data.preparedExercises.filter(
+            (n) => !n.checked
+        );
+        const response = {
+            ...data._doc,
+            preparedExercises: {
+                checked: checkedExercises,
+                unchecked: uncheckedExercises,
+            },
+            checkedPreparedExercises: checkedExercises.length,
+            uncheckedPreparedExercises: uncheckedExercises.length,
+        };
+        res.status(200).send(response);
     } catch (error) {
         console.log(error);
         res.status(500).send(error);
