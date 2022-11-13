@@ -10,7 +10,7 @@ import LoadWrapper from './ui/LoadWrapper';
 import MainPage from './ui/MainPage';
 import Navbar from './ui/Navbar';
 import ExerciseAlert from './ui/popups/ExercisesAlert';
-import AdminPanel from './ui/user/AdminPanel';
+import AdminPanel from './ui/user/admin/AdminPanel';
 import UserDetails from './ui/user/UserDetails';
 import Versus from './ui/versus/Versus';
 

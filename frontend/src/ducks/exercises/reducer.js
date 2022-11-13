@@ -1,12 +1,14 @@
 import { types } from './types';
 
 export const exercisesReducer = (
-  state = { exercises: [], error: false },
+  state = { exercises: [], exercisesToCheck: [], error: false },
   action
 ) => {
   switch (action.type) {
     case types.GET_EXERCISES_SUCCESS:
       return { ...state, exercises: action.payload };
+    case types.GET_EXERCISES_TO_CHECK_SUCCESS:
+      return { ...state, exercisesToCheck: action.payload };
     //There aren't updating exercises,
     //because exercises are passed to the admin.
     case types.POST_EXERCISE_SUCCESS:
