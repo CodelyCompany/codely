@@ -36,7 +36,7 @@ function MainForm({ GetExercise, redirect, StopRedirect }) {
   const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
   const { id } = useParams();
-  const exercise = useSelector((state) => getExerciseById(state, id));
+  const exercise = useSelector(getExerciseById(id));
 
   useEffect(() => {
     if (redirect) {
