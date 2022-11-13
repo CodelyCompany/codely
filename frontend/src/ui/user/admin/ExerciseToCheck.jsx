@@ -53,6 +53,7 @@ function ExerciseToCheck({ uncheckedExercises, GetUncheckedExercises }) {
         rowsPerPageOptions={[5]}
         disableSelectionOnClick
         experimentalFeatures={{ newEditingApi: true }}
+        onCellClick={(row) => console.log(row)}
       />
     </Box>
   );
