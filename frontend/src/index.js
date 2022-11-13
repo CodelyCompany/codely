@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Auth0Provider } from '@auth0/auth0-react';
 import ReactDOM from 'react-dom/client';
+import env from 'react-dotenv';
 import { Provider } from 'react-redux';
 
 import store from './ducks/store';
@@ -14,9 +15,6 @@ const redirectUri =
     process.env.REACT_APP_REDIRECT_URI || 'http://localhost:3000';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-
-console.log('Redirect URI', redirectUri);
-console.log('Process env', process.env);
 
 root.render(
     <React.StrictMode>
