@@ -10,6 +10,7 @@ import LoadWrapper from './ui/LoadWrapper';
 import MainPage from './ui/MainPage';
 import Navbar from './ui/Navbar';
 import ExerciseAlert from './ui/popups/ExercisesAlert';
+import AdminPanel from './ui/user/AdminPanel';
 import UserDetails from './ui/user/UserDetails';
 import Versus from './ui/versus/Versus';
 
@@ -31,6 +32,7 @@ function App() {
             <Route path='/exercises/edit/:id' element={<MainForm />} />
             <Route path='/versus' element={<Versus />} />
             <Route path='/user' element={<UserDetails />} />
+            <Route path='/admin' element={<AdminPanel />} />
           </Routes>
         </LoadWrapper>
         <ExerciseAlert />
