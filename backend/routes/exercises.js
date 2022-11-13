@@ -57,7 +57,10 @@ router.get('/checked', async (req, res) => {
 
 router.get('/unchecked', async (req, res) => {
   try {
-    const data = await Exercise.find({ checked: false }).populate('author');
+    const data = await Exercise.find({ checked: false }).populate([
+      'author',
+      'tests',
+    ]);
     res.status(200).send(data);
   } catch (error) {
     console.log(error);
