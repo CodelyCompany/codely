@@ -9,8 +9,8 @@ const userSchema = new Schema({
         unique: true,
     },
     creationDate: { type: Date, default: Date.now },
-    preparedExcercises: [{ type: Schema.Types.ObjectId, ref: "Exercise" }],
-    doneExcercises: [{ type: Schema.Types.ObjectId, ref: "Exercise" }],
+    preparedExercises: [{ type: Schema.Types.ObjectId, ref: "Exercise" }],
+    doneExercises: [{ type: Schema.Types.ObjectId, ref: "Exercise" }],
     writtenReviews: [{ type: Schema.Types.ObjectId, ref: "Review" }],
 });
 

@@ -131,7 +131,7 @@ router.post('/addExercise', async (req, res) => {
         tests,
       });
       await User.findByIdAndUpdate(user._id, {
-        preparedExcercises: [...user.preparedExcercises, newExercise._id],
+        preparedExercises: [...user.preparedExercises, newExercise._id],
       });
       return res.status(200).send(newExercise);
     }
