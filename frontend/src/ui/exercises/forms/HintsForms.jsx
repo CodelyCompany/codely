@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
-import { useAuth0 } from '@auth0/auth0-react';
 import { Box, MenuItem } from '@mui/material';
 import { Button, TextField } from '@mui/material';
-// import axios from 'axios';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
 import * as yup from 'yup';
 
 import {
@@ -19,21 +15,10 @@ import {
   ChangeUpdateStatus,
 } from '../../../ducks/popups/actions';
 
-const HintsForms = ({
-  step,
-  // AddExercise,
-  dataToEdit,
-  // UpdateExercise,
-  setStep,
-  // ChangeAddStatus,
-  // ChangeUpdateStatus,
-}) => {
+const HintsForms = ({ step, dataToEdit, setStep }) => {
   const [hintsQuantity, setHintsQuantity] = useState('');
-  // const navigate = useNavigate();
   const [hints, setHints] = useState([]);
   const [triggered, setTriggered] = useState(false);
-  // const { user, getAccessTokenSilently } = useAuth0();
-  // const { id } = useParams();
   const [triggeringChangeQuantity, setTriggeringChangeQuantity] =
     useState(false);
   const [error, setError] = useState({});
@@ -68,73 +53,6 @@ const HintsForms = ({
       dataFromStep4: hints,
     }));
   };
-
-  // It should be changed in the future
-  // const submitValues = () => {
-  //   let userId;
-  //   if (canSubmit()) {
-  //     (async () => {
-  //       try {
-  //         const token = await getAccessTokenSilently({
-  //           audience: `${
-  //             process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-  //           }`,
-  //         });
-  //         axios
-  //           .get(
-  //             `${
-  //               process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-  //             }/users/`,
-  //             {
-  //               headers: {
-  //                 authorization: `Bearer ${token}`,
-  //               },
-  //             }
-  //           )
-  //           .then((response) => {
-  //             userId = response.data.find(
-  //               (us) => us.username === user.nickname
-  //             );
-
-  //             const data = {
-  //               author: userId._id,
-  //               ...step.dataFromStep1,
-  //               tests: step.dataFromStep2.reduce(
-  //                 (prev, curr) => [
-  //                   ...prev,
-  //                   {
-  //                     input: curr[1],
-  //                     output: curr[2],
-  //                   },
-  //                 ],
-  //                 []
-  //               ),
-  //               hints: hints.map((el) => el[1]),
-  //             };
-  //             if (dataToEdit) {
-  //               UpdateExercise({ id, ...data }, token);
-  //               ChangeUpdateStatus();
-  //             } else {
-  //               AddExercise({ ...data }, token);
-  //               ChangeAddStatus();
-  //             }
-  //             navigate('/Exercises');
-  //           });
-  //       } catch (e) {
-  //         console.error(e);
-  //       }
-  //     })();
-  //   }
-  // };
-
-  // const canSubmit = () => {
-  //   let submit = true;
-  //   if (hintsQuantity === '') return false;
-  //   hints.forEach((el) => {
-  //     if (el[1] === '') submit = false;
-  //   });
-  //   return submit;
-  // };
 
   useEffect(() => {
     setHints((prev) =>
@@ -278,11 +196,7 @@ const mapDispatchToProps = {
 export default connect(null, mapDispatchToProps)(HintsForms);
 
 HintsForms.propTypes = {
-  // AddExercise: PropTypes.func.isRequired,
   step: PropTypes.object.isRequired,
   dataToEdit: PropTypes.object,
   setStep: PropTypes.func.isRequired,
-  // UpdateExercise: PropTypes.func,
-  // ChangeAddStatus: PropTypes.func,
-  // ChangeUpdateStatus: PropTypes.func,
 };
