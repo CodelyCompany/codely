@@ -23,8 +23,8 @@ import { useNavigate } from 'react-router-dom';
 import { DeleteExercise, GetExercises } from '../../ducks/exercises/operations';
 import { getExerciseById } from '../../ducks/exercises/selectors';
 import { ChangeDeleteStatus } from '../../ducks/popups/actions';
-import Confirmation from '../popups/Confirmation';
 import { getRatingByExerciseId } from '../../ducks/reviews/selectors';
+import Confirmation from '../popups/Confirmation';
 
 import EditorField from './editor_to_exercises/EditorField';
 import Reviews from './reviews/Reviews';
