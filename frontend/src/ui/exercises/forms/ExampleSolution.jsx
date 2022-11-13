@@ -8,13 +8,27 @@ import axios from 'axios';
 import { PropTypes } from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 
-import { AddExercise } from '../../../ducks/exercises/operations';
-import { ChangeAddStatus } from '../../../ducks/popups/actions';
+import {
+  AddExercise,
+  UpdateExercise,
+} from '../../../ducks/exercises/operations';
+import {
+  ChangeAddStatus,
+  ChangeUpdateStatus,
+} from '../../../ducks/popups/actions';
 import { getUserByUsername } from '../../../ducks/user/selectors';
 
 import { getSignature } from './utils/functionSignatures';
 
-const ExampleSolution = ({ step, setStep, AddExercise, ChangeAddStatus }) => {
+const ExampleSolution = ({
+  step,
+  setStep,
+  AddExercise,
+  ChangeAddStatus,
+  dataToEdit,
+  UpdateExercise,
+  ChangeUpdateStatus,
+}) => {
   const [code, setCode] = useState('');
   const [tests, setTests] = useState(null);
   const { user } = useAuth0();
@@ -28,24 +42,26 @@ const ExampleSolution = ({ step, setStep, AddExercise, ChangeAddStatus }) => {
       step.dataFromStep2.functionName &&
       step.dataFromStep2.argumentsName &&
       setCode(
-        getSignature(
-          step.dataFromStep1.programmingLanguage.toLowerCase(),
-          step.dataFromStep2.functionName,
-          step.dataFromStep2.argumentsName,
-          step.dataFromStep2.types ? step.dataFromStep2.types : []
-        )
+        step.code
+          ? step.code
+          : dataToEdit
+          ? dataToEdit.exampleSolution
+          : getSignature(
+              step.dataFromStep1.programmingLanguage.toLowerCase(),
+              step.dataFromStep2.functionName,
+              step.dataFromStep2.argumentsName,
+              step.dataFromStep2.types ? step.dataFromStep2.types : []
+            )
       );
   }, []);
 
   const prev = () => {
-    setStep((prev) => ({ ...prev, currentStep: 4 }));
+    setStep((prev) => ({ ...prev, currentStep: 4, code }));
   };
 
   const handleCodeChange = (e) => {
     setCode(e);
   };
-
-  // add checking exercise by admin
 
   const submit = () => {
     axios
@@ -58,8 +74,24 @@ const ExampleSolution = ({ step, setStep, AddExercise, ChangeAddStatus }) => {
         grant_type: 'client_credentials',
       })
       .then((token) => {
-        AddExercise(
+        if (!dataToEdit) {
+          AddExercise(
+            {
+              author: foundUser._id,
+              ...step.dataFromStep1,
+              ...step.dataFromStep2,
+              tests: step.dataFromStep3,
+              hints: step.dataFromStep4.map((el) => el[1]),
+              exampleSolution: code,
+            },
+            token
+          );
+          ChangeAddStatus();
+          return;
+        }
+        UpdateExercise(
           {
+            id: dataToEdit._id,
             author: foundUser._id,
             ...step.dataFromStep1,
             ...step.dataFromStep2,
@@ -69,8 +101,8 @@ const ExampleSolution = ({ step, setStep, AddExercise, ChangeAddStatus }) => {
           },
           token
         );
+        ChangeUpdateStatus();
       });
-    ChangeAddStatus();
   };
 
   const verifySolution = () => {
@@ -186,6 +218,8 @@ const ExampleSolution = ({ step, setStep, AddExercise, ChangeAddStatus }) => {
 const mapDispatchToProps = {
   AddExercise,
   ChangeAddStatus,
+  UpdateExercise,
+  ChangeUpdateStatus,
 };
 
 export default connect(null, mapDispatchToProps)(ExampleSolution);
@@ -195,4 +229,7 @@ ExampleSolution.propTypes = {
   setStep: PropTypes.func.isRequired,
   AddExercise: PropTypes.func,
   ChangeAddStatus: PropTypes.func,
+  dataToEdit: PropTypes.object,
+  UpdateExercise: PropTypes.func,
+  ChangeUpdateStatus: PropTypes.func,
 };

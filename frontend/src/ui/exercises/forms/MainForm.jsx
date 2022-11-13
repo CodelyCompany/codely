@@ -140,7 +140,11 @@ function MainForm({ GetExercise, redirect, StopRedirect }) {
             Here you can set amount of arguments for your function. You have to
             set the name for each argument.
           </Typography>
-          <CustomizeExercise step={step} setStep={setStep} />
+          <CustomizeExercise
+            step={step}
+            setStep={setStep}
+            dataToEdit={exercise}
+          />
         </AccordionDetails>
       </Accordion>
       <Accordion
@@ -208,7 +212,11 @@ function MainForm({ GetExercise, redirect, StopRedirect }) {
             exercise is solvable. After solving, your exercise will be send to
             the admin to get an agreement.
           </Typography>
-          <ExampleSolution step={step} setStep={setStep} />
+          <ExampleSolution
+            step={step}
+            setStep={setStep}
+            dataToEdit={exercise}
+          />
         </AccordionDetails>
       </Accordion>
     </div>

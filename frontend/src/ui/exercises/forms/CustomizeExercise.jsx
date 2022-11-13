@@ -17,7 +17,7 @@ import * as yup from 'yup';
 
 import { getDataTypes } from './utils/dataTypes';
 
-const CustomizeExercise = ({ step, setStep }) => {
+const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
   const [argumentsName, setArgumentsName] = useState([]);
   const [checked, setChecked] = useState(false);
   const [error, setError] = useState({});
@@ -125,8 +125,12 @@ const CustomizeExercise = ({ step, setStep }) => {
 
   const formik = useFormik({
     initialValues: {
-      functionName: step.dataFromStep2?.functionName || '',
-      argumentsQuantity: step.dataFromStep2?.argumentsQuantity || '',
+      functionName:
+        step.dataFromStep2?.functionName || dataToEdit?.functionName || '',
+      argumentsQuantity:
+        step.dataFromStep2?.argumentsQuantity ||
+        dataToEdit?.argumentsName.length ||
+        '',
     },
     validationSchema,
     onSubmit: (values) => {
@@ -149,9 +153,15 @@ const CustomizeExercise = ({ step, setStep }) => {
   });
 
   useEffect(() => {
-    if (step.dataFromStep2.argumentsName && !checked) {
+    if (step.dataFromStep2?.argumentsName && !checked) {
       setArgumentsName(step.dataFromStep2.argumentsName);
       setTypes(step.dataFromStep2.types);
+      setChecked(true);
+      return;
+    }
+    if (dataToEdit && !checked) {
+      setArgumentsName(dataToEdit.argumentsName);
+      setTypes(dataToEdit.types);
       setChecked(true);
       return;
     }
@@ -161,12 +171,13 @@ const CustomizeExercise = ({ step, setStep }) => {
         return '';
       })
     );
-    setTypes((prev) =>
-      [...Array(formik.values.argumentsQuantity + 1).keys()].map((el) => {
-        if (prev[el]) return prev[el];
-        return '';
-      })
-    );
+    types &&
+      setTypes((prev) =>
+        [...Array(formik.values.argumentsQuantity + 1).keys()].map((el) => {
+          if (prev[el]) return prev[el];
+          return '';
+        })
+      );
   }, [formik.values.argumentsQuantity]);
 
   const handleArgumentName = (e, argNumber) => {
@@ -340,4 +351,5 @@ export default CustomizeExercise;
 CustomizeExercise.propTypes = {
   step: PropTypes.object.isRequired,
   setStep: PropTypes.func.isRequired,
+  dataToEdit: PropTypes.object,
 };

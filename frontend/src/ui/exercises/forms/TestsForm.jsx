@@ -99,6 +99,12 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
       setTests(step.dataFromStep3);
       return;
     }
+    if (!triggered && dataToEdit) {
+      setTriggered(true);
+      setTests(dataToEdit.tests);
+      setTestsQuantity(dataToEdit.tests.length);
+      return;
+    }
     setTests((prev) =>
       [...Array(testsQuantity).keys()].map((el, index) => {
         if (!prev[index])
@@ -187,7 +193,11 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
                       const label =
                         index === 0
                           ? {
-                              label: `${step.dataFromStep2.argumentsName[argNumber]}`,
+                              label: `${
+                                step.dataFromStep2
+                                  ? step.dataFromStep2?.argumentsName[argNumber]
+                                  : ''
+                              }`,
                             }
                           : {};
                       return (

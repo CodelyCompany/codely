@@ -7,10 +7,11 @@ export const exercisesReducer = (
   switch (action.type) {
     case types.GET_EXERCISES_SUCCESS:
       return { ...state, exercises: action.payload };
+    //There aren't updating exercises,
+    //because exercises are passed to the admin.
     case types.POST_EXERCISE_SUCCESS:
       return {
         ...state,
-        exercises: [...state.exercises, action.payload],
         error: false,
       };
     case types.POST_EXERCISE_FAILURE:
