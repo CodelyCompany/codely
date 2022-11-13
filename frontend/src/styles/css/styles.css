@@ -156,12 +156,14 @@ html body .main-page-container .main-page ul li .border {
 }
 .review-card .likes .up:hover {
   color: rgb(46, 125, 50);
+  cursor: pointer;
 }
 .review-card .likes .down {
   margin-left: 5px;
 }
 .review-card .likes .down:hover {
   color: rgb(211, 47, 47);
+  cursor: pointer;
 }
 .review-card .timestamp {
   text-align: end;
