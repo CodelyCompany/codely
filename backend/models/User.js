@@ -9,9 +9,9 @@ const userSchema = new Schema({
         unique: true,
     },
     creationDate: { type: Date, default: Date.now },
-    preparedExercises: [{ type: Schema.Types.ObjectId, ref: 'Exercise' }],
-    doneExercises: [{ type: Schema.Types.ObjectId, ref: 'Exercise' }],
-    writtenComments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
+    preparedExcercises: [{ type: Schema.Types.ObjectId, ref: "Exercise" }],
+    doneExcercises: [{ type: Schema.Types.ObjectId, ref: "Exercise" }],
+    writtenReviews: [{ type: Schema.Types.ObjectId, ref: "Review" }],
 });
 
 module.exports = model('User', userSchema);
