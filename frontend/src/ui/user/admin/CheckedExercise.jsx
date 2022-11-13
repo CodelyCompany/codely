@@ -6,6 +6,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { GetExercises } from '../../../ducks/exercises/operations';
 import { getExercisesFromState } from '../../../ducks/exercises/selectors';
@@ -30,6 +31,8 @@ function CheckedExercise({ checkedExercises, GetExercises }) {
     [checkedExercises]
   );
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     (async () => {
       const token = await getAccessTokenSilently({
@@ -50,7 +53,6 @@ function CheckedExercise({ checkedExercises, GetExercises }) {
       >
         Checked exercises
       </Typography>
-      {console.log(rows)}
       <DataGrid
         sx={{ width: 'calc(100% - 20px)', height: '400px', margin: '10px' }}
         getRowId={(row) => row._id}
@@ -60,6 +62,7 @@ function CheckedExercise({ checkedExercises, GetExercises }) {
         rowsPerPageOptions={[5]}
         disableSelectionOnClick
         experimentalFeatures={{ newEditingApi: true }}
+        onCellClick={(data) => navigate(`/exercise/${data.row._id}`)}
       />
     </Card>
   );
