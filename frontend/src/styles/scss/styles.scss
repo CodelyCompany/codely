@@ -114,3 +114,43 @@ html {
   position: relative;
   top: 20px;
 }
+
+.review-card {
+  overflow-wrap: break-word;
+  border-radius: 1rem;
+  margin: 3rem;
+  padding: 1.5rem;
+  background-color:rgb(218, 218, 218);
+
+  .author {
+    font-style: italic;
+  }
+
+  .rating {
+    text-align: end;
+  }
+
+  .likes {
+    display: flex;
+    
+    .up {
+      margin-right: 5px;
+
+      &:hover {
+        color: rgb(46, 125, 50);
+      }
+    }
+
+    .down {
+      margin-left: 5px;
+
+      &:hover {
+        color: rgb(211, 47, 47);
+      }
+    }
+  }
+
+  .timestamp {
+    text-align: end;
+  }
+}

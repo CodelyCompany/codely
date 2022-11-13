@@ -58,9 +58,9 @@ const ReviewCard = ({ review }) => {
     return (
         <Grid container spacing={2} className='review-card'>
             <Grid item xs={6}>
-                <Typography variant='h5'>{author.username}</Typography>
+                <Typography variant='h5' className='author'>{author.username}</Typography>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={6} className='rating'>
                 <Rating
                     value={review.rating}
                     size='large'
@@ -73,16 +73,16 @@ const ReviewCard = ({ review }) => {
                 </Typography>
             </Grid>
             <Grid item xs={6}>
-                <Box>
-                    <ThumbUpIcon color={upvoted ? 'success' : 'disabled'} onClick={() => handleVote(true)} />
+                <Box className='likes'>
+                    <ThumbUpIcon color={upvoted ? 'success' : 'disabled'} onClick={() => handleVote(true)} className='up' />
                     <Typography color='primary'>
                         {rating}
                     </Typography>
-                    <ThumbDownIcon color={downvoted ? 'error' : 'disabled'} onClick={() => handleVote(false)} />
+                    <ThumbDownIcon color={downvoted ? 'error' : 'disabled'} onClick={() => handleVote(false)} className='down' />
                 </Box>
             </Grid>
             <Grid item xs={6}>
-                <Typography>
+                <Typography className='timestamp'>
                     {review ? `${review.editedAt ? 'Edited ' : 'Created '}
                     ${new Date(review.editedAt ? review.editedAt : review.creationDate).toLocaleDateString()} at
                     ${new Date(review.editedAt ? review.editedAt : review.creationDate).toLocaleTimeString()}` : null}

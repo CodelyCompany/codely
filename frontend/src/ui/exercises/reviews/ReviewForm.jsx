@@ -74,9 +74,11 @@ const ReviewForm = ({ review }) => {
     return (
         <Grid container spacing={2} className='review-card'>
             <Grid item xs={6}>
-                <Typography variant='h5'>{user.nickname}</Typography>
+                <Typography variant='h5' className='author'>
+                    {user.nickname}
+                </Typography>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={6} className='rating'>
                 <Rating
                     value={rating}
                     onChange={(_, newRating) => { setRating(newRating); }}
@@ -108,7 +110,7 @@ const ReviewForm = ({ review }) => {
                 </Button>
             </Grid>
             <Grid item xs={5}>
-                <Typography>
+                <Typography className='timestamp'>
                     {review ? `${review.editedAt ? 'Edited ' : 'Created '}
                     ${new Date(review.editedAt ? review.editedAt : review.creationDate).toLocaleDateString()} at
                     ${new Date(review.editedAt ? review.editedAt : review.creationDate).toLocaleTimeString()}` : null}
