@@ -141,3 +141,26 @@ export const GetExercise = (id, token) =>
       types.GET_EXERCISE_FAILURE,
     ],
   });
+
+export const CheckExercise = (id, token) =>
+  createAction({
+    endpoint: `${
+      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+    }/checkExercise/${id}`,
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    types: [
+      types.PUT_CHECK_EXERCISE_REQUEST,
+      {
+        type: types.PUT_CHECK_EXERCISE_SUCCESS,
+        payload: async (action, state, res) => {
+          const json = await res.json();
+          return json;
+        },
+      },
+      types.PUT_CHECK_EXERCISE_FAILURE,
+    ],
+  });

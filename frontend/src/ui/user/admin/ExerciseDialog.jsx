@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { useAuth0 } from '@auth0/auth0-react';
 import Editor from '@monaco-editor/react';
 import {
   Box,
@@ -13,8 +14,19 @@ import {
 } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { PropTypes } from 'prop-types';
+import { connect } from 'react-redux';
 
-function ExerciseDialog({ open, setOpen, exercise }) {
+import { CheckExercise } from '../../../ducks/exercises/operations';
+function ExerciseDialog({ open, setOpen, exercise, CheckExercise }) {
+  const { getAccessTokenSilently } = useAuth0();
+  const checkExercise = async () => {
+    const token = await getAccessTokenSilently({
+      audience: `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}`,
+    });
+    await CheckExercise(exercise._id, token);
+    handleClose();
+  };
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -134,7 +146,11 @@ function ExerciseDialog({ open, setOpen, exercise }) {
             <Button variant='contained' onClick={handleClose}>
               Reject
             </Button>
-            <Button variant='contained' onClick={handleClose} autoFocus>
+            <Button
+              variant='contained'
+              onClick={() => checkExercise()}
+              autoFocus
+            >
               Accept
             </Button>
           </DialogActions>
@@ -144,10 +160,15 @@ function ExerciseDialog({ open, setOpen, exercise }) {
   );
 }
 
-export default ExerciseDialog;
+const mapDispatchToProps = {
+  CheckExercise,
+};
+
+export default connect(null, mapDispatchToProps)(ExerciseDialog);
 
 ExerciseDialog.propTypes = {
   open: PropTypes.bool,
   setOpen: PropTypes.func,
   exercise: PropTypes.object,
+  CheckExercise: PropTypes.func,
 };
