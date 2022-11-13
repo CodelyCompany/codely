@@ -8,10 +8,10 @@ export const exercisesReducer = (
     case types.GET_EXERCISES_SUCCESS:
       return { ...state, exercises: action.payload };
     // On this type exercises are being added to the state
-    case types.PUT_EXERCISES_TO_CHECK_SUCCESS:
+    case types.PUT_CHECK_EXERCISE_SUCCESS:
       return {
         ...state,
-        exercises: [state.exercises, action.payload],
+        exercises: [...state.exercises, action.payload],
         exercisesToCheck: [
           ...state.exercisesToCheck.filter(
             (ex) => ex._id !== action.payload._id

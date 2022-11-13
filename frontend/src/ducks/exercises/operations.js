@@ -146,8 +146,8 @@ export const CheckExercise = (id, token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-    }/checkExercise/${id}`,
-    method: 'GET',
+    }/exercises/checkExercise/${id}`,
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,

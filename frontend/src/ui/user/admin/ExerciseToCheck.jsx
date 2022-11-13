@@ -3,7 +3,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Card, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -40,15 +39,12 @@ function ExerciseToCheck({ uncheckedExercises, GetUncheckedExercises }) {
   };
 
   useEffect(() => {
-    if (_.isEmpty(uncheckedExercises))
-      (async () => {
-        const token = await getAccessTokenSilently({
-          audience: `${
-            process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-          }`,
-        });
-        await GetUncheckedExercises(token);
-      })();
+    (async () => {
+      const token = await getAccessTokenSilently({
+        audience: `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}`,
+      });
+      await GetUncheckedExercises(token);
+    })();
   }, []);
 
   return (

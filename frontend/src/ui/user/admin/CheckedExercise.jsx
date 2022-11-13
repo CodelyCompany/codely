@@ -31,15 +31,12 @@ function CheckedExercise({ checkedExercises, GetExercises }) {
   );
 
   useEffect(() => {
-    if (_.isEmpty(checkedExercises))
-      (async () => {
-        const token = await getAccessTokenSilently({
-          audience: `${
-            process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-          }`,
-        });
-        await GetExercises(token);
-      })();
+    (async () => {
+      const token = await getAccessTokenSilently({
+        audience: `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}`,
+      });
+      await GetExercises(token);
+    })();
   }, []);
 
   return (
@@ -53,6 +50,7 @@ function CheckedExercise({ checkedExercises, GetExercises }) {
       >
         Checked exercises
       </Typography>
+      {console.log(rows)}
       <DataGrid
         sx={{ width: 'calc(100% - 20px)', height: '400px', margin: '10px' }}
         getRowId={(row) => row._id}
