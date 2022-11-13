@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Card, Typography } from '@mui/material';
@@ -9,8 +9,6 @@ import { connect } from 'react-redux';
 
 import { GetExercises } from '../../../ducks/exercises/operations';
 import { getExercisesFromState } from '../../../ducks/exercises/selectors';
-
-import ExerciseDialog from './ExerciseDialog';
 
 const columns = [
   {
@@ -27,7 +25,10 @@ const columns = [
 
 function CheckedExercise({ checkedExercises, GetExercises }) {
   const { getAccessTokenSilently } = useAuth0();
-  const rows = checkedExercises ? [...checkedExercises] : [];
+  const rows = useMemo(
+    () => (checkedExercises ? checkedExercises : []),
+    [checkedExercises]
+  );
 
   useEffect(() => {
     if (_.isEmpty(checkedExercises))

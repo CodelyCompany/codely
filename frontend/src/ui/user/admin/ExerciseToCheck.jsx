@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Card, Typography } from '@mui/material';
@@ -27,7 +27,10 @@ const columns = [
 
 function ExerciseToCheck({ uncheckedExercises, GetUncheckedExercises }) {
   const { getAccessTokenSilently } = useAuth0();
-  const rows = uncheckedExercises ? [...uncheckedExercises] : [];
+  const rows = useMemo(
+    () => (uncheckedExercises ? uncheckedExercises : []),
+    [uncheckedExercises]
+  );
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState({});
 
