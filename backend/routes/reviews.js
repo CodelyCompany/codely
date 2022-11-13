@@ -67,39 +67,13 @@ router.post("/addReview", async (req, res) => {
 router.put("/editReview", async (req, res) => {
     try {
         const id = req.body._id;
-        await Review.findByIdAndUpdate(id, { ...req.body, editedAt: Date.now() });
-        const updated = await Review.findById(id);
+        const inDb = await Review.findById(id);
+        const updated = 
+            req.body.comment === inDb.comment ? 
+            req.body :
+            { ...req.body, editedAt: Date.now() };
+        await Review.findByIdAndUpdate(id, updated);
         return res.status(200).send(updated);
-    } catch (error) {
-        console.log(error);
-        res.status(500).send(error);
-    }
-});
-
-router.patch('/upvote', async (req, res) => {
-    try {
-        const review = await Review.findById(req.body._id);
-        review.upvotes = 
-            review.upvotes.includes(req.body._id) ? 
-            review.upvotes.filter(id => id != req.body._id) :
-            [...review.upvotes, req.body.user_id];
-        await review.save();
-        return res.status(200).send(review);
-    } catch (error) {
-        console.log(error);
-        res.status(500).send(error);
-    }
-});
-
-router.patch('/downvote', async (req, res) => {
-    try {
-        const review = await Review.findById(req.body._id);
-        review.downvotes = 
-            review.downvotes.includes(req.body._id) ? 
-            review.downvotes.filter(id => id != req.body._id) :
-            [...review.downvotes, req.body.user_id];
-        await review.save();
-        return res.status(200).send(review);
     } catch (error) {
         console.log(error);
         res.status(500).send(error);

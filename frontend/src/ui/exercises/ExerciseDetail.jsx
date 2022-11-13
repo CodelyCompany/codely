@@ -119,7 +119,7 @@ const ExerciseDetail = ({ GetExercises }) => {
               </ListItemAvatar>
               <ListItemText
                 primary='Rating'
-                secondary={rating ? [...Array(rating).keys()].map((num) => (
+                secondary={rating ? [...Array(Math.round(rating)).keys()].map((num) => (
                   <StarRateIcon sx={{ color: 'gold' }} key={`rating-${num}`} />
                 )) : "no reviews"}
               />

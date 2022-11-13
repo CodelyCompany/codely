@@ -72,11 +72,11 @@ const ReviewForm = ({ review }) => {
     };
 
     return (
-        <Grid container spacing={2}>
+        <Grid container spacing={2} className='review-card'>
             <Grid item xs={6}>
                 <Typography variant='h5'>{user.nickname}</Typography>
             </Grid>
-            <Grid item xs={6} textAlign='end'>
+            <Grid item xs={6}>
                 <Rating
                     value={rating}
                     onChange={(_, newRating) => { setRating(newRating); }}
@@ -85,24 +85,29 @@ const ReviewForm = ({ review }) => {
                 />
             </Grid>
             <Grid item xs={12}>
+            {
+                editing ?
                 <TextField
-                    label='Comment' variant='outlined'
-                    multiline InputProps={{ readOnly: !editing }}
+                    label='Comment' variant='outlined' multiline
                     fullWidth value={comment}
                     onChange={(e) => { setComment(e.target.value); }}
-                />
+                /> :
+                <Typography>
+                    {comment}
+                </Typography>
+            }
             </Grid>
             <Grid item xs={5}>
-                <Typography color='primary' paddingLeft='10px'>
+                <Typography color='primary'>
                     {review ? review.upvotes.length - review.downvotes.length : null}
                 </Typography>
             </Grid>
-            <Grid item xs={2} textAlign='center'>
+            <Grid item xs={2}>
                 <Button color='primary' variant='contained' onClick={editing ? handleSubmit : () => setEditing(true)}>
                     {editing ? <AddIcon /> : <EditIcon />}
                 </Button>
             </Grid>
-            <Grid item xs={5} textAlign='end'>
+            <Grid item xs={5}>
                 <Typography>
                     {review ? `${review.editedAt ? 'Edited ' : 'Created '}
                     ${new Date(review.editedAt ? review.editedAt : review.creationDate).toLocaleDateString()} at

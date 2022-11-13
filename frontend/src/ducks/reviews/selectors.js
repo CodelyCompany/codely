@@ -5,3 +5,17 @@ export const getRatingByExerciseId = (id) => (state) => {
     if(reviews.length === 0) return null;
     return (reviews.reduce((acc, curr) => acc + curr.rating, 0) / reviews.length);
 };
+export const getAuthorByReviewId = (id) => (state) => {
+    const review = state.reviews.reviews.find((review) => review._id === id);
+    return state.users.users.find((user) => user._id === review.author);
+};
+export const isUpvotedByUserId = (reviewId, userId) => (state) => {
+    const review = state.reviews.reviews.find((review) => review._id === reviewId);
+    if(!review) return false;
+    return review.upvotes.includes(userId);
+};
+export const isDownvotedByUserId = (reviewId, userId) => (state) => {
+    const review = state.reviews.reviews.find((review) => review._id === reviewId);
+    if(!review) return false;
+    return review.downvotes.includes(userId);
+};
