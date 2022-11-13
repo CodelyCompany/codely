@@ -33,9 +33,7 @@ const ExampleSolution = ({
   const [tests, setTests] = useState(null);
   const { user } = useAuth0();
 
-  const foundUser = useSelector((state) =>
-    getUserByUsername(state, user.nickname)
-  );
+  const foundUser = useSelector(getUserByUsername(user.nickname));
 
   useEffect(() => {
     step.dataFromStep1.programmingLanguage &&
