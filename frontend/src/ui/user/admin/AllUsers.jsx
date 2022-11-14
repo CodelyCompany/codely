@@ -14,7 +14,7 @@ function AllUsers({ users, getUsers }) {
     if (_.isEmpty(users)) getUsers();
   }, []);
 
-  const rows = useMemo(() => (users ? _.uniqBy(users, ['_id']) : []), [users]);
+  const rows = useMemo(() => (users ? users : []), [users]);
 
   const columns = [
     {
@@ -61,9 +61,11 @@ function AllUsers({ users, getUsers }) {
         rows={rows.map((row) => ({
           ...row,
           creationDate: new Date(row.creationDate).toLocaleDateString(),
-          reviews: row.writtenReviews.length,
-          preparedExercises: row.preparedExercises.length,
-          solvedExercises: row.doneExercises.length,
+          reviews: row.writtenReviews ? row.writtenReviews.length : 0,
+          preparedExercises: row.preparedExercises
+            ? row.preparedExercises.length
+            : 0,
+          solvedExercises: row.doneExercises ? row.doneExercises.length : 0,
         }))}
         columns={columns}
         pageSize={5}
