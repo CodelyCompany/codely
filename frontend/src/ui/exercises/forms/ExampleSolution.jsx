@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import Editor from '@monaco-editor/react';
@@ -32,6 +32,20 @@ const ExampleSolution = ({
   const [code, setCode] = useState('');
   const [tests, setTests] = useState(null);
   const { user } = useAuth0();
+  const signature = useMemo(
+    () =>
+      getSignature(
+        step.dataFromStep1.programmingLanguage
+          ? step.dataFromStep1.programmingLanguage.toLowerCase()
+          : '',
+        step.dataFromStep2.functionName ? step.dataFromStep2.functionName : '',
+        step.dataFromStep2.argumentsName
+          ? step.dataFromStep2.argumentsName
+          : '',
+        step.dataFromStep2.types ? step.dataFromStep2.types : []
+      ),
+    [step.dataFromStep1, step.dataFromStep2]
+  );
 
   const foundUser = useSelector((state) =>
     getUserByUsername(state, user.nickname)
@@ -46,12 +60,7 @@ const ExampleSolution = ({
           ? step.code
           : dataToEdit
           ? dataToEdit.exampleSolution
-          : getSignature(
-              step.dataFromStep1.programmingLanguage.toLowerCase(),
-              step.dataFromStep2.functionName,
-              step.dataFromStep2.argumentsName,
-              step.dataFromStep2.types ? step.dataFromStep2.types : []
-            )
+          : signature
       );
   }, []);
 
@@ -83,12 +92,7 @@ const ExampleSolution = ({
               tests: step.dataFromStep3,
               hints: step.dataFromStep4.map((el) => el[1]),
               exampleSolution: code,
-              functionSignature: getSignature(
-                step.dataFromStep1.programmingLanguage.toLowerCase(),
-                step.dataFromStep2.functionName,
-                step.dataFromStep2.argumentsName,
-                step.dataFromStep2.types ? step.dataFromStep2.types : []
-              ), // to change
+              functionSignature: signature,
             },
             token
           );
@@ -104,12 +108,7 @@ const ExampleSolution = ({
             tests: step.dataFromStep3,
             hints: step.dataFromStep4.map((el) => el[1]),
             exampleSolution: code,
-            functionSignature: getSignature(
-              step.dataFromStep1.programmingLanguage.toLowerCase(),
-              step.dataFromStep2.functionName,
-              step.dataFromStep2.argumentsName,
-              step.dataFromStep2.types ? step.dataFromStep2.types : []
-            ), // to change
+            functionSignature: signature,
           },
           token
         );
