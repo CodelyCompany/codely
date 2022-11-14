@@ -6,14 +6,13 @@ import CircularProgress from '@mui/material/CircularProgress';
 import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
 
-import texts from '../../code_editor/languages-properties/startText';
 import OutputField from '../../code_editor/OutputField';
 
 import Buttons from './Buttons';
 import Tests from './Tests';
 
-const EditorField = ({ language }) => {
-  const [code, setCode] = useState(texts[language.toLowerCase()]);
+const EditorField = ({ language, functionSignature }) => {
+  const [code, setCode] = useState(functionSignature);
   const [output, setOutput] = useState('');
   const [tests, setTests] = useState({});
 
@@ -58,4 +57,5 @@ export default EditorField;
 
 EditorField.propTypes = {
   language: PropTypes.string.isRequired,
+  functionSignature: PropTypes.string,
 };

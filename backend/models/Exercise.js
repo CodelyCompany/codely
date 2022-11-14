@@ -26,6 +26,7 @@ const exerciseSchema = new Schema({
   checked: { type: Boolean, default: false },
   argumentsName: [{ type: String }],
   types: [{ type: String }],
+  functionSignature: { type: String, required: true },
 });
 
 module.exports = model('Exercise', exerciseSchema);

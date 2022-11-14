@@ -83,6 +83,12 @@ const ExampleSolution = ({
               tests: step.dataFromStep3,
               hints: step.dataFromStep4.map((el) => el[1]),
               exampleSolution: code,
+              functionSignature: getSignature(
+                step.dataFromStep1.programmingLanguage.toLowerCase(),
+                step.dataFromStep2.functionName,
+                step.dataFromStep2.argumentsName,
+                step.dataFromStep2.types ? step.dataFromStep2.types : []
+              ), // to change
             },
             token
           );
@@ -98,6 +104,12 @@ const ExampleSolution = ({
             tests: step.dataFromStep3,
             hints: step.dataFromStep4.map((el) => el[1]),
             exampleSolution: code,
+            functionSignature: getSignature(
+              step.dataFromStep1.programmingLanguage.toLowerCase(),
+              step.dataFromStep2.functionName,
+              step.dataFromStep2.argumentsName,
+              step.dataFromStep2.types ? step.dataFromStep2.types : []
+            ), // to change
           },
           token
         );

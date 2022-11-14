@@ -117,6 +117,7 @@ router.post('/addExercise', async (req, res) => {
         hints: data.hints,
         exampleSolution: data.exampleSolution,
         argumentsName: data.argumentsName,
+        functionSignature: data.functionSignature,
       });
       await newExercise.save();
       let tests = [];
