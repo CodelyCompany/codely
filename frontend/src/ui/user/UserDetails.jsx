@@ -34,7 +34,11 @@ const UserDetails = ({ GetUsers }) => {
   return (
     <Container sx={{ height: '100%' }}>
       {!_.isEmpty(foundUser) && (
-        <Box sx={{ margin: '20px' }}>
+        <Box
+          sx={{
+            margin: '20px',
+          }}
+        >
           <Box
             sx={{
               borderBottom: '3px solid rgb(25, 118, 210)',
