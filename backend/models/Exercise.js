@@ -23,6 +23,7 @@ const exerciseSchema = new Schema({
     reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
     exampleSolution: { type: String, maxlength: 5000 },
     tests: [{ type: Schema.Types.ObjectId, ref: 'Test' }],
+    checked: { type: Boolean, default: false },
 });
 
 module.exports = model('Exercise', exerciseSchema);
