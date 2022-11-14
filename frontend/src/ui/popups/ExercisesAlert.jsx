@@ -9,9 +9,9 @@ import { connect } from 'react-redux';
 
 import { getError } from '../../ducks/exercises/selectors';
 import {
-  ChangeAddStatus,
-  ChangeDeleteStatus,
-  ChangeUpdateStatus,
+  CloseAddPopup,
+  CloseDeletePopup,
+  CloseUpdatePopup,
 } from '../../ducks/popups/actions';
 import {
   getAddStatus,
@@ -23,15 +23,15 @@ const ExerciseAlert = ({
   addStatus,
   deleteStatus,
   updateStatus,
-  ChangeAddStatus,
-  ChangeDeleteStatus,
-  ChangeUpdateStatus,
+  CloseAddPopup,
+  CloseDeletePopup,
+  CloseUpdatePopup,
   error,
 }) => {
   const messages = {
     add: {
-      success: 'Exercise addded successfuly',
-      error: 'Error occured during adding exercise',
+      success: 'Exercise passed for admin verification',
+      error: 'Error occured during passing exercise for admin verification',
     },
     delete: {
       success: 'Exercise deleted successfuly',
@@ -55,12 +55,10 @@ const ExerciseAlert = ({
   };
 
   const closeMessage = () => {
-    if (addStatus) ChangeAddStatus();
-    if (deleteStatus) ChangeDeleteStatus();
-    if (updateStatus) ChangeUpdateStatus();
+    if (addStatus) CloseAddPopup();
+    if (deleteStatus) CloseDeletePopup();
+    if (updateStatus) CloseUpdatePopup();
   };
-
-  //to do: add triggering delete and update
 
   return (
     <Box
@@ -78,7 +76,7 @@ const ExerciseAlert = ({
       <Collapse in={addStatus || deleteStatus || updateStatus}>
         <Alert
           variant='filled'
-          severity={'success'}
+          severity={error ? 'error' : 'success'}
           action={
             <IconButton
               color='inherit'
@@ -105,9 +103,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  ChangeAddStatus,
-  ChangeUpdateStatus,
-  ChangeDeleteStatus,
+  CloseAddPopup,
+  CloseDeletePopup,
+  CloseUpdatePopup,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExerciseAlert);
@@ -116,8 +114,8 @@ ExerciseAlert.propTypes = {
   addStatus: PropTypes.bool,
   deleteStatus: PropTypes.bool,
   updateStatus: PropTypes.bool,
-  ChangeAddStatus: PropTypes.func,
-  ChangeDeleteStatus: PropTypes.func,
-  ChangeUpdateStatus: PropTypes.func,
+  CloseAddPopup: PropTypes.func,
+  CloseDeletePopup: PropTypes.func,
+  CloseUpdatePopup: PropTypes.func,
   error: PropTypes.bool,
 };

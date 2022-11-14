@@ -2,95 +2,134 @@ import React, { useEffect, useState } from 'react';
 
 import { Box, MenuItem } from '@mui/material';
 import { Button, TextField } from '@mui/material';
+import * as _ from 'lodash';
 import PropTypes from 'prop-types';
+import * as yup from 'yup';
 
 const TestsForm = ({ setStep, dataToEdit, step }) => {
   const [testsQuantity, setTestsQuantity] = useState('');
-
   const [tests, setTests] = useState([]);
   const [triggered, setTriggered] = useState(false);
-  const [triggeringChangeQuantity, setTriggeringChangeQuantity] =
-    useState(false);
+  const [error, setError] = useState({});
 
-  // it will change size of the form
-  useEffect(() => {
-    if (step.dataFromStep2) {
-      setTestsQuantity(step.dataFromStep2.length);
-      return;
-    }
-    dataToEdit && setTestsQuantity(dataToEdit.tests.length);
-  }, []);
+  const inputValidation = yup
+    .string('Enter an input')
+    .required('Input is required');
 
-  useEffect(() => {
-    if (!triggeringChangeQuantity) {
-      step.dataFromStep2 && setTests(step.dataFromStep2);
-      setTriggeringChangeQuantity((prev) => !prev);
-    }
-  }, [testsQuantity]);
+  const outputValidation = yup
+    .string('Enter an output')
+    .required('Output is required');
 
-  //it will be triggered when form increase its size to fill it asynchronously
-  useEffect(() => {
-    if (dataToEdit && !triggered && !step.dataFromStep2) {
-      setTests(
-        dataToEdit.tests.map((test, index) => [index, test.input, test.output])
-      );
-      setTriggered((prev) => !prev);
-    }
-  }, [testsQuantity]);
+  const testsValidationSchema = yup.object({
+    tests: yup.array('Enter all tests').of(
+      yup.object({
+        input: yup
+          .array('Enter this field')
+          .of(
+            yup.string('Enter this field').required('This field is required')
+          ),
+        output: yup
+          .string('Enter this field')
+          .required('This field is required'),
+      })
+    ),
+  });
 
   const submitValues = () => {
-    if (canSubmit())
-      setStep((prev) => ({
-        ...prev,
-        currentStep: 3,
-        dataFromStep2: tests,
-      }));
+    testsValidationSchema
+      .validate({ tests })
+      .then((valid) => {
+        if (valid) {
+          setError({});
+          setStep((prev) => ({
+            ...prev,
+            currentStep: 4,
+            dataFromStep3: tests,
+          }));
+        }
+      })
+      .catch((err) => setError({ error: err.errors }));
   };
 
   const goToPreviousStage = () => {
     setStep((prev) => ({
       ...prev,
-      currentStep: 1,
-      dataFromStep2: tests,
+      currentStep: 2,
+      dataFromStep3: tests,
     }));
   };
 
-  const canSubmit = () => {
-    let submit = true;
-    if (!tests || testsQuantity === '') return false;
-    tests.forEach((el) => {
-      if (el[1] === '' || el[2] === '') submit = false;
-    });
-    return submit;
-  };
-
-  useEffect(() => {
+  const handleOutput = (testIndex, e) => {
     setTests((prev) =>
-      [...Array(testsQuantity).keys()].map((number) => {
-        const found = prev.find((el) => el[0] === number);
-        if (!found) return [number, '', ''];
-        return found;
-      })
-    );
-  }, [testsQuantity]);
-
-  const getValue = (number, type) => {
-    const found = tests.find((el) => el[0] === number);
-    if (!found) return '';
-    return type === 'input' ? found[1] : found[2];
-  };
-
-  const handleValue = (event, number, type) => {
-    setTests((prev) =>
-      prev.map((el) => {
-        if (el[0] === number) {
-          if (type === 'input') return [el[0], event.target.value, el[2]];
-          return [el[0], el[1], event.target.value];
+      prev.map((el, index) => {
+        if (testIndex === index) {
+          return {
+            ...el,
+            output: e.target.value,
+          };
         }
         return el;
       })
     );
   };
+
+  const handleTests = (testNumber, argNumber, e) => {
+    setTests((prev) =>
+      prev.map((test, index) => {
+        if (testNumber === index) {
+          return {
+            ...test,
+            input: test.input.map((input, argIndex) => {
+              if (argNumber === argIndex) {
+                return e.target.value;
+              }
+              return input;
+            }),
+          };
+        }
+        return test;
+      })
+    );
+  };
+
+  useEffect(() => {
+    if (!triggered && step.dataFromStep3) {
+      setTestsQuantity(step.dataFromStep3.length);
+      setTriggered(true);
+      setTests(step.dataFromStep3);
+      return;
+    }
+    if (!triggered && dataToEdit) {
+      setTriggered(true);
+      setTests(dataToEdit.tests);
+      setTestsQuantity(dataToEdit.tests.length);
+      return;
+    }
+    setTests((prev) =>
+      [...Array(testsQuantity).keys()].map((el, index) => {
+        if (!prev[index])
+          return {
+            input: [...Array(step.dataFromStep2.argumentsQuantity).keys()].map(
+              () => ''
+            ),
+            output: '',
+          };
+        if (prev[index].input.length !== step.dataFromStep2.argumentsQuantity) {
+          return {
+            ...prev[index],
+            input: [...Array(step.dataFromStep2.argumentsQuantity).keys()].map(
+              (missingInput, missingInputIndex) => {
+                if (prev[index].input[missingInputIndex])
+                  return prev[index].input[missingInputIndex];
+                return '';
+              }
+            ),
+          };
+        }
+        return prev[index];
+      })
+    );
+  }, [testsQuantity]);
 
   return (
     <Box
@@ -131,35 +170,86 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
         }}
       >
         {testsQuantity !== '' &&
-          [...Array(testsQuantity).keys()].map((number) => (
-            <div key={number} style={{ width: '100%' }}>
-              <TextField
-                required
-                sx={{
+          [...Array(testsQuantity).keys()].map((number, index) => {
+            const outputLabel =
+              index === 0
+                ? {
+                    label: `output`,
+                  }
+                : {};
+            return (
+              <Box
+                key={number}
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
                   marginBottom: '10px',
-                  marginRight: '10px',
-                  width: 'calc(50% - 10px)',
                 }}
-                label={number === 0 ? 'Inputs' : ''}
-                name='input'
-                value={getValue(number, 'input')}
-                onChange={(e) => handleValue(e, number, 'input')}
-              />
-              <TextField
-                required
-                sx={{ marginBottom: '10px', width: 'calc(50% - 10px)' }}
-                label={number === 0 ? 'Outputs' : ''}
-                name='output'
-                value={getValue(number, 'output')}
-                onChange={(e) => handleValue(e, number, 'output')}
-              />
-            </div>
-          ))}
+              >
+                <Box sx={{ display: 'flex', marginRight: '10px' }}>
+                  {[...Array(step.dataFromStep2.argumentsQuantity).keys()].map(
+                    (argNumber) => {
+                      const label =
+                        index === 0
+                          ? {
+                              label: `${
+                                step.dataFromStep2
+                                  ? step.dataFromStep2?.argumentsName[argNumber]
+                                  : ''
+                              }`,
+                            }
+                          : {};
+                      return (
+                        <TextField
+                          {...label}
+                          key={argNumber}
+                          value={tests[index]?.input[argNumber] || ''}
+                          onChange={(e) => handleTests(index, argNumber, e)}
+                          error={
+                            error.error &&
+                            !inputValidation.isValidSync(
+                              tests[index]?.input[argNumber] || ''
+                            )
+                          }
+                          helperText={
+                            error &&
+                            !inputValidation.isValidSync(
+                              tests[index]?.input[argNumber] || ''
+                            ) &&
+                            error.error
+                          }
+                        />
+                      );
+                    }
+                  )}
+                </Box>
+                <Box>
+                  <TextField
+                    {...outputLabel}
+                    value={tests[index]?.output || ''}
+                    onChange={(e) => handleOutput(index, e)}
+                    error={
+                      error.error &&
+                      !outputValidation.isValidSync(tests[index]?.output || '')
+                    }
+                    helperText={
+                      error.error &&
+                      !outputValidation.isValidSync(
+                        tests[index]?.output || ''
+                      ) &&
+                      error.error
+                    }
+                  />
+                </Box>
+              </Box>
+            );
+          })}
 
         <Button
           fullWidth
           sx={{ marginBottom: '10px' }}
-          type='submit'
+          type='button'
           onClick={() => goToPreviousStage()}
           variant='contained'
         >
@@ -167,7 +257,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
         </Button>
         <Button
           fullWidth
-          type='submit'
+          type='button'
           onClick={() => submitValues()}
           variant='contained'
         >

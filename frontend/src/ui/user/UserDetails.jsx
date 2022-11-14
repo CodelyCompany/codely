@@ -12,7 +12,7 @@ import { getUserByUsername } from '../../ducks/user/selectors';
 
 import SectionWrapper from './SectionWrapper';
 import UserExercisesList from './UserExercisesList';
-import WrittenComments from './WrittenComments';
+import WrittenReviews from './WrittenReviews';
 
 const UserDetails = ({ GetUsers }) => {
     const { user, getAccessTokenSilently } = useAuth0();
@@ -28,9 +28,7 @@ const UserDetails = ({ GetUsers }) => {
         })();
     }, []);
 
-    const foundUser = useSelector((state) =>
-        getUserByUsername(state, user.nickname)
-    );
+  const foundUser = useSelector(getUserByUsername(user.nickname));
 
     return (
         <Container sx={{ height: '100%' }}>
@@ -80,10 +78,10 @@ const UserDetails = ({ GetUsers }) => {
                         />
                     </SectionWrapper>
                     <SectionWrapper
-                        mode="comments"
-                        condition={!_.isEmpty(foundUser.writtenComments)}
+                        mode="reviews"
+                        condition={!_.isEmpty(foundUser.writtenReviews)}
                     >
-                        <WrittenComments comments={foundUser.writtenComments} />
+                        <WrittenReviews reviews={foundUser.writtenReviews} />
                     </SectionWrapper>
                 </Box>
             )}

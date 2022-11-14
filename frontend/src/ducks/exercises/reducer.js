@@ -6,13 +6,19 @@ export const exercisesReducer = (
 ) => {
   switch (action.type) {
     case types.GET_EXERCISES_SUCCESS:
-      return { exercises: action.payload };
+      return { ...state, exercises: action.payload };
+    //There aren't updating exercises,
+    //because exercises are passed to the admin.
     case types.POST_EXERCISE_SUCCESS:
-      return { exercises: [...state.exercises, action.payload], error: false };
+      return {
+        ...state,
+        error: false,
+      };
     case types.POST_EXERCISE_FAILURE:
       return { ...state, error: true };
     case types.DELETE_EXERCISE_SUCCESS:
       return {
+        ...state,
         exercises: [
           ...state.exercises.filter((ex) => ex._id !== action.payload.id),
         ],
@@ -22,6 +28,7 @@ export const exercisesReducer = (
       return { ...state, error: true };
     case types.UPDATE_EXERCISE_SUCCESS:
       return {
+        ...state,
         exercises: [
           ...state.exercises.filter((ex) => ex._id !== action.payload._id),
           action.payload,
@@ -32,6 +39,7 @@ export const exercisesReducer = (
       return { ...state, error: false };
     case types.GET_EXERCISE_SUCCESS:
       return {
+        ...state,
         exercises: [
           ...state.exercises.filter((ex) => ex._id !== action.payload._id),
           action.payload,
