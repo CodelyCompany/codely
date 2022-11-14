@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const Exercise = require('../models/Exercise');
-const Comment = require('../models/Comment');
+const Review = require('../models/Review');
 const Test = require('../models/Test');
 const axios = require('axios');
 require('dotenv').config();
@@ -245,7 +245,7 @@ router.delete('/deleteExercise/:id', async (req, res) => {
         ),
       });
     }
-    await Comment.deleteMany({
+    await Review.deleteMany({
       exercise: exercise._id,
     });
     await Test.deleteMany({

@@ -36,7 +36,7 @@ function MainForm({ GetExercise, redirect, StopRedirect }) {
   const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
   const { id } = useParams();
-  const exercise = useSelector((state) => getExerciseById(state, id));
+  const exercise = useSelector(getExerciseById(id));
 
   useEffect(() => {
     if (redirect) {
@@ -185,7 +185,7 @@ function MainForm({ GetExercise, redirect, StopRedirect }) {
             color='primary'
             sx={{ margin: '10px', fontWeight: 'bolder' }}
           >
-            Here you can choose quantity of your tests. Remember that not all
+            Here you can choose quantity of your hints. Remember that not all
             users will be able to solve your exercise without some help.
           </Typography>
           <HintsForms step={step} setStep={setStep} dataToEdit={exercise} />

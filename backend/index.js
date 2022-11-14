@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const http = require('http');
 const users = require('./routes/users');
 const exercises = require('./routes/exercises');
-const comments = require('./routes/comments');
+const reviews = require('./routes/reviews');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 const jwtCheck = require('./auth');
@@ -23,7 +23,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use('/users', users);
 app.use('/exercises', exercises);
-app.use('/comments', comments);
+app.use('/reviews', reviews);
 
 require('dotenv').config();
 

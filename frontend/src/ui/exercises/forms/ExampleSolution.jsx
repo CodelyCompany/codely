@@ -47,9 +47,7 @@ const ExampleSolution = ({
     [step.dataFromStep1, step.dataFromStep2]
   );
 
-  const foundUser = useSelector((state) =>
-    getUserByUsername(state, user.nickname)
-  );
+  const foundUser = useSelector(getUserByUsername(user.nickname));
 
   useEffect(() => {
     step.dataFromStep1.programmingLanguage &&

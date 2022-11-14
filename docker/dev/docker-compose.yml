@@ -7,7 +7,7 @@ services:
         ports:
             - '27017:27017'
         volumes:
-            - /home/mtx22/mongodb/database:/data/db
+            - /home/${USER}/mongodb/database:/data/db
         environment:
             - MONGO_INITDB_DATABASE=local
             - MONGO_INITDB_ROOT_USERNAME=user
