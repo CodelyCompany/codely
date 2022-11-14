@@ -24,20 +24,28 @@ router.get('/:id', async (req, res) => {
             'preparedExercises',
             'doneExercises',
         ]);
-        const checkedExercises = data.preparedExercises.filter(
-            (n) => n.checked
-        );
-        const uncheckedExercises = data.preparedExercises.filter(
-            (n) => !n.checked
+        const dividedExercises = await data.preparedExercises.reduce(
+            (acc, curr) => {
+                if (curr.checked) {
+                    return {
+                        checkedExercises: [...acc.checkedExercises, curr],
+                        uncheckedExercises: acc.uncheckedExercises,
+                    };
+                } else {
+                    return {
+                        checkedExercises: acc.uncheckedExercises,
+                        uncheckedExercises: [...acc.checkedExercises, curr],
+                    };
+                }
+            },
+            { checkedExercises: [], uncheckedExercises: [] }
         );
         const response = {
             ...data._doc,
-            preparedExercises: {
-                checked: checkedExercises,
-                unchecked: uncheckedExercises,
-            },
-            checkedPreparedExercises: checkedExercises.length,
-            uncheckedPreparedExercises: uncheckedExercises.length,
+            preparedExercises: dividedExercises,
+            checkedPreparedExercises: dividedExercises.checkedExercises.length,
+            uncheckedPreparedExercises:
+                dividedExercises.uncheckedExercises.length,
         };
         res.status(200).send(response);
     } catch (error) {
