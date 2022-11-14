@@ -16,6 +16,7 @@ RUN rm -f .env* ; \
 
 FROM nginx:alpine as nginx
 COPY --from=build-stage /opt/app/build /usr/share/nginx/html
+# COPY --from=build-stage /opt/app/nginx.conf /etc/nginx/conf.d/default.conf
 RUN echo "\
 export ENV_LIST=\"\$(printenv | awk -F= '{print $1}' | sed 's/^/\$/g' | paste -sd,)\"; \
 find /usr/share/nginx/html/static/ -type f -name \"*.js\"| \
