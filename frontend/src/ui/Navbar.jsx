@@ -22,10 +22,11 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
+import { GetReviews } from '../ducks/reviews/operations';
 import { AddUser, GetUsers } from '../ducks/user/operations';
 import logo from '../logo.png';
 
-const Navbar = ({ GetUsers, AddUser, users }) => {
+const Navbar = ({ GetUsers, AddUser, users, GetReviews }) => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const navigate = useNavigate();
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -53,6 +54,7 @@ const Navbar = ({ GetUsers, AddUser, users }) => {
             }`,
           });
           await GetUsers(token);
+          await GetReviews(token);
           const foundUser = users.find((usr) => usr.username === user.nickname);
           if (_.isEmpty(foundUser))
             await AddUser({ username: user.nickname }, token);
@@ -223,12 +225,14 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   GetUsers,
   AddUser,
+  GetReviews,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
 
 Navbar.propTypes = {
   GetUsers: PropTypes.func,
+  GetReviews: PropTypes.func,
   AddUser: PropTypes.func,
   users: PropTypes.array,
 };

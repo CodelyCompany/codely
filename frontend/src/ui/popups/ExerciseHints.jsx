@@ -19,7 +19,7 @@ function ExerciseHints() {
 
   const { id } = useParams();
 
-  const exercise = useSelector((state) => getExerciseById(state, id));
+  const exercise = useSelector(getExerciseById(id));
 
   const handleClickOpen = () => {
     setOpen(true);

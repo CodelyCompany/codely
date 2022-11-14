@@ -23,13 +23,17 @@ import { useNavigate } from 'react-router-dom';
 import { DeleteExercise, GetExercises } from '../../ducks/exercises/operations';
 import { getExerciseById } from '../../ducks/exercises/selectors';
 import { ChangeDeleteStatus } from '../../ducks/popups/actions';
+import { getRatingByExerciseId } from '../../ducks/reviews/selectors';
 import Confirmation from '../popups/Confirmation';
 
 import EditorField from './editor_to_exercises/EditorField';
+import Reviews from './reviews/Reviews';
 
 const ExerciseDetail = ({ GetExercises }) => {
+
   const { id } = useParams();
-  const exercise = useSelector((state) => getExerciseById(state, id));
+  const exercise = useSelector(getExerciseById(id));
+  const rating = useSelector(getRatingByExerciseId(id));
   const { getAccessTokenSilently, user } = useAuth0();
   const navigate = useNavigate();
   const [toDelete, setToDelete] = useState(false);
@@ -124,7 +128,20 @@ const ExerciseDetail = ({ GetExercises }) => {
                   secondary={exercise.description}
                 />
               </ListItem>
-            </List>
+              <ListItem>
+              <ListItemAvatar>
+                <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
+                  <StarRateIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary='Rating'
+                secondary={rating ? [...Array(Math.round(rating)).keys()].map((num) => (
+                  <StarRateIcon sx={{ color: 'gold' }} key={`rating-${num}`} />
+                )) : "no reviews"}
+              />
+            </ListItem>
+          </List>
 
             {user.nickname === exercise.author.username && (
               <Box
@@ -156,7 +173,10 @@ const ExerciseDetail = ({ GetExercises }) => {
           <Box>
             <EditorField language={exercise.programmingLanguage} />
           </Box>
-        </Container>
+          <Box>
+          <Reviews />
+        </Box>
+      </Container>
         <Confirmation open={toDelete} setOpen={setToDelete} />
       </>
     )

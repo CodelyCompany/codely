@@ -47,16 +47,18 @@ router.post('/python', async (req, res) => {
             data.func && data.args
                 ? (data.toExecute =
                       data.toExecute +
-                      '\n print(' +
+                      ' \nprint(' +
                       data.func +
                       '(' +
                       data.args.join(', ') +
-                      '));')
+                      ')); \n')
                 : data.toExecute;
         const response = await axios.post(urlData.python_url, {
             toExecute,
         });
-        return res.status(200).send(response.data);
+        return res
+            .status(200)
+            .send({ output: response.data.output.slice(0, -1) });
     } catch (error) {
         if (error.response && error.response.data.stderr) {
             return res.status(202).send({ output: error.response.data.stderr });
