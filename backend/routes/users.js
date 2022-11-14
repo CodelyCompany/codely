@@ -24,19 +24,18 @@ router.get('/:id', async (req, res) => {
             'preparedExercises',
             'doneExercises',
         ]);
-        const dividedExercises = await data.preparedExercises.reduce(
+        const dividedExercises = data.preparedExercises.reduce(
             (acc, curr) => {
                 if (curr.checked) {
                     return {
+                        ...acc,
                         checkedExercises: [...acc.checkedExercises, curr],
-                        uncheckedExercises: acc.uncheckedExercises,
-                    };
-                } else {
-                    return {
-                        checkedExercises: acc.uncheckedExercises,
-                        uncheckedExercises: [...acc.checkedExercises, curr],
                     };
                 }
+                return {
+                    ...acc,
+                    uncheckedExercises: [...acc.uncheckedExercises, curr],
+                };
             },
             { checkedExercises: [], uncheckedExercises: [] }
         );
@@ -87,56 +86,56 @@ router.put('/editUser', async (req, res) => {
 });
 
 router.delete('/deleteUserExercise/:id', async (req, res) => {
-  try {
-    const data = req.params;
-    const account = await User.findById(data.id);
-    const exercise = await Exercise.find({
-      author: account._id,
-    });
-    exercise.forEach(async (n) => {
-      await Review.deleteMany({
-        exercise: n._id,
-      });
-    });
-    await Exercise.deleteMany({
-      author: account._id,
-    });
-    await Review.updateMany(
-      {
-        author: account._id,
-      },
-      { author: null }
-    );
-    await User.findByIdAndDelete(data.id);
-    return res.status(200).send(true);
-  } catch (error) {
-    console.log(error);
-    res.status(500).send(error);
-  }
+    try {
+        const data = req.params;
+        const account = await User.findById(data.id);
+        const exercise = await Exercise.find({
+            author: account._id,
+        });
+        exercise.forEach(async (n) => {
+            await Review.deleteMany({
+                exercise: n._id,
+            });
+        });
+        await Exercise.deleteMany({
+            author: account._id,
+        });
+        await Review.updateMany(
+            {
+                author: account._id,
+            },
+            { author: null }
+        );
+        await User.findByIdAndDelete(data.id);
+        return res.status(200).send(true);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error);
+    }
 });
 
 router.delete('/deleteUser/:id', async (req, res) => {
-  try {
-    const data = req.params;
-    const account = await User.findById(data.id);
-    await Exercise.updateMany(
-      {
-        author: account._id,
-      },
-      { author: null }
-    );
-    await Review.updateMany(
-      {
-        author: account._id,
-      },
-      { author: null }
-    );
-    await User.findByIdAndDelete(data.id);
-    return res.status(200).send(true);
-  } catch (error) {
-    console.log(error);
-    res.status(500).send(error);
-  }
+    try {
+        const data = req.params;
+        const account = await User.findById(data.id);
+        await Exercise.updateMany(
+            {
+                author: account._id,
+            },
+            { author: null }
+        );
+        await Review.updateMany(
+            {
+                author: account._id,
+            },
+            { author: null }
+        );
+        await User.findByIdAndDelete(data.id);
+        return res.status(200).send(true);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error);
+    }
 });
 
 module.exports = router;
