@@ -30,7 +30,6 @@ import EditorField from './editor_to_exercises/EditorField';
 import Reviews from './reviews/Reviews';
 
 const ExerciseDetail = ({ GetExercises }) => {
-
   const { id } = useParams();
   const exercise = useSelector(getExerciseById(id));
   const rating = useSelector(getRatingByExerciseId(id));
@@ -50,14 +49,6 @@ const ExerciseDetail = ({ GetExercises }) => {
       })();
     }
   }, []);
-
-  // const deleteExercise = async () => {
-  //   const token = await getAccessTokenSilently({
-  //     audience: `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}`,
-  //   });
-  //   await DeleteExercise(id, token);
-  //   navigate('/exercises');
-  // };
 
   return (
     exercise && (
@@ -129,19 +120,26 @@ const ExerciseDetail = ({ GetExercises }) => {
                 />
               </ListItem>
               <ListItem>
-              <ListItemAvatar>
-                <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
-                  <StarRateIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary='Rating'
-                secondary={rating ? [...Array(Math.round(rating)).keys()].map((num) => (
-                  <StarRateIcon sx={{ color: 'gold' }} key={`rating-${num}`} />
-                )) : "no reviews"}
-              />
-            </ListItem>
-          </List>
+                <ListItemAvatar>
+                  <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
+                    <StarRateIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary='Rating'
+                  secondary={
+                    rating
+                      ? [...Array(Math.round(rating)).keys()].map((num) => (
+                          <StarRateIcon
+                            sx={{ color: 'gold' }}
+                            key={`rating-${num}`}
+                          />
+                        ))
+                      : 'no reviews'
+                  }
+                />
+              </ListItem>
+            </List>
 
             {user.nickname === exercise.author.username && (
               <Box
@@ -177,9 +175,9 @@ const ExerciseDetail = ({ GetExercises }) => {
             />
           </Box>
           <Box>
-          <Reviews />
-        </Box>
-      </Container>
+            <Reviews />
+          </Box>
+        </Container>
         <Confirmation open={toDelete} setOpen={setToDelete} />
       </>
     )

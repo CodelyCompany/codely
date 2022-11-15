@@ -44,7 +44,7 @@ function ExerciseDialog({ open, setOpen, exercise, CheckExercise }) {
 
   return (
     <div>
-      {exercise.length && (
+      {!_.isEmpty(exercise) && (
         <Dialog
           fullWidth
           open={open}

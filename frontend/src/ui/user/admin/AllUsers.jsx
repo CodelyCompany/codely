@@ -47,7 +47,6 @@ function AllUsers({ users, GetUsers }) {
 
   return (
     <Card sx={{ height: '100%', margin: '10px', padding: '10px' }}>
-      {console.log(users)}
       <Typography
         color='primary'
         fontWeight={'bolder'}
