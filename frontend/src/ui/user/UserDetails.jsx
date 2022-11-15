@@ -31,7 +31,7 @@ const UserDetails = ({ GetUsers }) => {
 
   return (
     <Container sx={{ height: '100%' }}>
-      {foundUser.length && (
+      {foundUser && (
         <Box sx={{ margin: '20px' }}>
           <Box
             sx={{
