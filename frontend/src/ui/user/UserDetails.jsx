@@ -31,7 +31,7 @@ const UserDetails = ({ GetUsers }) => {
 
   return (
     <Container sx={{ height: '100%' }}>
-      {foundUser.length && (
+      {foundUser && (
         <Box sx={{ margin: '20px' }}>
           <Box
             sx={{
@@ -42,41 +42,41 @@ const UserDetails = ({ GetUsers }) => {
             }}
           >
             <Typography
-              color='primary'
-              variant='h2'
+              color="primary"
+              variant="h2"
               sx={{
                 fontWeight: 'bolder',
               }}
             >
               {foundUser.username}
             </Typography>
-            <Typography color='primary' variant='h6'>
+            <Typography color="primary" variant="h6">
               User since:{' '}
               {new Date(foundUser.creationDate).toLocaleDateString()}
             </Typography>
           </Box>
           <SectionWrapper
             condition={!_.isEmpty(foundUser.doneExercises)}
-            mode='done'
+            mode="done"
           >
             <UserExercisesList
               exercises={foundUser.doneExercises}
-              mode='done'
+              mode="done"
             />
           </SectionWrapper>
           <SectionWrapper
             condition={
               !_.isEmpty(foundUser.preparedExercises.filter((el) => el.checked))
             }
-            mode='prepared'
+            mode="prepared"
           >
             <UserExercisesList
               exercises={foundUser.preparedExercises.filter((el) => el.checked)}
-              mode='prepared'
+              mode="prepared"
             />
           </SectionWrapper>
           <SectionWrapper
-            mode='unchecked'
+            mode="unchecked"
             condition={
               !_.isEmpty(
                 foundUser.preparedExercises.filter((el) => !el.checked)
@@ -90,7 +90,7 @@ const UserDetails = ({ GetUsers }) => {
             />
           </SectionWrapper>
           <SectionWrapper
-            mode='reviews'
+            mode="reviews"
             condition={!_.isEmpty(foundUser.writtenReviews)}
           >
             <WrittenReviews reviews={foundUser.writtenReviews} />
