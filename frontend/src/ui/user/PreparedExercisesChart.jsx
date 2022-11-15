@@ -35,7 +35,18 @@ const PreparedExercisesChart = ({ exercises, mode }) => {
 
   return (
     <Line
+      width={1000}
+      height={300}
       datasetIdKey='id'
+      style={{ alignSelf: 'center' }}
+      options={{
+        tension: 0.2,
+        maintainAspectRatio: false,
+        responsive: false,
+        ticks: {
+          stepSize: 1,
+        },
+      }}
       data={{
         labels,
         datasets: [

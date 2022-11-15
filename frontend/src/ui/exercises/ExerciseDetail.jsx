@@ -171,7 +171,10 @@ const ExerciseDetail = ({ GetExercises }) => {
             )}
           </Box>
           <Box>
-            <EditorField language={exercise.programmingLanguage} />
+            <EditorField
+              language={exercise.programmingLanguage}
+              functionSignature={exercise.functionSignature}
+            />
           </Box>
           <Box>
           <Reviews />

@@ -25,6 +25,29 @@ export const GetExercises = (token) =>
     ],
   });
 
+export const GetUncheckedExercises = (token) =>
+  createAction({
+    endpoint: `${
+      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+    }/exercises/unchecked`,
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    types: [
+      types.GET_EXERCISES_TO_CHECK_REQUEST,
+      {
+        type: types.GET_EXERCISES_TO_CHECK_SUCCESS,
+        payload: async (action, state, res) => {
+          const json = await res.json();
+          return json;
+        },
+      },
+      types.GET_EXERCISES_TO_CHECK_FAILURE,
+    ],
+  });
+
 export const AddExercise = (body, token) =>
   createAction({
     endpoint: `${
@@ -116,5 +139,28 @@ export const GetExercise = (id, token) =>
         },
       },
       types.GET_EXERCISE_FAILURE,
+    ],
+  });
+
+export const CheckExercise = (id, token) =>
+  createAction({
+    endpoint: `${
+      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+    }/exercises/checkExercise/${id}`,
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    types: [
+      types.PUT_CHECK_EXERCISE_REQUEST,
+      {
+        type: types.PUT_CHECK_EXERCISE_SUCCESS,
+        payload: async (action, state, res) => {
+          const json = await res.json();
+          return json;
+        },
+      },
+      types.PUT_CHECK_EXERCISE_FAILURE,
     ],
   });

@@ -57,7 +57,10 @@ router.get('/checked', async (req, res) => {
 
 router.get('/unchecked', async (req, res) => {
   try {
-    const data = await Exercise.find({ checked: false }).populate('author');
+    const data = await Exercise.find({ checked: false }).populate([
+      'author',
+      'tests',
+    ]);
     res.status(200).send(data);
   } catch (error) {
     console.log(error);
@@ -114,6 +117,7 @@ router.post('/addExercise', async (req, res) => {
         hints: data.hints,
         exampleSolution: data.exampleSolution,
         argumentsName: data.argumentsName,
+        functionSignature: data.functionSignature,
       });
       await newExercise.save();
       let tests = [];
@@ -209,7 +213,7 @@ router.put('/editExercise', async (req, res) => {
 router.put('/checkExercise/:id', async (req, res) => {
   try {
     const id = req.params.id;
-    const exercise = await Exercise.findById(id);
+    const exercise = await Exercise.findById(id).populate('author');
     await Exercise.findByIdAndUpdate(id, {
       checked: !exercise.checked,
     });

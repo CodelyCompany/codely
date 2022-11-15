@@ -38,7 +38,10 @@ const Navbar = ({ GetUsers, AddUser, users, GetReviews }) => {
     getAccessTokenSilently,
   } = useAuth0();
 
-  const settings = ['Profile', 'Logout'];
+  const settings =
+    user && user.nickname === 'admin'
+      ? ['Profile', 'Admin Panel', 'Logout']
+      : ['Profile', 'Logout'];
   const pages = useMemo(
     () => (isAuthenticated ? ['Editor', 'Exercises', 'Versus'] : []),
     [isAuthenticated]
@@ -80,6 +83,7 @@ const Navbar = ({ GetUsers, AddUser, users, GetReviews }) => {
   const handleCloseUserMenu = (setting) => {
     setting === 'Logout' && logout();
     setting === 'Profile' && navigate('/user');
+    setting === 'Admin Panel' && navigate('/admin');
     setAnchorElUser(null);
   };
 
