@@ -15,5 +15,6 @@ jobs:
             - name: Prettify code
               uses: creyD/prettier_action@v4.2
               with:
-                  prettier_options: --write **/*.{html,css,scss,yaml,json,jsx,js,md}
+                  prettier_options: --single-quote --write **/*.{html,css,scss,yaml,json,jsx,js,md}
                   only_changed: True
+                  same_commit: True
