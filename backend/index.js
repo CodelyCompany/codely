@@ -13,11 +13,11 @@ const app = express();
 
 app.use(express.json());
 app.use(
-    cors({
-        origin: '*',
-        methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT'],
-    })
-);
+cors({
+origin: '*',
+methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT'],
+})
+)
 // app.use(jwtCheck);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
