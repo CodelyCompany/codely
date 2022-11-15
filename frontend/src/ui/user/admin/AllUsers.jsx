@@ -11,7 +11,7 @@ import { getUsers } from '../../../ducks/user/selectors';
 
 function AllUsers({ users, getUsers }) {
   useEffect(() => {
-    if (_.isEmpty(users)) getUsers();
+    if (users.length) getUsers();
   }, []);
 
   const rows = useMemo(() => (users ? users : []), [users]);

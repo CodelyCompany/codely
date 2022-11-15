@@ -12,11 +12,9 @@ export const exercisesReducer = (
       return {
         ...state,
         exercises: [...state.exercises, action.payload],
-        exercisesToCheck: [
-          ...state.exercisesToCheck.filter(
-            (ex) => ex._id !== action.payload._id
-          ),
-        ],
+        exercisesToCheck: state.exercisesToCheck.filter(
+          (ex) => ex._id !== action.payload._id
+        ),
       };
     case types.GET_EXERCISES_TO_CHECK_SUCCESS:
       return { ...state, exercisesToCheck: action.payload };
@@ -32,9 +30,7 @@ export const exercisesReducer = (
     case types.DELETE_EXERCISE_SUCCESS:
       return {
         ...state,
-        exercises: [
-          ...state.exercises.filter((ex) => ex._id !== action.payload.id),
-        ],
+        exercises: state.exercises.filter((ex) => ex._id !== action.payload.id),
         error: false,
       };
     case types.DELETE_EXERCISE_FAILURE:
