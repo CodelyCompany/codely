@@ -40,7 +40,6 @@ export const exercisesReducer = (
         ...state,
         exercises: [
           ...state.exercises.filter((ex) => ex._id !== action.payload._id),
-          action.payload,
         ],
         error: false,
       };

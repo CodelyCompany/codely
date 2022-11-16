@@ -101,7 +101,7 @@ export const UpdateExercise = (body, token = null) =>
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
     }/exercises/editExercise/`,
     method: 'PUT',
-    body: JSON.stringify(body),
+    body: JSON.stringify({ ...body, checked: false }),
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,

@@ -38,7 +38,7 @@ const ExerciseAlert = ({
       error: 'Error occured during deleting exercise',
     },
     update: {
-      success: 'Exercise updated successfuly',
+      success: 'Updated passed for admin verification',
       error: 'Error occured during updating exercise',
     },
   };
