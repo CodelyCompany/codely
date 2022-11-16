@@ -40,14 +40,10 @@ const ExampleSolution = ({
   const signature = useMemo(
     () =>
       getSignature(
-        step.dataFromStep1.programmingLanguage
-          ? step.dataFromStep1.programmingLanguage.toLowerCase()
-          : '',
-        step.dataFromStep2.functionName ? step.dataFromStep2.functionName : '',
-        step.dataFromStep2.argumentsName
-          ? step.dataFromStep2.argumentsName
-          : '',
-        step.dataFromStep2.types ? step.dataFromStep2.types : []
+        step.dataFromStep1.programmingLanguage?.toLowerCase() ?? '',
+        step.dataFromStep2?.functionName,
+        step.dataFromStep2?.argumentsName,
+        step.dataFromStep2.types ?? []
       ),
     [step.dataFromStep1, step.dataFromStep2]
   );
