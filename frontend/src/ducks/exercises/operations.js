@@ -2,7 +2,7 @@ import { createAction } from 'redux-api-middleware';
 
 import { types } from './types';
 
-export const GetExercises = (token) =>
+export const GetExercises = (token = null) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
@@ -25,7 +25,7 @@ export const GetExercises = (token) =>
     ],
   });
 
-export const GetUncheckedExercises = (token) =>
+export const GetUncheckedExercises = (token = null) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
@@ -48,7 +48,7 @@ export const GetUncheckedExercises = (token) =>
     ],
   });
 
-export const AddExercise = (body, token) =>
+export const AddExercise = (body, token = null) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
@@ -72,7 +72,7 @@ export const AddExercise = (body, token) =>
     ],
   });
 
-export const DeleteExercise = (id, token) =>
+export const DeleteExercise = (id, token = null) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
@@ -95,7 +95,7 @@ export const DeleteExercise = (id, token) =>
     ],
   });
 
-export const UpdateExercise = (body, token) =>
+export const UpdateExercise = (body, token = null) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
@@ -119,7 +119,7 @@ export const UpdateExercise = (body, token) =>
     ],
   });
 
-export const GetExercise = (id, token) =>
+export const GetExercise = (id, token = null) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
@@ -142,7 +142,7 @@ export const GetExercise = (id, token) =>
     ],
   });
 
-export const CheckExercise = (id, token) =>
+export const CheckExercise = (id, token = null) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'

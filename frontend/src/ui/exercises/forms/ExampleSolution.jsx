@@ -71,83 +71,87 @@ const ExampleSolution = ({
   };
 
   const submit = () => {
-    axios
-      .post(`https://${process.env.REACT_APP_DOMAIN}/oauth/token`, {
-        client_id: process.env.REACT_APP_CONTAINERS_CLIENT_ID,
-        client_secret: process.env.REACT_APP_CONTAINERS_CLIENT_SECRET,
-        audience: `${
-          process.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
-        }`,
-        grant_type: 'client_credentials',
-      })
-      .then((token) => {
-        if (!dataToEdit) {
-          AddExercise(
-            {
-              author: foundUser._id,
-              ...step.dataFromStep1,
-              ...step.dataFromStep2,
-              tests: step.dataFromStep3,
-              hints: step.dataFromStep4.map((el) => el[1]),
-              exampleSolution: code,
-              functionSignature: signature,
-            },
-            token
-          );
-          ChangeAddStatus();
-          return;
+    //here should be added token as an argument after 1st of December
+
+    // axios
+    //   .post(`https://${process.env.REACT_APP_DOMAIN}/oauth/token`, {
+    //     client_id: process.env.REACT_APP_CONTAINERS_CLIENT_ID,
+    //     client_secret: process.env.REACT_APP_CONTAINERS_CLIENT_SECRET,
+    //     audience: `${
+    //       process.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
+    //     }`,
+    //     grant_type: 'client_credentials',
+    //   })
+    //   .then((token) => {
+    if (!dataToEdit) {
+      AddExercise(
+        {
+          author: foundUser._id,
+          ...step.dataFromStep1,
+          ...step.dataFromStep2,
+          tests: step.dataFromStep3,
+          hints: step.dataFromStep4.map((el) => el[1]),
+          exampleSolution: code,
+          functionSignature: signature,
         }
-        UpdateExercise(
-          {
-            id: dataToEdit._id,
-            author: foundUser._id,
-            ...step.dataFromStep1,
-            ...step.dataFromStep2,
-            tests: step.dataFromStep3,
-            hints: step.dataFromStep4.map((el) => el[1]),
-            exampleSolution: code,
-            functionSignature: signature,
-          },
-          token
-        );
-        ChangeUpdateStatus();
-      });
+        // token || null
+      );
+      ChangeAddStatus();
+      return;
+    }
+    UpdateExercise(
+      {
+        id: dataToEdit._id,
+        author: foundUser._id,
+        ...step.dataFromStep1,
+        ...step.dataFromStep2,
+        tests: step.dataFromStep3,
+        hints: step.dataFromStep4.map((el) => el[1]),
+        exampleSolution: code,
+        functionSignature: signature,
+      },
+      token
+    );
+    ChangeUpdateStatus();
+    // });
   };
 
   const verifySolution = () => {
+    //here should be added token as an argument after 1st of December
+
+    // axios
+    //   .post(`https://${process.env.REACT_APP_DOMAIN}/oauth/token`, {
+    //     client_id: process.env.REACT_APP_CONTAINERS_CLIENT_ID,
+    //     client_secret: process.env.REACT_APP_CONTAINERS_CLIENT_SECRET,
+    //     audience: `${
+    //       process.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
+    //     }`,
+    //     grant_type: 'client_credentials',
+    //   })
+    //   .then((token) => {
     axios
-      .post(`https://${process.env.REACT_APP_DOMAIN}/oauth/token`, {
-        client_id: process.env.REACT_APP_CONTAINERS_CLIENT_ID,
-        client_secret: process.env.REACT_APP_CONTAINERS_CLIENT_SECRET,
-        audience: `${
-          process.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
-        }`,
-        grant_type: 'client_credentials',
-      })
-      .then((token) => {
-        axios
-          .post(
-            'http://localhost:5000/exercises/checkBeforeAddExercise',
-            {
-              exampleSolution: code,
-              tests: step.dataFromStep3,
-              ...step.dataFromStep2,
-              ...step.dataFromStep1,
-              programmingLanguage:
-                step.dataFromStep1.programmingLanguage === 'C++'
-                  ? 'cpp'
-                  : step.dataFromStep1.programmingLanguage,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${token.data.access_token}`,
-              },
-            }
-          )
-          .then((response) => {
-            setTests(response.data);
-          });
+      .post(
+        'http://localhost:5000/exercises/checkBeforeAddExercise',
+        {
+          exampleSolution: code,
+          tests: step.dataFromStep3,
+          ...step.dataFromStep2,
+          ...step.dataFromStep1,
+          programmingLanguage:
+            step.dataFromStep1.programmingLanguage === 'C++'
+              ? 'cpp'
+              : step.dataFromStep1.programmingLanguage,
+        }
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${token.data.access_token}`,
+        //   },
+        // }
+      )
+      .then((response) => {
+        setTests(response.data);
       });
+    // });
   };
 
   return (
@@ -174,7 +178,7 @@ const ExampleSolution = ({
         {' '}
         <Editor
           loading={<CircularProgress />}
-          height='100%'
+          height="100%"
           language={
             step.dataFromStep1
               ? step.dataFromStep1.programmingLanguage === 'C++'
@@ -184,7 +188,7 @@ const ExampleSolution = ({
           }
           value={code}
           onChange={handleCodeChange}
-          width='100%'
+          width="100%"
         />
       </Box>
       <Box
@@ -197,13 +201,13 @@ const ExampleSolution = ({
       >
         <Button
           sx={{ marginBottom: '10px' }}
-          variant='contained'
+          variant="contained"
           onClick={prev}
         >
           Previous
         </Button>
         <Button
-          variant='contained'
+          variant="contained"
           onClick={() =>
             tests
               ? tests.correct !== tests.tests
