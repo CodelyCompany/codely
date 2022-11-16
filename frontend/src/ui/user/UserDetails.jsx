@@ -11,92 +11,102 @@ import { GetUsers } from '../../ducks/user/operations';
 import { getUserByUsername } from '../../ducks/user/selectors';
 
 import SectionWrapper from './SectionWrapper';
+import UncheckedExercises from './UncheckedExercises';
 import UserExercisesList from './UserExercisesList';
-import WrittenComments from './WrittenComments';
+import WrittenReviews from './WrittenReviews';
 
 const UserDetails = ({ GetUsers }) => {
-    const { user, getAccessTokenSilently } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
 
-    useEffect(() => {
-        (async () => {
-            const token = await getAccessTokenSilently({
-                audience: `${
-                    process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-                }`,
-            });
-            await GetUsers(token);
-        })();
-    }, []);
+  useEffect(() => {
+    (async () => {
+      const token = await getAccessTokenSilently({
+        audience: `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}`,
+      });
+      await GetUsers(token);
+    })();
+  }, []);
 
-    const foundUser = useSelector((state) =>
-        getUserByUsername(state, user.nickname)
-    );
+  const foundUser = useSelector(getUserByUsername(user.nickname));
 
-    return (
-        <Container sx={{ height: '100%' }}>
-            {console.log(foundUser)}
-            {!_.isEmpty(foundUser) && (
-                <Box sx={{ margin: '20px' }}>
-                    <Box
-                        sx={{
-                            borderBottom: '3px solid rgb(25, 118, 210)',
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'end',
-                        }}
-                    >
-                        <Typography
-                            color="primary"
-                            variant="h2"
-                            sx={{
-                                fontWeight: 'bolder',
-                            }}
-                        >
-                            {foundUser.username}
-                        </Typography>
-                        <Typography color="primary" variant="h6">
-                            User since:{' '}
-                            {new Date(
-                                foundUser.creationDate
-                            ).toLocaleDateString()}
-                        </Typography>
-                    </Box>
-                    <SectionWrapper
-                        condition={!_.isEmpty(foundUser.doneExercises)}
-                        mode="done"
-                    >
-                        <UserExercisesList
-                            exercises={foundUser.doneExercises}
-                            mode="done"
-                        />
-                    </SectionWrapper>
-                    <SectionWrapper
-                        condition={!_.isEmpty(foundUser.preparedExercises)}
-                        mode="prepared"
-                    >
-                        <UserExercisesList
-                            exercises={foundUser.preparedExercises}
-                            mode="prepared"
-                        />
-                    </SectionWrapper>
-                    <SectionWrapper
-                        mode="comments"
-                        condition={!_.isEmpty(foundUser.writtenComments)}
-                    >
-                        <WrittenComments comments={foundUser.writtenComments} />
-                    </SectionWrapper>
-                </Box>
-            )}
-        </Container>
-    );
+  return (
+    <Container sx={{ height: '100%' }}>
+      {foundUser && (
+        <Box sx={{ margin: '20px' }}>
+          <Box
+            sx={{
+              borderBottom: '3px solid rgb(25, 118, 210)',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'end',
+            }}
+          >
+            <Typography
+              color="primary"
+              variant="h2"
+              sx={{
+                fontWeight: 'bolder',
+              }}
+            >
+              {foundUser.username}
+            </Typography>
+            <Typography color="primary" variant="h6">
+              User since:{' '}
+              {new Date(foundUser.creationDate).toLocaleDateString()}
+            </Typography>
+          </Box>
+          <SectionWrapper
+            condition={!_.isEmpty(foundUser.doneExercises)}
+            mode="done"
+          >
+            <UserExercisesList
+              exercises={foundUser.doneExercises}
+              mode="done"
+            />
+          </SectionWrapper>
+          <SectionWrapper
+            condition={
+              !_.isEmpty(foundUser.preparedExercises.filter((el) => el.checked))
+            }
+            mode="prepared"
+          >
+            <UserExercisesList
+              exercises={foundUser.preparedExercises.filter((el) => el.checked)}
+              mode="prepared"
+            />
+          </SectionWrapper>
+          <SectionWrapper
+            mode="unchecked"
+            condition={
+              !_.isEmpty(
+                foundUser.preparedExercises.filter((el) => !el.checked)
+              )
+            }
+          >
+            <UncheckedExercises
+              exercises={foundUser.preparedExercises.filter(
+                (el) => !el.checked
+              )}
+            />
+          </SectionWrapper>
+          <SectionWrapper
+            mode="reviews"
+            condition={!_.isEmpty(foundUser.writtenReviews)}
+          >
+            <WrittenReviews reviews={foundUser.writtenReviews} />
+          </SectionWrapper>
+        </Box>
+      )}
+    </Container>
+  );
 };
 
 const mapDispatchToProps = {
-    GetUsers,
+  GetUsers,
 };
 
 export default connect(null, mapDispatchToProps)(UserDetails);
 
 UserDetails.propTypes = {
-    GetUsers: PropTypes.func.isRequired,
+  GetUsers: PropTypes.func.isRequired,
 };

@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 import { types } from './types';
 
 export const usersReducer = (state = { users: [] }, action) => {
@@ -5,7 +7,7 @@ export const usersReducer = (state = { users: [] }, action) => {
     case types.GET_USERS_SUCCESS:
       return { users: action.payload };
     case types.POST_USER_SUCCESS:
-      return { users: [...state.users, action.payload] };
+      return { users: _.uniqBy([...state.users, action.payload], '_id') };
     default:
       return state;
   }

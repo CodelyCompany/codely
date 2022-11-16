@@ -44,13 +44,16 @@ function UserExercisesList({ exercises, mode }) {
         height: '100%',
         bgcolor: 'background.paper',
         borderBottom: '3px solid rgb(25, 118, 210)',
+        display: 'flex',
+        flexDirection: 'column',
+        // alignItems: 'center',
       }}
     >
       <Typography variant='h6' color='primary' sx={{ fontWeight: 'bolder' }}>
         {mode === 'prepared' ? 'Your prepared exercises:' : 'Done exercises:'}
       </Typography>
       <FixedSizeList
-        height={200}
+        height={100}
         itemSize={46}
         itemCount={exercises.length}
         overscanCount={5}

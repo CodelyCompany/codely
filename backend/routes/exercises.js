@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const Exercise = require('../models/Exercise');
-const Comment = require('../models/Comment');
+const Review = require('../models/Review');
 const Test = require('../models/Test');
 const axios = require('axios');
 require('dotenv').config();
@@ -10,6 +10,17 @@ const backendContainersAddress =
     process.env.APP_BACKEND_CONTAINERS || 'http://localhost:5001';
 
 async function runTests(exercise, solution) {
+    // const token = await axios.post(
+    //     `https://${process.env.APP_DOMAIN}/oauth/token`,
+    //     {
+    //         client_id: process.env.APP_CONTAINERS_CLIENT_ID,
+    //         client_secret: process.env.APP_CONTAINERS_CLIENT_SECRET,
+    //         audience: `${
+    //             process.env.APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
+    //         }`,
+    //         grant_type: 'client_credentials',
+    //     }
+    // );
     let counterCorrect = 0;
     for (let i = 0; i < exercise.tests.length; i++) {
         const element = exercise.tests[i];
@@ -20,6 +31,7 @@ async function runTests(exercise, solution) {
             {
                 toExecute: solution,
                 args: element.input,
+                func: exercise.functionName,
             }
         );
         const res1 = response.data.output.replace(/(\r\n|\n|\r)/gm, '');
@@ -33,7 +45,7 @@ async function runTests(exercise, solution) {
 
 router.get('/', async (req, res) => {
     try {
-        const data = await Exercise.find({}).populate('author');
+        const data = await Exercise.find({}).populate(['author', 'tests']);
         res.status(200).send(data);
     } catch (error) {
         console.log(error);
@@ -43,7 +55,10 @@ router.get('/', async (req, res) => {
 
 router.get('/checked', async (req, res) => {
     try {
-        const data = await Exercise.find({ checked: true }).populate('author');
+        const data = await Exercise.find({ checked: true }).populate([
+            'author',
+            'tests',
+        ]);
         res.status(200).send(data);
     } catch (error) {
         console.log(error);
@@ -53,7 +68,10 @@ router.get('/checked', async (req, res) => {
 
 router.get('/unchecked', async (req, res) => {
     try {
-        const data = await Exercise.find({ checked: false }).populate('author');
+        const data = await Exercise.find({ checked: false }).populate([
+            'author',
+            'tests',
+        ]);
         res.status(200).send(data);
     } catch (error) {
         console.log(error);
@@ -106,8 +124,11 @@ router.post('/addExercise', async (req, res) => {
                 difficulty: data.difficulty,
                 author: user._id,
                 programmingLanguage: data.programmingLanguage,
+                functionName: data.functionName,
                 hints: data.hints,
                 exampleSolution: data.exampleSolution,
+                argumentsName: data.argumentsName,
+                functionSignature: data.functionSignature,
             });
             await newExercise.save();
             let tests = [];
@@ -128,9 +149,8 @@ router.post('/addExercise', async (req, res) => {
                 preparedExercises: [...user.preparedExercises, newExercise._id],
             });
             return res.status(200).send(newExercise);
-        } else {
-            return res.status(400).send('Wrong example solution');
         }
+        return res.status(400).send('Wrong example solution');
     } catch (error) {
         console.log(error);
         res.status(500).send(error);
@@ -147,27 +167,17 @@ router.post('/checkBeforeAddExercise', async (req, res) => {
 
 router.post('/checkSolution/:id', async (req, res) => {
     try {
-        const token = await axios.post(
-            `https://${process.env.APP_DOMAIN}/oauth/token`,
-            {
-                client_id: process.env.APP_CONTAINERS_CLIENT_ID,
-                client_secret: process.env.APP_CONTAINERS_CLIENT_SECRET,
-                audience: `${
-                    process.env.APP_CONTAINERS_ADDRESS ||
-                    'http://localhost:5001'
-                }`,
-                grant_type: 'client_credentials',
-            }
-        );
         const id = req.params.id;
         const data = req.body;
         const exercise = await Exercise.findById(id).populate('tests');
         const counterCorrect = await runTests(exercise, data.solution);
         if (counterCorrect === exercise.tests.length) {
             const user = await User.findById(data.user);
-            await User.findByIdAndUpdate(data.user, {
-                doneExercises: [...user.doneExercises, exercise._id],
-            });
+            if (!user.doneExercises.includes(exercise._id)) {
+                await User.findByIdAndUpdate(data.user, {
+                    doneExercises: [...user.doneExercises, exercise._id],
+                });
+            }
             await Exercise.findByIdAndUpdate(id, {
                 doneCounter: exercise.doneCounter + 1,
             });
@@ -187,12 +197,11 @@ router.put('/editExercise', async (req, res) => {
         let testsToAdd = [];
         for (let i = 0; i < tests.length; i++) {
             const element = tests[i];
-            const newTest = new Test({
+            const newTest = await Test({
                 input: element.input,
                 output: element.output,
                 exercise: id,
-            });
-            await newTest.save();
+            }).save();
             testsToAdd.push(newTest._id);
         }
         await Exercise.findByIdAndUpdate(id, {
@@ -210,7 +219,7 @@ router.put('/editExercise', async (req, res) => {
 router.put('/checkExercise/:id', async (req, res) => {
     try {
         const id = req.params.id;
-        const exercise = await Exercise.findById(id);
+        const exercise = await Exercise.findById(id).populate('author');
         await Exercise.findByIdAndUpdate(id, {
             checked: !exercise.checked,
         });
@@ -242,7 +251,7 @@ router.delete('/deleteExercise/:id', async (req, res) => {
                 ),
             });
         }
-        await Comment.deleteMany({
+        await Review.deleteMany({
             exercise: exercise._id,
         });
         await Test.deleteMany({
