@@ -63,17 +63,18 @@ const ExerciseAlert = ({
   return (
     <Box
       sx={{
-        width: '50vw',
-        position: 'absolute',
+        width: '100vw',
+        position: 'fixed',
         bottom: '20px',
         zIndex: '5',
-        left: 0,
-        right: 0,
-        marginLeft: 'auto',
-        marginRight: 'auto',
+        display: 'flex',
+        justifyContent: 'center',
       }}
     >
-      <Collapse in={addStatus || deleteStatus || updateStatus}>
+      <Collapse
+        sx={{ width: '50%' }}
+        in={addStatus || deleteStatus || updateStatus}
+      >
         <Alert
           variant='filled'
           severity={error ? 'error' : 'success'}

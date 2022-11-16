@@ -21,13 +21,17 @@ const RunAlert = ({ triggered, setTriggered, code }) => {
   return (
     <Box
       sx={{
-        width: '50vw',
-        position: 'absolute',
+        width: '100vw',
+        position: 'fixed',
         bottom: '20px',
         zIndex: '5',
+        left: 0,
+        right: 0,
+        display: 'flex',
+        justifyContent: 'center',
       }}
     >
-      <Collapse in={triggered}>
+      <Collapse sx={{ width: '50%' }} in={triggered}>
         <Alert
           variant='filled'
           severity={messages.severity}

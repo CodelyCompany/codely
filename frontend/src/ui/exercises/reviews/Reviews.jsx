@@ -14,35 +14,38 @@ import ReviewCard from './ReviewCard';
 import ReviewForm from './ReviewForm';
 
 const Reviews = () => {
+  const { id } = useParams();
+  const { user } = useAuth0();
+  const reviews = useSelector(getReviewsByExerciseId(id));
+  const foundUser = useSelector(getUserByUsername(user.nickname));
+  const [usersReview, setUsersReview] = useState(null);
 
-    const { id } = useParams();
-    const { user } = useAuth0();
-    const reviews = useSelector(getReviewsByExerciseId(id));
-    const foundUser = useSelector(getUserByUsername(user.nickname));
-    const [usersReview, setUsersReview] = useState(null);
+  useEffect(() => {
+    setUsersReview(reviews.find((review) => review.author === foundUser._id));
+  }, [foundUser]);
 
-    useEffect(() => {
-        setUsersReview(reviews.find((review) => review.author === foundUser._id));
-    }, [foundUser]);
-
-    return (
-        reviews &&
-        <Box padding="20px">
-            <Typography variant="h4" marginBottom={3}>
-                Reviews
-            </Typography>
-            <Box>
-                <ReviewForm review={usersReview} />
-            </Box>
-            <Box>
-            {
-                reviews
-                .filter((review) => review.author !== foundUser._id && review.comment !== '')
-                .map((review) => <ReviewCard key={review._id} review={review} />)
-            }
-            </Box>
+  return (
+    reviews && (
+      <Box padding='20px'>
+        <Typography variant='h4' marginBottom={3}>
+          Reviews
+        </Typography>
+        <Box>
+          <ReviewForm review={usersReview} />
         </Box>
-    );
+        <Box>
+          {reviews
+            .filter(
+              (review) =>
+                review.author !== foundUser._id && review.comment !== ''
+            )
+            .map((review) => (
+              <ReviewCard key={review._id} review={review} />
+            ))}
+        </Box>
+      </Box>
+    )
+  );
 };
 
 export default Reviews;
