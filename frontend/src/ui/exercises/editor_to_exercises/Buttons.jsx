@@ -31,7 +31,7 @@ const Buttons = ({ setOutput, code, language, setTests, tests }) => {
           client_id: process.env.REACT_APP_CONTAINERS_CLIENT_ID,
           client_secret: process.env.REACT_APP_CONTAINERS_CLIENT_SECRET,
           audience: `${
-            process.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
+            process.env.REACT_APP_CONTAINERS_ADDRESS || 'https://localhost:5001'
           }`,
           grant_type: 'client_credentials',
         })
@@ -40,7 +40,7 @@ const Buttons = ({ setOutput, code, language, setTests, tests }) => {
             .post(
               `${
                 process.env.REACT_APP_CONTAINERS_ADDRESS ||
-                'http://localhost:5001'
+                'https://localhost:5001'
               }/${
                 language.toLowerCase() === 'c++'
                   ? 'cpp'
@@ -69,12 +69,14 @@ const Buttons = ({ setOutput, code, language, setTests, tests }) => {
   const submitExercise = () => {
     (async () => {
       const token = await getAccessTokenSilently({
-        audience: `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}`,
+        audience: `${
+          process.env.REACT_APP_BACKEND || 'https://localhost:5000'
+        }`,
       });
       await axios
         .post(
           `${
-            process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+            process.env.REACT_APP_BACKEND || 'https://localhost:5000'
           }/exercises/checkSolution/${id}`,
           { solution: code, user: foundUser._id },
           { headers: { Authorization: `Bearer ${token}` } }
@@ -94,14 +96,14 @@ const Buttons = ({ setOutput, code, language, setTests, tests }) => {
           <Button
             onClick={() => runCode(code)}
             sx={{ margin: '5px', width: '100px' }}
-            variant='contained'
+            variant="contained"
           >
             Run
           </Button>
           <Button
             onClick={() => submitExercise()}
             sx={{ width: '100px' }}
-            variant='contained'
+            variant="contained"
           >
             Submit
           </Button>
@@ -111,7 +113,7 @@ const Buttons = ({ setOutput, code, language, setTests, tests }) => {
           <Button
             onClick={() => navigate(-1)}
             sx={{ width: '100px', margin: '5px' }}
-            variant='contained'
+            variant="contained"
           >
             Undo
           </Button>

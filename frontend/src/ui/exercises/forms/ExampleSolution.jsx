@@ -76,7 +76,7 @@ const ExampleSolution = ({
         client_id: process.env.REACT_APP_CONTAINERS_CLIENT_ID,
         client_secret: process.env.REACT_APP_CONTAINERS_CLIENT_SECRET,
         audience: `${
-          process.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
+          process.env.REACT_APP_CONTAINERS_ADDRESS || 'https://localhost:5001'
         }`,
         grant_type: 'client_credentials',
       })
@@ -120,14 +120,14 @@ const ExampleSolution = ({
         client_id: process.env.REACT_APP_CONTAINERS_CLIENT_ID,
         client_secret: process.env.REACT_APP_CONTAINERS_CLIENT_SECRET,
         audience: `${
-          process.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
+          process.env.REACT_APP_CONTAINERS_ADDRESS || 'https://localhost:5001'
         }`,
         grant_type: 'client_credentials',
       })
       .then((token) => {
         axios
           .post(
-            'http://localhost:5000/exercises/checkBeforeAddExercise',
+            'https://localhost:5000/exercises/checkBeforeAddExercise',
             {
               exampleSolution: code,
               tests: step.dataFromStep3,
@@ -174,7 +174,7 @@ const ExampleSolution = ({
         {' '}
         <Editor
           loading={<CircularProgress />}
-          height='100%'
+          height="100%"
           language={
             step.dataFromStep1
               ? step.dataFromStep1.programmingLanguage === 'C++'
@@ -184,7 +184,7 @@ const ExampleSolution = ({
           }
           value={code}
           onChange={handleCodeChange}
-          width='100%'
+          width="100%"
         />
       </Box>
       <Box
@@ -197,13 +197,13 @@ const ExampleSolution = ({
       >
         <Button
           sx={{ marginBottom: '10px' }}
-          variant='contained'
+          variant="contained"
           onClick={prev}
         >
           Previous
         </Button>
         <Button
-          variant='contained'
+          variant="contained"
           onClick={() =>
             tests
               ? tests.correct !== tests.tests

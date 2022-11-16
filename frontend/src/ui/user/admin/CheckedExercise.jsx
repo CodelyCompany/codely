@@ -36,7 +36,9 @@ function CheckedExercise({ checkedExercises, GetExercises }) {
   useEffect(() => {
     (async () => {
       const token = await getAccessTokenSilently({
-        audience: `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}`,
+        audience: `${
+          process.env.REACT_APP_BACKEND || 'https://localhost:5000'
+        }`,
       });
       await GetExercises(token);
     })();
@@ -44,19 +46,31 @@ function CheckedExercise({ checkedExercises, GetExercises }) {
 
   return (
     <Card
-      sx={{ height: '500px', width: '50%', margin: '10px', padding: '10px' }}
+      sx={{
+        height: '500px',
+        width: '50%',
+        margin: '10px',
+        padding: '10px',
+      }}
     >
       <Typography
-        color='primary'
-        variant='h6'
+        color="primary"
+        variant="h6"
         sx={{ fontWeight: 'bolder', textAlign: 'center' }}
       >
         Checked exercises
       </Typography>
       <DataGrid
-        sx={{ width: 'calc(100% - 20px)', height: '400px', margin: '10px' }}
+        sx={{
+          width: 'calc(100% - 20px)',
+          height: '400px',
+          margin: '10px',
+        }}
         getRowId={(row) => row._id}
-        rows={rows.map((row) => ({ ...row, author: row.author.username }))}
+        rows={rows.map((row) => ({
+          ...row,
+          author: row.author.username,
+        }))}
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}

@@ -32,7 +32,7 @@ const Confirmation = ({
 
   const deleteExercise = async () => {
     const token = await getAccessTokenSilently({
-      audience: `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}`,
+      audience: `${process.env.REACT_APP_BACKEND || 'https://localhost:5000'}`,
     });
     await DeleteExercise(id, token);
     ChangeDeleteStatus();
@@ -44,14 +44,14 @@ const Confirmation = ({
       <Dialog
         open={open}
         onClose={handleClose}
-        aria-labelledby='alert-dialog-title'
-        aria-describedby='alert-dialog-description'
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id='alert-dialog-title'>
+        <DialogTitle id="alert-dialog-title">
           {'Delete confirmation'}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id='alert-dialog-description'>
+          <DialogContentText id="alert-dialog-description">
             Are you sure you want to delete this exercise?
           </DialogContentText>
         </DialogContent>

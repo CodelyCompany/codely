@@ -30,7 +30,6 @@ import EditorField from './editor_to_exercises/EditorField';
 import Reviews from './reviews/Reviews';
 
 const ExerciseDetail = ({ GetExercises }) => {
-
   const { id } = useParams();
   const exercise = useSelector(getExerciseById(id));
   const rating = useSelector(getRatingByExerciseId(id));
@@ -43,7 +42,7 @@ const ExerciseDetail = ({ GetExercises }) => {
       (async () => {
         const token = await getAccessTokenSilently({
           audience: `${
-            process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+            process.env.REACT_APP_BACKEND || 'https://localhost:5000'
           }`,
         });
         await GetExercises(token);
@@ -53,7 +52,7 @@ const ExerciseDetail = ({ GetExercises }) => {
 
   // const deleteExercise = async () => {
   //   const token = await getAccessTokenSilently({
-  //     audience: `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}`,
+  //     audience: `${process.env.REACT_APP_BACKEND || 'https://localhost:5000'}`,
   //   });
   //   await DeleteExercise(id, token);
   //   navigate('/exercises');
@@ -73,43 +72,57 @@ const ExerciseDetail = ({ GetExercises }) => {
             >
               <ListItem>
                 <Typography
-                  variant='h3'
-                  color='primary'
-                  sx={{ borderBottom: '3px solid rgb(25, 118, 210)' }}
+                  variant="h3"
+                  color="primary"
+                  sx={{
+                    borderBottom: '3px solid rgb(25, 118, 210)',
+                  }}
                 >
                   {exercise.title}
                 </Typography>
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
+                  <Avatar
+                    style={{
+                      backgroundColor: 'rgb(25, 118, 210)',
+                    }}
+                  >
                     <PersonIcon />
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary='Author'
+                  primary="Author"
                   secondary={exercise.author.username}
                 />
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
+                  <Avatar
+                    style={{
+                      backgroundColor: 'rgb(25, 118, 210)',
+                    }}
+                  >
                     <GTranslateIcon />
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary='Programming Language'
+                  primary="Programming Language"
                   secondary={exercise.programmingLanguage}
                 />
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
+                  <Avatar
+                    style={{
+                      backgroundColor: 'rgb(25, 118, 210)',
+                    }}
+                  >
                     <PsychologyIcon />
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary='Difficulty'
+                  primary="Difficulty"
                   secondary={[...Array(exercise.difficulty).keys()].map(
                     (el) => (
                       <StarRateIcon sx={{ color: 'gold' }} key={el} />
@@ -119,29 +132,44 @@ const ExerciseDetail = ({ GetExercises }) => {
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
+                  <Avatar
+                    style={{
+                      backgroundColor: 'rgb(25, 118, 210)',
+                    }}
+                  >
                     <FormatColorTextIcon />
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary='Description'
+                  primary="Description"
                   secondary={exercise.description}
                 />
               </ListItem>
               <ListItem>
-              <ListItemAvatar>
-                <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
-                  <StarRateIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary='Rating'
-                secondary={rating ? [...Array(Math.round(rating)).keys()].map((num) => (
-                  <StarRateIcon sx={{ color: 'gold' }} key={`rating-${num}`} />
-                )) : "no reviews"}
-              />
-            </ListItem>
-          </List>
+                <ListItemAvatar>
+                  <Avatar
+                    style={{
+                      backgroundColor: 'rgb(25, 118, 210)',
+                    }}
+                  >
+                    <StarRateIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary="Rating"
+                  secondary={
+                    rating
+                      ? [...Array(Math.round(rating)).keys()].map((num) => (
+                          <StarRateIcon
+                            sx={{ color: 'gold' }}
+                            key={`rating-${num}`}
+                          />
+                        ))
+                      : 'no reviews'
+                  }
+                />
+              </ListItem>
+            </List>
 
             {user.nickname === exercise.author.username && (
               <Box
@@ -152,8 +180,12 @@ const ExerciseDetail = ({ GetExercises }) => {
                 }}
               >
                 <Button
-                  variant='contained'
-                  sx={{ height: '40px', marginTop: '50px', width: '100px' }}
+                  variant="contained"
+                  sx={{
+                    height: '40px',
+                    marginTop: '50px',
+                    width: '100px',
+                  }}
                   onClick={() => {
                     setToDelete(true);
                   }}
@@ -161,8 +193,12 @@ const ExerciseDetail = ({ GetExercises }) => {
                   Delete
                 </Button>
                 <Button
-                  variant='contained'
-                  sx={{ height: '40px', marginTop: '10px', width: '100px' }}
+                  variant="contained"
+                  sx={{
+                    height: '40px',
+                    marginTop: '10px',
+                    width: '100px',
+                  }}
                   onClick={() => navigate(`/exercises/edit/${id}`)}
                 >
                   Edit
@@ -177,9 +213,9 @@ const ExerciseDetail = ({ GetExercises }) => {
             />
           </Box>
           <Box>
-          <Reviews />
-        </Box>
-      </Container>
+            <Reviews />
+          </Box>
+        </Container>
         <Confirmation open={toDelete} setOpen={setToDelete} />
       </>
     )

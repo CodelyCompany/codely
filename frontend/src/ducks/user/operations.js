@@ -5,7 +5,7 @@ import { types } from './types';
 export const GetUsers = (token) =>
   createAction({
     endpoint: `${
-      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+      process.env.REACT_APP_BACKEND || 'https://localhost:5000'
     }/users/`,
     method: 'GET',
     headers: {
@@ -28,7 +28,7 @@ export const GetUsers = (token) =>
 export const AddUser = (body, token) =>
   createAction({
     endpoint: `${
-      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+      process.env.REACT_APP_BACKEND || 'https://localhost:5000'
     }/users/addUser`,
     method: 'POST',
     body: JSON.stringify(body),

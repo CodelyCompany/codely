@@ -39,7 +39,7 @@ const ExercisesList = ({ exercises, GetExercises }) => {
       (async () => {
         const token = await getAccessTokenSilently({
           audience: `${
-            process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+            process.env.REACT_APP_BACKEND || 'https://localhost:5000'
           }`,
         });
         await GetExercises(token);
@@ -57,7 +57,7 @@ const ExercisesList = ({ exercises, GetExercises }) => {
     >
       <Button
         onClick={goToExercisesForm}
-        variant='contained'
+        variant="contained"
         sx={{ margin: '10px', width: '100%' }}
       >
         Create your exercise!

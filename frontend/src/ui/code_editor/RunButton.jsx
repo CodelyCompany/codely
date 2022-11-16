@@ -25,7 +25,7 @@ const RunButton = ({ code, setOutput, language }) => {
           client_id: process.env.REACT_APP_CONTAINERS_CLIENT_ID,
           client_secret: process.env.REACT_APP_CONTAINERS_CLIENT_SECRET,
           audience: `${
-            process.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
+            process.env.REACT_APP_CONTAINERS_ADDRESS || 'https://localhost:5001'
           }`,
           grant_type: 'client_credentials',
         })
@@ -34,7 +34,7 @@ const RunButton = ({ code, setOutput, language }) => {
             .post(
               `${
                 process.env.REACT_APP_CONTAINERS_ADDRESS ||
-                'http://localhost:5001'
+                'https://localhost:5001'
               }/${
                 language.toLowerCase() === 'c++'
                   ? 'cpp'
@@ -67,7 +67,7 @@ const RunButton = ({ code, setOutput, language }) => {
         setTriggered={setTriggerAlert}
         code={status}
       />
-      <Button variant='outlined' sx={style} onClick={() => runCode(code)}>
+      <Button variant="outlined" sx={style} onClick={() => runCode(code)}>
         <VscDebugStart style={{ position: 'relative', bottom: '3px' }} />
         Run
       </Button>

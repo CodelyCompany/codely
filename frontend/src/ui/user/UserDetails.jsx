@@ -21,7 +21,9 @@ const UserDetails = ({ GetUsers }) => {
   useEffect(() => {
     (async () => {
       const token = await getAccessTokenSilently({
-        audience: `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}`,
+        audience: `${
+          process.env.REACT_APP_BACKEND || 'https://localhost:5000'
+        }`,
       });
       await GetUsers(token);
     })();
