@@ -17,6 +17,7 @@ import {
   ChangeUpdateStatus,
 } from '../../../ducks/popups/actions';
 import { getUserByUsername } from '../../../ducks/user/selectors';
+import SubmitAlert from '../../popups/SubmitAlert';
 
 import { getSignature } from './utils/functionSignatures';
 
@@ -32,6 +33,7 @@ const ExampleSolution = ({
   const [code, setCode] = useState('');
   const [tests, setTests] = useState(null);
   const { user } = useAuth0();
+  const [triggered, setTriggered] = useState(false);
   const signature = useMemo(
     () =>
       getSignature(
@@ -48,6 +50,10 @@ const ExampleSolution = ({
   );
 
   const foundUser = useSelector(getUserByUsername(user.nickname));
+
+  useEffect(() => {
+    if (tests) setTriggered(true);
+  }, [tests]);
 
   useEffect(() => {
     step.dataFromStep1.programmingLanguage &&
@@ -155,76 +161,82 @@ const ExampleSolution = ({
   };
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
-    >
+    <>
+      <SubmitAlert
+        triggered={triggered}
+        setTriggered={setTriggered}
+        passed={tests && tests.correct === tests.tests}
+      />
       <Box
         sx={{
           display: 'flex',
           justifyContent: 'center',
-          width: 'calc(900px - 10px)',
-          height: '200px',
-          border: '3px solid rgb(25, 118, 210)',
-          borderRadius: '5px',
-          margin: '10px',
-          padding: '5px',
-        }}
-      >
-        {' '}
-        <Editor
-          loading={<CircularProgress />}
-          height="100%"
-          language={
-            step.dataFromStep1
-              ? step.dataFromStep1.programmingLanguage === 'C++'
-                ? 'cpp'
-                : step.dataFromStep1.programmingLanguage.toLowerCase()
-              : 'javascript'
-          }
-          value={code}
-          onChange={handleCodeChange}
-          width="100%"
-        />
-      </Box>
-      <Box
-        sx={{
-          display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center',
-          width: '900px',
+          alignItems: 'center',
         }}
       >
-        <Button
-          sx={{ marginBottom: '10px' }}
-          variant="contained"
-          onClick={prev}
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            width: 'calc(900px - 10px)',
+            height: '200px',
+            border: '3px solid rgb(25, 118, 210)',
+            borderRadius: '5px',
+            margin: '10px',
+            padding: '5px',
+          }}
         >
-          Previous
-        </Button>
-        <Button
-          variant="contained"
-          onClick={() =>
-            tests
+          {' '}
+          <Editor
+            loading={<CircularProgress />}
+            height='100%'
+            language={
+              step.dataFromStep1
+                ? step.dataFromStep1.programmingLanguage === 'C++'
+                  ? 'cpp'
+                  : step.dataFromStep1.programmingLanguage.toLowerCase()
+                : 'javascript'
+            }
+            value={code}
+            onChange={handleCodeChange}
+            width='100%'
+          />
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            width: '900px',
+          }}
+        >
+          <Button
+            sx={{ marginBottom: '10px' }}
+            variant='contained'
+            onClick={prev}
+          >
+            Previous
+          </Button>
+          <Button
+            variant='contained'
+            onClick={() =>
+              tests
+                ? tests.correct !== tests.tests
+                  ? verifySolution()
+                  : submit()
+                : verifySolution()
+            }
+          >
+            {tests
               ? tests.correct !== tests.tests
-                ? verifySolution()
-                : submit()
-              : verifySolution()
-          }
-        >
-          {tests
-            ? tests.correct !== tests.tests
-              ? `Submit (Last run: ${tests.correct} / ${tests.tests})`
-              : `Your solution passed all tests.
-               Click again to pass your exercise for admin verification.`
-            : 'Submit'}
-        </Button>
+                ? `Check exercise again (Last run: ${tests.correct} / ${tests.tests})`
+                : `Click again to pass your exercise for admin verification.`
+              : 'Check exercise'}
+          </Button>
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 
