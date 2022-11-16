@@ -60,8 +60,8 @@ const ExerciseDetail = ({ GetExercises, token }) => {
             >
               <ListItem>
                 <Typography
-                  variant='h3'
-                  color='primary'
+                  variant="h3"
+                  color="primary"
                   sx={{ borderBottom: '3px solid rgb(25, 118, 210)' }}
                 >
                   {exercise.title}
@@ -74,7 +74,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary='Author'
+                  primary="Author"
                   secondary={exercise.author.username}
                 />
               </ListItem>
@@ -85,7 +85,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary='Programming Language'
+                  primary="Programming Language"
                   secondary={exercise.programmingLanguage}
                 />
               </ListItem>
@@ -96,7 +96,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary='Difficulty'
+                  primary="Difficulty"
                   secondary={[...Array(exercise.difficulty).keys()].map(
                     (el) => (
                       <StarRateIcon sx={{ color: 'gold' }} key={el} />
@@ -111,7 +111,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary='Description'
+                  primary="Description"
                   secondary={exercise.description}
                 />
               </ListItem>
@@ -122,7 +122,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary='Rating'
+                  primary="Rating"
                   secondary={
                     rating
                       ? [...Array(Math.round(rating)).keys()].map((num) => (
@@ -146,7 +146,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
                 }}
               >
                 <Button
-                  variant='contained'
+                  variant="contained"
                   sx={{ height: '40px', marginTop: '50px', width: '100px' }}
                   onClick={() => {
                     setToDelete(true);
@@ -155,7 +155,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
                   Delete
                 </Button>
                 <Button
-                  variant='contained'
+                  variant="contained"
                   sx={{ height: '40px', marginTop: '10px', width: '100px' }}
                   onClick={() => navigate(`/exercises/edit/${id}`)}
                 >

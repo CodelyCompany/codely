@@ -71,14 +71,14 @@ const Buttons = ({ setOutput, code, language, setTests, tests, token }) => {
           <Button
             onClick={() => runCode(code)}
             sx={{ margin: '5px', width: '100px' }}
-            variant='contained'
+            variant="contained"
           >
             Run
           </Button>
           <Button
             onClick={() => submitExercise()}
             sx={{ width: '100px' }}
-            variant='contained'
+            variant="contained"
           >
             Submit
           </Button>
@@ -88,7 +88,7 @@ const Buttons = ({ setOutput, code, language, setTests, tests, token }) => {
           <Button
             onClick={() => navigate(-1)}
             sx={{ width: '100px', margin: '5px' }}
-            variant='contained'
+            variant="contained"
           >
             Undo
           </Button>

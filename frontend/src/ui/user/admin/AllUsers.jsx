@@ -50,9 +50,9 @@ function AllUsers({ users, GetUsers, token }) {
     <Card sx={{ height: '100%', margin: '10px', padding: '10px' }}>
       <GetToken />
       <Typography
-        color='primary'
+        color="primary"
         fontWeight={'bolder'}
-        variant='h6'
+        variant="h6"
         textAlign={'center'}
       >
         Registered users
