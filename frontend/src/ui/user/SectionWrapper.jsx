@@ -33,7 +33,7 @@ const SectionWrapper = ({ children, mode, condition }) => {
 export default SectionWrapper;
 
 SectionWrapper.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.node,
   mode: PropTypes.string.isRequired,
   condition: PropTypes.bool.isRequired,
 };

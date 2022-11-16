@@ -14,21 +14,33 @@ import {
 import { DataGrid } from '@mui/x-data-grid';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 
-import { CheckExercise } from '../../../ducks/exercises/operations';
+import {
+  CheckExercise,
+  DeleteUncheckedExercise,
+} from '../../../ducks/exercises/operations';
 import { getToken } from '../../../ducks/token/selectors';
 import GetToken from '../GetToken';
 
-function ExerciseDialog({ open, setOpen, exercise, CheckExercise, token }) {
-  const navigate = useNavigate();
-
+function ExerciseDialog({
+  open,
+  setOpen,
+  exercise,
+  CheckExercise,
+  token,
+  DeleteUncheckedExercise,
+}) {
   const checkExercise = () => {
     CheckExercise(exercise._id, token);
     handleClose();
   };
 
   const handleClose = () => {
+    setOpen(false);
+  };
+
+  const deleteExercise = () => {
+    DeleteUncheckedExercise(exercise._id, token);
     setOpen(false);
   };
 
@@ -154,7 +166,7 @@ function ExerciseDialog({ open, setOpen, exercise, CheckExercise, token }) {
               <Button
                 variant='contained'
                 sx={{ marginRight: '10px' }}
-                onClick={handleClose}
+                onClick={() => deleteExercise()}
               >
                 Reject
               </Button>
@@ -179,6 +191,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   CheckExercise,
+  DeleteUncheckedExercise,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExerciseDialog);
@@ -189,4 +202,5 @@ ExerciseDialog.propTypes = {
   exercise: PropTypes.object,
   CheckExercise: PropTypes.func,
   token: PropTypes.string,
+  DeleteUncheckedExercise: PropTypes.func,
 };

@@ -38,7 +38,7 @@ const OutputField = ({ output }) => {
       >
         <ScrollSyncPane>
           <textarea
-            id="line-numbering"
+            id='line-numbering'
             style={{
               ...textAreaStyles,
               borderRadius: '5px 0 0 5px',
@@ -47,9 +47,9 @@ const OutputField = ({ output }) => {
               borderRight: 0,
               paddingTop: '2px',
             }}
-            name="line-numbering"
+            name='line-numbering'
             disabled={true}
-            cols="3"
+            cols='3'
             value={lineNumbering}
           />
         </ScrollSyncPane>
@@ -62,7 +62,7 @@ const OutputField = ({ output }) => {
             }}
           >
             <textarea
-              id="code-area"
+              id='code-area'
               style={{
                 ...textAreaStyles,
                 borderRadius: '0 5px 5px 0',
@@ -73,7 +73,7 @@ const OutputField = ({ output }) => {
                 width: 'calc(100% - 10px)',
               }}
               disabled={true}
-              name="code"
+              name='code'
               value={output}
             />
           </div>
@@ -86,5 +86,5 @@ const OutputField = ({ output }) => {
 export default OutputField;
 
 OutputField.propTypes = {
-  output: PropTypes.string.required,
+  output: PropTypes.string,
 };
