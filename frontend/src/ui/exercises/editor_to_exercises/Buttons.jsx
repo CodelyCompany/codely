@@ -17,9 +17,7 @@ const Buttons = ({ setOutput, code, language, setTests, tests }) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { getAccessTokenSilently, user } = useAuth0();
-  const foundUser = useSelector((state) =>
-    getUserByUsername(state, user.nickname)
-  );
+  const foundUser = useSelector(getUserByUsername(user.nickname));
   const [triggerAlert, setTriggerAlert] = useState(false);
   const [triggerSubmitAlert, setTriggerSubmitAlert] = useState(false);
   const [status, setStatus] = useState(null);
@@ -68,6 +66,7 @@ const Buttons = ({ setOutput, code, language, setTests, tests }) => {
       const token = await getAccessTokenSilently({
         audience: `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}`,
       });
+      console.log(foundUser._id);
       await axios
         .post(
           `${
@@ -91,14 +90,14 @@ const Buttons = ({ setOutput, code, language, setTests, tests }) => {
           <Button
             onClick={() => runCode(code)}
             sx={{ margin: '5px', width: '100px' }}
-            variant="contained"
+            variant='contained'
           >
             Run
           </Button>
           <Button
             onClick={() => submitExercise()}
             sx={{ width: '100px' }}
-            variant="contained"
+            variant='contained'
           >
             Submit
           </Button>
@@ -108,7 +107,7 @@ const Buttons = ({ setOutput, code, language, setTests, tests }) => {
           <Button
             onClick={() => navigate(-1)}
             sx={{ width: '100px', margin: '5px' }}
-            variant="contained"
+            variant='contained'
           >
             Undo
           </Button>

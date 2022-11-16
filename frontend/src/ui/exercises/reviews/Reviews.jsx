@@ -27,7 +27,12 @@ const Reviews = () => {
   return (
     reviews && (
       <Box padding='20px'>
-        <Typography variant='h4' marginBottom={3}>
+        <Typography
+          variant='h4'
+          color='primary'
+          fontWeight={'bolder'}
+          marginBottom={3}
+        >
           Reviews
         </Typography>
         <Box>
