@@ -18,5 +18,5 @@ const AdminPanelWrapper = ({ children }) => {
 export default AdminPanelWrapper;
 
 AdminPanelWrapper.propTypes = {
-  children: PropTypes.func,
+  children: PropTypes.node,
 };

@@ -14,21 +14,33 @@ import {
 import { DataGrid } from '@mui/x-data-grid';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 
-import { CheckExercise } from '../../../ducks/exercises/operations';
+import {
+  CheckExercise,
+  DeleteUncheckedExercise,
+} from '../../../ducks/exercises/operations';
 import { getToken } from '../../../ducks/token/selectors';
 import GetToken from '../GetToken';
 
-function ExerciseDialog({ open, setOpen, exercise, CheckExercise, token }) {
-  const navigate = useNavigate();
-
+function ExerciseDialog({
+  open,
+  setOpen,
+  exercise,
+  CheckExercise,
+  token,
+  DeleteUncheckedExercise,
+}) {
   const checkExercise = () => {
     CheckExercise(exercise._id, token);
     handleClose();
   };
 
   const handleClose = () => {
+    setOpen(false);
+  };
+
+  const deleteExercise = () => {
+    DeleteUncheckedExercise(exercise._id, token);
     setOpen(false);
   };
 
@@ -51,43 +63,43 @@ function ExerciseDialog({ open, setOpen, exercise, CheckExercise, token }) {
           fullWidth
           open={open}
           onClose={handleClose}
-          aria-labelledby='alert-dialog-title'
-          aria-describedby='alert-dialog-description'
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
         >
           <DialogTitle
-            color='primary'
+            color="primary"
             fontWeight={'bolder'}
             sx={{
               borderBottom: '3px solid rgb(25, 118, 210)',
               margin: '0 10px 10px 10px',
             }}
-            id='alert-dialog-title'
+            id="alert-dialog-title"
           >
             {`Checking exercise`}
           </DialogTitle>
           <DialogContent>
-            <DialogContentText color='primary' id='alert-dialog-description'>
+            <DialogContentText color="primary" id="alert-dialog-description">
               <strong>Title:</strong> {exercise.title}
             </DialogContentText>
-            <DialogContentText color='primary' id='alert-dialog-description'>
+            <DialogContentText color="primary" id="alert-dialog-description">
               <strong>Author:</strong> {exercise.author}
             </DialogContentText>
-            <DialogContentText color='primary' id='alert-dialog-description'>
+            <DialogContentText color="primary" id="alert-dialog-description">
               <strong>Programming language:</strong>{' '}
               {exercise.programmingLanguage}
             </DialogContentText>
-            <DialogContentText color='primary' id='alert-dialog-description'>
+            <DialogContentText color="primary" id="alert-dialog-description">
               <strong>Creation date:</strong>{' '}
               {new Date(exercise.creationDate).toLocaleDateString()}
             </DialogContentText>
-            <DialogContentText color='primary' id='alert-dialog-description'>
+            <DialogContentText color="primary" id="alert-dialog-description">
               <strong>Description:</strong> {exercise.description}
             </DialogContentText>
-            <DialogContentText color='primary' id='alert-dialog-description'>
+            <DialogContentText color="primary" id="alert-dialog-description">
               <strong>Difficulty:</strong> {exercise.difficulty} / 5
             </DialogContentText>
             <div
-              id='alert-dialog-description'
+              id="alert-dialog-description"
               style={{ color: 'rgb(25, 118, 210)' }}
             >
               <strong>Hints:</strong>
@@ -97,7 +109,7 @@ function ExerciseDialog({ open, setOpen, exercise, CheckExercise, token }) {
                 </ListItemText>
               ))}
             </div>
-            <DialogContentText color='primary'>
+            <DialogContentText color="primary">
               <strong>Tests:</strong>
             </DialogContentText>
             <DataGrid
@@ -119,9 +131,9 @@ function ExerciseDialog({ open, setOpen, exercise, CheckExercise, token }) {
               experimentalFeatures={{ newEditingApi: true }}
             />
             <DialogContentText
-              color='primary'
+              color="primary"
               sx={{ fontWeight: 'bolder' }}
-              id='alert-dialog-description'
+              id="alert-dialog-description"
             >
               Example solution:
             </DialogContentText>
@@ -133,8 +145,8 @@ function ExerciseDialog({ open, setOpen, exercise, CheckExercise, token }) {
               }}
             >
               <Editor
-                height='200px'
-                width='100%'
+                height="200px"
+                width="100%"
                 language={
                   exercise.programmingLanguage.toLowerCase() === 'c++'
                     ? 'cpp'
@@ -147,19 +159,19 @@ function ExerciseDialog({ open, setOpen, exercise, CheckExercise, token }) {
           <DialogActions
             sx={{ display: 'flex', justifyContent: 'space-between' }}
           >
-            <Button variant='contained' onClick={handleClose}>
+            <Button variant="contained" onClick={handleClose}>
               Undo
             </Button>
             <Box>
               <Button
-                variant='contained'
+                variant="contained"
                 sx={{ marginRight: '10px' }}
-                onClick={handleClose}
+                onClick={() => deleteExercise()}
               >
                 Reject
               </Button>
               <Button
-                variant='contained'
+                variant="contained"
                 onClick={() => checkExercise()}
                 autoFocus
               >
@@ -179,6 +191,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   CheckExercise,
+  DeleteUncheckedExercise,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExerciseDialog);
@@ -189,4 +202,5 @@ ExerciseDialog.propTypes = {
   exercise: PropTypes.object,
   CheckExercise: PropTypes.func,
   token: PropTypes.string,
+  DeleteUncheckedExercise: PropTypes.func,
 };

@@ -95,6 +95,29 @@ export const DeleteExercise = (id, token = null) =>
     ],
   });
 
+export const DeleteUncheckedExercise = (id, token = null) =>
+  createAction({
+    endpoint: `${
+      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+    }/exercises/deleteExercise/${id}`,
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    types: [
+      types.DELETE_UNCHECKED_EXERCISE_REQUEST,
+      {
+        type: types.DELETE_UNCHECKED_EXERCISE_SUCCESS,
+        payload: async (action, state, res) => {
+          const json = await res.json();
+          return json;
+        },
+      },
+      types.DELETE_UNCHECKED_EXERCISE_FAILURE,
+    ],
+  });
+
 export const UpdateExercise = (body, token = null) =>
   createAction({
     endpoint: `${

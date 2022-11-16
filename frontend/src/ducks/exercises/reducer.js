@@ -33,6 +33,14 @@ export const exercisesReducer = (
         exercises: state.exercises.filter((ex) => ex._id !== action.payload.id),
         error: false,
       };
+    case types.DELETE_UNCHECKED_EXERCISE_SUCCESS:
+      return {
+        ...state,
+        exercisesToCheck: state.exercisesToCheck.filter(
+          (ex) => ex._id !== action.payload.id
+        ),
+        error: false,
+      };
     case types.DELETE_EXERCISE_FAILURE:
       return { ...state, error: true };
     case types.UPDATE_EXERCISE_SUCCESS:
