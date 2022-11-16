@@ -7,6 +7,7 @@ import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 
+import { getToken } from '../../ducks/token/selectors';
 import { GetUsers } from '../../ducks/user/operations';
 import { getUserByUsername } from '../../ducks/user/selectors';
 
@@ -16,17 +17,12 @@ import UncheckedExercises from './UncheckedExercises';
 import UserExercisesList from './UserExercisesList';
 import WrittenReviews from './WrittenReviews';
 
-const UserDetails = ({ GetUsers }) => {
-  const { user, getAccessTokenSilently } = useAuth0();
+const UserDetails = ({ GetUsers, token }) => {
+  const { user } = useAuth0();
 
   useEffect(() => {
-    (async () => {
-      const token = await getAccessTokenSilently({
-        audience: `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}`,
-      });
-      await GetUsers(token);
-    })();
-  }, []);
+    GetUsers(token);
+  }, [token]);
 
   const foundUser = useSelector(getUserByUsername(user.nickname));
 
@@ -103,12 +99,17 @@ const UserDetails = ({ GetUsers }) => {
   );
 };
 
+const mapStateToProps = (state) => ({
+  token: getToken(state),
+});
+
 const mapDispatchToProps = {
   GetUsers,
 };
 
-export default connect(null, mapDispatchToProps)(UserDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(UserDetails);
 
 UserDetails.propTypes = {
   GetUsers: PropTypes.func.isRequired,
+  token: PropTypes.string,
 };

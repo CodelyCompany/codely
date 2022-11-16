@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { useAuth0 } from '@auth0/auth0-react';
 import { Card, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { PropTypes } from 'prop-types';
@@ -8,6 +7,7 @@ import { connect } from 'react-redux';
 
 import { GetUncheckedExercises } from '../../../ducks/exercises/operations';
 import { getUncheckedExercises } from '../../../ducks/exercises/selectors';
+import { getToken } from '../../../ducks/token/selectors';
 
 import ExerciseDialog from './ExerciseDialog';
 
@@ -24,8 +24,7 @@ const columns = [
   },
 ];
 
-function ExerciseToCheck({ uncheckedExercises, GetUncheckedExercises }) {
-  const { getAccessTokenSilently } = useAuth0();
+function ExerciseToCheck({ uncheckedExercises, GetUncheckedExercises, token }) {
   const rows = useMemo(
     () => (uncheckedExercises ? uncheckedExercises : []),
     [uncheckedExercises]
@@ -39,13 +38,8 @@ function ExerciseToCheck({ uncheckedExercises, GetUncheckedExercises }) {
   };
 
   useEffect(() => {
-    (async () => {
-      const token = await getAccessTokenSilently({
-        audience: `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}`,
-      });
-      await GetUncheckedExercises(token);
-    })();
-  }, []);
+    GetUncheckedExercises(token);
+  }, [token]);
 
   return (
     <>
@@ -78,6 +72,7 @@ function ExerciseToCheck({ uncheckedExercises, GetUncheckedExercises }) {
 
 const mapStateToProps = (state) => ({
   uncheckedExercises: getUncheckedExercises(state),
+  token: getToken(state),
 });
 
 const mapDispatchToProps = {
@@ -89,4 +84,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(ExerciseToCheck);
 ExerciseToCheck.propTypes = {
   uncheckedExercises: PropTypes.array,
   GetUncheckedExercises: PropTypes.func,
+  token: PropTypes.string,
 };

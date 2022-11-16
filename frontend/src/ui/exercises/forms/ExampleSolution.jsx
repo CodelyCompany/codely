@@ -16,8 +16,10 @@ import {
   ChangeAddStatus,
   ChangeUpdateStatus,
 } from '../../../ducks/popups/actions';
+import { getToken } from '../../../ducks/token/selectors';
 import { getUserByUsername } from '../../../ducks/user/selectors';
 import SubmitAlert from '../../popups/SubmitAlert';
+import GetToken from '../../user/GetToken';
 
 import { getSignature } from './utils/functionSignatures';
 
@@ -29,6 +31,7 @@ const ExampleSolution = ({
   dataToEdit,
   UpdateExercise,
   ChangeUpdateStatus,
+  token,
 }) => {
   const [code, setCode] = useState('');
   const [tests, setTests] = useState(null);
@@ -77,18 +80,6 @@ const ExampleSolution = ({
   };
 
   const submit = () => {
-    //here should be added token as an argument after 1st of December
-
-    // axios
-    //   .post(`https://${process.env.REACT_APP_DOMAIN}/oauth/token`, {
-    //     client_id: process.env.REACT_APP_CONTAINERS_CLIENT_ID,
-    //     client_secret: process.env.REACT_APP_CONTAINERS_CLIENT_SECRET,
-    //     audience: `${
-    //       process.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
-    //     }`,
-    //     grant_type: 'client_credentials',
-    //   })
-    //   .then((token) => {
     if (!dataToEdit) {
       AddExercise(
         {
@@ -99,8 +90,8 @@ const ExampleSolution = ({
           hints: step.dataFromStep4.map((el) => el[1]),
           exampleSolution: code,
           functionSignature: signature,
-        }
-        // token || null
+        },
+        token
       );
       ChangeAddStatus();
       return;
@@ -119,22 +110,9 @@ const ExampleSolution = ({
       token
     );
     ChangeUpdateStatus();
-    // });
   };
 
   const verifySolution = () => {
-    //here should be added token as an argument after 1st of December
-
-    // axios
-    //   .post(`https://${process.env.REACT_APP_DOMAIN}/oauth/token`, {
-    //     client_id: process.env.REACT_APP_CONTAINERS_CLIENT_ID,
-    //     client_secret: process.env.REACT_APP_CONTAINERS_CLIENT_SECRET,
-    //     audience: `${
-    //       process.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
-    //     }`,
-    //     grant_type: 'client_credentials',
-    //   })
-    //   .then((token) => {
     axios
       .post(
         'http://localhost:5000/exercises/checkBeforeAddExercise',
@@ -147,21 +125,21 @@ const ExampleSolution = ({
             step.dataFromStep1.programmingLanguage === 'C++'
               ? 'cpp'
               : step.dataFromStep1.programmingLanguage,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-        // {
-        //   headers: {
-        //     Authorization: `Bearer ${token.data.access_token}`,
-        //   },
-        // }
       )
       .then((response) => {
         setTests(response.data);
       });
-    // });
   };
 
   return (
     <>
+      <GetToken />
       <SubmitAlert
         triggered={triggered}
         setTriggered={setTriggered}
@@ -240,6 +218,10 @@ const ExampleSolution = ({
   );
 };
 
+const mapStateToProps = (state) => ({
+  token: getToken(state),
+});
+
 const mapDispatchToProps = {
   AddExercise,
   ChangeAddStatus,
@@ -247,7 +229,7 @@ const mapDispatchToProps = {
   ChangeUpdateStatus,
 };
 
-export default connect(null, mapDispatchToProps)(ExampleSolution);
+export default connect(mapStateToProps, mapDispatchToProps)(ExampleSolution);
 
 ExampleSolution.propTypes = {
   step: PropTypes.object.isRequired,
@@ -257,4 +239,5 @@ ExampleSolution.propTypes = {
   dataToEdit: PropTypes.object,
   UpdateExercise: PropTypes.func,
   ChangeUpdateStatus: PropTypes.func,
+  token: PropTypes.string,
 };

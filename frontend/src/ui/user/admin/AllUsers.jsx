@@ -7,13 +7,14 @@ import _ from 'lodash';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 
+import { getToken } from '../../../ducks/token/selectors';
 import { GetUsers } from '../../../ducks/user/operations';
 import { getUsers } from '../../../ducks/user/selectors';
-function AllUsers({ users, GetUsers }) {
+import GetToken from '../GetToken';
+function AllUsers({ users, GetUsers, token }) {
   useEffect(() => {
-    //here should be added token as an argument after 1st of December
-    if (users.length) GetUsers();
-  }, []);
+    if (users.length) GetUsers(token);
+  }, [token]);
 
   const rows = useMemo(() => (users ? users : []), [users]);
 
@@ -47,10 +48,11 @@ function AllUsers({ users, GetUsers }) {
 
   return (
     <Card sx={{ height: '100%', margin: '10px', padding: '10px' }}>
+      <GetToken />
       <Typography
-        color="primary"
+        color='primary'
         fontWeight={'bolder'}
-        variant="h6"
+        variant='h6'
         textAlign={'center'}
       >
         Registered users
@@ -79,6 +81,7 @@ function AllUsers({ users, GetUsers }) {
 
 const mapStateToProps = (state) => ({
   users: getUsers(state),
+  token: getToken(state),
 });
 
 const mapDispatchToProps = {
@@ -90,4 +93,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(AllUsers);
 AllUsers.propTypes = {
   users: PropTypes.array,
   GetUsers: PropTypes.func,
+  token: PropTypes.string,
 };

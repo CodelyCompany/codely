@@ -15,7 +15,7 @@ import { getExercisesFromState } from '../../../ducks/exercises/selectors';
 
 import Sorting from './Sorting';
 
-function Filters({ exercises, setFilters, filters, setSort, sort }) {
+function Filters({ exercises, setFilters, setSort, sort }) {
   const getTitles = () => exercises.map((el) => el.title);
 
   const languages = ['JavaScript', 'Bash', 'C', 'C++', 'Java', 'Python', 'R'];
@@ -50,10 +50,9 @@ function Filters({ exercises, setFilters, filters, setSort, sort }) {
   return (
     <Box sx={{ width: '100%' }}>
       <Box>
-        {console.log(filters)}
         <Autocomplete
           disablePortal
-          id="combo-box"
+          id='combo-box'
           options={getTitles()}
           value={autocompleteValue}
           onChange={(event, newValue) => {
@@ -64,7 +63,7 @@ function Filters({ exercises, setFilters, filters, setSort, sort }) {
             setInputAutocompleteValue(newInputValue);
           }}
           renderInput={(params) => (
-            <TextField {...params} label="Search exercise" />
+            <TextField {...params} label='Search exercise' />
           )}
         />
       </Box>

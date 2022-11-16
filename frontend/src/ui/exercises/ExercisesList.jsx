@@ -10,12 +10,14 @@ import { useNavigate } from 'react-router-dom';
 
 import { GetExercises } from '../../ducks/exercises/operations';
 import { getExercisesFromState } from '../../ducks/exercises/selectors';
+import { getToken } from '../../ducks/token/selectors';
+import GetToken from '../user/GetToken';
 
 import Filters from './filters/Filters';
 import Exercise from './Exercise';
 import PaginationExercises from './PaginationExercises';
 
-const ExercisesList = ({ exercises, GetExercises }) => {
+const ExercisesList = ({ exercises, GetExercises, token }) => {
   const [page, setPage] = useState(1);
   const [filters, setFilters] = useState({
     title: '',
@@ -24,7 +26,6 @@ const ExercisesList = ({ exercises, GetExercises }) => {
   });
   const [sort, setSort] = useState(0);
   const navigate = useNavigate();
-  const { getAccessTokenSilently } = useAuth0();
   const [itemsPerPage, setItemsPerPage] = useState(3);
 
   const goToExercisesForm = () => {
@@ -36,93 +37,90 @@ const ExercisesList = ({ exercises, GetExercises }) => {
 
   useEffect(() => {
     if (_.isEmpty(exercises)) {
-      (async () => {
-        const token = await getAccessTokenSilently({
-          audience: `${
-            process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-          }`,
-        });
-        await GetExercises(token);
-      })();
+      GetExercises(token);
     }
   }, []);
 
   return (
-    <Container
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
-    >
-      <Button
-        onClick={goToExercisesForm}
-        variant='contained'
-        sx={{ margin: '10px', width: '100%' }}
-      >
-        Create your exercise!
-      </Button>
-      <Filters
-        setFilters={setFilters}
-        filters={filters}
-        setSort={setSort}
-        sort={sort}
-      />
-      <Box
+    <>
+      <GetToken />
+      <Container
         sx={{
           display: 'flex',
-          flexWrap: 'wrap',
-          height: '100%',
-          width: '100%',
-          flexDirection: 'row',
-          alignItems: 'space-between',
+          flexDirection: 'column',
+          alignItems: 'center',
         }}
       >
-        {getReversed(
-          sort === 2 || sort === 4,
-          _.sortBy(
-            exercises
-              .filter((ex) =>
-                filters.title
-                  ? new RegExp(`.*${filters.title}.*`).test(ex.title)
-                  : true
-              )
-              .filter((ex) =>
-                !_.isEmpty(filters.languages)
-                  ? filters.languages.includes(
-                      ex.programmingLanguage.toLowerCase()
-                    )
-                  : true
-              )
-              .filter((ex) =>
-                !_.isEmpty(filters.difficulty)
-                  ? filters.difficulty.includes(ex.difficulty)
-                  : true
-              ),
-            sort === 0
-              ? []
-              : sort === 1 || sort === 2
-              ? ['title']
-              : ['difficulty']
+        <Button
+          onClick={goToExercisesForm}
+          variant='contained'
+          sx={{ margin: '10px', width: '100%' }}
+        >
+          Create your exercise!
+        </Button>
+        <Filters
+          setFilters={setFilters}
+          filters={filters}
+          setSort={setSort}
+          sort={sort}
+        />
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            height: '100%',
+            width: '100%',
+            flexDirection: 'row',
+            alignItems: 'space-between',
+          }}
+        >
+          {getReversed(
+            sort === 2 || sort === 4,
+            _.sortBy(
+              exercises
+                .filter((ex) =>
+                  filters.title
+                    ? new RegExp(`.*${filters.title}.*`).test(ex.title)
+                    : true
+                )
+                .filter((ex) =>
+                  !_.isEmpty(filters.languages)
+                    ? filters.languages.includes(
+                        ex.programmingLanguage.toLowerCase()
+                      )
+                    : true
+                )
+                .filter((ex) =>
+                  !_.isEmpty(filters.difficulty)
+                    ? filters.difficulty.includes(ex.difficulty)
+                    : true
+                ),
+              sort === 0
+                ? []
+                : sort === 1 || sort === 2
+                ? ['title']
+                : ['difficulty']
+            )
           )
-        )
-          .slice((page - 1) * itemsPerPage, page * itemsPerPage)
-          .map((exercise) => (
-            <Exercise key={exercise._id} exercise={exercise} />
-          ))}
-      </Box>
-      <PaginationExercises
-        page={page}
-        setPage={setPage}
-        setItemsPerPage={setItemsPerPage}
-        itemsPerPage={itemsPerPage}
-      />
-    </Container>
+            .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+            .map((exercise) => (
+              <Exercise key={exercise._id} exercise={exercise} />
+            ))}
+        </Box>
+        <PaginationExercises
+          page={page}
+          setPage={setPage}
+          setItemsPerPage={setItemsPerPage}
+          itemsPerPage={itemsPerPage}
+        />
+      </Container>
+    </>
   );
 };
 
 const mapStateToProps = (state) => ({
   exercises: getExercisesFromState(state),
+  token: getToken(state),
 });
 
 const mapDispatchToProps = {
@@ -134,4 +132,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(ExercisesList);
 ExercisesList.propTypes = {
   exercises: PropTypes.array.isRequired,
   GetExercises: PropTypes.func.isRequired,
+  token: PropTypes.string,
 };

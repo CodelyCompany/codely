@@ -46,7 +46,6 @@ function UserExercisesList({ exercises, mode }) {
         borderBottom: '3px solid rgb(25, 118, 210)',
         display: 'flex',
         flexDirection: 'column',
-        // alignItems: 'center',
       }}
     >
       <Typography variant='h6' color='primary' sx={{ fontWeight: 'bolder' }}>

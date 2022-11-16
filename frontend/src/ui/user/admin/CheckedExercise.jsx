@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
 
-import { useAuth0 } from '@auth0/auth0-react';
 import { Card, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import * as _ from 'lodash';
@@ -10,6 +9,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { GetExercises } from '../../../ducks/exercises/operations';
 import { getExercisesFromState } from '../../../ducks/exercises/selectors';
+import { getToken } from '../../../ducks/token/selectors';
+import GetToken from '../GetToken';
 
 const columns = [
   {
@@ -24,8 +25,7 @@ const columns = [
   },
 ];
 
-function CheckedExercise({ checkedExercises, GetExercises }) {
-  const { getAccessTokenSilently } = useAuth0();
+function CheckedExercise({ checkedExercises, GetExercises, token }) {
   const rows = useMemo(
     () => (checkedExercises ? checkedExercises : []),
     [checkedExercises]
@@ -34,18 +34,14 @@ function CheckedExercise({ checkedExercises, GetExercises }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    (async () => {
-      const token = await getAccessTokenSilently({
-        audience: `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}`,
-      });
-      await GetExercises(token);
-    })();
-  }, []);
+    GetExercises(token);
+  }, [token]);
 
   return (
     <Card
       sx={{ height: '500px', width: '50%', margin: '10px', padding: '10px' }}
     >
+      <GetToken />
       <Typography
         color='primary'
         variant='h6'
@@ -70,6 +66,7 @@ function CheckedExercise({ checkedExercises, GetExercises }) {
 
 const mapStateToProps = (state) => ({
   checkedExercises: getExercisesFromState(state),
+  token: getToken(state),
 });
 
 const mapDispatchToProps = {
@@ -81,4 +78,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(CheckedExercise);
 CheckedExercise.propTypes = {
   checkedExercises: PropTypes.array,
   GetExercises: PropTypes.func,
+  token: PropTypes.string,
 };

@@ -24,35 +24,31 @@ import { DeleteExercise, GetExercises } from '../../ducks/exercises/operations';
 import { getExerciseById } from '../../ducks/exercises/selectors';
 import { ChangeDeleteStatus } from '../../ducks/popups/actions';
 import { getRatingByExerciseId } from '../../ducks/reviews/selectors';
+import { getToken } from '../../ducks/token/selectors';
 import Confirmation from '../popups/Confirmation';
+import GetToken from '../user/GetToken';
 
 import EditorField from './editor_to_exercises/EditorField';
 import Reviews from './reviews/Reviews';
 
-const ExerciseDetail = ({ GetExercises }) => {
+const ExerciseDetail = ({ GetExercises, token }) => {
   const { id } = useParams();
   const exercise = useSelector(getExerciseById(id));
   const rating = useSelector(getRatingByExerciseId(id));
-  const { getAccessTokenSilently, user } = useAuth0();
+  const { user } = useAuth0();
   const navigate = useNavigate();
   const [toDelete, setToDelete] = useState(false);
 
   useEffect(() => {
     if (_.isEmpty(exercise)) {
-      (async () => {
-        const token = await getAccessTokenSilently({
-          audience: `${
-            process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-          }`,
-        });
-        await GetExercises(token);
-      })();
+      GetExercises(token);
     }
   }, []);
 
   return (
     exercise && (
       <>
+        <GetToken />
         <Container sx={{ marginTop: '10px' }}>
           <Box sx={{ width: '100%', display: 'flex' }}>
             <List
@@ -64,8 +60,8 @@ const ExerciseDetail = ({ GetExercises }) => {
             >
               <ListItem>
                 <Typography
-                  variant="h3"
-                  color="primary"
+                  variant='h3'
+                  color='primary'
                   sx={{ borderBottom: '3px solid rgb(25, 118, 210)' }}
                 >
                   {exercise.title}
@@ -78,7 +74,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary="Author"
+                  primary='Author'
                   secondary={exercise.author.username}
                 />
               </ListItem>
@@ -89,7 +85,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary="Programming Language"
+                  primary='Programming Language'
                   secondary={exercise.programmingLanguage}
                 />
               </ListItem>
@@ -100,7 +96,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary="Difficulty"
+                  primary='Difficulty'
                   secondary={[...Array(exercise.difficulty).keys()].map(
                     (el) => (
                       <StarRateIcon sx={{ color: 'gold' }} key={el} />
@@ -115,7 +111,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary="Description"
+                  primary='Description'
                   secondary={exercise.description}
                 />
               </ListItem>
@@ -126,7 +122,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary="Rating"
+                  primary='Rating'
                   secondary={
                     rating
                       ? [...Array(Math.round(rating)).keys()].map((num) => (
@@ -150,7 +146,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                 }}
               >
                 <Button
-                  variant="contained"
+                  variant='contained'
                   sx={{ height: '40px', marginTop: '50px', width: '100px' }}
                   onClick={() => {
                     setToDelete(true);
@@ -159,7 +155,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                   Delete
                 </Button>
                 <Button
-                  variant="contained"
+                  variant='contained'
                   sx={{ height: '40px', marginTop: '10px', width: '100px' }}
                   onClick={() => navigate(`/exercises/edit/${id}`)}
                 >
@@ -190,8 +186,13 @@ const mapDispatchToProps = {
   ChangeDeleteStatus,
 };
 
-export default connect(null, mapDispatchToProps)(ExerciseDetail);
+const mapStateToProps = (state) => ({
+  token: getToken(state),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ExerciseDetail);
 
 ExerciseDetail.propTypes = {
   GetExercises: PropTypes.func.isRequired,
+  token: PropTypes.string,
 };
