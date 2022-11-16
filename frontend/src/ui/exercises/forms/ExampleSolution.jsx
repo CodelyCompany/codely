@@ -149,41 +149,10 @@ const ExampleSolution = ({
         sx={{
           display: 'flex',
           justifyContent: 'center',
-<<<<<<< HEAD
-=======
-          width: 'calc(900px - 10px)',
-          height: '200px',
-          border: '3px solid rgb(25, 118, 210)',
-          borderRadius: '5px',
-          margin: '10px',
-          padding: '5px',
-        }}
-      >
-        {' '}
-        <Editor
-          loading={<CircularProgress />}
-          height="100%"
-          language={
-            step.dataFromStep1
-              ? step.dataFromStep1.programmingLanguage === 'C++'
-                ? 'cpp'
-                : step.dataFromStep1.programmingLanguage.toLowerCase()
-              : 'javascript'
-          }
-          value={code}
-          onChange={handleCodeChange}
-          width="100%"
-        />
-      </Box>
-      <Box
-        sx={{
-          display: 'flex',
->>>>>>> e8bdc726c3897880080e25b5b5b3e99a7721a1c5
           flexDirection: 'column',
           alignItems: 'center',
         }}
       >
-<<<<<<< HEAD
         <Box
           sx={{
             display: 'flex',
@@ -238,19 +207,6 @@ const ExampleSolution = ({
             }
           >
             {tests
-=======
-        <Button
-          sx={{ marginBottom: '10px' }}
-          variant="contained"
-          onClick={prev}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="contained"
-          onClick={() =>
-            tests
->>>>>>> e8bdc726c3897880080e25b5b5b3e99a7721a1c5
               ? tests.correct !== tests.tests
                 ? `Check exercise again (Last run: ${tests.correct} / ${tests.tests})`
                 : `Click again to pass your exercise for admin verification.`
