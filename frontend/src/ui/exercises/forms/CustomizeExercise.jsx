@@ -57,7 +57,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
     });
   });
 
-  yup.addMethod(yup.mixed, 'uniqueIn', function (array = [], message) {
+  yup.addMethod(yup.mixed, "uniqueIn", function (array = [], message) {
     return this.test('uniqueIn', message, function (value) {
       return array.filter((item) => item === value).length < 2;
     });
