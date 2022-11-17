@@ -13,10 +13,10 @@ const app = express();
 
 app.use(express.json());
 app.use(
-    cors({
-        origin: '*',
-        methods: ['GET', 'POST'],
-    })
+  cors({
+    origin: '*',
+    methods: ['GET', 'POST'],
+  })
 );
 // app.use(jwtCheck);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -24,5 +24,5 @@ app.use('/', containers);
 
 const port = process.env.PORT || 5001;
 http.createServer(app).listen(port, () => {
-    console.log(`API server listening at http://localhost:${port}`);
+  console.log(`API server listening at http://localhost:${port}`);
 });
