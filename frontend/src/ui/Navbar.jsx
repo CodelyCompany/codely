@@ -23,10 +23,14 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 import { GetReviews } from '../ducks/reviews/operations';
+import { getToken } from '../ducks/token/selectors';
 import { AddUser, GetUsers } from '../ducks/user/operations';
+import { getUsers } from '../ducks/user/selectors';
 import logo from '../logo.png';
 
-const Navbar = ({ GetUsers, AddUser, users, GetReviews }) => {
+import GetToken from './user/GetToken';
+
+const Navbar = ({ GetUsers, AddUser, users, GetReviews, token }) => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const navigate = useNavigate();
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -49,24 +53,12 @@ const Navbar = ({ GetUsers, AddUser, users, GetReviews }) => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      (async () => {
-        try {
-          const token = await getAccessTokenSilently({
-            audience: `${
-              process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-            }`,
-          });
-          await GetUsers(token);
-          await GetReviews(token);
-          const foundUser = users.find((usr) => usr.username === user.nickname);
-          if (_.isEmpty(foundUser))
-            await AddUser({ username: user.nickname }, token);
-        } catch (e) {
-          console.error(e);
-        }
-      })();
+      GetUsers(token);
+      GetReviews(token);
+      const foundUser = users.find((usr) => usr.username === user.nickname);
+      if (_.isEmpty(foundUser)) AddUser({ username: user.nickname }, token);
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, token]);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -88,29 +80,30 @@ const Navbar = ({ GetUsers, AddUser, users, GetReviews }) => {
   };
 
   return (
-    <AppBar position='static'>
-      <Container maxWidth='xl'>
+    <AppBar position="static">
+      <GetToken />
+      <Container maxWidth="xl">
         <Toolbar disableGutters>
           <img
-            id='logo'
+            id="logo"
             style={{ height: '50px', cursor: 'pointer' }}
             src={logo}
-            alt='codely logo'
+            alt="codely logo"
             onClick={() => navigate('/')}
           />
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
-              size='large'
-              aria-label='account of current user'
-              aria-controls='menu-appbar'
-              aria-haspopup='true'
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color='inherit'
+              color="inherit"
             >
               <MenuIcon />
             </IconButton>
             <Menu
-              id='menu-appbar'
+              id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
                 vertical: 'bottom',
@@ -129,16 +122,16 @@ const Navbar = ({ GetUsers, AddUser, users, GetReviews }) => {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={() => handleCloseNavMenu(page)}>
-                  <Typography textAlign='center'>{page}</Typography>
+                  <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
           <Typography
-            variant='h5'
+            variant="h5"
             noWrap
-            component='a'
-            href=''
+            component="a"
+            href=""
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -175,9 +168,9 @@ const Navbar = ({ GetUsers, AddUser, users, GetReviews }) => {
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             {isAuthenticated && (
-              <Tooltip title='Open settings'>
+              <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt='User image' />
+                  <Avatar alt="User image" />
                 </IconButton>
               </Tooltip>
             )}
@@ -192,7 +185,7 @@ const Navbar = ({ GetUsers, AddUser, users, GetReviews }) => {
 
             <Menu
               sx={{ mt: '45px' }}
-              id='menu-appbar'
+              id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
                 vertical: 'top',
@@ -211,7 +204,7 @@ const Navbar = ({ GetUsers, AddUser, users, GetReviews }) => {
                   key={setting}
                   onClick={() => handleCloseUserMenu(setting)}
                 >
-                  <Typography textAlign='center'>{setting}</Typography>
+                  <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -223,7 +216,8 @@ const Navbar = ({ GetUsers, AddUser, users, GetReviews }) => {
 };
 
 const mapStateToProps = (state) => ({
-  users: state.users.users,
+  users: getUsers(state),
+  token: getToken(state),
 });
 
 const mapDispatchToProps = {
@@ -239,4 +233,5 @@ Navbar.propTypes = {
   GetReviews: PropTypes.func,
   AddUser: PropTypes.func,
   users: PropTypes.array,
+  token: PropTypes.string,
 };

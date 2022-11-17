@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import { useAuth0 } from '@auth0/auth0-react';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion from '@mui/material/Accordion';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
@@ -16,6 +15,7 @@ import { GetExercise } from '../../../ducks/exercises/operations';
 import { getExerciseById } from '../../../ducks/exercises/selectors';
 import { StopRedirect } from '../../../ducks/redirects/actions';
 import { isRedirect } from '../../../ducks/redirects/selector';
+import { getToken } from '../../../ducks/token/selectors';
 
 import CustomizeExercise from './CustomizeExercise';
 import ExampleSolution from './ExampleSolution';
@@ -23,7 +23,7 @@ import ExercisesForm from './ExercisesForm';
 import HintsForms from './HintsForms';
 import TestsForm from './TestsForm';
 
-function MainForm({ GetExercise, redirect, StopRedirect }) {
+function MainForm({ GetExercise, redirect, StopRedirect, token }) {
   const [step, setStep] = useState({
     currentStep: 1,
     dataFromStep1: '',
@@ -34,7 +34,6 @@ function MainForm({ GetExercise, redirect, StopRedirect }) {
   });
 
   const navigate = useNavigate();
-  const { getAccessTokenSilently } = useAuth0();
   const { id } = useParams();
   const exercise = useSelector(getExerciseById(id));
 
@@ -46,16 +45,8 @@ function MainForm({ GetExercise, redirect, StopRedirect }) {
   }, [redirect]);
 
   useEffect(() => {
-    id &&
-      (async () => {
-        const token = await getAccessTokenSilently({
-          audience: `${
-            process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-          }`,
-        });
-        await GetExercise(id, token);
-      })();
-  }, []);
+    id && GetExercise(id, token);
+  }, [token]);
 
   const Accordion = styled((props) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -103,14 +94,14 @@ function MainForm({ GetExercise, redirect, StopRedirect }) {
       >
         <AccordionSummary
           sx={{ backgroundColor: 'rgb(25, 118, 210)' }}
-          aria-controls='panel1d-content'
-          id='panel1d-header'
+          aria-controls="panel1d-content"
+          id="panel1d-header"
         >
           <Typography sx={{ color: 'white' }}>Main info</Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
           <Typography
-            color='primary'
+            color="primary"
             sx={{ margin: '10px', fontWeight: 'bolder' }}
           >
             Here you can set title, description and difficulty of your exercise.
@@ -125,8 +116,8 @@ function MainForm({ GetExercise, redirect, StopRedirect }) {
       >
         <AccordionSummary
           sx={{ backgroundColor: 'rgb(25, 118, 210)' }}
-          aria-controls='panel3d-content'
-          id='panel3d-header'
+          aria-controls="panel3d-content"
+          id="panel3d-header"
         >
           <Typography sx={{ color: 'white' }}>
             Customize exercise function
@@ -134,7 +125,7 @@ function MainForm({ GetExercise, redirect, StopRedirect }) {
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
           <Typography
-            color='primary'
+            color="primary"
             sx={{ margin: '10px', fontWeight: 'bolder' }}
           >
             Here you can set amount of arguments for your function. You have to
@@ -153,14 +144,14 @@ function MainForm({ GetExercise, redirect, StopRedirect }) {
       >
         <AccordionSummary
           sx={{ backgroundColor: 'rgb(25, 118, 210)' }}
-          aria-controls='panel2d-content'
-          id='panel2d-header'
+          aria-controls="panel2d-content"
+          id="panel2d-header"
         >
           <Typography sx={{ color: 'white' }}>Inputs \ Outputs</Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
           <Typography
-            color='primary'
+            color="primary"
             sx={{ margin: '10px', fontWeight: 'bolder' }}
           >
             Choose quantity of your tests, then write expected outputs for each
@@ -175,14 +166,14 @@ function MainForm({ GetExercise, redirect, StopRedirect }) {
       >
         <AccordionSummary
           sx={{ backgroundColor: 'rgb(25, 118, 210)' }}
-          aria-controls='panel3d-content'
-          id='panel3d-header'
+          aria-controls="panel3d-content"
+          id="panel3d-header"
         >
           <Typography sx={{ color: 'white' }}>Hints</Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
           <Typography
-            color='primary'
+            color="primary"
             sx={{ margin: '10px', fontWeight: 'bolder' }}
           >
             Here you can choose quantity of your hints. Remember that not all
@@ -198,14 +189,14 @@ function MainForm({ GetExercise, redirect, StopRedirect }) {
       >
         <AccordionSummary
           sx={{ backgroundColor: 'rgb(25, 118, 210)' }}
-          aria-controls='panel3d-content'
-          id='panel3d-header'
+          aria-controls="panel3d-content"
+          id="panel3d-header"
         >
           <Typography sx={{ color: 'white' }}>Example Solution</Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
           <Typography
-            color='primary'
+            color="primary"
             sx={{ margin: '10px', fontWeight: 'bolder' }}
           >
             Here you have to write an example solution to guarantee that your
@@ -225,6 +216,7 @@ function MainForm({ GetExercise, redirect, StopRedirect }) {
 
 const mapStateToProps = (state) => ({
   redirect: isRedirect(state),
+  token: getToken(state),
 });
 
 const mapDispatchToProps = {
@@ -238,4 +230,5 @@ MainForm.propTypes = {
   GetExercise: PropTypes.func,
   redirect: PropTypes.bool,
   StopRedirect: PropTypes.func,
+  token: PropTypes.string,
 };

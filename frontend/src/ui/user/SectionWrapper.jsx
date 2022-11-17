@@ -23,7 +23,7 @@ const SectionWrapper = ({ children, mode, condition }) => {
         width: '100%',
       }}
     >
-      <Typography sx={{ fontWeight: 'bolder' }} color='primary' variant='h6'>
+      <Typography sx={{ fontWeight: 'bolder' }} color="primary" variant="h6">
         {info()}
       </Typography>
     </Box>
@@ -33,7 +33,7 @@ const SectionWrapper = ({ children, mode, condition }) => {
 export default SectionWrapper;
 
 SectionWrapper.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.node,
   mode: PropTypes.string.isRequired,
   condition: PropTypes.bool.isRequired,
 };
