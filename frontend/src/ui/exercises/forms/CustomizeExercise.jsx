@@ -51,13 +51,13 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
     );
   };
 
-  yup.addMethod(yup.array, "unique", function (message, mapper = (a) => a) {
+  yup.addMethod(yup.array, 'unique', function (message, mapper = (a) => a) {
     return this.test('unique', message, function (list) {
       return list.length === new Set(list.map(mapper)).size;
     });
   });
 
-  yup.addMethod(yup.mixed, "uniqueIn", function (array = [], message) {
+  yup.addMethod(yup.mixed, 'uniqueIn', function (array = [], message) {
     return this.test('uniqueIn', message, function (value) {
       return array.filter((item) => item === value).length < 2;
     });
