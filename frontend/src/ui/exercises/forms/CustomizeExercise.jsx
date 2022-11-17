@@ -51,7 +51,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
     );
   };
 
-  yup.addMethod(yup.array, "unique", function (message, mapper = (a) => a) {
+  yup.addMethod(yup.array, 'unique', function (message, mapper = (a) => a) {
     return this.test('unique', message, function (list) {
       return list.length === new Set(list.map(mapper)).size;
     });
@@ -194,9 +194,9 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
         >
           <TextField
             sx={{ marginBottom: '10px' }}
-            id='functionName'
-            name='functionName'
-            label='Function name'
+            id="functionName"
+            name="functionName"
+            label="Function name"
             value={formik.values.functionName}
             onChange={formik.handleChange}
             error={
@@ -208,10 +208,10 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
           />
           <TextField
             sx={{ marginBottom: '10px' }}
-            type='number'
-            id='argumentsQuantity'
-            name='argumentsQuantity'
-            label='Function arguments quantity'
+            type="number"
+            id="argumentsQuantity"
+            name="argumentsQuantity"
+            label="Function arguments quantity"
             InputProps={{ inputProps: { min: 0 } }}
             value={formik.values.argumentsQuantity}
             onChange={formik.handleChange}
@@ -319,15 +319,15 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
           )}
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Button
-              color='primary'
-              variant='contained'
+              color="primary"
+              variant="contained"
               onClick={prev}
               sx={{ margin: '10px 0' }}
             >
               Previous
             </Button>
 
-            <Button color='primary' variant='contained' type='submit'>
+            <Button color="primary" variant="contained" type="submit">
               Next
             </Button>
           </Box>
