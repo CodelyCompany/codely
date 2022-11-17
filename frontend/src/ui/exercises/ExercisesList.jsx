@@ -39,7 +39,7 @@ const ExercisesList = ({ exercises, GetExercises, token }) => {
     if (_.isEmpty(exercises)) {
       GetExercises(token);
     }
-  }, []);
+  }, [token]);
 
   return (
     <>
