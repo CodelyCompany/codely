@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { useAuth0 } from '@auth0/auth0-react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -14,33 +13,33 @@ import { useParams } from 'react-router-dom';
 
 import { DeleteExercise } from '../../ducks/exercises/operations';
 import { ChangeDeleteStatus } from '../../ducks/popups/actions';
+import { getToken } from '../../ducks/token/selectors';
+import GetToken from '../user/GetToken';
 
 const Confirmation = ({
   open,
   setOpen,
   DeleteExercise,
   ChangeDeleteStatus,
+  token,
 }) => {
   const { id } = useParams();
 
-  const { getAccessTokenSilently } = useAuth0();
   const navigate = useNavigate();
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const deleteExercise = async () => {
-    const token = await getAccessTokenSilently({
-      audience: `${process.env.REACT_APP_BACKEND || 'https://localhost:5000'}`,
-    });
-    await DeleteExercise(id, token);
+  const deleteExercise = () => {
+    DeleteExercise(id, token);
     ChangeDeleteStatus();
     navigate('/exercises');
   };
 
   return (
     <div>
+      <GetToken />
       <Dialog
         open={open}
         onClose={handleClose}
@@ -66,16 +65,21 @@ const Confirmation = ({
   );
 };
 
+const mapStateToProps = (state) => ({
+  token: getToken(state),
+});
+
 const mapDispatchToProps = {
   DeleteExercise,
   ChangeDeleteStatus,
 };
 
-export default connect(null, mapDispatchToProps)(Confirmation);
+export default connect(mapStateToProps, mapDispatchToProps)(Confirmation);
 
 Confirmation.propTypes = {
   open: PropTypes.bool,
   setOpen: PropTypes.func,
   DeleteExercise: PropTypes.func,
   ChangeDeleteStatus: PropTypes.func,
+  token: PropTypes.string,
 };

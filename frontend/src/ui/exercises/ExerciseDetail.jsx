@@ -24,43 +24,31 @@ import { DeleteExercise, GetExercises } from '../../ducks/exercises/operations';
 import { getExerciseById } from '../../ducks/exercises/selectors';
 import { ChangeDeleteStatus } from '../../ducks/popups/actions';
 import { getRatingByExerciseId } from '../../ducks/reviews/selectors';
+import { getToken } from '../../ducks/token/selectors';
 import Confirmation from '../popups/Confirmation';
+import GetToken from '../user/GetToken';
 
 import EditorField from './editor_to_exercises/EditorField';
 import Reviews from './reviews/Reviews';
 
-const ExerciseDetail = ({ GetExercises }) => {
+const ExerciseDetail = ({ GetExercises, token }) => {
   const { id } = useParams();
   const exercise = useSelector(getExerciseById(id));
   const rating = useSelector(getRatingByExerciseId(id));
-  const { getAccessTokenSilently, user } = useAuth0();
+  const { user } = useAuth0();
   const navigate = useNavigate();
   const [toDelete, setToDelete] = useState(false);
 
   useEffect(() => {
     if (_.isEmpty(exercise)) {
-      (async () => {
-        const token = await getAccessTokenSilently({
-          audience: `${
-            process.env.REACT_APP_BACKEND || 'https://localhost:5000'
-          }`,
-        });
-        await GetExercises(token);
-      })();
+      GetExercises(token);
     }
-  }, []);
-
-  // const deleteExercise = async () => {
-  //   const token = await getAccessTokenSilently({
-  //     audience: `${process.env.REACT_APP_BACKEND || 'https://localhost:5000'}`,
-  //   });
-  //   await DeleteExercise(id, token);
-  //   navigate('/exercises');
-  // };
+  }, [token]);
 
   return (
     exercise && (
       <>
+        <GetToken />
         <Container sx={{ marginTop: '10px' }}>
           <Box sx={{ width: '100%', display: 'flex' }}>
             <List
@@ -74,9 +62,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                 <Typography
                   variant="h3"
                   color="primary"
-                  sx={{
-                    borderBottom: '3px solid rgb(25, 118, 210)',
-                  }}
+                  sx={{ borderBottom: '3px solid rgb(25, 118, 210)' }}
                 >
                   {exercise.title}
                 </Typography>
@@ -147,11 +133,7 @@ const ExerciseDetail = ({ GetExercises }) => {
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar
-                    style={{
-                      backgroundColor: 'rgb(25, 118, 210)',
-                    }}
-                  >
+                  <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
                     <StarRateIcon />
                   </Avatar>
                 </ListItemAvatar>
@@ -181,11 +163,7 @@ const ExerciseDetail = ({ GetExercises }) => {
               >
                 <Button
                   variant="contained"
-                  sx={{
-                    height: '40px',
-                    marginTop: '50px',
-                    width: '100px',
-                  }}
+                  sx={{ height: '40px', marginTop: '50px', width: '100px' }}
                   onClick={() => {
                     setToDelete(true);
                   }}
@@ -194,11 +172,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                 </Button>
                 <Button
                   variant="contained"
-                  sx={{
-                    height: '40px',
-                    marginTop: '10px',
-                    width: '100px',
-                  }}
+                  sx={{ height: '40px', marginTop: '10px', width: '100px' }}
                   onClick={() => navigate(`/exercises/edit/${id}`)}
                 >
                   Edit
@@ -228,8 +202,13 @@ const mapDispatchToProps = {
   ChangeDeleteStatus,
 };
 
-export default connect(null, mapDispatchToProps)(ExerciseDetail);
+const mapStateToProps = (state) => ({
+  token: getToken(state),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ExerciseDetail);
 
 ExerciseDetail.propTypes = {
   GetExercises: PropTypes.func.isRequired,
+  token: PropTypes.string,
 };

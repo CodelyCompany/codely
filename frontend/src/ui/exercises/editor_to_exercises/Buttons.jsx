@@ -8,88 +8,63 @@ import { connect, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
+import { getToken } from '../../../ducks/token/selectors';
 import { getUserByUsername } from '../../../ducks/user/selectors';
 import ExerciseHints from '../../popups/ExerciseHints';
 import RunAlert from '../../popups/RunAlert';
 import SubmitAlert from '../../popups/SubmitAlert';
+import GetToken from '../../user/GetToken';
 
-const Buttons = ({ setOutput, code, language, setTests, tests }) => {
+const Buttons = ({ setOutput, code, language, setTests, tests, token }) => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { getAccessTokenSilently, user } = useAuth0();
-  const foundUser = useSelector((state) =>
-    getUserByUsername(state, user.nickname)
-  );
+  const { user } = useAuth0();
+  const foundUser = useSelector(getUserByUsername(user.nickname));
   const [triggerAlert, setTriggerAlert] = useState(false);
   const [triggerSubmitAlert, setTriggerSubmitAlert] = useState(false);
   const [status, setStatus] = useState(null);
 
   const runCode = (code) => {
-    (async () => {
-      await axios
-        .post(`https://${process.env.REACT_APP_DOMAIN}/oauth/token`, {
-          client_id: process.env.REACT_APP_CONTAINERS_CLIENT_ID,
-          client_secret: process.env.REACT_APP_CONTAINERS_CLIENT_SECRET,
-          audience: `${
-            process.env.REACT_APP_CONTAINERS_ADDRESS || 'https://localhost:5001'
-          }`,
-          grant_type: 'client_credentials',
-        })
-        .then((token) => {
-          axios
-            .post(
-              `${
-                process.env.REACT_APP_CONTAINERS_ADDRESS ||
-                'https://localhost:5001'
-              }/${
-                language.toLowerCase() === 'c++'
-                  ? 'cpp'
-                  : language.toLowerCase()
-              }`,
-              {
-                toExecute: code,
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${token.data.access_token}`,
-                },
-              }
-            )
-            .then((response) => {
-              setStatus(response.status);
-              setTriggerAlert(true);
-              setOutput(response.data.output.toString());
-            })
-            .catch((err) => console.log(err));
-        })
-        .catch((e) => console.log(e));
-    })();
+    axios
+      .post(
+        `${
+          process.env.REACT_APP_CONTAINERS_ADDRESS || 'https://localhost:5001'
+        }/${language.toLowerCase() === 'c++' ? 'cpp' : language.toLowerCase()}`,
+        {
+          toExecute: code,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        setStatus(response.status);
+        setTriggerAlert(true);
+        setOutput(response.data.output.toString());
+      })
+      .catch((err) => console.log(err));
   };
 
   const submitExercise = () => {
-    (async () => {
-      const token = await getAccessTokenSilently({
-        audience: `${
+    axios
+      .post(
+        `${
           process.env.REACT_APP_BACKEND || 'https://localhost:5000'
-        }`,
+        }/exercises/checkSolution/${id}`,
+        { solution: code, user: foundUser._id },
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
+      .then((response) => {
+        setTriggerSubmitAlert(true);
+        setTests(response.data);
       });
-      await axios
-        .post(
-          `${
-            process.env.REACT_APP_BACKEND || 'https://localhost:5000'
-          }/exercises/checkSolution/${id}`,
-          { solution: code, user: foundUser._id },
-          { headers: { Authorization: `Bearer ${token}` } }
-        )
-        .then((response) => {
-          setTriggerSubmitAlert(true);
-          setTests(response.data);
-        });
-    })();
   };
 
   return (
     <>
+      <GetToken />
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Box>
           {' '}
@@ -133,7 +108,11 @@ const Buttons = ({ setOutput, code, language, setTests, tests }) => {
   );
 };
 
-export default connect(null, null)(Buttons);
+const mapStateToProps = (state) => ({
+  token: getToken(state),
+});
+
+export default connect(mapStateToProps)(Buttons);
 
 Buttons.propTypes = {
   setOutput: PropTypes.func.isRequired,
@@ -141,4 +120,5 @@ Buttons.propTypes = {
   language: PropTypes.string.isRequired,
   setTests: PropTypes.func,
   tests: PropTypes.object,
+  token: PropTypes.string,
 };

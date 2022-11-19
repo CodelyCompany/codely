@@ -2,7 +2,7 @@ import { createAction } from 'redux-api-middleware';
 
 import { types } from './types';
 
-export const GetExercises = (token) =>
+export const GetExercises = (token = null) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'https://localhost:5000'
@@ -25,7 +25,7 @@ export const GetExercises = (token) =>
     ],
   });
 
-export const GetUncheckedExercises = (token) =>
+export const GetUncheckedExercises = (token = null) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'https://localhost:5000'
@@ -48,7 +48,7 @@ export const GetUncheckedExercises = (token) =>
     ],
   });
 
-export const AddExercise = (body, token) =>
+export const AddExercise = (body, token = null) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'https://localhost:5000'
@@ -72,7 +72,7 @@ export const AddExercise = (body, token) =>
     ],
   });
 
-export const DeleteExercise = (id, token) =>
+export const DeleteExercise = (id, token = null) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'https://localhost:5000'
@@ -95,13 +95,36 @@ export const DeleteExercise = (id, token) =>
     ],
   });
 
-export const UpdateExercise = (body, token) =>
+export const DeleteUncheckedExercise = (id, token = null) =>
+  createAction({
+    endpoint: `${
+      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+    }/exercises/deleteExercise/${id}`,
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    types: [
+      types.DELETE_UNCHECKED_EXERCISE_REQUEST,
+      {
+        type: types.DELETE_UNCHECKED_EXERCISE_SUCCESS,
+        payload: async (action, state, res) => {
+          const json = await res.json();
+          return json;
+        },
+      },
+      types.DELETE_UNCHECKED_EXERCISE_FAILURE,
+    ],
+  });
+
+export const UpdateExercise = (body, token = null) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'https://localhost:5000'
     }/exercises/editExercise/`,
     method: 'PUT',
-    body: JSON.stringify(body),
+    body: JSON.stringify({ ...body, checked: false }),
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
@@ -119,7 +142,7 @@ export const UpdateExercise = (body, token) =>
     ],
   });
 
-export const GetExercise = (id, token) =>
+export const GetExercise = (id, token = null) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'https://localhost:5000'
@@ -142,7 +165,7 @@ export const GetExercise = (id, token) =>
     ],
   });
 
-export const CheckExercise = (id, token) =>
+export const CheckExercise = (id, token = null) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'https://localhost:5000'

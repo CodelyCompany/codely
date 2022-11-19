@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import { useAuth0 } from '@auth0/auth0-react';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion from '@mui/material/Accordion';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
@@ -16,6 +15,7 @@ import { GetExercise } from '../../../ducks/exercises/operations';
 import { getExerciseById } from '../../../ducks/exercises/selectors';
 import { StopRedirect } from '../../../ducks/redirects/actions';
 import { isRedirect } from '../../../ducks/redirects/selector';
+import { getToken } from '../../../ducks/token/selectors';
 
 import CustomizeExercise from './CustomizeExercise';
 import ExampleSolution from './ExampleSolution';
@@ -23,7 +23,7 @@ import ExercisesForm from './ExercisesForm';
 import HintsForms from './HintsForms';
 import TestsForm from './TestsForm';
 
-function MainForm({ GetExercise, redirect, StopRedirect }) {
+function MainForm({ GetExercise, redirect, StopRedirect, token }) {
   const [step, setStep] = useState({
     currentStep: 1,
     dataFromStep1: '',
@@ -34,7 +34,6 @@ function MainForm({ GetExercise, redirect, StopRedirect }) {
   });
 
   const navigate = useNavigate();
-  const { getAccessTokenSilently } = useAuth0();
   const { id } = useParams();
   const exercise = useSelector(getExerciseById(id));
 
@@ -46,16 +45,8 @@ function MainForm({ GetExercise, redirect, StopRedirect }) {
   }, [redirect]);
 
   useEffect(() => {
-    id &&
-      (async () => {
-        const token = await getAccessTokenSilently({
-          audience: `${
-            process.env.REACT_APP_BACKEND || 'https://localhost:5000'
-          }`,
-        });
-        await GetExercise(id, token);
-      })();
-  }, []);
+    id && GetExercise(id, token);
+  }, [token]);
 
   const Accordion = styled((props) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -225,6 +216,7 @@ function MainForm({ GetExercise, redirect, StopRedirect }) {
 
 const mapStateToProps = (state) => ({
   redirect: isRedirect(state),
+  token: getToken(state),
 });
 
 const mapDispatchToProps = {
@@ -238,4 +230,5 @@ MainForm.propTypes = {
   GetExercise: PropTypes.func,
   redirect: PropTypes.bool,
   StopRedirect: PropTypes.func,
+  token: PropTypes.string,
 };

@@ -86,5 +86,5 @@ const OutputField = ({ output }) => {
 export default OutputField;
 
 OutputField.propTypes = {
-  output: PropTypes.string.required,
+  output: PropTypes.string,
 };

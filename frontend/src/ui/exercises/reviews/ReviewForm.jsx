@@ -8,13 +8,15 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Button, Grid, Rating, TextField, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { AddReview, EditReview } from '../../../ducks/reviews/operations';
+import { getToken } from '../../../ducks/token/selectors';
 import { getUserByUsername } from '../../../ducks/user/selectors';
 
-const ReviewForm = ({ review }) => {
-  const { user, getAccessTokenSilently } = useAuth0();
+const ReviewForm = ({ review, token }) => {
+  const { user } = useAuth0();
   const [editing, setEditing] = useState(true);
   const [rating, setRating] = useState(null);
   const [comment, setComment] = useState('');
@@ -42,12 +44,6 @@ const ReviewForm = ({ review }) => {
     }
 
     try {
-      const token = await getAccessTokenSilently({
-        audience: `${
-          process.env.REACT_APP_BACKEND || 'https://localhost:5000'
-        }`,
-      });
-
       const body = review
         ? {
             ...review,
@@ -135,8 +131,13 @@ const ReviewForm = ({ review }) => {
   );
 };
 
-export default ReviewForm;
+const mapStateToProps = (state) => ({
+  token: getToken(state),
+});
+
+export default connect(mapStateToProps)(ReviewForm);
 
 ReviewForm.propTypes = {
   review: PropTypes.object,
+  token: PropTypes.string,
 };

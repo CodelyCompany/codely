@@ -219,7 +219,7 @@ router.put('/editExercise', async (req, res) => {
 router.put('/checkExercise/:id', async (req, res) => {
   try {
     const id = req.params.id;
-    const exercise = await Exercise.findById(id).populate('author');
+    const exercise = await Exercise.findById(id).populate(['author', 'tests']);
     await Exercise.findByIdAndUpdate(id, {
       checked: !exercise.checked,
     });

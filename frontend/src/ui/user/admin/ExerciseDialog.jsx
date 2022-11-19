@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import { useAuth0 } from '@auth0/auth0-react';
 import Editor from '@monaco-editor/react';
 import {
   Box,
@@ -16,18 +15,32 @@ import { DataGrid } from '@mui/x-data-grid';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 
-import { CheckExercise } from '../../../ducks/exercises/operations';
-function ExerciseDialog({ open, setOpen, exercise, CheckExercise }) {
-  const { getAccessTokenSilently } = useAuth0();
-  const checkExercise = async () => {
-    const token = await getAccessTokenSilently({
-      audience: `${process.env.REACT_APP_BACKEND || 'https://localhost:5000'}`,
-    });
-    await CheckExercise(exercise._id, token);
+import {
+  CheckExercise,
+  DeleteUncheckedExercise,
+} from '../../../ducks/exercises/operations';
+import { getToken } from '../../../ducks/token/selectors';
+import GetToken from '../GetToken';
+
+function ExerciseDialog({
+  open,
+  setOpen,
+  exercise,
+  CheckExercise,
+  token,
+  DeleteUncheckedExercise,
+}) {
+  const checkExercise = () => {
+    CheckExercise(exercise._id, token);
     handleClose();
   };
 
   const handleClose = () => {
+    setOpen(false);
+  };
+
+  const deleteExercise = () => {
+    DeleteUncheckedExercise(exercise._id, token);
     setOpen(false);
   };
 
@@ -44,7 +57,8 @@ function ExerciseDialog({ open, setOpen, exercise, CheckExercise }) {
 
   return (
     <div>
-      {exercise.length && (
+      <GetToken />
+      {!_.isEmpty(exercise) && (
         <Dialog
           fullWidth
           open={open}
@@ -142,17 +156,28 @@ function ExerciseDialog({ open, setOpen, exercise, CheckExercise }) {
               />
             </Box>
           </DialogContent>
-          <DialogActions>
+          <DialogActions
+            sx={{ display: 'flex', justifyContent: 'space-between' }}
+          >
             <Button variant="contained" onClick={handleClose}>
-              Reject
+              Undo
             </Button>
-            <Button
-              variant="contained"
-              onClick={() => checkExercise()}
-              autoFocus
-            >
-              Accept
-            </Button>
+            <Box>
+              <Button
+                variant="contained"
+                sx={{ marginRight: '10px' }}
+                onClick={() => deleteExercise()}
+              >
+                Reject
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() => checkExercise()}
+                autoFocus
+              >
+                Accept
+              </Button>
+            </Box>
           </DialogActions>
         </Dialog>
       )}
@@ -160,15 +185,22 @@ function ExerciseDialog({ open, setOpen, exercise, CheckExercise }) {
   );
 }
 
+const mapStateToProps = (state) => ({
+  token: getToken(state),
+});
+
 const mapDispatchToProps = {
   CheckExercise,
+  DeleteUncheckedExercise,
 };
 
-export default connect(null, mapDispatchToProps)(ExerciseDialog);
+export default connect(mapStateToProps, mapDispatchToProps)(ExerciseDialog);
 
 ExerciseDialog.propTypes = {
   open: PropTypes.bool,
   setOpen: PropTypes.func,
   exercise: PropTypes.object,
   CheckExercise: PropTypes.func,
+  token: PropTypes.string,
+  DeleteUncheckedExercise: PropTypes.func,
 };

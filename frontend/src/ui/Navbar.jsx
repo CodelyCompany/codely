@@ -23,10 +23,14 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 import { GetReviews } from '../ducks/reviews/operations';
+import { getToken } from '../ducks/token/selectors';
 import { AddUser, GetUsers } from '../ducks/user/operations';
+import { getUsers } from '../ducks/user/selectors';
 import logo from '../logo.png';
 
-const Navbar = ({ GetUsers, AddUser, users, GetReviews }) => {
+import GetToken from './user/GetToken';
+
+const Navbar = ({ GetUsers, AddUser, users, GetReviews, token }) => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const navigate = useNavigate();
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -49,24 +53,12 @@ const Navbar = ({ GetUsers, AddUser, users, GetReviews }) => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      (async () => {
-        try {
-          const token = await getAccessTokenSilently({
-            audience: `${
-              process.env.REACT_APP_BACKEND || 'https://localhost:5000'
-            }`,
-          });
-          await GetUsers(token);
-          await GetReviews(token);
-          const foundUser = users.find((usr) => usr.username === user.nickname);
-          if (_.isEmpty(foundUser))
-            await AddUser({ username: user.nickname }, token);
-        } catch (e) {
-          console.error(e);
-        }
-      })();
+      GetUsers(token);
+      GetReviews(token);
+      const foundUser = users.find((usr) => usr.username === user.nickname);
+      if (_.isEmpty(foundUser)) AddUser({ username: user.nickname }, token);
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, token]);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -89,6 +81,7 @@ const Navbar = ({ GetUsers, AddUser, users, GetReviews }) => {
 
   return (
     <AppBar position="static">
+      <GetToken />
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <img
@@ -236,7 +229,8 @@ const Navbar = ({ GetUsers, AddUser, users, GetReviews }) => {
 };
 
 const mapStateToProps = (state) => ({
-  users: state.users.users,
+  users: getUsers(state),
+  token: getToken(state),
 });
 
 const mapDispatchToProps = {
@@ -252,4 +246,5 @@ Navbar.propTypes = {
   GetReviews: PropTypes.func,
   AddUser: PropTypes.func,
   users: PropTypes.array,
+  token: PropTypes.string,
 };

@@ -16,7 +16,10 @@ import {
   ChangeAddStatus,
   ChangeUpdateStatus,
 } from '../../../ducks/popups/actions';
+import { getToken } from '../../../ducks/token/selectors';
 import { getUserByUsername } from '../../../ducks/user/selectors';
+import SubmitAlert from '../../popups/SubmitAlert';
+import GetToken from '../../user/GetToken';
 
 import { getSignature } from './utils/functionSignatures';
 
@@ -28,26 +31,28 @@ const ExampleSolution = ({
   dataToEdit,
   UpdateExercise,
   ChangeUpdateStatus,
+  token,
 }) => {
   const [code, setCode] = useState('');
   const [tests, setTests] = useState(null);
   const { user } = useAuth0();
+  const [triggered, setTriggered] = useState(false);
   const signature = useMemo(
     () =>
       getSignature(
-        step.dataFromStep1.programmingLanguage
-          ? step.dataFromStep1.programmingLanguage.toLowerCase()
-          : '',
-        step.dataFromStep2.functionName ? step.dataFromStep2.functionName : '',
-        step.dataFromStep2.argumentsName
-          ? step.dataFromStep2.argumentsName
-          : '',
-        step.dataFromStep2.types ? step.dataFromStep2.types : []
+        step.dataFromStep1.programmingLanguage?.toLowerCase() ?? '',
+        step.dataFromStep2?.functionName,
+        step.dataFromStep2?.argumentsName,
+        step.dataFromStep2.types ?? []
       ),
     [step.dataFromStep1, step.dataFromStep2]
   );
 
   const foundUser = useSelector(getUserByUsername(user.nickname));
+
+  useEffect(() => {
+    if (tests) setTriggered(true);
+  }, [tests]);
 
   useEffect(() => {
     step.dataFromStep1.programmingLanguage &&
@@ -71,158 +76,147 @@ const ExampleSolution = ({
   };
 
   const submit = () => {
-    axios
-      .post(`https://${process.env.REACT_APP_DOMAIN}/oauth/token`, {
-        client_id: process.env.REACT_APP_CONTAINERS_CLIENT_ID,
-        client_secret: process.env.REACT_APP_CONTAINERS_CLIENT_SECRET,
-        audience: `${
-          process.env.REACT_APP_CONTAINERS_ADDRESS || 'https://localhost:5001'
-        }`,
-        grant_type: 'client_credentials',
-      })
-      .then((token) => {
-        if (!dataToEdit) {
-          AddExercise(
-            {
-              author: foundUser._id,
-              ...step.dataFromStep1,
-              ...step.dataFromStep2,
-              tests: step.dataFromStep3,
-              hints: step.dataFromStep4.map((el) => el[1]),
-              exampleSolution: code,
-              functionSignature: signature,
-            },
-            token
-          );
-          ChangeAddStatus();
-          return;
-        }
-        UpdateExercise(
-          {
-            id: dataToEdit._id,
-            author: foundUser._id,
-            ...step.dataFromStep1,
-            ...step.dataFromStep2,
-            tests: step.dataFromStep3,
-            hints: step.dataFromStep4.map((el) => el[1]),
-            exampleSolution: code,
-            functionSignature: signature,
-          },
-          token
-        );
-        ChangeUpdateStatus();
-      });
+    if (!dataToEdit) {
+      AddExercise(
+        {
+          author: foundUser._id,
+          ...step.dataFromStep1,
+          ...step.dataFromStep2,
+          tests: step.dataFromStep3,
+          hints: step.dataFromStep4.map((el) => el[1]),
+          exampleSolution: code,
+          functionSignature: signature,
+        },
+        token
+      );
+      ChangeAddStatus();
+      return;
+    }
+    UpdateExercise(
+      {
+        id: dataToEdit._id,
+        author: foundUser._id,
+        ...step.dataFromStep1,
+        ...step.dataFromStep2,
+        tests: step.dataFromStep3,
+        hints: step.dataFromStep4.map((el) => el[1]),
+        exampleSolution: code,
+        functionSignature: signature,
+      },
+      token
+    );
+    ChangeUpdateStatus();
   };
 
   const verifySolution = () => {
     axios
-      .post(`https://${process.env.REACT_APP_DOMAIN}/oauth/token`, {
-        client_id: process.env.REACT_APP_CONTAINERS_CLIENT_ID,
-        client_secret: process.env.REACT_APP_CONTAINERS_CLIENT_SECRET,
-        audience: `${
-          process.env.REACT_APP_CONTAINERS_ADDRESS || 'https://localhost:5001'
-        }`,
-        grant_type: 'client_credentials',
-      })
-      .then((token) => {
-        axios
-          .post(
-            'https://localhost:5000/exercises/checkBeforeAddExercise',
-            {
-              exampleSolution: code,
-              tests: step.dataFromStep3,
-              ...step.dataFromStep2,
-              ...step.dataFromStep1,
-              programmingLanguage:
-                step.dataFromStep1.programmingLanguage === 'C++'
-                  ? 'cpp'
-                  : step.dataFromStep1.programmingLanguage,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${token.data.access_token}`,
-              },
-            }
-          )
-          .then((response) => {
-            setTests(response.data);
-          });
+      .post(
+        'https://localhost:5000/exercises/checkBeforeAddExercise',
+        {
+          exampleSolution: code,
+          tests: step.dataFromStep3,
+          ...step.dataFromStep2,
+          ...step.dataFromStep1,
+          programmingLanguage:
+            step.dataFromStep1.programmingLanguage === 'C++'
+              ? 'cpp'
+              : step.dataFromStep1.programmingLanguage,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        setTests(response.data);
       });
   };
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
-    >
+    <>
+      <GetToken />
+      <SubmitAlert
+        triggered={triggered}
+        setTriggered={setTriggered}
+        passed={tests && tests.correct === tests.tests}
+      />
       <Box
         sx={{
           display: 'flex',
           justifyContent: 'center',
-          width: 'calc(900px - 10px)',
-          height: '200px',
-          border: '3px solid rgb(25, 118, 210)',
-          borderRadius: '5px',
-          margin: '10px',
-          padding: '5px',
-        }}
-      >
-        {' '}
-        <Editor
-          loading={<CircularProgress />}
-          height="100%"
-          language={
-            step.dataFromStep1
-              ? step.dataFromStep1.programmingLanguage === 'C++'
-                ? 'cpp'
-                : step.dataFromStep1.programmingLanguage.toLowerCase()
-              : 'javascript'
-          }
-          value={code}
-          onChange={handleCodeChange}
-          width="100%"
-        />
-      </Box>
-      <Box
-        sx={{
-          display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center',
-          width: '900px',
+          alignItems: 'center',
         }}
       >
-        <Button
-          sx={{ marginBottom: '10px' }}
-          variant="contained"
-          onClick={prev}
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            width: 'calc(900px - 10px)',
+            height: '200px',
+            border: '3px solid rgb(25, 118, 210)',
+            borderRadius: '5px',
+            margin: '10px',
+            padding: '5px',
+          }}
         >
-          Previous
-        </Button>
-        <Button
-          variant="contained"
-          onClick={() =>
-            tests
+          {' '}
+          <Editor
+            loading={<CircularProgress />}
+            height="100%"
+            language={
+              step.dataFromStep1
+                ? step.dataFromStep1.programmingLanguage === 'C++'
+                  ? 'cpp'
+                  : step.dataFromStep1.programmingLanguage.toLowerCase()
+                : 'javascript'
+            }
+            value={code}
+            onChange={handleCodeChange}
+            width="100%"
+          />
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            width: '900px',
+          }}
+        >
+          <Button
+            sx={{ marginBottom: '10px' }}
+            variant="contained"
+            onClick={prev}
+          >
+            Previous
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() =>
+              tests
+                ? tests.correct !== tests.tests
+                  ? verifySolution()
+                  : submit()
+                : verifySolution()
+            }
+          >
+            {tests
               ? tests.correct !== tests.tests
-                ? verifySolution()
-                : submit()
-              : verifySolution()
-          }
-        >
-          {tests
-            ? tests.correct !== tests.tests
-              ? `Submit (Last run: ${tests.correct} / ${tests.tests})`
-              : `Your solution passed all tests.
-               Click again to pass your exercise for admin verification.`
-            : 'Submit'}
-        </Button>
+                ? `Check exercise again (Last run: ${tests.correct} / ${tests.tests})`
+                : `Click again to pass your exercise for admin verification.`
+              : 'Check exercise'}
+          </Button>
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 };
+
+const mapStateToProps = (state) => ({
+  token: getToken(state),
+});
 
 const mapDispatchToProps = {
   AddExercise,
@@ -231,7 +225,7 @@ const mapDispatchToProps = {
   ChangeUpdateStatus,
 };
 
-export default connect(null, mapDispatchToProps)(ExampleSolution);
+export default connect(mapStateToProps, mapDispatchToProps)(ExampleSolution);
 
 ExampleSolution.propTypes = {
   step: PropTypes.object.isRequired,
@@ -241,4 +235,5 @@ ExampleSolution.propTypes = {
   dataToEdit: PropTypes.object,
   UpdateExercise: PropTypes.func,
   ChangeUpdateStatus: PropTypes.func,
+  token: PropTypes.string,
 };
