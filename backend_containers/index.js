@@ -13,20 +13,20 @@ const app = express();
 
 app.use(express.json());
 app.use(
-  cors({
-    origin: [
-      'https://localhost:3000',
-      'https://frontend:3000',
-      'https://localhost:5000',
-      'https://backend:6000',
-    ],
-    methods: ['GET', 'POST'],
-  })
+    cors({
+        origin: [
+            'https://localhost:3000',
+            'https://frontend:3000',
+            'https://localhost:5000',
+            'https://backend:6000',
+        ],
+        methods: ['GET', 'POST', 'OPTIONS'],
+    })
 );
 
 const options = {
-  key: fs.readFileSync('./.cert/key.pem'),
-  cert: fs.readFileSync('./.cert/cert.crt'),
+    key: fs.readFileSync('./.cert/key'),
+    cert: fs.readFileSync('./.cert/cert'),
 };
 
 // app.use(jwtCheck);
@@ -35,5 +35,5 @@ app.use('/', containers);
 
 const port = process.env.PORT || 5001;
 https.createServer(options, app).listen(port, () => {
-  console.log(`API server listening at http://localhost:${port}`);
+    console.log(`API server listening at http://localhost:${port}`);
 });
