@@ -1,33 +1,41 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-    name: ingress
-    namespace: production
-    annotations:
-        kubernetes.io/ingress.class: nginx
-        nginx.ingress.kubernetes.io/rewrite-target: /$1
-        nginx.ingress.kubernetes.io/use-regex: 'true'
-        nginx.ingress.kubernetes.io/enable-cors: 'true'
+  name: ingress
+  namespace: production
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+    nginx.ingress.kubernetes.io/enable-cors: 'true'
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      add_header Access-Control-Allow-Methods "POST, GET, OPTIONS, DELETE, PUT";
+      add_header Access-Control-Allow-Credentials true;
+      add_header Access-Control-Allow-Origin $http_origin;
+      proxy_ssl_server_name on;
+      proxy_ssl_name $host;
+    nginx.ingress.kubernetes.io/cors-allow-methods: 'POST, GET, OPTIONS, DELETE, PUT'
+    # cert-manager.io/cluster-issuer: letsencrypt
 spec:
-    rules:
-        - host: codely.io
-          http:
-              paths:
-                  - path: /(.*)
-                    pathType: Prefix
-                    backend:
-                        service:
-                            name: frontend
-                            port:
-                                number: 80
-                  - path: /user?(.*)
-                    pathType: Prefix
-                    backend:
-                        service:
-                            name: frontend
-                            port:
-                                number: 80
-    tls:
-        - hosts:
-              - codely.io
-          secretName: tls-secret
+  tls:
+    - hosts:
+        - codely.io
+      secretName: tls-secret
+  rules:
+    - host: codely.io
+      http:
+        paths:
+          - path: /(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 80
+          - path: /user?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 80

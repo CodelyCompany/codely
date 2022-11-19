@@ -13,7 +13,7 @@ export const GetAuthToken = () =>
       client_id: process.env.REACT_APP_CONTAINERS_CLIENT_ID,
       client_secret: process.env.REACT_APP_CONTAINERS_CLIENT_SECRET,
       audience: `${
-        process.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
+        process.env.REACT_APP_CONTAINERS_ADDRESS || 'https://localhost:5001'
       }`,
       grant_type: 'client_credentials',
     },
