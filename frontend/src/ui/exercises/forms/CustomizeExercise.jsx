@@ -7,12 +7,14 @@ import { PropTypes } from 'prop-types';
 import * as yup from 'yup';
 
 import { getDataTypes } from './utils/dataTypes';
+import CustomTypes from './CustomTypes';
 
 const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
   const [argumentsName, setArgumentsName] = useState([]);
   const [checked, setChecked] = useState(false);
   const [error, setError] = useState({});
   const [types, setTypes] = useState([]);
+  const [open, setOpen] = useState(false);
 
   const languagesWithTypes = ['Java', 'C++', 'C'];
   const formWithTypes = useMemo(
@@ -24,6 +26,11 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
     () => getDataTypes(step.dataFromStep1?.programmingLanguage || 'java'),
     [step.dataFromStep1]
   );
+
+  useEffect(() => {
+    if (types.includes('Other types / Custom types')) setOpen(true);
+    console.log(types);
+  }, [types]);
 
   useEffect(() => {
     setError({});
@@ -182,6 +189,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+      <CustomTypes open={open} setOpen={setOpen} />
       <Box>
         <form
           style={{
