@@ -2,11 +2,18 @@
 
 containers=(bash c cpp java javascript python r)
 
-possible_args=(bash c cpp java javascript python r backend backend-containers frontend)
+possible_args=(bash c cpp java javascript python r backend backend_containers frontend)
 
 cd ../
 
 args=($@)
+
+
+buildAndPushBackendContainers() {
+    docker build --tag mtx22/codely-backend-containers backend_containers/
+    docker push mtx22/codely-backend-containers
+}
+
 
 if [ $# -eq 0 ]
     then
@@ -22,8 +29,7 @@ if [ $# -eq 0 ]
         docker build --tag mtx22/codely-frontend frontend/
         docker push mtx22/codely-frontend
 
-        docker build --tag mtx22/codely-backend-containers backend_containers/
-        docker push mtx22/codely-backend-containers
+        buildAndPushBackendContainers
     else
         for item in ${args[*]}
         do
@@ -38,8 +44,12 @@ if [ $# -eq 0 ]
                 docker build --tag mtx22/codely-$item containers/$item/
                 docker push mtx22/codely-$item
             else 
-                docker build --tag mtx22/codely-$item $item/
-                docker push mtx22/codely-$item
+                if [[ "backend_containers" == ${item} ]]; then
+                    buildAndPushBackendContainers
+                else
+                    docker build --tag mtx22/codely-$item $item/
+                    docker push mtx22/codely-$item
+                fi
             fi
         done
 fi

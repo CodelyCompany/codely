@@ -15,7 +15,6 @@ metadata:
       proxy_ssl_server_name on;
       proxy_ssl_name $host;
     nginx.ingress.kubernetes.io/cors-allow-methods: 'POST, GET, OPTIONS, DELETE, PUT'
-    # cert-manager.io/cluster-issuer: letsencrypt
 spec:
   tls:
     - hosts:

@@ -1,5 +1,5 @@
 #!/bin/bash
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.2.0/deploy/static/provider/cloud/deploy.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.5.1/deploy/static/provider/cloud/deploy.yaml
 kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
 sleep 2
 kubectl apply -f ../kubernetes/production/production-namespace.yaml
