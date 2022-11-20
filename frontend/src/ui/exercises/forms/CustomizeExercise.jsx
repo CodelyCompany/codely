@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useMemo } from 'react';
 
 import { Box, Button, MenuItem, TextField } from '@mui/material';
@@ -9,12 +9,16 @@ import * as yup from 'yup';
 import { getDataTypes } from './utils/dataTypes';
 import CustomTypes from './CustomTypes';
 
+// dodać zmianę opcji po zatwierdzeniu
+// zrobić coś z anulowaniem dodania customowego typu
+
 const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
   const [argumentsName, setArgumentsName] = useState([]);
   const [checked, setChecked] = useState(false);
   const [error, setError] = useState({});
   const [types, setTypes] = useState([]);
   const [open, setOpen] = useState(false);
+  const customTypes = useRef([]);
 
   const languagesWithTypes = ['Java', 'C++', 'C'];
   const formWithTypes = useMemo(
@@ -29,7 +33,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
 
   useEffect(() => {
     if (types.includes('Other types / Custom types')) setOpen(true);
-    console.log(types);
+    console.log(customTypes);
   }, [types]);
 
   useEffect(() => {
@@ -189,7 +193,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-      <CustomTypes open={open} setOpen={setOpen} />
+      <CustomTypes open={open} setOpen={setOpen} customTypes={customTypes} />
       <Box>
         <form
           style={{
@@ -283,13 +287,15 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                           error.error
                         }
                       >
-                        {[...dropdownOptions, 'Other types / Custom types'].map(
-                          (opt) => (
-                            <MenuItem key={opt} value={opt}>
-                              {opt}
-                            </MenuItem>
-                          )
-                        )}
+                        {[
+                          ...dropdownOptions,
+                          ...customTypes.current,
+                          'Other types / Custom types',
+                        ].map((opt) => (
+                          <MenuItem key={opt} value={opt}>
+                            {opt}
+                          </MenuItem>
+                        ))}
                       </TextField>
                     )}
                   </Box>
@@ -320,7 +326,11 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                 error.error
               }
             >
-              {[...dropdownOptions, 'Other types / Custom types'].map((opt) => (
+              {[
+                ...dropdownOptions,
+                ...customTypes.current,
+                'Other types / Custom types',
+              ].map((opt) => (
                 <MenuItem key={opt} value={opt}>
                   {opt}
                 </MenuItem>

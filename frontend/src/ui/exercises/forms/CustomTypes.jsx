@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   Button,
@@ -11,10 +11,16 @@ import {
 } from '@mui/material';
 import { PropTypes } from 'prop-types';
 
-const CustomTypes = ({ open, setOpen }) => {
+const CustomTypes = ({ open, setOpen, customTypes }) => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    setType('');
+  }, [open]);
+
+  const [type, setType] = useState('');
 
   return (
     <div>
@@ -33,11 +39,20 @@ const CustomTypes = ({ open, setOpen }) => {
             type="text"
             fullWidth
             variant="standard"
+            onChange={(e) => setType(e.target.value)}
+            value={type}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Add</Button>
+          <Button
+            onClick={(e) => {
+              customTypes.current = [...customTypes.current, type];
+              handleClose();
+            }}
+          >
+            Add
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
@@ -49,4 +64,5 @@ export default CustomTypes;
 CustomTypes.propTypes = {
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
+  customTypes: PropTypes.object.isRequired,
 };
