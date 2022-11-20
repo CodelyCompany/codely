@@ -275,11 +275,13 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                           error.error
                         }
                       >
-                        {dropdownOptions.map((opt) => (
-                          <MenuItem key={opt} value={opt}>
-                            {opt}
-                          </MenuItem>
-                        ))}
+                        {[...dropdownOptions, 'Other types / Custom types'].map(
+                          (opt) => (
+                            <MenuItem key={opt} value={opt}>
+                              {opt}
+                            </MenuItem>
+                          )
+                        )}
                       </TextField>
                     )}
                   </Box>
@@ -310,7 +312,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                 error.error
               }
             >
-              {dropdownOptions.map((opt) => (
+              {[...dropdownOptions, 'Other types / Custom types'].map((opt) => (
                 <MenuItem key={opt} value={opt}>
                   {opt}
                 </MenuItem>
