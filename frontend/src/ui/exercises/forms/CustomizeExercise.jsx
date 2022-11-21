@@ -39,6 +39,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
     setError({});
   }, [argumentsName]);
 
+  //it changes additionOption to recently added type
   useEffect(() => {
     setTypes((prev) =>
       prev.reduce((prev, curr) => {
@@ -48,6 +49,18 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
       }, [])
     );
   }, [customTypes]);
+
+  // it changes additionOption to first of
+  // the types list (in case of closing dialog without adding new type)
+  useEffect(() => {
+    if (!open)
+      setTypes((prev) =>
+        prev.reduce((prev, curr) => {
+          if (curr === additionalOption) return [...prev, dropdownOptions[0]];
+          return [...prev, curr];
+        }, [])
+      );
+  }, [open]);
 
   const prev = () => {
     setStep((prev) => ({

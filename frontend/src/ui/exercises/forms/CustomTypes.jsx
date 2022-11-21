@@ -9,6 +9,7 @@ import {
   DialogTitle,
   TextField,
 } from '@mui/material';
+import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
 
 const CustomTypes = ({ open, setOpen, setCustomTypes }) => {
@@ -47,7 +48,7 @@ const CustomTypes = ({ open, setOpen, setCustomTypes }) => {
           <Button onClick={handleClose}>Cancel</Button>
           <Button
             onClick={() => {
-              setCustomTypes((prev) => [...prev, type]);
+              setCustomTypes((prev) => _.uniq([...prev, type]));
               handleClose();
             }}
           >
