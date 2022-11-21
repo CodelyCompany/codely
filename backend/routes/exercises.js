@@ -108,16 +108,9 @@ router.post('/addExercise', async (req, res) => {
     if (counterCorrect === data.tests.length) {
       const user = await User.findById(data.author);
       const newExercise = new Exercise({
-        title: data.title,
-        description: data.description,
-        difficulty: data.difficulty,
+        ...data,
         author: user._id,
-        programmingLanguage: data.programmingLanguage,
-        functionName: data.functionName,
-        hints: data.hints,
-        exampleSolution: data.exampleSolution,
-        argumentsName: data.argumentsName,
-        functionSignature: data.functionSignature,
+        tests: [],
       });
       await newExercise.save();
       let tests = [];
