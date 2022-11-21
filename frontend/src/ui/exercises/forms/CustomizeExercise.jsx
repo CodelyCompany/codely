@@ -9,9 +9,6 @@ import * as yup from 'yup';
 import { getDataTypes } from './utils/dataTypes';
 import CustomTypes from './CustomTypes';
 
-// dodać zmianę opcji po zatwierdzeniu
-// zrobić coś z anulowaniem dodania customowego typu
-
 const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
   const [argumentsName, setArgumentsName] = useState([]);
   const [checked, setChecked] = useState(false);
