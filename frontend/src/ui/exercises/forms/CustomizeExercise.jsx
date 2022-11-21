@@ -212,7 +212,6 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
         setOpen={setOpen}
         setCustomTypes={setCustomTypes}
       />
-      {console.log(dataToEdit)}
       <Box>
         <form
           style={{
