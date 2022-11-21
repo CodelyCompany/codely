@@ -48,10 +48,12 @@ function ExerciseDialog({
     {
       field: 'input',
       headerName: 'Inputs',
+      flex: 1,
     },
     {
       field: 'output',
       headerName: 'Outputs',
+      flex: 1,
     },
   ];
 

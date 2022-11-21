@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMemo } from 'react';
 
 import { Box, Button, MenuItem, TextField } from '@mui/material';
@@ -18,8 +18,8 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
   const [error, setError] = useState({});
   const [types, setTypes] = useState([]);
   const [open, setOpen] = useState(false);
-  const customTypes = useRef([]);
-
+  const [customTypes, setCustomTypes] = useState([]);
+  const additionalOption = 'Other types / Custom types';
   const languagesWithTypes = ['Java', 'C++', 'C'];
   const formWithTypes = useMemo(
     () => languagesWithTypes.includes(step.dataFromStep1?.programmingLanguage),
@@ -32,13 +32,22 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
   );
 
   useEffect(() => {
-    if (types.includes('Other types / Custom types')) setOpen(true);
-    console.log(customTypes);
+    if (types.includes(additionalOption)) setOpen(true);
   }, [types]);
 
   useEffect(() => {
     setError({});
   }, [argumentsName]);
+
+  useEffect(() => {
+    setTypes((prev) =>
+      prev.reduce((prev, curr) => {
+        if (curr === additionalOption)
+          return [...prev, customTypes[customTypes.length - 1]];
+        return [...prev, curr];
+      }, [])
+    );
+  }, [customTypes]);
 
   const prev = () => {
     setStep((prev) => ({
@@ -49,6 +58,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
         argumentsQuantity: formik.values.argumentsQuantity,
         argumentsName,
         types,
+        customTypes,
       },
     }));
   };
@@ -144,7 +154,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
             setStep((prev) => ({
               ...prev,
               currentStep: 3,
-              dataFromStep2: { ...values, argumentsName, types },
+              dataFromStep2: { ...values, argumentsName, types, customTypes },
             }));
           }
         })
@@ -157,12 +167,16 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
   useEffect(() => {
     if (step.dataFromStep2?.argumentsName && !checked) {
       setArgumentsName(step.dataFromStep2.argumentsName);
+      setCustomTypes(step.dataFromStep2.customTypes);
       setTypes(step.dataFromStep2.types);
       setChecked(true);
       return;
     }
     if (dataToEdit && !checked) {
       setArgumentsName(dataToEdit.argumentsName);
+      setCustomTypes(
+        dataToEdit.types.filter((type) => !dropdownOptions.includes(type))
+      );
       setTypes(dataToEdit.types);
       setChecked(true);
       return;
@@ -193,7 +207,12 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-      <CustomTypes open={open} setOpen={setOpen} customTypes={customTypes} />
+      <CustomTypes
+        open={open}
+        setOpen={setOpen}
+        setCustomTypes={setCustomTypes}
+      />
+      {console.log(dataToEdit)}
       <Box>
         <form
           style={{
@@ -289,8 +308,8 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                       >
                         {[
                           ...dropdownOptions,
-                          ...customTypes.current,
-                          'Other types / Custom types',
+                          ...customTypes,
+                          additionalOption,
                         ].map((opt) => (
                           <MenuItem key={opt} value={opt}>
                             {opt}
@@ -326,15 +345,13 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                 error.error
               }
             >
-              {[
-                ...dropdownOptions,
-                ...customTypes.current,
-                'Other types / Custom types',
-              ].map((opt) => (
-                <MenuItem key={opt} value={opt}>
-                  {opt}
-                </MenuItem>
-              ))}
+              {[...dropdownOptions, ...customTypes, additionalOption].map(
+                (opt) => (
+                  <MenuItem key={opt} value={opt}>
+                    {opt}
+                  </MenuItem>
+                )
+              )}
             </TextField>
           )}
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>

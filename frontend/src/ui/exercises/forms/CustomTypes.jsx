@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import { PropTypes } from 'prop-types';
 
-const CustomTypes = ({ open, setOpen, customTypes }) => {
+const CustomTypes = ({ open, setOpen, setCustomTypes }) => {
   const handleClose = () => {
     setOpen(false);
   };
@@ -46,8 +46,8 @@ const CustomTypes = ({ open, setOpen, customTypes }) => {
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           <Button
-            onClick={(e) => {
-              customTypes.current = [...customTypes.current, type];
+            onClick={() => {
+              setCustomTypes((prev) => [...prev, type]);
               handleClose();
             }}
           >
@@ -64,5 +64,5 @@ export default CustomTypes;
 CustomTypes.propTypes = {
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
-  customTypes: PropTypes.object.isRequired,
+  setCustomTypes: PropTypes.func.isRequired,
 };
