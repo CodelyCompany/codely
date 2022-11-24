@@ -42,9 +42,9 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "HTTPS=true SSL_CRT_FILE=./.cert/cert.crt SSL_KEY_FILE=./.cert/key.pem react-scripts start",
-    "dev": "HTTPS=true SSL_CRT_FILE=./.cert/cert.crt SSL_KEY_FILE=./.cert/key.pem WATCHPACK_POLLING=true react-scripts start",
-    "build": "react-scripts build",
+    "start": "HTTPS=true SSL_CRT_FILE=./.cert/server.pem SSL_KEY_FILE=./.cert/server.key react-scripts start",
+    "dev": "HTTPS=true SSL_CRT_FILE=./.cert/server.pem SSL_KEY_FILE=./.cert/server.key WATCHPACK_POLLING=true react-scripts start",
+    "build": "HTTPS=true SSL_CRT_FILE=./.cert/server.pem SSL_KEY_FILE=./.cert/server.key react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint:fix": "eslint --fix src/**/*.{js,jsx,ts,tsx}",

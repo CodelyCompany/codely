@@ -3,7 +3,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
 sleep 2
 kubectl apply -f ../kubernetes/production/production-namespace.yaml
-kubectl create secret tls tls-secret --key="../kubernetes/.cert/key.pem" --cert="../kubernetes/.cert/cert.crt" --namespace production
+kubectl create secret tls tls-secret --key="../kubernetes/.cert/server.key" --cert="../kubernetes/.cert/server.pem" --namespace production
 kubectl apply -f ../kubernetes/production/secrets/
 kubectl apply -f ../kubernetes/production/configmaps/
 kubectl apply -f ../kubernetes/production/services/
@@ -11,4 +11,4 @@ kubectl apply -f ../kubernetes/production/volumes/
 sleep 5
 kubectl apply -f ../kubernetes/production/volumeclaims/
 kubectl apply -f ../kubernetes/production/deployments/
-kubectl apply -f ../kubernetes/production/ingress.yaml
+kubectl apply -f ../kubernetes/production/ingresses

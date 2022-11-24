@@ -15,14 +15,19 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: ['https://localhost:3000', 'https://frontend:3000'],
+    origin: [
+      'http://localhost:3000',
+      'http://frontend:3000',
+      'https://localhost:3000',
+      'https://frontend:3000',
+    ],
     methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT'],
   })
 );
 
 const options = {
-  key: fs.readFileSync('./.cert/key.pem'),
-  cert: fs.readFileSync('./.cert/cert.crt'),
+  key: fs.readFileSync('./.cert/server.key'),
+  cert: fs.readFileSync('./.cert/server.pem'),
 };
 
 // app.use(jwtCheck);
@@ -31,6 +36,12 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/users', users);
 app.use('/exercises', exercises);
 app.use('/reviews', reviews);
+
+app.use((req, res, next) => {
+  console.log('ALL', req);
+  console.log('HEADERS', req.headers);
+  next();
+});
 
 require('dotenv').config();
 
@@ -56,6 +67,6 @@ mongoose
     );
     const port = process.env.PORT || 5000;
     https.createServer(options, app).listen(port, () => {
-      console.log(`API server listening at https://localhost:${port}`);
+      console.log(`API server listening at http://localhost:${port}`);
     });
   });

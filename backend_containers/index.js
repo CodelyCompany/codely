@@ -15,6 +15,10 @@ app.use(express.json());
 app.use(
   cors({
     origin: [
+      'http://localhost:3000',
+      'http://frontend:3000',
+      'http://localhost:5000',
+      'http://backend:6000',
       'https://localhost:3000',
       'https://frontend:3000',
       'https://localhost:5000',
@@ -25,8 +29,8 @@ app.use(
 );
 
 const options = {
-  key: fs.readFileSync('./.cert/key.pem'),
-  cert: fs.readFileSync('./.cert/cert.crt'),
+  key: fs.readFileSync('./.cert/server.key'),
+  cert: fs.readFileSync('./.cert/server.pem'),
 };
 
 // app.use(jwtCheck);
