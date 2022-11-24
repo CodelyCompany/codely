@@ -151,16 +151,16 @@ router.post('/cpp', async (req, res) => {
   try {
     const data = req.body;
     const prepareData = () => {
-      const splitedData = data.toExecute.split('return 0;');
+      const splitedData = data.toExecute.split('}');
       const lastElem = splitedData.pop();
       return (
-        splitedData.join(' \n') +
-        ' cout << ' +
+        data.toExecute +
+        '\nint main() {' +
+        '\n cout << ' +
         data.func +
         '(' +
         data.args.join(', ') +
-        ');\n' +
-        'return 0;' +
+        '); \n }' +
         lastElem
       );
     };
@@ -183,15 +183,16 @@ router.post('/c', async (req, res) => {
   try {
     const data = req.body;
     const prepareData = () => {
-      const splitedData = data.toExecute.split('return 0;');
+      const splitedData = data.toExecute.split('}');
       const lastElem = splitedData.pop();
       return (
-        splitedData.join(' \n') +
+        data.toExecute +
+        '\nint main() {' +
+        '\n' +
         data.func +
         '(' +
         data.args.join(', ') +
-        ');\n' +
-        'return 0;' +
+        ');\n }' +
         lastElem
       );
     };
