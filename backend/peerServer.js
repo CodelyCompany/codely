@@ -22,6 +22,9 @@ const io = socket(server, {
 });
 
 io.on('connection', (socket) => {
-  socket.broadcast.emit('hello', 'world');
-  console.log(io.sockets.sockets.keys());
+  socket.emit('players', Array.from(io.sockets.sockets.keys()).length);
+  socket.broadcast.emit(
+    'players',
+    Array.from(io.sockets.sockets.keys()).length
+  );
 });
