@@ -1,135 +1,128 @@
 version: '3'
 
 services:
-    mongodb:
-        container_name: mongodb
-        image: mongo:latest
-        ports:
-            - '27017:27017'
-        volumes:
-            - /home/${USER}/mongodb/database:/data/db
-        environment:
-            - MONGO_INITDB_DATABASE=local
-            - MONGO_INITDB_ROOT_USERNAME=user
-            - MONGO_INITDB_ROOT_PASSWORD=secr3t
-    backend:
-        restart: always
-        build:
-            dockerfile: Dockerfile.dev
-            context: ../../backend
-        depends_on:
-            - 'mongodb'
-        environment:
-            - MONGO_HOST=mongodb
-            - MONGO_PORT=27017
-            - MONGO_DATABASE=local
-            - MONGO_USERNAME=user
-            - MONGO_PASSWORD=secr3t
-            - BACKEND_CONTAINERS=http://backend_containers:5001'
-        volumes:
-            - ../../backend:/opt/app
-        ports:
-            - '5000:5000'
-    backend_containers:
-        restart: always
-        build:
-            dockerfile: Dockerfile.dev
-            context: ../../backend_containers
-        depends_on:
-            - 'javascript'
-            - 'python'
-            - 'bash'
-            - 'java'
-            - 'cpp'
-            - 'c'
-            - 'r'
-        volumes:
-            - ../../backend_containers:/opt/app
-        ports:
-            - '5001:5001'
-    javascript:
-        restart: always
-        build:
-            dockerfile: Dockerfile
-            context: ../../containers/javascript
-        environment:
-            - PORT=6000
-        ports:
-            - '6000:6000'
-    python:
-        restart: always
-        build:
-            dockerfile: Dockerfile
-            context: ../../containers/python
-        environment:
-            - PORT=6001
-        ports:
-            - '6001:6001'
-    bash:
-        restart: always
-        build:
-            dockerfile: Dockerfile
-            context: ../../containers/bash
-        environment:
-            - PORT=6002
-        ports:
-            - '6002:6002'
-    r:
-        restart: always
-        build:
-            dockerfile: Dockerfile
-            context: ../../containers/r
-        environment:
-            - PORT=6003
-        ports:
-            - '6003:6003'
-    java:
-        restart: always
-        build:
-            dockerfile: Dockerfile
-            context: ../../containers/java
-        environment:
-            - PORT=6004
-        ports:
-            - '600:6004'
-    cpp:
-        restart: always
-        build:
-            dockerfile: Dockerfile
-            context: ../../containers/cpp
-        environment:
-            - PORT=6005
-        ports:
-            - '6005:6005'
-    c:
-        restart: always
-        build:
-            dockerfile: Dockerfile
-            context: ../../containers/c
-        environment:
-            - PORT=6006
-        ports:
-            - '6006:6006'
-    frontend:
-        restart: always
-        build:
-            dockerfile: Dockerfile.dev
-            context: ../../frontend
-        depends_on:
-            - 'backend'
-            - 'backend_containers'
-        ports:
-            - '3000:3000'
-        volumes:
-            - ../../frontend/node_modules:/opt/app/node_modules
-            - ../../frontend:/opt/app
-        environment:
-            - REACT_APP_CONTAINERS_ADDRESS=http://localhost:5001
-            - REACT_APP_BACKEND=http://localhost:5000
-    auth0:
-        restart: always
-        image: yannj/auth0-docker:latest
-        environment:
-            - AUTH0_CLIENT_ID=S78rEYoT9kikIwcv3l0AI1Lg49AxSmMb
-            - AUTH0_DOMAIN=dev-v6t-co5x.us.auth0.com
-            - AUTH0_CLIENT_SECRET=c-aZ9-dAmNzjT7c0D7yfxwZ4vo8n2e2te9_qEF5yX-XoSHjRcY64DgWLbPF8dkq3
+  mongodb:
+    container_name: mongodb
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    volumes:
+      - /home/${USER}/mongodb/database:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=local
+      - MONGO_INITDB_ROOT_USERNAME=user
+      - MONGO_INITDB_ROOT_PASSWORD=secr3t
+  backend:
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ../../backend
+    depends_on:
+      - 'mongodb'
+    environment:
+      - MONGO_HOST=mongodb
+      - MONGO_PORT=27017
+      - MONGO_DATABASE=local
+      - MONGO_USERNAME=user
+      - MONGO_PASSWORD=secr3t
+      - BACKEND_CONTAINERS=http://backend_containers:5001'
+    volumes:
+      - ../../backend:/opt/app
+    ports:
+      - '5000:5000'
+  backend_containers:
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ../../backend_containers
+    depends_on:
+      - 'javascript'
+      - 'python'
+      - 'bash'
+      - 'java'
+      - 'cpp'
+      - 'c'
+      - 'r'
+    volumes:
+      - ../../backend_containers:/opt/app
+    ports:
+      - '5001:5001'
+  javascript:
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ../../containers/javascript
+    environment:
+      - PORT=6000
+    ports:
+      - '6000:6000'
+  python:
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ../../containers/python
+    environment:
+      - PORT=6001
+    ports:
+      - '6001:6001'
+  bash:
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ../../containers/bash
+    environment:
+      - PORT=6002
+    ports:
+      - '6002:6002'
+  r:
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ../../containers/r
+    environment:
+      - PORT=6003
+    ports:
+      - '6003:6003'
+  java:
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ../../containers/java
+    environment:
+      - PORT=6004
+    ports:
+      - '600:6004'
+  cpp:
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ../../containers/cpp
+    environment:
+      - PORT=6005
+    ports:
+      - '6005:6005'
+  c:
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ../../containers/c
+    environment:
+      - PORT=6006
+    ports:
+      - '6006:6006'
+  frontend:
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ../../frontend
+    depends_on:
+      - 'backend'
+      - 'backend_containers'
+    ports:
+      - '3000:3000'
+    volumes:
+      - ../../frontend/node_modules:/opt/app/node_modules
+      - ../../frontend:/opt/app
+    environment:
+      - REACT_APP_CONTAINERS_ADDRESS=http://localhost:5001
+      - REACT_APP_BACKEND=http://localhost:5000
