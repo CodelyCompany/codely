@@ -87,6 +87,10 @@ const ExampleSolution = ({
           hints: step.dataFromStep4.map((el) => el[1]),
           exampleSolution: code,
           functionSignature: signature,
+          programmingLanguage:
+            step.dataFromStep1.programmingLanguage === 'C++'
+              ? 'cpp'
+              : step.dataFromStep1.programmingLanguage,
         },
         token
       );
