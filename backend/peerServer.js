@@ -32,9 +32,18 @@ const joinGame = () => {
     users.get(ids[1]).leave('/waiting');
     users.get(ids[0]).join(`/game-${generatedRoomId}`);
     users.get(ids[1]).join(`/game-${generatedRoomId}`);
-    users.get(ids[0]).emit('game', 'found');
-    users.get(ids[1]).emit('game', 'found');
+    users.get(ids[0]).emit('game', generatedRoomId);
+    users.get(ids[1]).emit('game', generatedRoomId);
   }
+};
+
+const cancelGame = (id) => {
+  const room = Array.from(io.of('/').adapter.rooms.get(`/game-${id}`));
+  const users = io.sockets.adapter.nsp.sockets;
+  users.get(room[0]).leave(`/game-${id}`);
+  users.get(room[1]).leave(`/game-${id}`);
+  users.get(room[0]).join(`/waiting`);
+  users.get(room[1]).join(`/waiting`);
 };
 
 io.on('connection', (socket) => {
@@ -50,6 +59,10 @@ io.on('connection', (socket) => {
       'players',
       Array.from(io.sockets.sockets.keys()).length
     );
+  });
+  socket.on('game-close', (mess) => {
+    io.to(`/game-${mess}`).emit('session-close', 'close');
+    cancelGame(mess);
   });
   joinGame();
 });

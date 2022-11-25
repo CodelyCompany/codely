@@ -48,9 +48,15 @@ const Versus = () => {
 
   return (
     <Container sx={{ display: 'flex', flexDirection: 'column' }}>
-      {console.log(found)}
       {socket && <PlayersCounter socket={socket} />}
-      {socket && <SearchingGame socket={socket} setFound={setFound} />}
+      {socket && (
+        <SearchingGame
+          socket={socket}
+          setFound={setFound}
+          found={found}
+          setSocket={setSocket}
+        />
+      )}
       {!socket && (
         <Button
           sx={{ marginTop: '20px' }}

@@ -5,15 +5,20 @@ import { MutatingDots } from 'react-loader-spinner';
 
 import VersusFound from './VersusFound';
 
-const SearchingGame = ({ socket, setFound }) => {
+const SearchingGame = ({ socket, setFound, found, setSocket }) => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    socket.on('game', () => {
-      setFound(true);
+    socket.on('game', (id) => {
+      setFound(id);
       setOpen(true);
     });
-
+    socket.on('session-close', () => {
+      if (socket) {
+        setOpen(false);
+        setFound(false);
+      }
+    });
     return () => {
       socket.off('game');
     };
@@ -21,7 +26,13 @@ const SearchingGame = ({ socket, setFound }) => {
 
   return (
     <>
-      <VersusFound open={open} setOpen={setOpen} />
+      <VersusFound
+        open={open}
+        setOpen={setOpen}
+        socket={socket}
+        id={found}
+        setSocket={setSocket}
+      />
       <MutatingDots
         height="100"
         width="100"
@@ -42,4 +53,6 @@ export default SearchingGame;
 SearchingGame.propTypes = {
   setFound: PropTypes.func.isRequired,
   socket: PropTypes.object,
+  found: PropTypes.string,
+  setSocket: PropTypes.func.isRequired,
 };

@@ -12,9 +12,12 @@ import {
 } from '@mui/material';
 import { PropTypes } from 'prop-types';
 
-const VersusFound = ({ open, setOpen }) => {
+const VersusFound = ({ open, setOpen, socket, id, setSocket }) => {
   const handleClose = () => {
+    setSocket(null);
     setOpen(false);
+    socket.emit('game-close', id);
+    socket.disconnect();
   };
 
   return (
@@ -36,9 +39,16 @@ const VersusFound = ({ open, setOpen }) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={handleClose} autoFocus>
-            Agree
+          <Button onClick={handleClose} variant="contained" color="error">
+            Cancel
+          </Button>
+          <Button
+            onClick={handleClose}
+            autoFocus
+            variant="contained"
+            color="success"
+          >
+            Accept
           </Button>
         </DialogActions>
       </Dialog>
@@ -51,4 +61,7 @@ export default VersusFound;
 VersusFound.propTypes = {
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
+  socket: PropTypes.object,
+  id: PropTypes.string.isRequired,
+  setSocket: PropTypes.func.isRequired,
 };
