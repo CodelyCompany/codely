@@ -22,28 +22,29 @@ const io = socket(server, {
   },
 });
 
+let cache = {};
+
 const joinGame = () => {
   const rooms = io.of('/').adapter.rooms;
   const ids = Array.from(rooms.get('/waiting'));
   if (ids.length >= 2) {
     const generatedRoomId = uuidv4();
     const users = io.sockets.adapter.nsp.sockets;
-    users.get(ids[0]).leave('/waiting');
-    users.get(ids[1]).leave('/waiting');
-    users.get(ids[0]).join(`/game-${generatedRoomId}`);
-    users.get(ids[1]).join(`/game-${generatedRoomId}`);
-    users.get(ids[0]).emit('game', generatedRoomId);
-    users.get(ids[1]).emit('game', generatedRoomId);
+    [0, 1].forEach((num) => {
+      users.get(ids[num]).leave('/waiting');
+      users.get(ids[num]).join(`/game-${generatedRoomId}`);
+      users.get(ids[num]).emit('game', generatedRoomId);
+    });
   }
 };
 
 const cancelGame = (id) => {
   const room = Array.from(io.of('/').adapter.rooms.get(`/game-${id}`));
   const users = io.sockets.adapter.nsp.sockets;
-  users.get(room[0]).leave(`/game-${id}`);
-  users.get(room[1]).leave(`/game-${id}`);
-  users.get(room[0]).join(`/waiting`);
-  users.get(room[1]).join(`/waiting`);
+  [0, 1].forEach((num) => {
+    users.get(room[num]).leave(`/game-${id}`);
+    users.get(room[num]).join(`/waiting`);
+  });
 };
 
 io.on('connection', (socket) => {
@@ -63,6 +64,13 @@ io.on('connection', (socket) => {
   socket.on('game-close', (mess) => {
     io.to(`/game-${mess}`).emit('session-close', 'close');
     cancelGame(mess);
+  });
+  socket.on('game-accept', (mess) => {
+    const prevAcceptation = cache[mess] ?? [];
+    cache = { ...cache, [mess]: [...prevAcceptation, 'accepted'] };
+    if (cache[mess].length === 2) {
+      io.to(`/game-${mess}`).emit('game-accepted', true);
+    }
   });
   joinGame();
 });

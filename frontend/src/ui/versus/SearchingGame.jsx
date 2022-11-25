@@ -16,11 +16,15 @@ const SearchingGame = ({ socket, setFound, found, setSocket }) => {
     socket.on('session-close', () => {
       if (socket) {
         setOpen(false);
-        setFound(false);
+        setFound(null);
       }
+    });
+    socket.on('game-accepted', () => {
+      console.log('accepted');
     });
     return () => {
       socket.off('game');
+      socket.off('session-close');
     };
   }, []);
 
