@@ -12,6 +12,7 @@ import Navbar from './ui/Navbar';
 import ExerciseAlert from './ui/popups/ExercisesAlert';
 import AdminPanel from './ui/user/admin/AdminPanel';
 import UserDetails from './ui/user/UserDetails';
+import Exercise from './ui/versus/solving_exercise/Exercise';
 import Versus from './ui/versus/Versus';
 
 import './styles/css/styles.css';
@@ -19,20 +20,24 @@ import './App.css';
 
 function App() {
   return (
-    <div className='App'>
+    <div className="App">
       <BrowserRouter>
         <Navbar />
         <LoadWrapper>
           <Routes>
-            <Route path='/' element={<MainPage />} />
-            <Route path='/editor' element={<Editor />} />
-            <Route path='/exercises' element={<ExercisesList />} />
-            <Route path='/exercise/:id' element={<ExerciseDetail />} />
-            <Route path='/exercises/form' element={<MainForm />} />
-            <Route path='/exercises/edit/:id' element={<MainForm />} />
-            <Route path='/versus' element={<Versus />} />
-            <Route path='/user' element={<UserDetails />} />
-            <Route path='/admin' element={<AdminPanel />} />
+            <Route path="/" element={<MainPage />} />
+            <Route path="/editor" element={<Editor />} />
+            <Route path="/exercises" element={<ExercisesList />} />
+            <Route path="/exercise/:id" element={<ExerciseDetail />} />
+            <Route path="/exercises/form" element={<MainForm />} />
+            <Route path="/exercises/edit/:id" element={<MainForm />} />
+            <Route path="/versus" element={<Versus />} />
+            <Route
+              path="/versus/room/:roomId/exercise/:id"
+              element={<Exercise />}
+            />
+            <Route path="/user" element={<UserDetails />} />
+            <Route path="/admin" element={<AdminPanel />} />
           </Routes>
         </LoadWrapper>
         <ExerciseAlert />

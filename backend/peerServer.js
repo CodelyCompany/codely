@@ -4,6 +4,8 @@ const cors = require('cors');
 const app = express();
 const port = 5002;
 const { v4: uuidv4 } = require('uuid');
+const Exercise = require('./models/Exercise');
+const _ = require('lodash');
 
 app.use(
   cors({
@@ -23,6 +25,16 @@ const io = socket(server, {
 });
 
 let cache = {};
+
+const getRandomExercise = async () => {
+  const exercises = await Exercise.aggregate([
+    {
+      $project: { _id: 1 },
+    },
+  ]);
+  const pickedEx = await exercises[_.random(0, exercises.length)];
+  return pickedEx._id;
+};
 
 const joinGame = () => {
   const rooms = io.of('/').adapter.rooms;
@@ -47,7 +59,7 @@ const cancelGame = (id) => {
   });
 };
 
-io.on('connection', (socket) => {
+io.on('connection', async (socket) => {
   socket.join('/waiting');
   socket.emit('players', Array.from(io.sockets.sockets.keys()).length);
   socket.broadcast.emit(
@@ -65,11 +77,14 @@ io.on('connection', (socket) => {
     io.to(`/game-${mess}`).emit('session-close', 'close');
     cancelGame(mess);
   });
-  socket.on('game-accept', (mess) => {
+  socket.on('game-accept', async (mess) => {
     const prevAcceptation = cache[mess] ?? [];
     cache = { ...cache, [mess]: [...prevAcceptation, 'accepted'] };
     if (cache[mess].length === 2) {
-      io.to(`/game-${mess}`).emit('game-accepted', true);
+      io.to(`/game-${mess}`).emit(
+        'game-accepted',
+        JSON.stringify({ roomId: mess, exId: await getRandomExercise() })
+      );
     }
   });
   joinGame();

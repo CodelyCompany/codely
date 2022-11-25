@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 
 import { PropTypes } from 'prop-types';
 import { MutatingDots } from 'react-loader-spinner';
+import { useNavigate } from 'react-router-dom';
 
 import VersusFound from './VersusFound';
 
 const SearchingGame = ({ socket, setFound, found, setSocket }) => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -19,8 +21,10 @@ const SearchingGame = ({ socket, setFound, found, setSocket }) => {
         setFound(null);
       }
     });
-    socket.on('game-accepted', () => {
-      console.log('accepted');
+    socket.on('game-accepted', (mess) => {
+      const message = JSON.parse(mess);
+      console.log(message);
+      navigate(`/versus/room/${message.roomId}/exercise/${message.exId}`);
     });
     return () => {
       socket.off('game');
