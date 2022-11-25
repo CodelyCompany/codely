@@ -27,4 +27,11 @@ io.on('connection', (socket) => {
     'players',
     Array.from(io.sockets.sockets.keys()).length
   );
+  socket.on('disconnect', () => {
+    socket.emit('players', Array.from(io.sockets.sockets.keys()).length);
+    socket.broadcast.emit(
+      'players',
+      Array.from(io.sockets.sockets.keys()).length
+    );
+  });
 });
