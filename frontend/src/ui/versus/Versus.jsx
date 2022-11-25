@@ -11,6 +11,7 @@ const Versus = () => {
   const [socket, setSocket] = useState(null);
   const [dots, setDots] = useState(0);
   const [time, setTime] = useState(0);
+  const [found, setFound] = useState(false);
 
   const connect = () => {
     const socket = io('http://localhost:5002/');
@@ -47,8 +48,9 @@ const Versus = () => {
 
   return (
     <Container sx={{ display: 'flex', flexDirection: 'column' }}>
+      {console.log(found)}
       {socket && <PlayersCounter socket={socket} />}
-      {socket && <SearchingGame />}
+      {socket && <SearchingGame socket={socket} setFound={setFound} />}
       {!socket && (
         <Button
           sx={{ marginTop: '20px' }}
