@@ -20,18 +20,21 @@ import { useParams } from 'react-router-dom';
 
 import { GetExercises } from '../../../ducks/exercises/operations';
 import { getExerciseById } from '../../../ducks/exercises/selectors';
+import { getSocket } from '../../../ducks/socket/selectors';
 import { getToken } from '../../../ducks/token/selectors';
 import GetToken from '../../user/GetToken';
 
 import Buttons from './Buttons';
 import VersusEditor from './VersusEditor';
 
-const Exercise = ({ GetExercises, token }) => {
+const Exercise = ({ GetExercises, token, socket }) => {
   const { id } = useParams();
   const [code, setCode] = useState('');
   const exercise = useSelector(getExerciseById(id));
   const [yourTime, setYourTime] = useState(0);
   const [opponentTime, setOpponentTime] = useState(0);
+  const [won, setWon] = useState(false);
+  const [lost, setLost] = useState(false);
 
   const getTime = (time) =>
     `${Math.floor(time / 60)}:${
@@ -39,8 +42,25 @@ const Exercise = ({ GetExercises, token }) => {
     }`;
 
   useEffect(() => {
+    socket.on('game-won', () => {
+      setWon(true);
+    });
+
+    socket.on('game-first-player-finished', () => {
+      setLost(true);
+    });
+
+    return () => {
+      socket.off('game-won');
+      socket.off('game-first-player-finished');
+    };
+  }, []);
+
+  useEffect(() => {
     const interval = setInterval(() => {
-      setYourTime((prev) => prev + 1);
+      if (!won) {
+        setYourTime((prev) => prev + 1);
+      }
       setOpponentTime((prev) => prev + 1);
     }, 1000);
     return () => {
@@ -95,11 +115,18 @@ const Exercise = ({ GetExercises, token }) => {
               }}
             >
               <span>
-                You:
-                <CloseIcon
-                  color="error"
-                  style={{ position: 'relative', top: '7px' }}
-                />
+                You:{' '}
+                {won ? (
+                  <CheckIcon
+                    color="success"
+                    style={{ position: 'relative', top: '7px' }}
+                  />
+                ) : (
+                  <CloseIcon
+                    color="error"
+                    style={{ position: 'relative', top: '7px' }}
+                  />
+                )}
               </span>
               <span style={{ color: 'red' }}>{getTime(yourTime)}</span>
             </span>
@@ -204,6 +231,7 @@ const Exercise = ({ GetExercises, token }) => {
 
 const mapStateToProps = (state) => ({
   token: getToken(state),
+  socket: getSocket(state),
 });
 
 const mapDispatchToProps = {
@@ -215,4 +243,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(Exercise);
 Exercise.propTypes = {
   GetExercises: PropTypes.func.isRequired,
   token: PropTypes.string,
+  socket: PropTypes.object,
 };

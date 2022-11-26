@@ -6,6 +6,7 @@ const port = 5002;
 const { v4: uuidv4 } = require('uuid');
 const Exercise = require('./models/Exercise');
 const _ = require('lodash');
+const client = require('./config/redisClient');
 
 app.use(
   cors({
@@ -23,8 +24,6 @@ const io = socket(server, {
     origin: '*',
   },
 });
-
-let cache = {};
 
 const getRandomExercise = async () => {
   const exercises = await Exercise.aggregate([
@@ -78,17 +77,25 @@ io.on('connection', async (socket) => {
     cancelGame(mess);
   });
   socket.on('game-accept', async (mess) => {
-    const prevAcceptation = cache[mess] ?? [];
-    cache = { ...cache, [mess]: [...prevAcceptation, 'accepted'] };
-    if (cache[mess].length === 2) {
+    const rooms = await client.lrange(`game-${mess}-acceptation`, 0, -1);
+    if (rooms && rooms.length) {
       io.to(`/game-${mess}`).emit(
         'game-accepted',
         JSON.stringify({ roomId: mess, exId: await getRandomExercise() })
       );
     }
+    await client.lpush(`game-${mess}-acceptation`, 'accepted');
   });
-  socket.on('game-finished', () => {
-    console.log('someone finished ex');
+  socket.on('game-finished', async (mess) => {
+    const isFinished = await client.get(`game-${mess}-finished`);
+    console.log(isFinished);
+    if (!isFinished) {
+      socket.emit('game-won', true);
+      io.to(`game-${mess}`).emit('game-first-player-finished', true);
+      return;
+    }
+    io.to(`game-${mess}`).emit('game-second-player-finished', true);
+    await client.set(`game-${mess}-finished`, 'true');
   });
   joinGame();
 });
