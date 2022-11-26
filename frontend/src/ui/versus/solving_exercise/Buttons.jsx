@@ -3,12 +3,15 @@ import React from 'react';
 import { Box, Button } from '@mui/material';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 import { getSocket } from '../../../ducks/socket/selectors';
 
 const Buttons = ({ socket }) => {
+  const { roomId } = useParams();
+
   const finishEx = () => {
-    socket.emit('game-finished', true);
+    socket.emit('game-finished', roomId);
   };
 
   return (
