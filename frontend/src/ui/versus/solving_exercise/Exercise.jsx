@@ -7,7 +7,7 @@ import GTranslateIcon from '@mui/icons-material/GTranslate';
 import PersonIcon from '@mui/icons-material/Person';
 import PsychologyIcon from '@mui/icons-material/Psychology';
 import StarRateIcon from '@mui/icons-material/StarRate';
-import { Box, Button, Container, Paper, Typography } from '@mui/material';
+import { Box, Container, Paper, Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -23,6 +23,7 @@ import { getExerciseById } from '../../../ducks/exercises/selectors';
 import { getToken } from '../../../ducks/token/selectors';
 import GetToken from '../../user/GetToken';
 
+import Buttons from './Buttons';
 import VersusEditor from './VersusEditor';
 
 const Exercise = ({ GetExercises, token }) => {
@@ -187,16 +188,7 @@ const Exercise = ({ GetExercises, token }) => {
             </List>
           </Box>
           <Box>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                margin: '10px 0',
-              }}
-            >
-              <Button variant="contained">Run</Button>
-              <Button variant="contained">Submit</Button>
-            </Box>
+            <Buttons />
             <VersusEditor
               code={code}
               setCode={setCode}
