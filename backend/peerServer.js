@@ -32,7 +32,7 @@ const getRandomExercise = async () => {
       $project: { _id: 1 },
     },
   ]);
-  const pickedEx = await exercises[_.random(0, exercises.length)];
+  const pickedEx = exercises[_.random(0, exercises.length - 1)];
   return pickedEx._id;
 };
 

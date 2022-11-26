@@ -251,4 +251,31 @@ router.delete('/deleteExercise/:id', async (req, res) => {
   }
 });
 
+router.put('/checkVersus/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = req.body;
+    const exercise = await Exercise.findById(id).populate('tests');
+    const counterCorrect = await runTests(exercise, data.solution);
+    if (counterCorrect === exercise.tests.length) {
+      const user = await User.findById(data.user);
+      if (!user.doneExercises.includes(exercise._id)) {
+        await User.findByIdAndUpdate(data.user, {
+          doneExercises: [...user.doneExercises, exercise._id],
+          wonVersus: data.won ? wonVersus + 1 : wonVersus,
+          lostVersus: data.won ? lostVersus : lostVersus + 1,
+        });
+      }
+      await Exercise.findByIdAndUpdate(id, {
+        doneCounter: exercise.doneCounter + 1,
+      });
+    }
+    return res
+      .status(200)
+      .send({ tests: exercise.tests.length, correct: counterCorrect });
+  } catch (err) {
+    return res.status(500).send(err);
+  }
+});
+
 module.exports = router;
