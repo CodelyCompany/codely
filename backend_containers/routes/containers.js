@@ -133,16 +133,13 @@ router.post('/java', async (req, res) => {
 router.post('/cpp', async (req, res) => {
   try {
     const data = req.body;
-    const prepareData = () => {
-      const splitedData = data.toExecute.split('}');
-      const lastElem = splitedData.pop();
-      return `${data.toExecute}
-      \nint main(){
-      \n cout << ${data.func}(${data.args.join(', ')});
-      \n}
-      ${lastElem}`;
-    };
-    const toExecute = data.func && data.args ? prepareData() : data.toExecute;
+    const toExecute =
+      data.func && data.args
+        ? `${data.toExecute}
+        \nint main(){
+        \ncout << ${data.func}(${data.args.join(', ')});
+        \n}`
+        : data.toExecute;
     const response = await axios.post(urlData.cpp_url, {
       toExecute,
     });
@@ -160,16 +157,14 @@ router.post('/cpp', async (req, res) => {
 router.post('/c', async (req, res) => {
   try {
     const data = req.body;
-    const prepareData = () => {
-      const splitedData = data.toExecute.split('}');
-      const lastElem = splitedData.pop();
-      return `${data.toExecute}
-      \nint main(){
-      \n${data.func}(${data.args.join(', ')});
-      \n}
-      ${lastElem}`;
-    };
-    const toExecute = data.func && data.args ? prepareData() : data.toExecute;
+    const toExecute =
+      data.func && data.args
+        ? `${data.toExecute}
+        \nint main(){
+        \n${data.func}(${data.args.join(', ')});
+        \n}`
+        : data.toExecute;
+    console.log(toExecute);
     const response = await axios.post(urlData.c_url, {
       toExecute,
     });
