@@ -7,7 +7,7 @@ import GTranslateIcon from '@mui/icons-material/GTranslate';
 import PersonIcon from '@mui/icons-material/Person';
 import PsychologyIcon from '@mui/icons-material/Psychology';
 import StarRateIcon from '@mui/icons-material/StarRate';
-import { Box, Container, Paper, Typography } from '@mui/material';
+import { Box, Button, Container, Paper, Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -29,6 +29,23 @@ const Exercise = ({ GetExercises, token }) => {
   const { id } = useParams();
   const [code, setCode] = useState('');
   const exercise = useSelector(getExerciseById(id));
+  const [yourTime, setYourTime] = useState(0);
+  const [opponentTime, setOpponentTime] = useState(0);
+
+  const getTime = (time) =>
+    `${Math.floor(time / 60)}:${
+      time % 60 < 10 ? '0' + (time % 60).toString() : time % 60
+    }`;
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setYourTime((prev) => prev + 1);
+      setOpponentTime((prev) => prev + 1);
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   useEffect(() => {
     if (_.isEmpty(exercise)) {
@@ -41,6 +58,67 @@ const Exercise = ({ GetExercises, token }) => {
       <>
         <GetToken />
         <Container sx={{ marginTop: '10px' }}>
+          <Paper
+            elevation={3}
+            sx={{
+              padding: '10px',
+              margin: '10px 0',
+              display: 'flex',
+              flexDirection: 'column',
+              textAlign: 'center',
+            }}
+          >
+            <span style={{ fontWeight: 'bolder' }}>
+              You are in versus mode. Try to solve this exercise faster than
+              your opponent.
+            </span>{' '}
+            <span style={{ color: 'rgb(25, 118, 210)', fontWeight: 'bolder' }}>
+              Good luck & have fun!
+            </span>
+          </Paper>
+          <Paper
+            elevation={3}
+            sx={{
+              padding: '15px',
+              margin: '10px 0',
+              display: 'flex',
+              flexDirection: 'column',
+              color: 'rgb(25, 118, 210)',
+            }}
+          >
+            <span
+              style={{
+                fontWeight: 'bolder',
+                display: 'flex',
+                justifyContent: 'space-between',
+              }}
+            >
+              <span>
+                You:
+                <CloseIcon
+                  color="error"
+                  style={{ position: 'relative', top: '7px' }}
+                />
+              </span>
+              <span style={{ color: 'red' }}>{getTime(yourTime)}</span>
+            </span>
+            <span
+              style={{
+                fontWeight: 'bolder',
+                display: 'flex',
+                justifyContent: 'space-between',
+              }}
+            >
+              <span>
+                Your opponent:
+                <CloseIcon
+                  color="error"
+                  style={{ position: 'relative', top: '7px' }}
+                />
+              </span>
+              <span style={{ color: 'red' }}>{getTime(opponentTime)}</span>
+            </span>
+          </Paper>
           <Box sx={{ width: '100%', display: 'flex' }}>
             <List
               sx={{
@@ -109,39 +187,16 @@ const Exercise = ({ GetExercises, token }) => {
             </List>
           </Box>
           <Box>
-            <Paper
-              elevation={3}
+            <Box
               sx={{
-                padding: '10px',
-                margin: '10px 0',
                 display: 'flex',
-                flexDirection: 'column',
-                textAlign: 'center',
+                justifyContent: 'space-between',
+                margin: '10px 0',
               }}
             >
-              <span style={{ fontWeight: 'bolder' }}>
-                You are in versus mode. Try to solve this exercise faster than
-                your opponent.
-              </span>{' '}
-              <span
-                style={{ color: 'rgb(25, 118, 210)', fontWeight: 'bolder' }}
-              >
-                Good luck & have fun!
-              </span>
-            </Paper>
-            <Paper
-              elevation={3}
-              sx={{
-                padding: '15px',
-                margin: '10px 0',
-                display: 'flex',
-                flexDirection: 'column',
-                color: 'rgb(25, 118, 210)',
-              }}
-            >
-              <span style={{ fontWeight: 'bolder' }}>You: </span>{' '}
-              <span style={{ fontWeight: 'bolder' }}>Your opponent: </span>
-            </Paper>
+              <Button variant="contained">Run</Button>
+              <Button variant="contained">Submit</Button>
+            </Box>
             <VersusEditor
               code={code}
               setCode={setCode}
