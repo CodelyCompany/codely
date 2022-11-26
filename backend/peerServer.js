@@ -87,5 +87,8 @@ io.on('connection', async (socket) => {
       );
     }
   });
+  socket.on('game-finished', () => {
+    console.log('someone finished ex');
+  });
   joinGame();
 });
