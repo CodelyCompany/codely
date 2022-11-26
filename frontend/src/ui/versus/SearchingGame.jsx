@@ -6,9 +6,10 @@ import { useNavigate } from 'react-router-dom';
 
 import VersusFound from './VersusFound';
 
-const SearchingGame = ({ socket, setFound, found, setSocket }) => {
+const SearchingGame = ({ socket, setFound, found, DisconnectSocket }) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [accepted, setAccepted] = useState(false);
 
   useEffect(() => {
     socket.on('game', (id) => {
@@ -17,13 +18,13 @@ const SearchingGame = ({ socket, setFound, found, setSocket }) => {
     });
     socket.on('session-close', () => {
       if (socket) {
+        setAccepted(false);
         setOpen(false);
         setFound(null);
       }
     });
     socket.on('game-accepted', (mess) => {
       const message = JSON.parse(mess);
-      console.log(message);
       navigate(`/versus/room/${message.roomId}/exercise/${message.exId}`);
     });
     return () => {
@@ -39,7 +40,9 @@ const SearchingGame = ({ socket, setFound, found, setSocket }) => {
         setOpen={setOpen}
         socket={socket}
         id={found}
-        setSocket={setSocket}
+        DisconnectSocket={DisconnectSocket}
+        accepted={accepted}
+        setAccepted={setAccepted}
       />
       <MutatingDots
         height="100"
@@ -62,5 +65,5 @@ SearchingGame.propTypes = {
   setFound: PropTypes.func.isRequired,
   socket: PropTypes.object,
   found: PropTypes.string,
-  setSocket: PropTypes.func.isRequired,
+  DisconnectSocket: PropTypes.func.isRequired,
 };

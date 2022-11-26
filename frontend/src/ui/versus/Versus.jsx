@@ -2,20 +2,24 @@ import React, { useEffect, useState } from 'react';
 
 import { Box, Button, Container, Typography } from '@mui/material';
 import * as _ from 'lodash';
+import { PropTypes } from 'prop-types';
+import { connect } from 'react-redux';
 import { io } from 'socket.io-client';
+
+import { ConnectSocket, DisconnectSocket } from '../../ducks/socket/actions';
+import { getSocket } from '../../ducks/socket/selectors';
 
 import PlayersCounter from './PlayersCounter';
 import SearchingGame from './SearchingGame';
 
-const Versus = () => {
-  const [socket, setSocket] = useState(null);
+const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
   const [dots, setDots] = useState(0);
   const [time, setTime] = useState(0);
   const [found, setFound] = useState(null);
 
   const connect = () => {
     const socket = io('http://localhost:5002/');
-    setSocket(socket);
+    ConnectSocket(socket);
     setTime(0);
   };
 
@@ -35,16 +39,8 @@ const Versus = () => {
 
   const disconnect = () => {
     socket.disconnect();
-    setSocket(null);
+    DisconnectSocket();
   };
-
-  useEffect(() => {
-    if (socket) {
-      const newSocket = io(`http://${window.location.hostname}:8000`);
-      setSocket(newSocket);
-      return () => newSocket.close();
-    }
-  }, [setSocket]);
 
   return (
     <Container sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -54,7 +50,7 @@ const Versus = () => {
           socket={socket}
           setFound={setFound}
           found={found}
-          setSocket={setSocket}
+          DisconnectSocket={DisconnectSocket}
         />
       )}
       {!socket && (
@@ -98,4 +94,19 @@ const Versus = () => {
   );
 };
 
-export default Versus;
+const mapStateToProps = (state) => ({
+  socket: getSocket(state),
+});
+
+const mapDispatchToProps = {
+  ConnectSocket,
+  DisconnectSocket,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Versus);
+
+Versus.propTypes = {
+  socket: PropTypes.object,
+  ConnectSocket: PropTypes.func.isRequired,
+  DisconnectSocket: PropTypes.func.isRequired,
+};

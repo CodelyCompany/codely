@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import {
   Box,
@@ -11,12 +11,18 @@ import {
 } from '@mui/material';
 import { PropTypes } from 'prop-types';
 
-const VersusFound = ({ open, setOpen, socket, id, setSocket }) => {
-  const [accepted, setAccepted] = useState(false);
-
+const VersusFound = ({
+  open,
+  setOpen,
+  socket,
+  id,
+  DisconnectSocket,
+  accepted,
+  setAccepted,
+}) => {
   const handleClose = (event, reason) => {
     if (reason && reason === 'backdropClick') return;
-    setSocket(null);
+    DisconnectSocket();
     setOpen(false);
     socket.emit('game-close', id);
     socket.disconnect();
@@ -82,5 +88,7 @@ VersusFound.propTypes = {
   setOpen: PropTypes.func.isRequired,
   socket: PropTypes.object,
   id: PropTypes.string,
-  setSocket: PropTypes.func.isRequired,
+  DisconnectSocket: PropTypes.func.isRequired,
+  accepted: PropTypes.bool,
+  setAccepted: PropTypes.func.isRequired,
 };
