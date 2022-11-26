@@ -88,13 +88,20 @@ io.on('connection', async (socket) => {
   });
   socket.on('game-finished', async (mess) => {
     const isFinished = await client.get(`game-${mess}-finished`);
-    console.log(isFinished);
     if (!isFinished) {
-      socket.emit('game-won', true);
-      io.to(`game-${mess}`).emit('game-first-player-finished', true);
-      return;
+      const room = Array.from(io.of('/').adapter.rooms.get(`/game-${mess}`));
+      const users = io.sockets.adapter.nsp.sockets;
+      const firstUser = users.get(room[0]);
+      const secondUser = users.get(room[1]);
+      if (socket.id === room[0]) {
+        firstUser.emit('game-won');
+        secondUser.emit('game-lost');
+      }
+      if (socket.id === room[1]) {
+        secondUser.emit('game-won');
+        firstUser.emit('game-lost');
+      }
     }
-    io.to(`game-${mess}`).emit('game-second-player-finished', true);
     await client.set(`game-${mess}-finished`, 'true');
   });
   joinGame();
