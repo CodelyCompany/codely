@@ -33,6 +33,7 @@ services:
       - ../../backend:/opt/app
     ports:
       - '5000:5000'
+      - '5002:5002'
   backend_containers:
     restart: always
     build:
