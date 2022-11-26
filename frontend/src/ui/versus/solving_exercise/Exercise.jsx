@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-import CheckIcon from '@mui/icons-material/Check'; // solved
-import CloseIcon from '@mui/icons-material/Close'; // didnt finish
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import FormatColorTextIcon from '@mui/icons-material/FormatColorText';
 import GTranslateIcon from '@mui/icons-material/GTranslate';
 import PersonIcon from '@mui/icons-material/Person';
@@ -25,6 +25,7 @@ import { getToken } from '../../../ducks/token/selectors';
 import GetToken from '../../user/GetToken';
 
 import Buttons from './Buttons';
+import FinishDialog from './FinishDialog';
 import VersusEditor from './VersusEditor';
 
 const Exercise = ({ GetExercises, token, socket }) => {
@@ -34,7 +35,10 @@ const Exercise = ({ GetExercises, token, socket }) => {
   const [yourTime, setYourTime] = useState(0);
   const [opponentTime, setOpponentTime] = useState(0);
   const [won, setWon] = useState(false);
-  const [lost, setLost] = useState(false);
+  const [opponentFinish, setOpponentFinish] = useState(false);
+  const yourInteveral = useRef({});
+  const opponentInteveral = useRef({});
+  const [open, setOpen] = useState(false);
 
   const getTime = (time) =>
     `${Math.floor(time / 60)}:${
@@ -44,27 +48,36 @@ const Exercise = ({ GetExercises, token, socket }) => {
   useEffect(() => {
     socket.on('game-won', () => {
       setWon(true);
+      setOpen(true);
+      clearInterval(yourInteveral.current);
     });
 
-    socket.on('game-first-player-finished', () => {
-      setLost(true);
+    socket.on('game-lost', () => {
+      setOpponentFinish(true);
+      clearInterval(opponentInteveral.current);
     });
 
     return () => {
       socket.off('game-won');
-      socket.off('game-first-player-finished');
+      socket.off('game-lost');
     };
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (!won) {
-        setYourTime((prev) => prev + 1);
-      }
+    yourInteveral.current = setInterval(() => {
+      setYourTime((prev) => prev + 1);
+    }, 1000);
+    return () => {
+      clearInterval(yourInteveral.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    opponentInteveral.current = setInterval(() => {
       setOpponentTime((prev) => prev + 1);
     }, 1000);
     return () => {
-      clearInterval(interval);
+      clearInterval(opponentInteveral.current);
     };
   }, []);
 
@@ -77,6 +90,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
   return (
     exercise && (
       <>
+        <FinishDialog open={open} setOpen={setOpen} won={won} />
         <GetToken />
         <Container sx={{ marginTop: '10px' }}>
           <Paper
@@ -128,7 +142,9 @@ const Exercise = ({ GetExercises, token, socket }) => {
                   />
                 )}
               </span>
-              <span style={{ color: 'red' }}>{getTime(yourTime)}</span>
+              <span style={{ color: won ? 'green' : 'red' }}>
+                {getTime(yourTime)}
+              </span>
             </span>
             <span
               style={{
@@ -138,13 +154,22 @@ const Exercise = ({ GetExercises, token, socket }) => {
               }}
             >
               <span>
-                Your opponent:
-                <CloseIcon
-                  color="error"
-                  style={{ position: 'relative', top: '7px' }}
-                />
+                Your opponent:{' '}
+                {opponentFinish ? (
+                  <CheckIcon
+                    color="success"
+                    style={{ posiition: 'relative', top: '7px' }}
+                  />
+                ) : (
+                  <CloseIcon
+                    color="error"
+                    style={{ position: 'relative', top: '7px' }}
+                  />
+                )}
               </span>
-              <span style={{ color: 'red' }}>{getTime(opponentTime)}</span>
+              <span style={{ color: opponentFinish ? 'green' : 'red' }}>
+                {getTime(opponentTime)}
+              </span>
             </span>
           </Paper>
           <Box sx={{ width: '100%', display: 'flex' }}>
