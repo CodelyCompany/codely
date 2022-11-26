@@ -57,9 +57,16 @@ const Exercise = ({ GetExercises, token, socket }) => {
       clearInterval(opponentInteveral.current);
     });
 
+    socket.on('game-closed', () => {
+      if (!won) setOpen(true);
+      clearInterval(yourInteveral.current);
+      clearInterval(opponentInteveral.current);
+    });
+
     return () => {
       socket.off('game-won');
       socket.off('game-lost');
+      socket.off('game-closed');
     };
   }, []);
 
