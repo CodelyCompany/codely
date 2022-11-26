@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const client_mongo = require('./config/mongoClient');
 const http = require('http');
 const users = require('./routes/users');
 const exercises = require('./routes/exercises');
@@ -10,6 +11,7 @@ const swaggerDocument = require('./swagger.json');
 const jwtCheck = require('./auth');
 const app = express();
 const peerServer = require('./peerServer');
+const client_red = require('./config/redisClient');
 
 app.use(express.json());
 app.use(
@@ -26,28 +28,28 @@ app.use('/exercises', exercises);
 app.use('/reviews', reviews);
 require('dotenv').config();
 
-const dbConnData = {
-  host: process.env.MONGO_HOST || '127.0.0.1',
-  port: process.env.MONGO_PORT || 27017,
-  database: process.env.MONGO_DATABASE || 'local',
-  user: process.env.MONGO_USERNAME || 'user',
-  password: process.env.MONGO_PASSWORD || 'secr3t',
-};
+const port = process.env.PORT || 5000;
 
-mongoose
-  .connect(
-    `mongodb://${dbConnData.user}:${dbConnData.password}@${dbConnData.host}:${dbConnData.port}/`,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
-  .then(async (response) => {
-    console.log(
-      `Connected to MongoDB. Database name: "${response.connections[0].name}"`
-    );
-    const port = process.env.PORT || 5000;
-    http.createServer(app).listen(port, () => {
-      console.log(`API server listening at https://localhost:${port}`);
+client_red.on('connect', () => {
+  console.log(`Connected to Redis.`);
+  mongoose
+    .connect(
+      `mongodb://${client_mongo.user}:${client_mongo.password}@${client_mongo.host}:${client_mongo.port}/`,
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      }
+    )
+    .then(async (response) => {
+      console.log(
+        `Connected to MongoDB. Database name: "${response.connections[0].name}"`
+      );
+      http.createServer(app).listen(port, () => {
+        console.log(`API server listening at http://localhost:${port}`);
+      });
     });
-  });
+});
+
+client_red.on('error', (err) => {
+  console.error('Error connecting to Redis', err);
+});
