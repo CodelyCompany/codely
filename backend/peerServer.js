@@ -101,8 +101,10 @@ io.on('connection', async (socket) => {
         secondUser.emit('game-won');
         firstUser.emit('game-lost');
       }
+      await client.set(`game-${mess}-finished`, 'true');
+      return;
     }
-    await client.set(`game-${mess}-finished`, 'true');
+    await io.to(`/game-${mess}`).emit('game-closed');
   });
   joinGame();
 });

@@ -19,7 +19,8 @@ const Transition = forwardRef(function Transition(props, ref) {
 });
 
 const FinishDialog = ({ open, setOpen, won }) => {
-  const handleClose = () => {
+  const handleClose = (event, reason) => {
+    if (reason && reason === 'backdropClick') return;
     setOpen(false);
   };
 
