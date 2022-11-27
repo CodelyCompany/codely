@@ -7,6 +7,7 @@ const { v4: uuidv4 } = require('uuid');
 const Exercise = require('./models/Exercise');
 const _ = require('lodash');
 const client = require('./config/redisClient');
+const { pick } = require('lodash');
 
 app.use(
   cors({
@@ -35,22 +36,69 @@ const getRandomExercise = async () => {
   return pickedEx._id;
 };
 
-const joinGame = () => {
+const hasCommonLanguage = (firstArr, secondArr) => {
+  return firstArr.filter((el) => secondArr.includes(el)).length > 0;
+};
+
+const hasMatching = (firstUsr, secondUsr, matchings) => {
+  return (
+    matchings.filter(
+      (el) =>
+        (el.first === firstUsr && el.second === secondUsr) ||
+        (el.second === firstUsr && el.first === secondUsr)
+    ).length > 0
+  );
+};
+
+const joinGame = async () => {
   const rooms = io.of('/').adapter.rooms;
   const ids = Array.from(rooms.get('/waiting'));
   if (ids.length >= 2) {
-    const generatedRoomId = uuidv4();
     const users = io.sockets.adapter.nsp.sockets;
-    [0, 1].forEach((num) => {
-      users.get(ids[num]).leave('/waiting');
-      users.get(ids[num]).join(`/game-${generatedRoomId}`);
-      users.get(ids[num]).emit('game', generatedRoomId);
+    const connectedUsers = Array.from(users).map((el) => el[0]);
+    let pickedLanguages = [];
+    let userPointer = 0;
+    let commons = [];
+    while (pickedLanguages.length !== connectedUsers.length) {
+      const languages = await client.get(`user-${connectedUsers[userPointer]}`);
+      if (languages) {
+        pickedLanguages.push({
+          user: connectedUsers[userPointer],
+          languages: JSON.parse(languages),
+        });
+        userPointer++;
+      }
+    }
+    for (const i of pickedLanguages) {
+      for (const j of pickedLanguages) {
+        if (i.user === j.user) continue;
+        if (hasMatching(i.user, j.user, commons)) continue;
+        if (hasCommonLanguage(i.languages, j.languages)) {
+          commons.push({
+            first: i.user,
+            second: j.user,
+            commons: i.languages.filter((el) => j.languages.includes(el)),
+          });
+        }
+      }
+    }
+    commons.forEach((pair) => {
+      const generatedRoomId = uuidv4();
+      const firstUsr = users.get(pair.first);
+      const secondUsr = users.get(pair.second);
+      const language = _.random(0, pair.commons.length - 1);
+      firstUsr.leave('/waiting');
+      secondUsr.leave('/waiting');
+      firstUsr.join(`/game-${generatedRoomId}`);
+      console.log(`/game-${generatedRoomId}`);
+      secondUsr.join(`/game-${generatedRoomId}`);
+      firstUsr.emit('game', generatedRoomId);
+      secondUsr.emit('game', generatedRoomId);
     });
   }
 };
 
 const cancelGame = (id) => {
-  console.log(io.of('/').adapter.rooms.get(`/game-${id}`));
   const room = Array.from(io.of('/').adapter.rooms.get(`/game-${id}`));
   const users = io.sockets.adapter.nsp.sockets;
   [0, 1].forEach((num) => {
@@ -61,16 +109,25 @@ const cancelGame = (id) => {
 
 io.on('connection', async (socket) => {
   socket.join('/waiting');
+
   const room = io.of('/').adapter.rooms.get('/waiting') ?? [];
   io.to('/waiting').emit('players', Array.from(room).length);
+
   socket.on('disconnect', () => {
     const room = io.of('/').adapter.rooms.get('/waiting') ?? [];
     io.to('/waiting').emit('players', Array.from(room).length);
   });
+
   socket.on('game-close', (mess) => {
     io.to(`/game-${mess}`).emit('session-close', 'close');
     cancelGame(mess);
   });
+
+  socket.on('game-preferences', async (mess) => {
+    const parsedMess = JSON.parse(mess);
+    await client.set(`user-${socket.id}`, JSON.stringify(parsedMess.languages));
+  });
+
   socket.on('game-accept', async (mess) => {
     const acceptation = JSON.parse(mess);
     const rooms = await client.lrange(
@@ -92,6 +149,7 @@ io.on('connection', async (socket) => {
       acceptation.userId
     );
   });
+
   socket.on('game-finished', async (mess) => {
     const isFinished = await client.get(`game-${mess}-finished`);
     if (!isFinished) {
