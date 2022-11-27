@@ -15,6 +15,7 @@ import GetToken from './GetToken';
 import SectionWrapper from './SectionWrapper';
 import UncheckedExercises from './UncheckedExercises';
 import UserExercisesList from './UserExercisesList';
+import VersusResults from './VersusResults';
 import WrittenReviews from './WrittenReviews';
 
 const UserDetails = ({ GetUsers, token }) => {
@@ -92,6 +93,15 @@ const UserDetails = ({ GetUsers, token }) => {
             condition={!_.isEmpty(foundUser.writtenReviews)}
           >
             <WrittenReviews reviews={foundUser.writtenReviews} />
+          </SectionWrapper>
+          <SectionWrapper
+            mode="versus"
+            condition={foundUser.wonVersus > 0 || foundUser.lostVersus > 0}
+          >
+            <VersusResults
+              won={foundUser.wonVersus}
+              lost={foundUser.lostVersus}
+            />
           </SectionWrapper>
         </Box>
       )}
