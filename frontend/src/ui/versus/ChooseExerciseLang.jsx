@@ -20,7 +20,9 @@ const ChooseExerciseLang = ({ formik }) => {
                 <Checkbox
                   id={el}
                   name="checked"
-                  checked={formik.values.checked.includes(el.toLowerCase())}
+                  checked={formik.values.checked.includes(
+                    el === 'C++' ? 'cpp' : el.toLowerCase()
+                  )}
                   value={el === 'C++' ? 'cpp' : el.toLowerCase()}
                   onChange={formik.handleChange}
                 />

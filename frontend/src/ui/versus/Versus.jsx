@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 
 import { Box, Button, Container, Typography } from '@mui/material';
 import { useFormik } from 'formik';
-import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { io } from 'socket.io-client';
@@ -35,6 +34,12 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
     onSubmit: (values) => {
       const socket = io('http://localhost:5002/');
       ConnectSocket(socket);
+      socket.emit(
+        'game-preferences',
+        JSON.stringify({
+          languages: values.checked,
+        })
+      );
       setTime(0);
     },
   });
