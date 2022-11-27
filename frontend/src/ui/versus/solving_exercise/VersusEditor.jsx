@@ -19,7 +19,6 @@ const VersusEditor = ({ code, setCode, language, functionSignature }) => {
         width: '100%',
         border: '3px solid rgb(25, 118, 210)',
         borderRadius: '5px',
-        marginBottom: '50px',
       }}
     >
       <Editor

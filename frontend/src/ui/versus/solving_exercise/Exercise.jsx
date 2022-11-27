@@ -22,6 +22,8 @@ import { GetExercises } from '../../../ducks/exercises/operations';
 import { getExerciseById } from '../../../ducks/exercises/selectors';
 import { getSocket } from '../../../ducks/socket/selectors';
 import { getToken } from '../../../ducks/token/selectors';
+import OutputField from '../../code_editor/OutputField';
+import CustomArgs from '../../exercises/editor_to_exercises/CustomArgs';
 import GetToken from '../../user/GetToken';
 
 import Buttons from './Buttons';
@@ -38,7 +40,9 @@ const Exercise = ({ GetExercises, token, socket }) => {
   const [opponentFinish, setOpponentFinish] = useState(false);
   const yourInteveral = useRef({});
   const opponentInteveral = useRef({});
+  const [argumentValues, setArgumentValues] = useState([]);
   const [open, setOpen] = useState(false);
+  const [output, setOutput] = useState('');
 
   const getTime = (time) =>
     `${Math.floor(time / 60)}:${
@@ -246,14 +250,27 @@ const Exercise = ({ GetExercises, token, socket }) => {
               </ListItem>
             </List>
           </Box>
-          <Box>
-            <Buttons code={code} won={!opponentFinish} />
+          <Box sx={{ marginBottom: '50px' }}>
+            <CustomArgs
+              args={exercise.argumentsName}
+              argumentValues={argumentValues}
+              setArgumentValues={setArgumentValues}
+            />
+            <Buttons
+              code={code}
+              won={!opponentFinish}
+              setOutput={setOutput}
+              functionName={exercise.functionName}
+              argumentValues={argumentValues}
+              language={exercise.programmingLanguage}
+            />
             <VersusEditor
               code={code}
               setCode={setCode}
               language={exercise.programmingLanguage}
               functionSignature={exercise.functionSignature}
             />
+            {output && <OutputField output={output} />}
           </Box>
         </Container>
       </>

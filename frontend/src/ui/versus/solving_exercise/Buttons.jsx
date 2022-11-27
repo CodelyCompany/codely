@@ -13,12 +13,44 @@ import { getUserByUsername } from '../../../ducks/user/selectors';
 import SubmitAlert from '../../popups/SubmitAlert';
 import GetToken from '../../user/GetToken';
 
-const Buttons = ({ socket, code, won, token }) => {
+const Buttons = ({
+  socket,
+  code,
+  won,
+  token,
+  setOutput,
+  functionName,
+  argumentValues,
+  language,
+}) => {
   const { user } = useAuth0();
   const { roomId, id } = useParams();
   const [triggered, setTriggered] = useState(false);
   const foundUser = useSelector(getUserByUsername(user.nickname));
   const [passed, setPassed] = useState(false);
+
+  const runCode = (code) => {
+    axios
+      .post(
+        `${
+          process.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
+        }/${language.toLowerCase() === 'c++' ? 'cpp' : language.toLowerCase()}`,
+        {
+          toExecute: code,
+          func: functionName,
+          args: argumentValues,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        setOutput(response.data.output.toString());
+      })
+      .catch((err) => console.log(err));
+  };
 
   const finishEx = () => {
     axios
@@ -62,7 +94,9 @@ const Buttons = ({ socket, code, won, token }) => {
           margin: '10px 0',
         }}
       >
-        <Button variant="contained">Run</Button>
+        <Button variant="contained" onClick={() => runCode(code)}>
+          Run
+        </Button>
         <Button variant="contained" onClick={finishEx}>
           Submit
         </Button>
@@ -83,4 +117,8 @@ Buttons.propTypes = {
   code: PropTypes.string.isRequired,
   won: PropTypes.bool.isRequired,
   token: PropTypes.string,
+  setOutput: PropTypes.func.isRequired,
+  functionName: PropTypes.string.isRequired,
+  argumentValues: PropTypes.array.isRequired,
+  language: PropTypes.string.isRequired,
 };
