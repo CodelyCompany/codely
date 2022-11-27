@@ -247,7 +247,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
             </List>
           </Box>
           <Box>
-            <Buttons />
+            <Buttons code={code} won={!opponentFinish} />
             <VersusEditor
               code={code}
               setCode={setCode}
