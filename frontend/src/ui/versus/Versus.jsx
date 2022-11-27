@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 
 import { Box, Button, Container, Typography } from '@mui/material';
+import { useFormik } from 'formik';
 import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { io } from 'socket.io-client';
+import * as yup from 'yup';
 
 import { ConnectSocket, DisconnectSocket } from '../../ducks/socket/actions';
 import { getSocket } from '../../ducks/socket/selectors';
 
+import ChooseExerciseLang from './ChooseExerciseLang';
 import PlayersCounter from './PlayersCounter';
 import SearchingGame from './SearchingGame';
 
@@ -17,10 +20,27 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
   const [time, setTime] = useState(0);
   const [found, setFound] = useState(null);
 
+  const validateVersusLanguages = yup.object({
+    checked: yup
+      .array()
+      .of(yup.string())
+      .min(1, 'You have to pick at least one language'),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      checked: [],
+    },
+    validationSchema: validateVersusLanguages,
+    onSubmit: (values) => {
+      const socket = io('http://localhost:5002/');
+      ConnectSocket(socket);
+      setTime(0);
+    },
+  });
+
   const connect = () => {
-    const socket = io('http://localhost:5002/');
-    ConnectSocket(socket);
-    setTime(0);
+    formik.submitForm();
   };
 
   useEffect(() => {
@@ -44,6 +64,7 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
 
   return (
     <Container sx={{ display: 'flex', flexDirection: 'column' }}>
+      {!socket && <ChooseExerciseLang formik={formik} />}
       {socket && <PlayersCounter socket={socket} />}
       {socket && (
         <SearchingGame
