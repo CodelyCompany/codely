@@ -38,6 +38,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
   const { user } = useAuth0();
   const navigate = useNavigate();
   const [toDelete, setToDelete] = useState(false);
+  const [argumentValues, setArgumentValues] = useState([]);
 
   useEffect(() => {
     if (_.isEmpty(exercise)) {
@@ -166,6 +167,9 @@ const ExerciseDetail = ({ GetExercises, token }) => {
           </Box>
           <Box>
             <EditorField
+              argumentValues={argumentValues}
+              setArgumentValues={setArgumentValues}
+              args={exercise.argumentsName}
               language={exercise.programmingLanguage}
               functionSignature={exercise.functionSignature}
             />
