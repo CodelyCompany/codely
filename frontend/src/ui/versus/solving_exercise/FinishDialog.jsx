@@ -10,17 +10,43 @@ import {
   Slide,
 } from '@mui/material';
 import { PropTypes } from 'prop-types';
+import { connect } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import lostImage from '../../../coffin-dance.png';
+import { ConnectSocket, DisconnectSocket } from '../../../ducks/socket/actions';
 import wonImage from '../../../easy-peasy.png';
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const FinishDialog = ({ open, setOpen, won }) => {
+const FinishDialog = ({
+  open,
+  setOpen,
+  won,
+  ConnectSocket,
+  DisconnectSocket,
+}) => {
+  const navigate = useNavigate();
+
   const handleClose = (event, reason) => {
     if (reason && reason === 'backdropClick') return;
+    setOpen(false);
+  };
+
+  const handleQuit = (event, reason) => {
+    if (reason && reason === 'backdropClick') return;
+    DisconnectSocket();
+    navigate('/user');
+    setOpen(false);
+  };
+
+  const handleFindNewVersus = (event, reason) => {
+    if (reason && reason === 'backdropClick') return;
+    DisconnectSocket();
+    navigate('/versus');
+    ConnectSocket();
     setOpen(false);
   };
 
@@ -61,14 +87,14 @@ const FinishDialog = ({ open, setOpen, won }) => {
         </DialogContent>
         <DialogActions>
           <Button
-            onClick={handleClose}
+            onClick={handleQuit}
             color={won ? 'success' : 'error'}
             variant="contained"
           >
             Quit
           </Button>
           <Button
-            onClick={handleClose}
+            onClick={handleFindNewVersus}
             color={won ? 'success' : 'error'}
             variant="contained"
           >
@@ -80,10 +106,17 @@ const FinishDialog = ({ open, setOpen, won }) => {
   );
 };
 
-export default FinishDialog;
+const mapDispatchToProps = {
+  ConnectSocket,
+  DisconnectSocket,
+};
+
+export default connect(null, mapDispatchToProps)(FinishDialog);
 
 FinishDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
   won: PropTypes.bool.isRequired,
+  ConnectSocket: PropTypes.func.isRequired,
+  DisconnectSocket: PropTypes.func.isRequired,
 };
