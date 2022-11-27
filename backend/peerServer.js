@@ -50,6 +50,7 @@ const joinGame = () => {
 };
 
 const cancelGame = (id) => {
+  console.log(io.of('/').adapter.rooms.get(`/game-${id}`));
   const room = Array.from(io.of('/').adapter.rooms.get(`/game-${id}`));
   const users = io.sockets.adapter.nsp.sockets;
   [0, 1].forEach((num) => {
@@ -60,17 +61,11 @@ const cancelGame = (id) => {
 
 io.on('connection', async (socket) => {
   socket.join('/waiting');
-  socket.emit('players', Array.from(io.sockets.sockets.keys()).length);
-  socket.broadcast.emit(
-    'players',
-    Array.from(io.sockets.sockets.keys()).length
-  );
+  const room = io.of('/').adapter.rooms.get('/waiting') ?? [];
+  io.to('/waiting').emit('players', Array.from(room).length);
   socket.on('disconnect', () => {
-    socket.emit('players', Array.from(io.sockets.sockets.keys()).length);
-    socket.broadcast.emit(
-      'players',
-      Array.from(io.sockets.sockets.keys()).length
-    );
+    const room = io.of('/').adapter.rooms.get('/waiting') ?? [];
+    io.to('/waiting').emit('players', Array.from(room).length);
   });
   socket.on('game-close', (mess) => {
     io.to(`/game-${mess}`).emit('session-close', 'close');

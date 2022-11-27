@@ -29,10 +29,10 @@ const VersusFound = ({
 
   const handleClose = (event, reason) => {
     if (reason && reason === 'backdropClick') return;
-    DisconnectSocket();
-    setOpen(false);
     socket.emit('game-close', id);
     socket.disconnect();
+    DisconnectSocket();
+    setOpen(false);
   };
 
   const handleAccept = () => {
