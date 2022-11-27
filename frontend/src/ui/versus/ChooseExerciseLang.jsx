@@ -9,7 +9,7 @@ const ChooseExerciseLang = ({ formik }) => {
   return (
     <Paper elevation={3} sx={{ padding: '10px', margin: '10px 0' }}>
       <Typography variant="h6" color="primary" fontWeight={'bolder'}>
-        Pick languages your languages
+        Pick your languages
       </Typography>
       <form>
         <div role="group" aria-labelledby="checkbox-group">
@@ -20,6 +20,7 @@ const ChooseExerciseLang = ({ formik }) => {
                 <Checkbox
                   id={el}
                   name="checked"
+                  checked={formik.values.checked.includes(el.toLowerCase())}
                   value={el === 'C++' ? 'cpp' : el.toLowerCase()}
                   onChange={formik.handleChange}
                 />
