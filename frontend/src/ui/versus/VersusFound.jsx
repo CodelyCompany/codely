@@ -23,6 +23,7 @@ const VersusFound = ({
   DisconnectSocket,
   accepted,
   setAccepted,
+  language,
 }) => {
   const { user } = useAuth0();
   const foundUser = useSelector(getUserByUsername(user.nickname));
@@ -38,7 +39,7 @@ const VersusFound = ({
   const handleAccept = () => {
     socket.emit(
       'game-accept',
-      JSON.stringify({ roomId: id, userId: foundUser._id })
+      JSON.stringify({ roomId: id, userId: foundUser._id, language })
     );
     setAccepted(true);
   };
@@ -101,4 +102,5 @@ VersusFound.propTypes = {
   DisconnectSocket: PropTypes.func.isRequired,
   accepted: PropTypes.bool,
   setAccepted: PropTypes.func.isRequired,
+  language: PropTypes.string,
 };

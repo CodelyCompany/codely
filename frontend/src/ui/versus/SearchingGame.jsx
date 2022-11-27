@@ -10,10 +10,13 @@ const SearchingGame = ({ socket, setFound, found, DisconnectSocket }) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [accepted, setAccepted] = useState(false);
+  const [language, setLanguage] = useState(null);
 
   useEffect(() => {
-    socket.on('game', (id) => {
-      setFound(id);
+    socket.on('game', (mess) => {
+      const parsedMess = JSON.parse(mess);
+      setFound(parsedMess.game);
+      setLanguage(parsedMess.language);
       setOpen(true);
     });
     socket.on('session-close', () => {
@@ -36,6 +39,7 @@ const SearchingGame = ({ socket, setFound, found, DisconnectSocket }) => {
   return (
     <>
       <VersusFound
+        language={language}
         open={open}
         setOpen={setOpen}
         socket={socket}
