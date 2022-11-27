@@ -9,6 +9,7 @@ const SectionWrapper = ({ children, mode, condition }) => {
     if (mode === 'done') return "You didn't finish any exercises";
     if (mode === 'unchecked')
       return "You don't have any exercises waiting for approval";
+    if (mode === 'versus') return "You didn't play any versuses";
     return "You didn't prepare any exercises";
   };
 
