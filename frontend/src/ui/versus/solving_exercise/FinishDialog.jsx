@@ -12,6 +12,7 @@ import {
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { io } from 'socket.io-client';
 
 import lostImage from '../../../coffin-dance.png';
 import { ConnectSocket, DisconnectSocket } from '../../../ducks/socket/actions';
@@ -38,16 +39,17 @@ const FinishDialog = ({
   const handleQuit = (event, reason) => {
     if (reason && reason === 'backdropClick') return;
     DisconnectSocket();
-    navigate('/user');
     setOpen(false);
+    navigate('/user');
   };
 
   const handleFindNewVersus = (event, reason) => {
     if (reason && reason === 'backdropClick') return;
     DisconnectSocket();
-    navigate('/versus');
-    ConnectSocket();
+    const socket = io('http://localhost:5002/');
+    ConnectSocket(socket);
     setOpen(false);
+    navigate('/versus');
   };
 
   return (
