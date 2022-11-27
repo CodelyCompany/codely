@@ -18,6 +18,7 @@ const EditorField = ({
   args,
   argumentValues,
   setArgumentValues,
+  functionName,
 }) => {
   const [code, setCode] = useState(functionSignature);
   const [output, setOutput] = useState('');
@@ -36,11 +37,13 @@ const EditorField = ({
           argumentValues={argumentValues}
         />
         <Buttons
+          argumentValues={argumentValues}
           setOutput={setOutput}
           code={code}
           language={language}
           tests={tests}
           setTests={setTests}
+          functionName={functionName}
         />
       </Box>
 
@@ -74,4 +77,5 @@ EditorField.propTypes = {
   args: PropTypes.array,
   argumentValues: PropTypes.array,
   setArgumentValues: PropTypes.func.isRequired,
+  functionName: PropTypes.string.isRequired,
 };

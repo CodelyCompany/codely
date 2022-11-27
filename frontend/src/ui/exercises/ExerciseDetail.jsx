@@ -167,6 +167,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
           </Box>
           <Box>
             <EditorField
+              functionName={exercise.functionName}
               argumentValues={argumentValues}
               setArgumentValues={setArgumentValues}
               args={exercise.argumentsName}

@@ -15,7 +15,16 @@ import RunAlert from '../../popups/RunAlert';
 import SubmitAlert from '../../popups/SubmitAlert';
 import GetToken from '../../user/GetToken';
 
-const Buttons = ({ setOutput, code, language, setTests, tests, token }) => {
+const Buttons = ({
+  setOutput,
+  code,
+  language,
+  setTests,
+  tests,
+  token,
+  argumentValues,
+  functionName,
+}) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { user } = useAuth0();
@@ -32,6 +41,8 @@ const Buttons = ({ setOutput, code, language, setTests, tests, token }) => {
         }/${language.toLowerCase() === 'c++' ? 'cpp' : language.toLowerCase()}`,
         {
           toExecute: code,
+          func: functionName,
+          args: argumentValues,
         },
         {
           headers: {
@@ -121,4 +132,6 @@ Buttons.propTypes = {
   setTests: PropTypes.func,
   tests: PropTypes.object,
   token: PropTypes.string,
+  argumentValues: PropTypes.array.isRequired,
+  functionName: PropTypes.string.isRequired,
 };
