@@ -260,19 +260,18 @@ router.put('/checkVersus/:exerciseId', async (req, res) => {
     if (counterCorrect === exercise.tests.length) {
       const user = await User.findById(data.user);
       const versusResult = {
-        wonVersus: data.won ? user.wonVersus + 1 : data.won,
+        wonVersus: data.won ? user.wonVersus + 1 : user.wonVersus,
         lostVersus: data.won ? user.lostVersus : user.lostVersus + 1,
       };
       if (!user.doneExercises.includes(exercise._id)) {
         await User.findByIdAndUpdate(data.user, {
           doneExercises: [...user.doneExercises, exercise._id],
-          ...versusResult,
         });
       }
       await Exercise.findByIdAndUpdate(id, {
         doneCounter: exercise.doneCounter + 1,
-        ...versusResult,
       });
+      await User.findByIdAndUpdate(data.user, versusResult);
     }
     return res
       .status(200)
