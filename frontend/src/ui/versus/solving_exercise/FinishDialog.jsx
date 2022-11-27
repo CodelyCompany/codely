@@ -12,23 +12,16 @@ import {
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { io } from 'socket.io-client';
 
 import lostImage from '../../../coffin-dance.png';
-import { ConnectSocket, DisconnectSocket } from '../../../ducks/socket/actions';
+import { DisconnectSocket } from '../../../ducks/socket/actions';
 import wonImage from '../../../easy-peasy.png';
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const FinishDialog = ({
-  open,
-  setOpen,
-  won,
-  ConnectSocket,
-  DisconnectSocket,
-}) => {
+const FinishDialog = ({ open, setOpen, won, DisconnectSocket }) => {
   const navigate = useNavigate();
 
   const handleClose = (event, reason) => {
@@ -46,8 +39,6 @@ const FinishDialog = ({
   const handleFindNewVersus = (event, reason) => {
     if (reason && reason === 'backdropClick') return;
     DisconnectSocket();
-    const socket = io('http://localhost:5002/');
-    ConnectSocket(socket);
     setOpen(false);
     navigate('/versus');
   };
@@ -109,7 +100,6 @@ const FinishDialog = ({
 };
 
 const mapDispatchToProps = {
-  ConnectSocket,
   DisconnectSocket,
 };
 
@@ -119,6 +109,5 @@ FinishDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
   won: PropTypes.bool.isRequired,
-  ConnectSocket: PropTypes.func.isRequired,
   DisconnectSocket: PropTypes.func.isRequired,
 };
