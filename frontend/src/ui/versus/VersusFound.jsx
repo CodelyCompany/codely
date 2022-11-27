@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useAuth0 } from '@auth0/auth0-react';
 import {
   Box,
   Button,
@@ -10,6 +11,9 @@ import {
   DialogTitle,
 } from '@mui/material';
 import { PropTypes } from 'prop-types';
+import { useSelector } from 'react-redux';
+
+import { getUserByUsername } from '../../ducks/user/selectors';
 
 const VersusFound = ({
   open,
@@ -20,6 +24,9 @@ const VersusFound = ({
   accepted,
   setAccepted,
 }) => {
+  const { user } = useAuth0();
+  const foundUser = useSelector(getUserByUsername(user.nickname));
+
   const handleClose = (event, reason) => {
     if (reason && reason === 'backdropClick') return;
     DisconnectSocket();
@@ -29,7 +36,10 @@ const VersusFound = ({
   };
 
   const handleAccept = () => {
-    socket.emit('game-accept', id);
+    socket.emit(
+      'game-accept',
+      JSON.stringify({ roomId: id, userId: foundUser._id })
+    );
     setAccepted(true);
   };
 

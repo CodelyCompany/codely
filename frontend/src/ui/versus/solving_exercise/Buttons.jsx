@@ -23,7 +23,7 @@ const Buttons = ({ socket, code, won, token }) => {
   const finishEx = () => {
     axios
       .put(
-        `${process.env.REACT_APP_BACKEND}/exercises/checkVersus/${id}`,
+        `${process.env.REACT_APP_BACKEND}/exercises/checkVersus/${id}/room/${roomId}`,
         {
           user: foundUser._id,
           won,

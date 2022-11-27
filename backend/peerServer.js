@@ -77,29 +77,46 @@ io.on('connection', async (socket) => {
     cancelGame(mess);
   });
   socket.on('game-accept', async (mess) => {
-    const rooms = await client.lrange(`game-${mess}-acceptation`, 0, -1);
+    const acceptation = JSON.parse(mess);
+    const rooms = await client.lrange(
+      `game-${acceptation.roomId}-acceptation`,
+      0,
+      -1
+    );
     if (rooms && rooms.length) {
-      io.to(`/game-${mess}`).emit(
+      io.to(`/game-${acceptation.roomId}`).emit(
         'game-accepted',
-        JSON.stringify({ roomId: mess, exId: await getRandomExercise() })
+        JSON.stringify({
+          roomId: acceptation.roomId,
+          exId: await getRandomExercise(),
+        })
       );
     }
-    await client.lpush(`game-${mess}-acceptation`, 'accepted');
+    await client.lpush(
+      `game-${acceptation.roomId}-acceptation`,
+      acceptation.userId
+    );
   });
   socket.on('game-finished', async (mess) => {
     const isFinished = await client.get(`game-${mess}-finished`);
     if (!isFinished) {
       const room = Array.from(io.of('/').adapter.rooms.get(`/game-${mess}`));
       const users = io.sockets.adapter.nsp.sockets;
-      const firstUser = users.get(room[0]);
-      const secondUser = users.get(room[1]);
-      if (socket.id === room[0]) {
-        firstUser.emit('game-won');
-        secondUser.emit('game-lost');
+      if (Array.from(users).length >= 2) {
+        const firstUser = users.get(room[0]);
+        const secondUser = users.get(room[1]);
+        if (socket.id === room[0]) {
+          firstUser.emit('game-won');
+          secondUser.emit('game-lost');
+        }
+        if (socket.id === room[1]) {
+          secondUser.emit('game-won');
+          firstUser.emit('game-lost');
+        }
       }
-      if (socket.id === room[1]) {
-        secondUser.emit('game-won');
-        firstUser.emit('game-lost');
+      if (Array.from(users).length === 1) {
+        const user = users.get(room[0]);
+        user.emit('game-won');
       }
       await client.set(`game-${mess}-finished`, 'true');
       return;
