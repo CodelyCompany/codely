@@ -26,8 +26,22 @@ const io = socket(server, {
   },
 });
 
-const getRandomExercise = async () => {
+const getRandomExercise = async (language) => {
   const exercises = await Exercise.aggregate([
+    {
+      $addFields: {
+        language: {
+          $toLower: '$programmingLanguage',
+        },
+      },
+    },
+    {
+      $match: {
+        language: {
+          $eq: language,
+        },
+      },
+    },
     {
       $project: { _id: 1 },
     },
@@ -82,18 +96,20 @@ const joinGame = async () => {
         }
       }
     }
-    commons.forEach((pair) => {
+    commons.forEach(async (pair) => {
       const generatedRoomId = uuidv4();
-      const firstUsr = users.get(pair.first);
-      const secondUsr = users.get(pair.second);
       const language = _.random(0, pair.commons.length - 1);
-      firstUsr.leave('/waiting');
-      secondUsr.leave('/waiting');
-      firstUsr.join(`/game-${generatedRoomId}`);
-      console.log(`/game-${generatedRoomId}`);
-      secondUsr.join(`/game-${generatedRoomId}`);
-      firstUsr.emit('game', generatedRoomId);
-      secondUsr.emit('game', generatedRoomId);
+      [users.get(pair.first), users.get(pair.second)].forEach((matchedUser) => {
+        matchedUser.leave('/waiting');
+        matchedUser.join(`/game-${generatedRoomId}`);
+        matchedUser.emit(
+          'game',
+          JSON.stringify({
+            game: generatedRoomId,
+            language: pair.commons[language],
+          })
+        );
+      });
     });
   }
 };
@@ -140,7 +156,7 @@ io.on('connection', async (socket) => {
         'game-accepted',
         JSON.stringify({
           roomId: acceptation.roomId,
-          exId: await getRandomExercise(),
+          exId: await getRandomExercise(acceptation.language),
         })
       );
     }
