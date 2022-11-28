@@ -7,8 +7,4 @@ COPY . .
 FROM node:16.13.0-alpine
 WORKDIR /opt/app
 COPY --from=builder /opt/app  .
-# COPY --from=builder /opt/app/.cert/server.pem /usr/local/share/ca-certificates/
-# RUN cat /usr/local/share/ca-certificates/server.pem >> /etc/ssl/certs/ca-certificates.crt && \
-#     apk --no-cache add \
-#         curl
 CMD ["yarn","dev"]

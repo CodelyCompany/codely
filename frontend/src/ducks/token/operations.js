@@ -4,7 +4,7 @@ import { types } from './types';
 
 export const GetAuthToken = () =>
   createAction({
-    endpoint: `http://${process.env.REACT_APP_DOMAIN}/oauth/token`,
+    endpoint: `https://${process.env.REACT_APP_DOMAIN}/oauth/token`,
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

@@ -7,7 +7,7 @@ const Test = require('../models/Test');
 const axios = require('axios');
 require('dotenv').config();
 const backendContainersAddress =
-  process.env.APP_BACKEND_CONTAINERS || 'httpa://localhost:5001';
+  process.env.APP_BACKEND_CONTAINERS || 'http://localhost:5001';
 
 async function runTests(exercise, solution) {
   // const token = await axios.post(
