@@ -34,13 +34,7 @@ const Navbar = ({ GetUsers, AddUser, users, GetReviews, token }) => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const navigate = useNavigate();
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const {
-    loginWithRedirect,
-    isAuthenticated,
-    logout,
-    user,
-    getAccessTokenSilently,
-  } = useAuth0();
+  const { loginWithRedirect, isAuthenticated, logout, user } = useAuth0();
 
   const settings =
     user && user.nickname === 'admin'
@@ -131,7 +125,7 @@ const Navbar = ({ GetUsers, AddUser, users, GetReviews, token }) => {
             variant="h5"
             noWrap
             component="a"
-            href=""
+            onClick={() => navigate('/')}
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
