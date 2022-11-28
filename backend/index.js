@@ -51,6 +51,8 @@ client_red.on('connect', () => {
       http.createServer(app).listen(port, () => {
         console.log(`API server listening at http://localhost:${port}`);
       });
+    });
+});
 
 client_red.on('error', (err) => {
   console.error('Error connecting to Redis', err);
