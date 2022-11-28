@@ -5,7 +5,7 @@ import { types } from './types';
 export const GetExercises = (token = null) =>
   createAction({
     endpoint: `${
-      process.env.REACT_APP_BACKEND || 'https://localhost:5000'
+      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
     }/exercises/checked`,
     method: 'GET',
     headers: {
@@ -28,7 +28,7 @@ export const GetExercises = (token = null) =>
 export const GetUncheckedExercises = (token = null) =>
   createAction({
     endpoint: `${
-      process.env.REACT_APP_BACKEND || 'https://localhost:5000'
+      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
     }/exercises/unchecked`,
     method: 'GET',
     headers: {
@@ -51,7 +51,7 @@ export const GetUncheckedExercises = (token = null) =>
 export const AddExercise = (body, token = null) =>
   createAction({
     endpoint: `${
-      process.env.REACT_APP_BACKEND || 'https://localhost:5000'
+      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
     }/exercises/addExercise`,
     method: 'POST',
     body: JSON.stringify(body),
@@ -75,7 +75,7 @@ export const AddExercise = (body, token = null) =>
 export const DeleteExercise = (id, token = null) =>
   createAction({
     endpoint: `${
-      process.env.REACT_APP_BACKEND || 'https://localhost:5000'
+      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
     }/exercises/deleteExercise/${id}`,
     method: 'DELETE',
     headers: {
@@ -121,7 +121,7 @@ export const DeleteUncheckedExercise = (id, token = null) =>
 export const UpdateExercise = (body, token = null) =>
   createAction({
     endpoint: `${
-      process.env.REACT_APP_BACKEND || 'https://localhost:5000'
+      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
     }/exercises/editExercise/`,
     method: 'PUT',
     body: JSON.stringify({ ...body, checked: false }),
@@ -145,7 +145,7 @@ export const UpdateExercise = (body, token = null) =>
 export const GetExercise = (id, token = null) =>
   createAction({
     endpoint: `${
-      process.env.REACT_APP_BACKEND || 'https://localhost:5000'
+      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
     }/exercises/${id}`,
     method: 'GET',
     headers: {
@@ -168,7 +168,7 @@ export const GetExercise = (id, token = null) =>
 export const CheckExercise = (id, token = null) =>
   createAction({
     endpoint: `${
-      process.env.REACT_APP_BACKEND || 'https://localhost:5000'
+      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
     }/exercises/checkExercise/${id}`,
     method: 'PUT',
     headers: {

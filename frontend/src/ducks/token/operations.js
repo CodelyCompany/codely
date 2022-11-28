@@ -4,7 +4,7 @@ import { types } from './types';
 
 export const GetAuthToken = () =>
   createAction({
-    endpoint: `https://${process.env.REACT_APP_DOMAIN}/oauth/token`,
+    endpoint: `http://${process.env.REACT_APP_DOMAIN}/oauth/token`,
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -13,7 +13,7 @@ export const GetAuthToken = () =>
       client_id: process.env.REACT_APP_CONTAINERS_CLIENT_ID,
       client_secret: process.env.REACT_APP_CONTAINERS_CLIENT_SECRET,
       audience: `${
-        process.env.REACT_APP_CONTAINERS_ADDRESS || 'https://localhost:5001'
+        process.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
       }`,
       grant_type: 'client_credentials',
     },

@@ -23,7 +23,7 @@ const RunButton = ({ code, setOutput, language }) => {
 
     // (async () => {
     //   await axios
-    //     .post(`https://${process.env.REACT_APP_DOMAIN}/oauth/token`, {
+    //     .post(`http://${process.env.REACT_APP_DOMAIN}/oauth/token`, {
     //       client_id: process.env.REACT_APP_CONTAINERS_CLIENT_ID,
     //       client_secret: process.env.REACT_APP_CONTAINERS_CLIENT_SECRET,
     //       audience: `${
@@ -35,7 +35,7 @@ const RunButton = ({ code, setOutput, language }) => {
     axios
       .post(
         `${
-          process.env.REACT_APP_CONTAINERS_ADDRESS || 'https://localhost:5001'
+          process.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
         }/${language.toLowerCase() === 'c++' ? 'cpp' : language.toLowerCase()}`,
         {
           toExecute: code,

@@ -12,7 +12,7 @@ import reportWebVitals from './reportWebVitals';
 import './index.css';
 
 const redirectUri =
-  process.env.REACT_APP_REDIRECT_URI || 'https://localhost:3000';
+  process.env.REACT_APP_REDIRECT_URI || 'http://localhost:3000';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 

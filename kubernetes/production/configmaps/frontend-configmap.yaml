@@ -5,6 +5,6 @@ metadata:
   name: frontend-configmap
   namespace: production
 data:
-  REACT_APP_CONTAINERS_ADDRESS: https://backend-containers:5001
-  REACT_APP_BACKEND: https://backend:5000
-  REACT_APP_REDIRECT_URI: http://codely.io
+  REACT_APP_CONTAINERS_ADDRESS: http://backend-containers:5001
+  REACT_APP_BACKEND: http://backend:5000
+  REACT_APP_REDIRECT_URI: http://localhost

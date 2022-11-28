@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const https = require('https');
+const http = require('http');
 const containers = require('./routes/containers');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
@@ -24,20 +24,21 @@ app.use(
       'https://localhost:5000',
       'https://backend:6000',
     ],
+    // origin: '*',
     methods: ['GET', 'POST', 'OPTIONS'],
   })
 );
 
-const options = {
-  key: fs.readFileSync('./.cert/server.key'),
-  cert: fs.readFileSync('./.cert/server.pem'),
-};
+// const options = {
+//   key: fs.readFileSync('./.cert/codely.io.key'),
+//   cert: fs.readFileSync('./.cert/codely.io.crt'),
+// };
 
 // app.use(jwtCheck);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/', containers);
 
 const port = process.env.PORT || 5001;
-https.createServer(options, app).listen(port, () => {
+http.createServer(app).listen(port, () => {
   console.log(`API server listening at http://localhost:${port}`);
 });

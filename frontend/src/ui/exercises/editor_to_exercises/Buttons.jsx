@@ -28,7 +28,7 @@ const Buttons = ({ setOutput, code, language, setTests, tests, token }) => {
     axios
       .post(
         `${
-          process.env.REACT_APP_CONTAINERS_ADDRESS || 'https://localhost:5001'
+          process.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
         }/${language.toLowerCase() === 'c++' ? 'cpp' : language.toLowerCase()}`,
         {
           toExecute: code,
@@ -51,7 +51,7 @@ const Buttons = ({ setOutput, code, language, setTests, tests, token }) => {
     axios
       .post(
         `${
-          process.env.REACT_APP_BACKEND || 'https://localhost:5000'
+          process.env.REACT_APP_BACKEND || 'http://localhost:5000'
         }/exercises/checkSolution/${id}`,
         { solution: code, user: foundUser._id },
         { headers: { Authorization: `Bearer ${token}` } }

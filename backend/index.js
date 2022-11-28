@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const https = require('https');
+const http = require('http');
 const users = require('./routes/users');
 const exercises = require('./routes/exercises');
 const reviews = require('./routes/reviews');
@@ -18,17 +18,20 @@ app.use(
     origin: [
       'http://localhost:3000',
       'http://frontend:3000',
+      'http://localhost',
+      'http://localhost:80',
       'https://localhost:3000',
       'https://frontend:3000',
     ],
+    // origin: '*',
     methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT'],
   })
 );
 
-const options = {
-  key: fs.readFileSync('./.cert/server.key'),
-  cert: fs.readFileSync('./.cert/server.pem'),
-};
+// const options = {
+//   key: fs.readFileSync('./.cert/codely.io.key'),
+//   cert: fs.readFileSync('./.cert/codely.io.crt'),
+// };
 
 // app.use(jwtCheck);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -66,7 +69,7 @@ mongoose
       `Connected to MongoDB. Database name: "${response.connections[0].name}"`
     );
     const port = process.env.PORT || 5000;
-    https.createServer(options, app).listen(port, () => {
+    http.createServer(app).listen(port, () => {
       console.log(`API server listening at http://localhost:${port}`);
     });
   });
