@@ -1,3 +1,5 @@
+import { createAction } from 'redux-api-middleware';
+
 import { types } from './types';
 
 export const GetNotifications = (userId, token = null) =>

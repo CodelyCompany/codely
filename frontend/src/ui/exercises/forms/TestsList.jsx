@@ -28,11 +28,24 @@ const TestsList = ({ step }) => (
     >
       Created tests
     </span>
-    <Table sx={{ minWidth: 650 }} aria-label="simple table">
-      <TableHead>
-        <TableRow>
-          {step.dataFromStep2.argumentsName.map((arg) => (
-            <TableCell key={arg} align="center">
+    {step.dataFromStep2?.argumentsName && step.dataFromStep3 && (
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            {step.dataFromStep2.argumentsName.map((arg) => (
+              <TableCell key={arg} align="center">
+                <span
+                  style={{
+                    fontWeight: 'bolder',
+                    color: 'rgb(25, 118, 210)',
+                    fontSize: '20px',
+                  }}
+                >
+                  {arg}
+                </span>
+              </TableCell>
+            ))}
+            <TableCell align="center">
               <span
                 style={{
                   fontWeight: 'bolder',
@@ -40,38 +53,27 @@ const TestsList = ({ step }) => (
                   fontSize: '20px',
                 }}
               >
-                {arg}
+                Output
               </span>
             </TableCell>
-          ))}
-          <TableCell align="center">
-            <span
-              style={{
-                fontWeight: 'bolder',
-                color: 'rgb(25, 118, 210)',
-                fontSize: '20px',
-              }}
-            >
-              Output
-            </span>
-          </TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {step.dataFromStep3.map((test) => (
-          <TableRow key={_.uniqueId()}>
-            {test.input.map((row) => (
-              <TableCell align="center" key={_.uniqueId()}>
-                <span style={{ fontWeight: 'bolder' }}>{row}</span>
-              </TableCell>
-            ))}
-            <TableCell align="center">
-              <span style={{ fontWeight: 'bolder' }}>{test.output}</span>
-            </TableCell>
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHead>
+        <TableBody>
+          {step.dataFromStep3.map((test) => (
+            <TableRow key={_.uniqueId()}>
+              {test.input.map((row) => (
+                <TableCell align="center" key={_.uniqueId()}>
+                  <span style={{ fontWeight: 'bolder' }}>{row}</span>
+                </TableCell>
+              ))}
+              <TableCell align="center">
+                <span style={{ fontWeight: 'bolder' }}>{test.output}</span>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    )}
   </TableContainer>
 );
 

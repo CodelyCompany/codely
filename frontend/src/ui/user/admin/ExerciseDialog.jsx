@@ -19,7 +19,9 @@ import {
   CheckExercise,
   DeleteUncheckedExercise,
 } from '../../../ducks/exercises/operations';
+import { AddNotification } from '../../../ducks/notifications/operations';
 import { getToken } from '../../../ducks/token/selectors';
+import { getUsers } from '../../../ducks/user/selectors';
 import GetToken from '../GetToken';
 
 function ExerciseDialog({
@@ -29,8 +31,14 @@ function ExerciseDialog({
   CheckExercise,
   token,
   DeleteUncheckedExercise,
+  AddNotification,
+  users,
 }) {
   const checkExercise = () => {
+    const userToNotify = users.find((usr) => usr.username === exercise.author);
+    AddNotification(userToNotify._id, {
+      content: `Admin accepted your exercise: ${exercise.title}`,
+    });
     CheckExercise(exercise._id, token);
     handleClose();
   };
@@ -40,6 +48,10 @@ function ExerciseDialog({
   };
 
   const deleteExercise = () => {
+    const userToNotify = users.find((usr) => usr.username === exercise.author);
+    AddNotification(userToNotify._id, {
+      content: `Admin rejected your exercise: ${exercise.title}`,
+    });
     DeleteUncheckedExercise(exercise._id, token);
     setOpen(false);
   };
@@ -189,11 +201,13 @@ function ExerciseDialog({
 
 const mapStateToProps = (state) => ({
   token: getToken(state),
+  users: getUsers(state),
 });
 
 const mapDispatchToProps = {
   CheckExercise,
   DeleteUncheckedExercise,
+  AddNotification,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExerciseDialog);
@@ -205,4 +219,6 @@ ExerciseDialog.propTypes = {
   CheckExercise: PropTypes.func,
   token: PropTypes.string,
   DeleteUncheckedExercise: PropTypes.func,
+  AddNotification: PropTypes.func.isRequired,
+  users: PropTypes.array,
 };
