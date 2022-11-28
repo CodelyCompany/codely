@@ -1,95 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: backend-deployment
-    namespace: production
-    labels:
+  name: backend-deployment
+  namespace: production
+  labels:
+    app: codely
+    type: backend
+spec:
+  selector:
+    matchLabels:
+      app: codely
+      type: backend
+  replicas: 2
+  template:
+    metadata:
+      name: backend-pod
+      labels:
         app: codely
         type: backend
-spec:
-    selector:
-        matchLabels:
-            app: codely
-            type: backend
-    replicas: 2
-    template:
-        metadata:
-            name: backend-pod
-            labels:
-                app: codely
-                type: backend
-        spec:
-            containers:
-                - name: backend-container
-                  image: mtx22/codely-backend
-                  env:
-                      - name: MONGO_HOST
-                        valueFrom:
-                            configMapKeyRef:
-                                name: backend-configmap
-                                key: MONGO_HOST
-                      - name: MONGO_PORT
-                        valueFrom:
-                            configMapKeyRef:
-                                name: backend-configmap
-                                key: MONGO_PORT
-                      - name: MONGO_DATABASE
-                        valueFrom:
-                            configMapKeyRef:
-                                name: backend-configmap
-                                key: MONGO_DATABASE
-                      - name: PORT
-                        valueFrom:
-                            configMapKeyRef:
-                                name: backend-configmap
-                                key: PORT
-                      - name: APP_BACKEND_CONTAINERS
-                        valueFrom:
-                            configMapKeyRef:
-                                name: backend-configmap
-                                key: APP_BACKEND_CONTAINERS
-                      - name: APP_AUDIENCE
-                        valueFrom:
-                            configMapKeyRef:
-                                name: backend-configmap
-                                key: APP_AUDIENCE
-                      - name: MONGO_USERNAME
-                        valueFrom:
-                            secretKeyRef:
-                                name: backend-secret
-                                key: MONGO_USERNAME
-                      - name: MONGO_PASSWORD
-                        valueFrom:
-                            secretKeyRef:
-                                name: backend-secret
-                                key: MONGO_PASSWORD
-                      - name: APP_ISSUER
-                        valueFrom:
-                            secretKeyRef:
-                                name: backend-secret
-                                key: APP_ISSUER
-                      - name: APP_JWKS_URI
-                        valueFrom:
-                            secretKeyRef:
-                                name: backend-secret
-                                key: APP_JWKS_URI
-                      - name: APP_DOMAIN
-                        valueFrom:
-                            secretKeyRef:
-                                name: backend-secret
-                                key: APP_DOMAIN
-                      - name: APP_CONTAINERS_CLIENT_ID
-                        valueFrom:
-                            secretKeyRef:
-                                name: backend-secret
-                                key: APP_CONTAINERS_CLIENT_ID
-                      - name: APP_CONTAINERS_CLIENT_SECRET
-                        valueFrom:
-                            secretKeyRef:
-                                name: backend-secret
-                                key: APP_CONTAINERS_CLIENT_SECRET
-                      - name: APP_CONTAINERS_ADDRESS
-                        valueFrom:
-                            configMapKeyRef:
-                                name: backend-configmap
-                                key: APP_CONTAINERS_ADDRESS
+    spec:
+      containers:
+        - name: backend-container
+          image: mtx22/codely-backend
+          envFrom:
+            - configMapRef:
+                name: backend-configmap
+            - secretRef:
+                name: backend-secret

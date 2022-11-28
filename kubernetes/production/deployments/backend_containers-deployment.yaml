@@ -1,40 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: backend-containers-deployment
-    namespace: production
-    labels:
+  name: backend-containers-deployment
+  namespace: production
+  labels:
+    app: codely
+    type: backend-containers
+spec:
+  selector:
+    matchLabels:
+      app: codely
+      type: backend-containers
+  replicas: 2
+  template:
+    metadata:
+      name: backend-containers-pod
+      labels:
         app: codely
         type: backend-containers
-spec:
-    selector:
-        matchLabels:
-            app: codely
-            type: backend-containers
-    replicas: 2
-    template:
-        metadata:
-            name: backend-containers-pod
-            labels:
-                app: codely
-                type: backend-containers
-        spec:
-            containers:
-                - name: backend-containers-container
-                  image: mtx22/codely-backend-containers
-                  env:
-                      - name: APP_AUDIENCE
-                        valueFrom:
-                            configMapKeyRef:
-                                key: APP_AUDIENCE
-                                name: backend-containers-configmap
-                      - name: APP_ISSUER
-                        valueFrom:
-                            secretKeyRef:
-                                name: backend-containers-secret
-                                key: APP_ISSUER
-                      - name: APP_JWKS_URI
-                        valueFrom:
-                            secretKeyRef:
-                                name: backend-containers-secret
-                                key: APP_JWKS_URI
+    spec:
+      containers:
+        - name: backend-containers-container
+          image: mtx22/codely-backend-containers
+          envFrom:
+            - configMapRef:
+                name: backend-containers-configmap
+            - secretRef:
+                name: backend-containers-secret

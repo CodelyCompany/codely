@@ -24,39 +24,8 @@ spec:
           image: mtx22/codely-frontend
           ports:
             - containerPort: 80
-          env:
-            - name: REACT_APP_CONTAINERS_ADDRESS
-              valueFrom:
-                configMapKeyRef:
-                  key: REACT_APP_CONTAINERS_ADDRESS
-                  name: frontend-configmap
-            - name: REACT_APP_BACKEND
-              valueFrom:
-                configMapKeyRef:
-                  key: REACT_APP_BACKEND
-                  name: frontend-configmap
-            - name: REACT_APP_REDIRECT_URI
-              valueFrom:
-                configMapKeyRef:
-                  key: REACT_APP_REDIRECT_URI
-                  name: frontend-configmap
-            - name: REACT_APP_DOMAIN
-              valueFrom:
-                secretKeyRef:
-                  name: frontend-secret
-                  key: REACT_APP_DOMAIN
-            - name: REACT_APP_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: frontend-secret
-                  key: REACT_APP_CLIENT_ID
-            - name: REACT_APP_CONTAINERS_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: frontend-secret
-                  key: REACT_APP_CONTAINERS_CLIENT_ID
-            - name: REACT_APP_CONTAINERS_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: frontend-secret
-                  key: REACT_APP_CONTAINERS_CLIENT_SECRET
+          envFrom:
+            - configMapRef:
+                name: frontend-configmap
+            - secretRef:
+                name: frontend-secret
