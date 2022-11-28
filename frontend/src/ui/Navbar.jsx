@@ -18,6 +18,7 @@ import {
 } from '@mui/material';
 import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
+import { IoIosMail } from 'react-icons/io';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -28,13 +29,19 @@ import { AddUser, GetUsers } from '../ducks/user/operations';
 import { getUsers } from '../ducks/user/selectors';
 import logo from '../logo.png';
 
+import NavbarMessages from './popups/NavbarMessages';
 import GetToken from './user/GetToken';
 
 const Navbar = ({ GetUsers, AddUser, users, GetReviews, token }) => {
+  const [anchorEl, setAnchorEl] = useState(null);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const navigate = useNavigate();
   const [anchorElUser, setAnchorElUser] = useState(null);
   const { loginWithRedirect, isAuthenticated, logout, user } = useAuth0();
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
   const settings =
     user && user.nickname === 'admin'
@@ -160,6 +167,19 @@ const Navbar = ({ GetUsers, AddUser, users, GetReviews, token }) => {
               </Button>
             ))}
           </Box>
+          {isAuthenticated && (
+            <>
+              <IoIosMail
+                onClick={handleClick}
+                style={{
+                  marginRight: '35px',
+                  fontSize: '30px',
+                  cursor: 'pointer',
+                }}
+              />
+              <NavbarMessages anchorEl={anchorEl} setAnchorEl={setAnchorEl} />
+            </>
+          )}
           <Box sx={{ flexGrow: 0 }}>
             {isAuthenticated && (
               <Tooltip title="Open settings">

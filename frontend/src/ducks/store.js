@@ -22,6 +22,7 @@ const combinedReducers = combineReducers({
   reviews: reviewsReducer,
   token: tokenReducer,
   socket: socketReducer,
+  notifications: notificationsReducer,
 });
 
 const store = createStore(
