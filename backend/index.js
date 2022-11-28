@@ -13,6 +13,7 @@ const app = express();
 const peerServer = require('./event_handlers/peerServer');
 const client_red = require('./config/redisClient');
 const sse = require('./event_handlers/sse');
+const notifications = require('./routes/notifications');
 
 app.use(express.json());
 app.use(
@@ -28,6 +29,7 @@ app.use('/users', users);
 app.use('/exercises', exercises);
 app.use('/reviews', reviews);
 app.use('/sse', sse);
+app.use('/notifications', notifications);
 require('dotenv').config();
 
 const port = process.env.PORT || 5000;
