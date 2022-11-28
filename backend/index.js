@@ -49,6 +49,6 @@ mongoose
     );
     const port = process.env.PORT || 5000;
     http.createServer(app).listen(port, () => {
-      console.log(`API server listening at https://localhost:${port}`);
+      console.log(`API server listening at http://localhost:${port}`);
     });
   });
