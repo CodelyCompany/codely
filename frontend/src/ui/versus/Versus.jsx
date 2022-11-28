@@ -12,6 +12,7 @@ import { getSocket } from '../../ducks/socket/selectors';
 
 import ChooseExerciseLang from './ChooseExerciseLang';
 import PlayersCounter from './PlayersCounter';
+import ProgrammingQuotes from './ProgrammingQuotes';
 import SearchingGame from './SearchingGame';
 
 const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
@@ -80,14 +81,17 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
         />
       )}
       {!socket && (
-        <Button
-          sx={{ marginTop: '20px' }}
-          fullWidth
-          onClick={() => connect()}
-          variant="contained"
-        >
-          Find opponent
-        </Button>
+        <>
+          <Button
+            sx={{ marginTop: '20px' }}
+            fullWidth
+            onClick={() => connect()}
+            variant="contained"
+          >
+            Find opponent
+          </Button>
+          <ProgrammingQuotes />
+        </>
       )}
       {socket && (
         <Box>

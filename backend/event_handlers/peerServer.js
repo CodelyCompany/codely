@@ -4,9 +4,9 @@ const cors = require('cors');
 const app = express();
 const port = 5002;
 const { v4: uuidv4 } = require('uuid');
-const Exercise = require('./models/Exercise');
+const Exercise = require('../models/Exercise');
 const _ = require('lodash');
-const client = require('./config/redisClient');
+const client = require('../config/redisClient');
 
 app.use(
   cors({
