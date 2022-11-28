@@ -10,8 +10,9 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 const jwtCheck = require('./auth');
 const app = express();
-const peerServer = require('./peerServer');
+const peerServer = require('./event_handlers/peerServer');
 const client_red = require('./config/redisClient');
+const sse = require('./event_handlers/sse');
 
 app.use(express.json());
 app.use(
@@ -26,6 +27,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/users', users);
 app.use('/exercises', exercises);
 app.use('/reviews', reviews);
+app.use('/sse', sse);
 require('dotenv').config();
 
 const port = process.env.PORT || 5000;
