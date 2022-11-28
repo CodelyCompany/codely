@@ -23,6 +23,11 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
+import { GetNotifications } from '../ducks/notifications/operations';
+import {
+  getNotifications,
+  getUnreadNotificationsQuantity,
+} from '../ducks/notifications/selectors';
 import { GetReviews } from '../ducks/reviews/operations';
 import { getToken } from '../ducks/token/selectors';
 import { AddUser, GetUsers } from '../ducks/user/operations';
@@ -32,7 +37,16 @@ import logo from '../logo.png';
 import NavbarMessages from './popups/NavbarMessages';
 import GetToken from './user/GetToken';
 
-const Navbar = ({ GetUsers, AddUser, users, GetReviews, token }) => {
+const Navbar = ({
+  GetUsers,
+  AddUser,
+  users,
+  GetReviews,
+  token,
+  unreadNotifications,
+  notifications,
+  GetNotifications,
+}) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const navigate = useNavigate();
@@ -60,6 +74,13 @@ const Navbar = ({ GetUsers, AddUser, users, GetReviews, token }) => {
       if (_.isEmpty(foundUser)) AddUser({ username: user.nickname }, token);
     }
   }, [isAuthenticated, token]);
+
+  useEffect(() => {
+    if (users.length) {
+      const foundUser = users.find((usr) => usr.username === user.nickname);
+      if (!_.isEmpty(foundUser)) GetNotifications(foundUser._id, token);
+    }
+  }, [users]);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -169,15 +190,43 @@ const Navbar = ({ GetUsers, AddUser, users, GetReviews, token }) => {
           </Box>
           {isAuthenticated && (
             <>
-              <IoIosMail
-                onClick={handleClick}
-                style={{
-                  marginRight: '35px',
-                  fontSize: '30px',
-                  cursor: 'pointer',
-                }}
+              <Box sx={{ position: 'relative', marginRight: '35px' }}>
+                {unreadNotifications !== 0 && (
+                  <div
+                    style={{
+                      backgroundColor: 'red',
+                      position: 'absolute',
+                      top: '0',
+                      right: '0',
+                      borderRadius: '10px',
+                      fontSize: '15px',
+                      width: '20px',
+                      height: '20px',
+                      textAlign: 'center',
+                      zIndex: '2',
+                    }}
+                  >
+                    {unreadNotifications}
+                  </div>
+                )}
+                <IoIosMail
+                  onClick={handleClick}
+                  style={{
+                    fontSize: '30px',
+                    cursor: 'pointer',
+                    position: 'relative',
+                    right: '10px',
+                    top: '5px',
+                    zIndex: '1',
+                  }}
+                />
+              </Box>
+
+              <NavbarMessages
+                anchorEl={anchorEl}
+                setAnchorEl={setAnchorEl}
+                notifications={notifications}
               />
-              <NavbarMessages anchorEl={anchorEl} setAnchorEl={setAnchorEl} />
             </>
           )}
           <Box sx={{ flexGrow: 0 }}>
@@ -232,12 +281,15 @@ const Navbar = ({ GetUsers, AddUser, users, GetReviews, token }) => {
 const mapStateToProps = (state) => ({
   users: getUsers(state),
   token: getToken(state),
+  notifications: getNotifications(state),
+  unreadNotifications: getUnreadNotificationsQuantity(state),
 });
 
 const mapDispatchToProps = {
   GetUsers,
   AddUser,
   GetReviews,
+  GetNotifications,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
@@ -248,4 +300,7 @@ Navbar.propTypes = {
   AddUser: PropTypes.func,
   users: PropTypes.array,
   token: PropTypes.string,
+  unreadNotifications: PropTypes.number,
+  notifications: PropTypes.array,
+  GetNotifications: PropTypes.func.isRequired,
 };
