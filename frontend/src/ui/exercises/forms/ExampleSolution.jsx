@@ -22,6 +22,7 @@ import SubmitAlert from '../../popups/SubmitAlert';
 import GetToken from '../../user/GetToken';
 
 import { getSignature } from './utils/functionSignatures';
+import TestsList from './TestsList';
 
 const ExampleSolution = ({
   step,
@@ -210,6 +211,7 @@ const ExampleSolution = ({
           </Button>
         </Box>
       </Box>
+      <TestsList step={step} />
     </>
   );
 };
