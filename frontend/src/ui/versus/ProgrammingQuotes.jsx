@@ -21,7 +21,9 @@ const ProgrammingQuotes = () => {
     return data;
   };
 
-  const data = useEventSource('http://localhost:5000/sse/');
+  const data = useEventSource(
+    `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}/sse`
+  );
 
   return (
     data && (
