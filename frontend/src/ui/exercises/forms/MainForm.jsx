@@ -32,7 +32,6 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
     dataFromStep4: '',
     dataFromStep5: '',
   });
-
   const navigate = useNavigate();
   const { id } = useParams();
   const exercise = useSelector(getExerciseById(id));

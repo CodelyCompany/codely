@@ -19,12 +19,8 @@ router.post('/javascript', async (req, res) => {
     const data = req.body;
     const toExecute =
       data.func && data.args
-        ? data.toExecute +
-          '\n console.log(' +
-          data.func +
-          '(' +
-          data.args.join(', ') +
-          '));'
+        ? `${data.toExecute}
+        \nconsole.log(${data.func}(${data.args.join(', ')}));`
         : data.toExecute;
     const response = await axios.post(urlData.javascript_url, {
       toExecute,
@@ -45,13 +41,8 @@ router.post('/python', async (req, res) => {
     const data = req.body;
     const toExecute =
       data.func && data.args
-        ? (data.toExecute =
-            data.toExecute +
-            ' \nprint(' +
-            data.func +
-            '(' +
-            data.args.join(', ') +
-            ')); \n')
+        ? `${data.toExecute}
+        \nprint(${data.func}(${data.args.join(', ')}));`
         : data.toExecute;
     const response = await axios.post(urlData.python_url, {
       toExecute,
@@ -72,7 +63,8 @@ router.post('/bash', async (req, res) => {
     const data = req.body;
     const toExecute =
       data.func && data.args
-        ? data.toExecute + '\n' + data.func + ' ' + data.args.join(' ')
+        ? `${data.toExecute} 
+        \n${data.func} ${data.args.join(' ')}`
         : data.toExecute;
     const response = await axios.post(urlData.bash_url, {
       toExecute,
@@ -93,13 +85,8 @@ router.post('/r', async (req, res) => {
     const data = req.body;
     const toExecute =
       data.func && data.args
-        ? (data.toExecute =
-            data.toExecute +
-            '\n cat(' +
-            data.func +
-            '(' +
-            data.args.join(', ') +
-            '))')
+        ? `${data.toExecute} 
+        \ncat(${data.func}(${data.args.join(', ')}))`
         : data.toExecute;
     const response = await axios.post(urlData.r_url, {
       toExecute,
@@ -119,19 +106,14 @@ router.post('/java', async (req, res) => {
   try {
     const data = req.body;
     const prepareData = () => {
-      const splitedData = data.toExecute.split(
-        'public static void main(String[] args) {'
-      );
-      return (
-        splitedData[0] +
-        'public static void main(String[] args) {' +
-        '\n System.out.println(' +
-        data.func +
-        '(' +
-        data.args.join(', ') +
-        '));' +
-        splitedData[1]
-      );
+      const splitedData = data.toExecute.split('}');
+      const lastElem = splitedData.pop();
+      return `${splitedData.join('} \n')}
+      \npublic static void main(String[] args){
+      \nSystem.out.println(${data.func}(${data.args.join(', ')}));
+      \n}
+      \n}
+      ${lastElem}`;
     };
     const toExecute = data.func && data.args ? prepareData() : data.toExecute;
     const response = await axios.post(urlData.java_url, {
@@ -151,21 +133,13 @@ router.post('/java', async (req, res) => {
 router.post('/cpp', async (req, res) => {
   try {
     const data = req.body;
-    const prepareData = () => {
-      const splitedData = data.toExecute.split('return 0;');
-      const lastElem = splitedData.pop();
-      return (
-        splitedData.join(' \n') +
-        ' cout << ' +
-        data.func +
-        '(' +
-        data.args.join(', ') +
-        ');\n' +
-        'return 0;' +
-        lastElem
-      );
-    };
-    const toExecute = data.func && data.args ? prepareData() : data.toExecute;
+    const toExecute =
+      data.func && data.args
+        ? `${data.toExecute}
+        \nint main(){
+        \ncout << ${data.func}(${data.args.join(', ')});
+        \n}`
+        : data.toExecute;
     const response = await axios.post(urlData.cpp_url, {
       toExecute,
     });
@@ -183,20 +157,14 @@ router.post('/cpp', async (req, res) => {
 router.post('/c', async (req, res) => {
   try {
     const data = req.body;
-    const prepareData = () => {
-      const splitedData = data.toExecute.split('return 0;');
-      const lastElem = splitedData.pop();
-      return (
-        splitedData.join(' \n') +
-        data.func +
-        '(' +
-        data.args.join(', ') +
-        ');\n' +
-        'return 0;' +
-        lastElem
-      );
-    };
-    const toExecute = data.func && data.args ? prepareData() : data.toExecute;
+    const toExecute =
+      data.func && data.args
+        ? `${data.toExecute}
+        \nint main(){
+        \n${data.func}(${data.args.join(', ')});
+        \n}`
+        : data.toExecute;
+    console.log(toExecute);
     const response = await axios.post(urlData.c_url, {
       toExecute,
     });

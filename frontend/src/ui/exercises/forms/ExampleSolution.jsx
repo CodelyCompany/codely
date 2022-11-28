@@ -43,7 +43,7 @@ const ExampleSolution = ({
         step.dataFromStep1.programmingLanguage?.toLowerCase() ?? '',
         step.dataFromStep2?.functionName,
         step.dataFromStep2?.argumentsName,
-        step.dataFromStep2.types ?? []
+        step.dataFromStep2?.types ?? []
       ),
     [step.dataFromStep1, step.dataFromStep2]
   );
@@ -86,6 +86,10 @@ const ExampleSolution = ({
           hints: step.dataFromStep4.map((el) => el[1]),
           exampleSolution: code,
           functionSignature: signature,
+          programmingLanguage:
+            step.dataFromStep1.programmingLanguage === 'C++'
+              ? 'cpp'
+              : step.dataFromStep1.programmingLanguage,
         },
         token
       );

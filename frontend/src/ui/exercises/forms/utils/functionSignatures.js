@@ -32,7 +32,7 @@ ${
 } ${functionName}(${argsAsString}) {
     // write your code here
 }`,
-    java: `public class Main() {
+    java: `public class Main {
   public static ${
     argsType ? argsType[argsType.length - 1] : 'void'
   } ${functionName}(${argsAsString}){
