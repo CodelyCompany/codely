@@ -109,6 +109,8 @@ const joinGame = async () => {
           })
         );
       });
+      const room = io.of('/').adapter.rooms.get('/waiting') ?? [];
+      io.to('/waiting').emit('players', Array.from(room).length);
     });
   }
 };
