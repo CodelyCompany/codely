@@ -13,25 +13,7 @@ const fs = require('fs');
 const app = express();
 
 app.use(express.json());
-app.use(
-  cors({
-    origin: [
-      'http://localhost:3000',
-      'http://frontend:3000',
-      'http://localhost',
-      'http://localhost:80',
-      'https://localhost:3000',
-      'https://frontend:3000',
-    ],
-    // origin: '*',
-    methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT'],
-  })
-);
-
-// const options = {
-//   key: fs.readFileSync('./.cert/codely.io.key'),
-//   cert: fs.readFileSync('./.cert/codely.io.crt'),
-// };
+app.use(cors());
 
 // app.use(jwtCheck);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));

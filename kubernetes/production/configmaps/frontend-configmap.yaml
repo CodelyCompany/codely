@@ -5,6 +5,6 @@ metadata:
   name: frontend-configmap
   namespace: production
 data:
-  REACT_APP_CONTAINERS_ADDRESS: http://backend-containers:5001
-  REACT_APP_BACKEND: http://backend:5000
+  REACT_APP_CONTAINERS_ADDRESS: http://localhost/containers
+  REACT_APP_BACKEND: http://localhost/api
   REACT_APP_REDIRECT_URI: http://localhost

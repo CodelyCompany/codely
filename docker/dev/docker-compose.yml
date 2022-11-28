@@ -128,8 +128,8 @@ services:
       - ../../frontend/node_modules:/opt/app/node_modules
       - ../../frontend:/opt/app
     environment:
-      - REACT_APP_CONTAINERS_ADDRESS=http://backend_containers:5001
-      - REACT_APP_BACKEND=http://backend:5000
+      - REACT_APP_CONTAINERS_ADDRESS=http://localhost:5001
+      - REACT_APP_BACKEND=http://localhost:5000
       - REACT_APP_DOMAIN=dev-v6t-co5x.us.auth0.com
       - REACT_APP_CLIENT_ID=S78rEYoT9kikIwcv3l0AI1Lg49AxSmMb
       - REACT_APP_CONTAINERS_CLIENT_ID=7iSINn2Fvm0tkLKH8XwwyiqYYEzJFYSM
