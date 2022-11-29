@@ -102,30 +102,30 @@ const Navbar = ({
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position='static'>
       <GetToken />
-      <Container maxWidth="xl">
+      <Container maxWidth='xl'>
         <Toolbar disableGutters>
           <img
-            id="logo"
+            id='logo'
             style={{ height: '50px', cursor: 'pointer' }}
             src={logo}
-            alt="codely logo"
+            alt='codely logo'
             onClick={() => navigate('/')}
           />
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
+              size='large'
+              aria-label='account of current user'
+              aria-controls='menu-appbar'
+              aria-haspopup='true'
               onClick={handleOpenNavMenu}
-              color="inherit"
+              color='inherit'
             >
               <MenuIcon />
             </IconButton>
             <Menu
-              id="menu-appbar"
+              id='menu-appbar'
               anchorEl={anchorElNav}
               anchorOrigin={{
                 vertical: 'bottom',
@@ -144,15 +144,15 @@ const Navbar = ({
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={() => handleCloseNavMenu(page)}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography textAlign='center'>{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
           <Typography
-            variant="h5"
+            variant='h5'
             noWrap
-            component="a"
+            component='a'
             onClick={() => navigate('/')}
             sx={{
               mr: 2,
@@ -231,9 +231,9 @@ const Navbar = ({
           )}
           <Box sx={{ flexGrow: 0 }}>
             {isAuthenticated && (
-              <Tooltip title="Open settings">
+              <Tooltip title='Open settings'>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="User image" />
+                  <Avatar alt='User image' />
                 </IconButton>
               </Tooltip>
             )}
@@ -248,7 +248,7 @@ const Navbar = ({
 
             <Menu
               sx={{ mt: '45px' }}
-              id="menu-appbar"
+              id='menu-appbar'
               anchorEl={anchorElUser}
               anchorOrigin={{
                 vertical: 'top',
@@ -267,7 +267,7 @@ const Navbar = ({
                   key={setting}
                   onClick={() => handleCloseUserMenu(setting)}
                 >
-                  <Typography textAlign="center">{setting}</Typography>
+                  <Typography textAlign='center'>{setting}</Typography>
                 </MenuItem>
               ))}
             </Menu>

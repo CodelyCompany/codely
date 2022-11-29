@@ -49,14 +49,14 @@ const SearchingGame = ({ socket, setFound, found, DisconnectSocket }) => {
         setAccepted={setAccepted}
       />
       <MutatingDots
-        height="100"
-        width="100"
-        color="rgb(25, 118, 210)"
-        secondaryColor="rgb(25, 118, 210)"
-        radius="12.5"
-        ariaLabel="mutating-dots-loading"
+        height='100'
+        width='100'
+        color='rgb(25, 118, 210)'
+        secondaryColor='rgb(25, 118, 210)'
+        radius='12.5'
+        ariaLabel='mutating-dots-loading'
         wrapperStyle={{ justifyContent: 'center' }}
-        wrapperClass=""
+        wrapperClass=''
         visible={true}
       />
     </>

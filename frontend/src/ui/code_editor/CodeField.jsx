@@ -32,13 +32,13 @@ const CodeField = ({ code, setCode, language }) => {
       >
         <Editor
           loading={<CircularProgress />}
-          height="100%"
+          height='100%'
           language={
             language.toLowerCase() === 'c++' ? 'cpp' : language.toLowerCase()
           }
           value={code}
           onChange={handleCodeChange}
-          width="100%"
+          width='100%'
         />
       </div>
     </Box>

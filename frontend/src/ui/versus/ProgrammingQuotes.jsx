@@ -42,14 +42,14 @@ const ProgrammingQuotes = () => {
         />
         <Box sx={{ marginTop: '40px', width: '100%', textAlign: 'center' }}>
           <Typography
-            color="primary"
-            variant="h6"
-            fontWeight="bolder"
+            color='primary'
+            variant='h6'
+            fontWeight='bolder'
             style={{ alignSelf: 'center', width: 'calc(100% - 80px)' }}
           >
             {data.en}
           </Typography>
-          <Box width="100%" textAlign="end">
+          <Box width='100%' textAlign='end'>
             <ImQuotesRight
               style={{
                 height: '40px',
@@ -59,7 +59,7 @@ const ProgrammingQuotes = () => {
             />
           </Box>
 
-          <Typography color="primary" fontWeight="bolder" textAlign="end">
+          <Typography color='primary' fontWeight='bolder' textAlign='end'>
             ~{data.author}
           </Typography>
         </Box>

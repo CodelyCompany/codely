@@ -40,7 +40,7 @@ const CustomArgs = ({ args, setArgumentValues, argumentValues }) => {
           borderRight: '3px solid  rgb(25, 118, 210)',
         }}
       >
-        <Typography variant="h6" color="primary" fontWeight="bolder">
+        <Typography variant='h6' color='primary' fontWeight='bolder'>
           Function in the code field will be run with values inputted below{' '}
         </Typography>
       </Box>

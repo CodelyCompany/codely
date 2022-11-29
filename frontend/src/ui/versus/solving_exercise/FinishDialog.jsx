@@ -18,7 +18,7 @@ import { DisconnectSocket } from '../../../ducks/socket/actions';
 import wonImage from '../../../easy-peasy.png';
 
 const Transition = forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
+  return <Slide direction='up' ref={ref} {...props} />;
 });
 
 const FinishDialog = ({ open, setOpen, won, DisconnectSocket }) => {
@@ -50,7 +50,7 @@ const FinishDialog = ({ open, setOpen, won, DisconnectSocket }) => {
         TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}
-        aria-describedby="alert-dialog-slide-description"
+        aria-describedby='alert-dialog-slide-description'
       >
         <DialogTitle
           sx={{
@@ -65,16 +65,16 @@ const FinishDialog = ({ open, setOpen, won, DisconnectSocket }) => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText
-            id="alert-dialog-slide-description"
+            id='alert-dialog-slide-description'
             sx={{ fontSize: '20px' }}
           >
             {won
               ? 'You solved this exercise faster than your opponent. Congrats!'
               : 'You solved this exercise slower than your opponent. Better luck next time!'}
             {won ? (
-              <img src={wonImage} alt="easy peasy image" />
+              <img src={wonImage} alt='easy peasy image' />
             ) : (
-              <img src={lostImage} alt="coffin dance image" />
+              <img src={lostImage} alt='coffin dance image' />
             )}
           </DialogContentText>
         </DialogContent>
@@ -82,14 +82,14 @@ const FinishDialog = ({ open, setOpen, won, DisconnectSocket }) => {
           <Button
             onClick={handleQuit}
             color={won ? 'success' : 'error'}
-            variant="contained"
+            variant='contained'
           >
             Quit
           </Button>
           <Button
             onClick={handleFindNewVersus}
             color={won ? 'success' : 'error'}
-            variant="contained"
+            variant='contained'
           >
             Find new versus
           </Button>

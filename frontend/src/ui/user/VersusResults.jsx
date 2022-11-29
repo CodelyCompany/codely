@@ -21,7 +21,7 @@ const VersusResults = ({ won, lost }) => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-      <Typography variant="h6" color="primary" sx={{ fontWeight: 'bolder' }}>
+      <Typography variant='h6' color='primary' sx={{ fontWeight: 'bolder' }}>
         Your versus stats
       </Typography>
       <Doughnut

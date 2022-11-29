@@ -70,7 +70,7 @@ const NavbarMessages = ({
           </Box>
         ))
       ) : (
-        <Typography color="primary" fontWeight="bolder" padding="10px">
+        <Typography color='primary' fontWeight='bolder' padding='10px'>
           Your mailbox is empty
         </Typography>
       )}
