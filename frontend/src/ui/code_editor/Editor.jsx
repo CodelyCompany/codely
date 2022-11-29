@@ -15,7 +15,7 @@ const Editor = () => {
 
   return (
     <Container>
-      <a className="editor-tag">Write your code here!</a>
+      <a className='editor-tag'>Write your code here!</a>
       <Box
         sx={{
           border: '3px solid rgb(25, 118, 210)',

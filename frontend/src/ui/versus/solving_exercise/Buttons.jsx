@@ -94,10 +94,10 @@ const Buttons = ({
           margin: '10px 0',
         }}
       >
-        <Button variant="contained" onClick={() => runCode(code)}>
+        <Button variant='contained' onClick={() => runCode(code)}>
           Run
         </Button>
-        <Button variant="contained" onClick={finishEx}>
+        <Button variant='contained' onClick={finishEx}>
           Submit
         </Button>
       </Box>

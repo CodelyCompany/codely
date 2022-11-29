@@ -93,14 +93,14 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
       >
         <AccordionSummary
           sx={{ backgroundColor: 'rgb(25, 118, 210)' }}
-          aria-controls="panel1d-content"
-          id="panel1d-header"
+          aria-controls='panel1d-content'
+          id='panel1d-header'
         >
           <Typography sx={{ color: 'white' }}>Main info</Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
           <Typography
-            color="primary"
+            color='primary'
             sx={{ margin: '10px', fontWeight: 'bolder' }}
           >
             Here you can set title, description and difficulty of your exercise.
@@ -115,8 +115,8 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
       >
         <AccordionSummary
           sx={{ backgroundColor: 'rgb(25, 118, 210)' }}
-          aria-controls="panel3d-content"
-          id="panel3d-header"
+          aria-controls='panel3d-content'
+          id='panel3d-header'
         >
           <Typography sx={{ color: 'white' }}>
             Customize exercise function
@@ -124,7 +124,7 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
           <Typography
-            color="primary"
+            color='primary'
             sx={{ margin: '10px', fontWeight: 'bolder' }}
           >
             Here you can set amount of arguments for your function. You have to
@@ -143,14 +143,14 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
       >
         <AccordionSummary
           sx={{ backgroundColor: 'rgb(25, 118, 210)' }}
-          aria-controls="panel2d-content"
-          id="panel2d-header"
+          aria-controls='panel2d-content'
+          id='panel2d-header'
         >
           <Typography sx={{ color: 'white' }}>Inputs \ Outputs</Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
           <Typography
-            color="primary"
+            color='primary'
             sx={{ margin: '10px', fontWeight: 'bolder' }}
           >
             Choose quantity of your tests, then write expected outputs for each
@@ -165,14 +165,14 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
       >
         <AccordionSummary
           sx={{ backgroundColor: 'rgb(25, 118, 210)' }}
-          aria-controls="panel3d-content"
-          id="panel3d-header"
+          aria-controls='panel3d-content'
+          id='panel3d-header'
         >
           <Typography sx={{ color: 'white' }}>Hints</Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
           <Typography
-            color="primary"
+            color='primary'
             sx={{ margin: '10px', fontWeight: 'bolder' }}
           >
             Here you can choose quantity of your hints. Remember that not all
@@ -188,14 +188,14 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
       >
         <AccordionSummary
           sx={{ backgroundColor: 'rgb(25, 118, 210)' }}
-          aria-controls="panel3d-content"
-          id="panel3d-header"
+          aria-controls='panel3d-content'
+          id='panel3d-header'
         >
           <Typography sx={{ color: 'white' }}>Example Solution</Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
           <Typography
-            color="primary"
+            color='primary'
             sx={{ margin: '10px', fontWeight: 'bolder' }}
           >
             Here you have to write an example solution to guarantee that your

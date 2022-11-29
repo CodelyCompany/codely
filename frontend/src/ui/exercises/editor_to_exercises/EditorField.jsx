@@ -56,11 +56,11 @@ const EditorField = ({
       >
         <Editor
           loading={<CircularProgress />}
-          height="100%"
+          height='100%'
           language={language.toLowerCase()}
           value={code}
           onChange={handleCodeChange}
-          width="100%"
+          width='100%'
         />
       </Box>
       {output && <OutputField output={output} />}

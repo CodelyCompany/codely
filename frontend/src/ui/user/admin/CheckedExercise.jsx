@@ -43,8 +43,8 @@ function CheckedExercise({ checkedExercises, GetExercises, token }) {
     >
       <GetToken />
       <Typography
-        color="primary"
-        variant="h6"
+        color='primary'
+        variant='h6'
         sx={{ fontWeight: 'bolder', textAlign: 'center' }}
       >
         Checked exercises

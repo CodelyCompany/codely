@@ -20,24 +20,24 @@ import './App.css';
 
 function App() {
   return (
-    <div className="App">
+    <div className='App'>
       <BrowserRouter>
         <Navbar />
         <LoadWrapper>
           <Routes>
-            <Route path="/" element={<MainPage />} />
-            <Route path="/editor" element={<Editor />} />
-            <Route path="/exercises" element={<ExercisesList />} />
-            <Route path="/exercise/:id" element={<ExerciseDetail />} />
-            <Route path="/exercises/form" element={<MainForm />} />
-            <Route path="/exercises/edit/:id" element={<MainForm />} />
-            <Route path="/versus" element={<Versus />} />
+            <Route path='/' element={<MainPage />} />
+            <Route path='/editor' element={<Editor />} />
+            <Route path='/exercises' element={<ExercisesList />} />
+            <Route path='/exercise/:id' element={<ExerciseDetail />} />
+            <Route path='/exercises/form' element={<MainForm />} />
+            <Route path='/exercises/edit/:id' element={<MainForm />} />
+            <Route path='/versus' element={<Versus />} />
             <Route
-              path="/versus/room/:roomId/exercise/:id"
+              path='/versus/room/:roomId/exercise/:id'
               element={<Exercise />}
             />
-            <Route path="/user" element={<UserDetails />} />
-            <Route path="/admin" element={<AdminPanel />} />
+            <Route path='/user' element={<UserDetails />} />
+            <Route path='/admin' element={<AdminPanel />} />
           </Routes>
         </LoadWrapper>
         <ExerciseAlert />

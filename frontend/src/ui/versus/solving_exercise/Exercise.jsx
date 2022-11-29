@@ -143,12 +143,12 @@ const Exercise = ({ GetExercises, token, socket }) => {
                 You:{' '}
                 {won ? (
                   <CheckIcon
-                    color="success"
+                    color='success'
                     style={{ position: 'relative', top: '7px' }}
                   />
                 ) : (
                   <CloseIcon
-                    color="error"
+                    color='error'
                     style={{ position: 'relative', top: '7px' }}
                   />
                 )}
@@ -168,12 +168,12 @@ const Exercise = ({ GetExercises, token, socket }) => {
                 Your opponent:{' '}
                 {opponentFinish ? (
                   <CheckIcon
-                    color="success"
+                    color='success'
                     style={{ posiition: 'relative', top: '7px' }}
                   />
                 ) : (
                   <CloseIcon
-                    color="error"
+                    color='error'
                     style={{ position: 'relative', top: '7px' }}
                   />
                 )}
@@ -193,8 +193,8 @@ const Exercise = ({ GetExercises, token, socket }) => {
             >
               <ListItem>
                 <Typography
-                  variant="h3"
-                  color="primary"
+                  variant='h3'
+                  color='primary'
                   sx={{ borderBottom: '3px solid rgb(25, 118, 210)' }}
                 >
                   {exercise.title}
@@ -207,7 +207,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary="Author"
+                  primary='Author'
                   secondary={exercise.author.username}
                 />
               </ListItem>
@@ -218,7 +218,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary="Programming Language"
+                  primary='Programming Language'
                   secondary={exercise.programmingLanguage}
                 />
               </ListItem>
@@ -229,7 +229,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary="Difficulty"
+                  primary='Difficulty'
                   secondary={[...Array(exercise.difficulty).keys()].map(
                     (el) => (
                       <StarRateIcon sx={{ color: 'gold' }} key={el} />
@@ -244,7 +244,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary="Description"
+                  primary='Description'
                   secondary={exercise.description}
                 />
               </ListItem>

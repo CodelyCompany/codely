@@ -95,7 +95,7 @@ const joinGame = async () => {
         }
       }
     }
-    commons.forEach(async (pair) => {
+    commons.forEach((pair) => {
       const generatedRoomId = uuidv4();
       const language = _.random(0, pair.commons.length - 1);
       [users.get(pair.first), users.get(pair.second)].forEach((matchedUser) => {
@@ -122,6 +122,16 @@ const cancelGame = (id) => {
     users.get(room[num]).leave(`/game-${id}`);
     users.get(room[num]).join(`/waiting`);
   });
+};
+
+const sendResults = (firstUser, secondUser, socketID, room) => {
+  if (socketId === room) {
+    firstUser.emit('game-won');
+    secondUser.emit('game-lost');
+    return;
+  }
+  secondUser.emit('game-won');
+  firstUser.emit('game-lost');
 };
 
 io.on('connection', async (socket) => {
@@ -175,14 +185,7 @@ io.on('connection', async (socket) => {
       if (Array.from(users).length >= 2) {
         const firstUser = users.get(room[0]);
         const secondUser = users.get(room[1]);
-        if (socket.id === room[0]) {
-          firstUser.emit('game-won');
-          secondUser.emit('game-lost');
-        }
-        if (socket.id === room[1]) {
-          secondUser.emit('game-won');
-          firstUser.emit('game-lost');
-        }
+        sendResults(firstUser, secondUser, socket.id, room[0]);
       }
       if (Array.from(users).length === 1) {
         const user = users.get(room[0]);

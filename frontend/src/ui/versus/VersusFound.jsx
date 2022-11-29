@@ -49,12 +49,12 @@ const VersusFound = ({
       <Dialog
         open={open}
         onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
       >
-        <DialogTitle id="alert-dialog-title">{'Versus found!'}</DialogTitle>
+        <DialogTitle id='alert-dialog-title'>{'Versus found!'}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+          <DialogContentText id='alert-dialog-description'>
             {accepted ? (
               'Waiting for your opponent.'
             ) : (
@@ -71,8 +71,8 @@ const VersusFound = ({
         <DialogActions>
           <Button
             onClick={handleClose}
-            variant="contained"
-            color="error"
+            variant='contained'
+            color='error'
             disabled={accepted}
           >
             Cancel
@@ -80,8 +80,8 @@ const VersusFound = ({
           <Button
             onClick={handleAccept}
             autoFocus
-            variant="contained"
-            color="success"
+            variant='contained'
+            color='success'
             disabled={accepted}
           >
             Accept

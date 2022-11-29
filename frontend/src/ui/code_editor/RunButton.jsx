@@ -64,7 +64,7 @@ const RunButton = ({ code, setOutput, language }) => {
         setTriggered={setTriggerAlert}
         code={status}
       />
-      <Button variant="outlined" sx={style} onClick={() => runCode(code)}>
+      <Button variant='outlined' sx={style} onClick={() => runCode(code)}>
         <VscDebugStart style={{ position: 'relative', bottom: '3px' }} />
         Run
       </Button>

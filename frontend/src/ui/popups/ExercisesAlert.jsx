@@ -76,15 +76,15 @@ const ExerciseAlert = ({
         in={addStatus || deleteStatus || updateStatus}
       >
         <Alert
-          variant="filled"
+          variant='filled'
           severity={error ? 'error' : 'success'}
           action={
             <IconButton
-              color="inherit"
-              size="medium"
+              color='inherit'
+              size='medium'
               onClick={() => closeMessage()}
             >
-              <CloseIcon fontSize="inherit" />
+              <CloseIcon fontSize='inherit' />
             </IconButton>
           }
           sx={{ mb: 2 }}

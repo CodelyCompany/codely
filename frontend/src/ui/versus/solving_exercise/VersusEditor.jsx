@@ -23,13 +23,13 @@ const VersusEditor = ({ code, setCode, language, functionSignature }) => {
     >
       <Editor
         loading={<CircularProgress />}
-        height="300px"
+        height='300px'
         language={
           language.toLowerCase() === 'c++' ? 'cpp' : language.toLowerCase()
         }
         value={code}
         onChange={handleCodeChange}
-        width="100%"
+        width='100%'
       />
     </Box>
   );

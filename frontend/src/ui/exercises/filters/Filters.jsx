@@ -52,7 +52,7 @@ function Filters({ exercises, setFilters, setSort, sort }) {
       <Box>
         <Autocomplete
           disablePortal
-          id="combo-box"
+          id='combo-box'
           options={getTitles()}
           value={autocompleteValue}
           onChange={(event, newValue) => {
@@ -63,7 +63,7 @@ function Filters({ exercises, setFilters, setSort, sort }) {
             setInputAutocompleteValue(newInputValue);
           }}
           renderInput={(params) => (
-            <TextField {...params} label="Search exercise" />
+            <TextField {...params} label='Search exercise' />
           )}
         />
       </Box>

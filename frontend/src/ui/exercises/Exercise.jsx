@@ -80,8 +80,8 @@ const Exercise = ({ exercise }) => {
           readOnly
           defaultValue={exercise.difficulty}
           precision={0.5}
-          icon={<StarIcon fontSize="inherit" />}
-          emptyIcon={<StarIcon fontSize="inherit" />}
+          icon={<StarIcon fontSize='inherit' />}
+          emptyIcon={<StarIcon fontSize='inherit' />}
         />
         <Typography
           sx={{
@@ -89,20 +89,20 @@ const Exercise = ({ exercise }) => {
             textAlign: 'center',
             borderBottom: '1px solid white',
           }}
-          variant="h4"
-          color="white"
+          variant='h4'
+          color='white'
         >
           {exercise.title}
         </Typography>
-        <Typography sx={{ fontWeight: 'bolder' }} variant="h6" color="white">
+        <Typography sx={{ fontWeight: 'bolder' }} variant='h6' color='white'>
           {exercise.author.username}
         </Typography>
       </CardContent>
       <CardContent>
         <Typography
           sx={{ fontWeight: 'bolder', position: 'relative', bottom: '20px' }}
-          variant="body2"
-          color="white"
+          variant='body2'
+          color='white'
         >
           {
             languagesWithIcons.find(
@@ -114,7 +114,7 @@ const Exercise = ({ exercise }) => {
       </CardContent>
       <CardContent>
         <Typography
-          color="white"
+          color='white'
           sx={{
             textOverflow: 'ellipsis',
             overflow: 'hidden',

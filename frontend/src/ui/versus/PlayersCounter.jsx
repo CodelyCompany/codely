@@ -18,8 +18,8 @@ const PlayersCounter = ({ socket }) => {
   return (
     <Box>
       <Typography
-        variant="h3"
-        color="primary"
+        variant='h3'
+        color='primary'
         sx={{
           fontWeight: 'bolder',
           borderBottom: '3px solid rgb(25, 118, 210)',
@@ -28,7 +28,7 @@ const PlayersCounter = ({ socket }) => {
       >
         Waiting for opponent
       </Typography>
-      <Typography variant="h4" color="primary" fontWeight={'bolder'}>
+      <Typography variant='h4' color='primary' fontWeight={'bolder'}>
         Active players: {players}
       </Typography>
     </Box>

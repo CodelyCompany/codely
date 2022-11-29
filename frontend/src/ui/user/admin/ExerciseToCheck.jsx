@@ -47,8 +47,8 @@ function ExerciseToCheck({ uncheckedExercises, GetUncheckedExercises, token }) {
         sx={{ height: '500px', width: '50%', margin: '10px', padding: '10px' }}
       >
         <Typography
-          color="primary"
-          variant="h6"
+          color='primary'
+          variant='h6'
           sx={{ fontWeight: 'bolder', textAlign: 'center' }}
         >
           Exercises to check

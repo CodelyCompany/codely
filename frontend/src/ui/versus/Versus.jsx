@@ -86,7 +86,7 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
             sx={{ marginTop: '20px' }}
             fullWidth
             onClick={() => connect()}
-            variant="contained"
+            variant='contained'
           >
             Find opponent
           </Button>
@@ -102,10 +102,10 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
               margin: '5px',
             }}
           >
-            <Typography color="primary">
+            <Typography color='primary'>
               Searching{[...Array(dots).keys()].map(() => '.')}{' '}
             </Typography>
-            <Typography color="primary">
+            <Typography color='primary'>
               {Math.floor(time / 60)}:
               {time % 60 < 10 ? '0' + (time % 60) : time % 60}
             </Typography>
@@ -114,7 +114,7 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
             sx={{ marginTop: '20px' }}
             fullWidth
             onClick={() => disconnect()}
-            variant="contained"
+            variant='contained'
           >
             Leave queue
           </Button>
