@@ -71,7 +71,7 @@ const joinGame = async () => {
     const connectedUsers = Array.from(users).map((el) => el[0]);
     let pickedLanguages = [];
     let userPointer = 0;
-    let commons = [];
+    // let commons = [];
     while (pickedLanguages.length !== connectedUsers.length) {
       const languages = await client.get(`user-${connectedUsers[userPointer]}`);
       if (languages) {
@@ -82,19 +82,43 @@ const joinGame = async () => {
         userPointer++;
       }
     }
-    for (const i of pickedLanguages) {
-      for (const j of pickedLanguages) {
-        if (i.user === j.user) continue;
-        if (hasMatching(i.user, j.user, commons)) continue;
-        if (hasCommonLanguage(i.languages, j.languages)) {
-          commons.push({
-            first: i.user,
-            second: j.user,
-            commons: i.languages.filter((el) => j.languages.includes(el)),
-          });
-        }
-      }
-    }
+
+    const commons = pickedLanguages.reduce((prev, curr) => {
+      return [
+        ...prev,
+        ...pickedLanguages.reduce((prevInside, currInside) => {
+          if (curr.user === currInside.user) return prevInside;
+          if (hasMatching(curr.user, currInside.user, prev)) return prevInside;
+          if (hasCommonLanguage(curr.languages, currInside.languages)) {
+            return [
+              ...prevInside,
+              {
+                first: curr.user,
+                second: currInside.user,
+                commons: curr.languages.filter((el) =>
+                  currInside.languages.includes(el)
+                ),
+              },
+            ];
+          }
+          return prevInside;
+        }, []),
+      ];
+    }, []);
+
+    // for (const i of pickedLanguages) {
+    //   for (const j of pickedLanguages) {
+    //     if (i.user === j.user) continue;
+    //     if (hasMatching(i.user, j.user, commons)) continue;
+    //     if (hasCommonLanguage(i.languages, j.languages)) {
+    //       commons.push({
+    //         first: i.user,
+    //         second: j.user,
+    //         commons: i.languages.filter((el) => j.languages.includes(el)),
+    //       });
+    //     }
+    //   }
+    // }
     commons.forEach((pair) => {
       const generatedRoomId = uuidv4();
       const language = _.random(0, pair.commons.length - 1);
@@ -125,7 +149,7 @@ const cancelGame = (id) => {
 };
 
 const sendResults = (firstUser, secondUser, socketID, room) => {
-  if (socketId === room) {
+  if (socketID === room) {
     firstUser.emit('game-won');
     secondUser.emit('game-lost');
     return;
