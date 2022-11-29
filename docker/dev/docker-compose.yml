@@ -25,6 +25,9 @@ services:
       - MONGO_DATABASE=local
       - MONGO_USERNAME=user
       - MONGO_PASSWORD=secr3t
+      - REDIS_PORT=6379
+      - REDIS_HOST=redis
+      - REDIS_PASSWORD=secr3t
       - APP_BACKEND_CONTAINERS=http://backend_containers:5001
     volumes:
       - ../../backend:/opt/app
