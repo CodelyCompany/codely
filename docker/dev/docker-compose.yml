@@ -33,7 +33,7 @@ services:
       - APP_CONTAINERS_CLIENT_ID=dzGcSwBjm0Roj6eZhnc1tjC284q242fW
       - APP_CONTAINERS_CLIENT_SECRET=1ZgtLjP2kkJpJGK8xQ2uqCoJuKcZxCgiJVuBUFbY83MLHXlgEYGoro2y8zdsOLLz
       - APP_CONTAINERS_ADDRESS=http://backend_containers:5001
-      - APP_BACKEND_CONTAINERS=http://backend_containers:5001
+      - APP_AUDIENCE=http://backend:5000
     volumes:
       - ../../backend:/opt/app
     ports:
@@ -56,6 +56,9 @@ services:
       - ../../backend_containers:/opt/app
     ports:
       - '5001:5001'
+    environment:
+      - APP_AUDIENCE=http://backend-containers:5001
+      - APP_DOMAIN=dev-v6t-co5x.us.auth0.com
   javascript:
     restart: always
     build:
@@ -135,15 +138,13 @@ services:
     environment:
       - REACT_APP_CONTAINERS_ADDRESS=http://localhost:5001
       - REACT_APP_BACKEND=http://localhost:5000
-  redis:
-    image: redis:latest
-    ports:
-      - '6379:6379'
-    command: redis-server --requirepass secr3t
-    environment:
-      - name=value
       - REACT_APP_DOMAIN=dev-v6t-co5x.us.auth0.com
       - REACT_APP_CLIENT_ID=S78rEYoT9kikIwcv3l0AI1Lg49AxSmMb
       - REACT_APP_CONTAINERS_CLIENT_ID=7iSINn2Fvm0tkLKH8XwwyiqYYEzJFYSM
       - REACT_APP_CONTAINERS_CLIENT_SECRET=D61mgH5J4q7CqwvcO6iJtggeL65qQZnWrdhRS2SXwoJTtgHSMJbGhdUWiAGWmVFJ
       - REACT_APP_REDIRECT_URI=http://localhost:3000
+  redis:
+    image: redis:latest
+    ports:
+      - '6379:6379'
+    command: redis-server --requirepass secr3t
