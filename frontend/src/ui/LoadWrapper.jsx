@@ -21,13 +21,13 @@ const LoadWrapper = ({ children }) => {
       }}
     >
       <ProgressBar
-        height="200px"
-        width="200px"
-        ariaLabel="progress-bar-loading"
+        height='200px'
+        width='200px'
+        ariaLabel='progress-bar-loading'
         wrapperStyle={{}}
-        wrapperClass="progress-bar-wrapper"
-        borderColor="#3449eb"
-        barColor="#51E5FF"
+        wrapperClass='progress-bar-wrapper'
+        borderColor='#3449eb'
+        barColor='#51E5FF'
       />
     </Container>
   ) : isAuthenticated ? (

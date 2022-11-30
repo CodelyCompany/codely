@@ -5,6 +5,7 @@ const Exercise = require('../models/Exercise');
 const Review = require('../models/Review');
 const Test = require('../models/Test');
 const axios = require('axios');
+const client = require('../config/redisClient');
 require('dotenv').config();
 const backendContainersAddress =
   process.env.APP_BACKEND_CONTAINERS || 'http://localhost:5001';
@@ -254,6 +255,45 @@ router.delete('/deleteExercise/:id', async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).send(error);
+  }
+});
+
+router.put('/checkVersus/:exerciseId/room/:roomId', async (req, res) => {
+  try {
+    const { roomId, exerciseId } = req.params;
+    const data = req.body;
+    const exercise = await Exercise.findById(exerciseId).populate('tests');
+    const counterCorrect = await runTests(exercise, data.solution);
+    if (data.won) {
+      const solvers = await client.lrange(`game-${roomId}-acceptation`, 0, -1);
+      const loserId = solvers[0] === data.user ? solvers[1] : solvers[0];
+      const winner = await User.findById(data.user);
+      const loser = await User.findById(loserId);
+
+      await User.findByIdAndUpdate(winner._id, {
+        wonVersus: winner.wonVersus + 1,
+      });
+      await User.findByIdAndUpdate(loser._id, {
+        lostVersus: loser.lostVersus + 1,
+      });
+    }
+    if (counterCorrect === exercise.tests.length) {
+      const user = await User.findById(data.user);
+      if (!user.doneExercises.includes(exercise._id)) {
+        await User.findByIdAndUpdate(data.user, {
+          doneExercises: [...user.doneExercises, exercise._id],
+        });
+      }
+      await Exercise.findByIdAndUpdate(exerciseId, {
+        doneCounter: exercise.doneCounter + 1,
+      });
+    }
+    return res
+      .status(200)
+      .send({ tests: exercise.tests.length, correct: counterCorrect });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send(err);
   }
 });
 

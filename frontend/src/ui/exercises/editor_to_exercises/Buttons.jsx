@@ -15,7 +15,16 @@ import RunAlert from '../../popups/RunAlert';
 import SubmitAlert from '../../popups/SubmitAlert';
 import GetToken from '../../user/GetToken';
 
-const Buttons = ({ setOutput, code, language, setTests, tests, token }) => {
+const Buttons = ({
+  setOutput,
+  code,
+  language,
+  setTests,
+  tests,
+  token,
+  argumentValues,
+  functionName,
+}) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { user } = useAuth0();
@@ -32,6 +41,8 @@ const Buttons = ({ setOutput, code, language, setTests, tests, token }) => {
         }/${language.toLowerCase() === 'c++' ? 'cpp' : language.toLowerCase()}`,
         {
           toExecute: code,
+          func: functionName,
+          args: argumentValues,
         },
         {
           headers: {
@@ -71,14 +82,14 @@ const Buttons = ({ setOutput, code, language, setTests, tests, token }) => {
           <Button
             onClick={() => runCode(code)}
             sx={{ margin: '5px', width: '100px' }}
-            variant="contained"
+            variant='contained'
           >
             Run
           </Button>
           <Button
             onClick={() => submitExercise()}
             sx={{ width: '100px' }}
-            variant="contained"
+            variant='contained'
           >
             Submit
           </Button>
@@ -88,7 +99,7 @@ const Buttons = ({ setOutput, code, language, setTests, tests, token }) => {
           <Button
             onClick={() => navigate(-1)}
             sx={{ width: '100px', margin: '5px' }}
-            variant="contained"
+            variant='contained'
           >
             Undo
           </Button>
@@ -121,4 +132,6 @@ Buttons.propTypes = {
   setTests: PropTypes.func,
   tests: PropTypes.object,
   token: PropTypes.string,
+  argumentValues: PropTypes.array.isRequired,
+  functionName: PropTypes.string.isRequired,
 };

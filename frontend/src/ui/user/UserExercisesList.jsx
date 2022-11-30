@@ -19,7 +19,7 @@ function UserExercisesList({ exercises, mode }) {
     const { index, style } = props;
 
     return (
-      <ListItem style={style} key={index} component="div" disablePadding>
+      <ListItem style={style} key={index} component='div' disablePadding>
         <ListItemButton
           onClick={() => navigate(`/exercise/${exercises[index]._id}`)}
         >
@@ -48,7 +48,7 @@ function UserExercisesList({ exercises, mode }) {
         flexDirection: 'column',
       }}
     >
-      <Typography variant="h6" color="primary" sx={{ fontWeight: 'bolder' }}>
+      <Typography variant='h6' color='primary' sx={{ fontWeight: 'bolder' }}>
         {mode === 'prepared' ? 'Your prepared exercises:' : 'Done exercises:'}
       </Typography>
       <FixedSizeList
@@ -60,10 +60,10 @@ function UserExercisesList({ exercises, mode }) {
         {renderRow}
       </FixedSizeList>
       {mode === 'prepared' && (
-        <PreparedExercisesChart exercises={exercises} mode="prepared" />
+        <PreparedExercisesChart exercises={exercises} mode='prepared' />
       )}
       {mode === 'done' && (
-        <PreparedExercisesChart exercises={exercises} mode="done" />
+        <PreparedExercisesChart exercises={exercises} mode='done' />
       )}
     </Box>
   );

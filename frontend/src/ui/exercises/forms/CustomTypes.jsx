@@ -34,12 +34,12 @@ const CustomTypes = ({ open, setOpen, setCustomTypes }) => {
           </DialogContentText>
           <TextField
             autoFocus
-            margin="dense"
-            id="type"
-            label="Type"
-            type="text"
+            margin='dense'
+            id='type'
+            label='Type'
+            type='text'
             fullWidth
-            variant="standard"
+            variant='standard'
             onChange={(e) => setType(e.target.value)}
             value={type}
           />

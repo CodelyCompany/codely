@@ -7,12 +7,12 @@ function Sorting({ setSort, sort }) {
   return (
     <Box>
       <FormControl fullWidth>
-        <InputLabel id="select-label">Sort by:</InputLabel>
+        <InputLabel id='select-label'>Sort by:</InputLabel>
         <Select
-          labelId="select-label"
-          id="select"
+          labelId='select-label'
+          id='select'
           value={sort}
-          label="Sort by"
+          label='Sort by'
           onChange={(e) => setSort(parseInt(e.target.value))}
         >
           <MenuItem value={0}>Default</MenuItem>

@@ -39,11 +39,11 @@ const SubmitAlert = ({ triggered, setTriggered, passed }) => {
     >
       <Collapse sx={{ width: '50%' }} in={triggered}>
         <Alert
-          variant="filled"
+          variant='filled'
           severity={messages.severity}
           action={
-            <IconButton color="inherit" size="medium" onClick={handleTrigger}>
-              <CloseIcon fontSize="inherit" />
+            <IconButton color='inherit' size='medium' onClick={handleTrigger}>
+              <CloseIcon fontSize='inherit' />
             </IconButton>
           }
           sx={{ mb: 2 }}

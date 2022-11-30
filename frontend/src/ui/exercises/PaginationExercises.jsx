@@ -41,13 +41,13 @@ const PaginationExercises = ({
         marginTop: '10px',
       }}
     >
-      <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-        <InputLabel id="demo-select-small">Items per page</InputLabel>
+      <FormControl sx={{ m: 1, minWidth: 120 }} size='small'>
+        <InputLabel id='demo-select-small'>Items per page</InputLabel>
         <Select
-          labelId="select-small"
-          id="select-small"
+          labelId='select-small'
+          id='select-small'
           value={itemsPerPage}
-          label="Items per page"
+          label='Items per page'
           onChange={handleItemsChange}
         >
           {availableItemsPerPage.map((el) => (
@@ -62,7 +62,7 @@ const PaginationExercises = ({
         page={page}
         onChange={handleChange}
         count={parseInt(Math.ceil(quantity / itemsPerPage))}
-        color="primary"
+        color='primary'
       />
     </Box>
   );

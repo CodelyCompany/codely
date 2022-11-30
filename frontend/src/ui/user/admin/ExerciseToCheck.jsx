@@ -52,8 +52,8 @@ function ExerciseToCheck({ uncheckedExercises, GetUncheckedExercises, token }) {
         }}
       >
         <Typography
-          color="primary"
-          variant="h6"
+          color='primary'
+          variant='h6'
           sx={{ fontWeight: 'bolder', textAlign: 'center' }}
         >
           Exercises to check

@@ -22,6 +22,7 @@ import SubmitAlert from '../../popups/SubmitAlert';
 import GetToken from '../../user/GetToken';
 
 import { getSignature } from './utils/functionSignatures';
+import TestsList from './TestsList';
 
 const ExampleSolution = ({
   step,
@@ -170,7 +171,7 @@ const ExampleSolution = ({
           {' '}
           <Editor
             loading={<CircularProgress />}
-            height="100%"
+            height='100%'
             language={
               step.dataFromStep1
                 ? step.dataFromStep1.programmingLanguage === 'C++'
@@ -180,7 +181,7 @@ const ExampleSolution = ({
             }
             value={code}
             onChange={handleCodeChange}
-            width="100%"
+            width='100%'
           />
         </Box>
         <Box
@@ -193,13 +194,13 @@ const ExampleSolution = ({
         >
           <Button
             sx={{ marginBottom: '10px' }}
-            variant="contained"
+            variant='contained'
             onClick={prev}
           >
             Previous
           </Button>
           <Button
-            variant="contained"
+            variant='contained'
             onClick={() =>
               tests
                 ? tests.correct !== tests.tests
@@ -216,6 +217,7 @@ const ExampleSolution = ({
           </Button>
         </Box>
       </Box>
+      <TestsList step={step} />
     </>
   );
 };

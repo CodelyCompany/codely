@@ -4,10 +4,12 @@ import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 
 import { exercisesReducer } from './exercises/reducer';
+import { notificationsReducer } from './notifications/reducer';
 import { popupsReducer } from './popups/reducer';
 import { startRedirect } from './redirects/middleware';
 import { redirectReducer } from './redirects/reducer';
 import { reviewsReducer } from './reviews/reducer';
+import { socketReducer } from './socket/reducer';
 import { tokenReducer } from './token/reducer';
 import { usersReducer } from './user/reducer';
 
@@ -20,6 +22,8 @@ const combinedReducers = combineReducers({
   redirects: redirectReducer,
   reviews: reviewsReducer,
   token: tokenReducer,
+  socket: socketReducer,
+  notifications: notificationsReducer,
 });
 
 const store = createStore(
