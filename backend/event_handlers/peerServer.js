@@ -71,7 +71,6 @@ const joinGame = async () => {
     const connectedUsers = Array.from(users).map((el) => el[0]);
     let pickedLanguages = [];
     let userPointer = 0;
-    // let commons = [];
     while (pickedLanguages.length !== connectedUsers.length) {
       const languages = await client.get(`user-${connectedUsers[userPointer]}`);
       if (languages) {
@@ -106,19 +105,6 @@ const joinGame = async () => {
       ];
     }, []);
 
-    // for (const i of pickedLanguages) {
-    //   for (const j of pickedLanguages) {
-    //     if (i.user === j.user) continue;
-    //     if (hasMatching(i.user, j.user, commons)) continue;
-    //     if (hasCommonLanguage(i.languages, j.languages)) {
-    //       commons.push({
-    //         first: i.user,
-    //         second: j.user,
-    //         commons: i.languages.filter((el) => j.languages.includes(el)),
-    //       });
-    //     }
-    //   }
-    // }
     commons.forEach((pair) => {
       const generatedRoomId = uuidv4();
       const language = _.random(0, pair.commons.length - 1);
