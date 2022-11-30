@@ -140,6 +140,8 @@ services:
     ports:
       - '6379:6379'
     command: redis-server --requirepass secr3t
+    environment:
+      - name=value
       - REACT_APP_DOMAIN=dev-v6t-co5x.us.auth0.com
       - REACT_APP_CLIENT_ID=S78rEYoT9kikIwcv3l0AI1Lg49AxSmMb
       - REACT_APP_CONTAINERS_CLIENT_ID=7iSINn2Fvm0tkLKH8XwwyiqYYEzJFYSM
