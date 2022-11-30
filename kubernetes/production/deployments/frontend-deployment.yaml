@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  namespace: production
+  labels:
+    app: codely
+    type: frontend
+spec:
+  selector:
+    matchLabels:
+      app: codely
+      type: frontend
+  replicas: 2
+  template:
+    metadata:
+      name: frontend-pod
+      labels:
+        app: codely
+        type: frontend
+    spec:
+      containers:
+        - name: frontend-container
+          image: mtx22/codely-frontend
+          ports:
+            - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: frontend-configmap
+            - secretRef:
+                name: frontend-secret

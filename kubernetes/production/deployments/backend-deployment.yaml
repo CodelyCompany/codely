@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  namespace: production
+  labels:
+    app: codely
+    type: backend
+spec:
+  selector:
+    matchLabels:
+      app: codely
+      type: backend
+  replicas: 2
+  template:
+    metadata:
+      name: backend-pod
+      labels:
+        app: codely
+        type: backend
+    spec:
+      containers:
+        - name: backend-container
+          image: mtx22/codely-backend
+          envFrom:
+            - configMapRef:
+                name: backend-configmap
+            - secretRef:
+                name: backend-secret

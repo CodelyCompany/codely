@@ -70,7 +70,11 @@ const ExerciseDetail = ({ GetExercises, token }) => {
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
+                  <Avatar
+                    style={{
+                      backgroundColor: 'rgb(25, 118, 210)',
+                    }}
+                  >
                     <PersonIcon />
                   </Avatar>
                 </ListItemAvatar>
@@ -81,7 +85,11 @@ const ExerciseDetail = ({ GetExercises, token }) => {
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
+                  <Avatar
+                    style={{
+                      backgroundColor: 'rgb(25, 118, 210)',
+                    }}
+                  >
                     <GTranslateIcon />
                   </Avatar>
                 </ListItemAvatar>
@@ -92,7 +100,11 @@ const ExerciseDetail = ({ GetExercises, token }) => {
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
+                  <Avatar
+                    style={{
+                      backgroundColor: 'rgb(25, 118, 210)',
+                    }}
+                  >
                     <PsychologyIcon />
                   </Avatar>
                 </ListItemAvatar>
@@ -107,7 +119,11 @@ const ExerciseDetail = ({ GetExercises, token }) => {
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
+                  <Avatar
+                    style={{
+                      backgroundColor: 'rgb(25, 118, 210)',
+                    }}
+                  >
                     <FormatColorTextIcon />
                   </Avatar>
                 </ListItemAvatar>

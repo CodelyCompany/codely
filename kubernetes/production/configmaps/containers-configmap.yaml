@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+    name: containers-configmap
+    namespace: production
+data:
+    JAVASCRIPT_PORT: '6000'
+    PYTHON_PORT: '6001'
+    BASH_PORT: '6002'
+    R_PORT: '6003'
+    JAVA_PORT: '6004'
+    CPP_PORT: '6005'
+    C_PORT: '6006'

@@ -11,6 +11,17 @@ const backendContainersAddress =
   process.env.APP_BACKEND_CONTAINERS || 'http://localhost:5001';
 
 async function runTests(exercise, solution) {
+  // const token = await axios.post(
+  //     `https://${process.env.APP_DOMAIN}/oauth/token`,
+  //     {
+  //         client_id: process.env.APP_CONTAINERS_CLIENT_ID,
+  //         client_secret: process.env.APP_CONTAINERS_CLIENT_SECRET,
+  //         audience: `${
+  //             process.env.APP_CONTAINERS_ADDRESS || 'httpa://localhost:5001'
+  //         }`,
+  //         grant_type: 'client_credentials',
+  //     }
+  // );
   let counterCorrect = 0;
   for (let i = 0; i < exercise.tests.length; i++) {
     const element = exercise.tests[i];
@@ -150,14 +161,6 @@ router.post('/checkBeforeAddExercise', async (req, res) => {
 
 router.post('/checkSolution/:id', async (req, res) => {
   try {
-    // const token = await axios.post(
-    //     'https://dev-v6t-co5x.us.auth0.com/oauth/token',
-    //     {
-    //         headers: { 'content-type': 'application/json' },
-    //         body: '{"client_id":"7iSINn2Fvm0tkLKH8XwwyiqYYEzJFYSM","client_secret":"D61mgH5J4q7CqwvcO6iJtggeL65qQZnWrdhRS2SXwoJTtgHSMJbGhdUWiAGWmVFJ","audience":"http://localhost:5001","grant_type":"client_credentials"}',
-    //     }
-    // );
-    // console.log(token);
     const id = req.params.id;
     const data = req.body;
     const exercise = await Exercise.findById(id).populate('tests');
@@ -195,7 +198,10 @@ router.put('/editExercise', async (req, res) => {
       }).save();
       testsToAdd.push(newTest._id);
     }
-    await Exercise.findByIdAndUpdate(id, { ...req.body, tests: testsToAdd });
+    await Exercise.findByIdAndUpdate(id, {
+      ...req.body,
+      tests: testsToAdd,
+    });
     const data = await Exercise.findById(id).populate(['author', 'tests']);
     return res.status(200).send(data);
   } catch (error) {
