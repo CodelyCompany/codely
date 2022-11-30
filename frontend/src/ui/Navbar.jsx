@@ -59,8 +59,8 @@ const Navbar = ({
 
   const settings =
     user && user.nickname === 'admin'
-      ? ['Profile', 'Admin Panel', 'Logout']
-      : ['Profile', 'Logout'];
+      ? ['Profile', 'Admin Panel', 'Settings', 'Logout']
+      : ['Profile', 'Settings', 'Logout'];
   const pages = useMemo(
     () => (isAuthenticated ? ['Editor', 'Exercises', 'Versus'] : []),
     [isAuthenticated]
@@ -98,6 +98,7 @@ const Navbar = ({
     setting === 'Logout' && logout();
     setting === 'Profile' && navigate('/user');
     setting === 'Admin Panel' && navigate('/admin');
+    setting === 'Settings' && navigate('/settings');
     setAnchorElUser(null);
   };
 

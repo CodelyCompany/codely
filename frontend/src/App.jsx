@@ -11,6 +11,7 @@ import MainPage from './ui/MainPage';
 import Navbar from './ui/Navbar';
 import ExerciseAlert from './ui/popups/ExercisesAlert';
 import AdminPanel from './ui/user/admin/AdminPanel';
+import Settings from './ui/user/user_settings/Settings';
 import UserDetails from './ui/user/UserDetails';
 import Exercise from './ui/versus/solving_exercise/Exercise';
 import Versus from './ui/versus/Versus';
@@ -20,7 +21,7 @@ import './App.css';
 
 function App() {
   return (
-    <div className="App">
+    <div className='App'>
       <BrowserRouter>
         <Navbar />
         <LoadWrapper>
@@ -38,6 +39,7 @@ function App() {
             />
             <Route path='/user' element={<UserDetails />} />
             <Route path='/admin' element={<AdminPanel />} />
+            <Route path='/settings' element={<Settings />} />
           </Routes>
         </LoadWrapper>
         <ExerciseAlert />
