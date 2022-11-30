@@ -1,0 +1,14 @@
+kind: Service
+apiVersion: v1
+metadata:
+    name: javascript
+    namespace: production
+spec:
+    type: ClusterIP
+    ports:
+        - port: 6000
+          targetPort: 6000
+          protocol: TCP
+    selector:
+        app: codely
+        type: javascript-container

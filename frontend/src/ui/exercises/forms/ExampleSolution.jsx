@@ -115,7 +115,9 @@ const ExampleSolution = ({
   const verifySolution = () => {
     axios
       .post(
-        'http://localhost:5000/exercises/checkBeforeAddExercise',
+        `${
+          process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+        }/exercises/checkBeforeAddExercise`,
         {
           exampleSolution: code,
           tests: step.dataFromStep3,

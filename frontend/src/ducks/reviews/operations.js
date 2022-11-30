@@ -49,7 +49,7 @@ export const AddReview = (body, token = null) =>
     ],
   });
 
-export const EditReview = (body, token = null) =>
+export const EditReview = (body, token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'

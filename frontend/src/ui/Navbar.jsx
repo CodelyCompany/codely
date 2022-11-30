@@ -91,7 +91,12 @@ const Navbar = ({ GetUsers, AddUser, users, GetReviews, token }) => {
             alt="codely logo"
             onClick={() => navigate('/')}
           />
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: 'flex', md: 'none' },
+            }}
+          >
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -145,7 +150,12 @@ const Navbar = ({ GetUsers, AddUser, users, GetReviews, token }) => {
           >
             CODELY
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: 'none', md: 'flex' },
+            }}
+          >
             {pages.map((page) => (
               <Button
                 key={page}
@@ -158,7 +168,10 @@ const Navbar = ({ GetUsers, AddUser, users, GetReviews, token }) => {
                 }}
               >
                 <Link
-                  style={{ textDecoration: 'none', color: 'white' }}
+                  style={{
+                    textDecoration: 'none',
+                    color: 'white',
+                  }}
                   to={`/${page.toLowerCase()}`}
                 >
                   {page}

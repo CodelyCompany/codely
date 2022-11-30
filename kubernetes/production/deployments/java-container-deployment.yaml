@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: java-container-deployment
+    namespace: production
+    labels:
+        app: codely
+        type: java-container
+spec:
+    selector:
+        matchLabels:
+            app: codely
+            type: java-container
+    replicas: 2
+    template:
+        metadata:
+            name: java-container-pod
+            labels:
+                app: codely
+                type: java-container
+        spec:
+            containers:
+                - name: java-container
+                  image: mtx22/codely-java
+                  env:
+                      - name: PORT
+                        valueFrom:
+                            configMapKeyRef:
+                                key: JAVA_PORT
+                                name: containers-configmap
