@@ -8,7 +8,6 @@ const reviews = require('./routes/reviews');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 const jwtCheck = require('./auth');
-const fs = require('fs');
 
 const app = express();
 
@@ -21,12 +20,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/users', users);
 app.use('/exercises', exercises);
 app.use('/reviews', reviews);
-
-app.use((req, res, next) => {
-  console.log('ALL', req);
-  console.log('HEADERS', req.headers);
-  next();
-});
 
 require('dotenv').config();
 
