@@ -20,6 +20,10 @@ const userSchema = new Schema({
     type: Number,
     default: 0,
   },
+  theme: {
+    type: Number,
+    default: 0,
+  },
 });
 
 module.exports = model('User', userSchema);

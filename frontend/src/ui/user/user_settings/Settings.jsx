@@ -1,12 +1,31 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 
+import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Checkbox, Container, Paper, Typography } from '@mui/material';
+import * as _ from 'lodash';
+import { PropTypes } from 'prop-types';
+import { connect, useSelector } from 'react-redux';
 
-const Settings = () => {
+import { getToken } from '../../../ducks/token/selectors';
+import { UpdateUser } from '../../../ducks/user/operations';
+import { getUserByUsername } from '../../../ducks/user/selectors';
+
+const Settings = ({ UpdateUser, token }) => {
   const [color, setColor] = useState(0);
+  const { user } = useAuth0();
+
+  const foundUser = useSelector(getUserByUsername(user.nickname));
+
+  useEffect(() => {
+    if (!_.isEmpty(user)) {
+      setColor(foundUser.theme);
+      document.body.className = `theme-${foundUser.theme}`;
+    }
+  }, [user, foundUser.theme]);
 
   const changeColor = (e) => {
-    setColor(parseInt(e.target.value));
+    UpdateUser({ _id: foundUser._id, theme: parseInt(e.target.value) }, token);
   };
 
   return (
@@ -56,7 +75,7 @@ const Settings = () => {
             onChange={changeColor}
             sx={{ position: 'relative', bottom: '9px' }}
           />
-          <Typography fontWeight='bolder'>Black / Blue</Typography>
+          <Typography fontWeight='bolder'>Black & Blue</Typography>
           <Paper
             elevation={3}
             sx={{ height: '20px', width: '20px', marginLeft: '10px' }}
@@ -82,4 +101,17 @@ const Settings = () => {
   );
 };
 
-export default Settings;
+const mapStateToProps = (state) => ({
+  token: getToken(state),
+});
+
+const mapDispatchToProps = {
+  UpdateUser,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);
+
+Settings.propTypes = {
+  UpdateUser: PropTypes.func.isRequired,
+  token: PropTypes.object,
+};
