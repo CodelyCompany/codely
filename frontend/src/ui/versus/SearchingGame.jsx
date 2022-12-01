@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
+import { useAuth0 } from '@auth0/auth0-react';
 import { PropTypes } from 'prop-types';
 import { MutatingDots } from 'react-loader-spinner';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
+import { getUserByUsername } from '../../ducks/user/selectors';
 
 import VersusFound from './VersusFound';
 
@@ -11,6 +15,8 @@ const SearchingGame = ({ socket, setFound, found, DisconnectSocket }) => {
   const [open, setOpen] = useState(false);
   const [accepted, setAccepted] = useState(false);
   const [language, setLanguage] = useState(null);
+  const { user } = useAuth0();
+  const foundUser = useSelector(getUserByUsername(user.nickname));
 
   useEffect(() => {
     socket.on('game', (mess) => {
@@ -51,12 +57,13 @@ const SearchingGame = ({ socket, setFound, found, DisconnectSocket }) => {
       <MutatingDots
         height='100'
         width='100'
-        color='rgb(25, 118, 210)'
-        secondaryColor='rgb(25, 118, 210)'
+        color={!foundUser.theme ? 'rgb(25, 118, 210)' : 'rgb(166, 31, 114)'}
+        secondaryColor={
+          !foundUser.theme ? 'rgb(25, 118, 210)' : 'rgb(166, 31, 114)'
+        }
         radius='12.5'
         ariaLabel='mutating-dots-loading'
         wrapperStyle={{ justifyContent: 'center' }}
-        wrapperClass=''
         visible={true}
       />
     </>

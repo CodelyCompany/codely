@@ -22,7 +22,8 @@ const PlayersCounter = ({ socket }) => {
         color='primary'
         sx={{
           fontWeight: 'bolder',
-          borderBottom: '3px solid rgb(25, 118, 210)',
+          borderColor: 'primary.main',
+          borderBottom: '3px solid',
           marginTop: '20px',
         }}
       >

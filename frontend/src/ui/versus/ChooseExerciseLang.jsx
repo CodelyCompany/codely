@@ -7,17 +7,31 @@ const ChooseExerciseLang = ({ formik }) => {
   const languages = ['JavaScript', 'Bash', 'C', 'C++', 'Java', 'Python', 'R'];
 
   return (
-    <Paper elevation={3} sx={{ padding: '10px', margin: '10px 0' }}>
-      <Typography variant='h6' color='primary' fontWeight={'bolder'}>
+    <Paper
+      elevation={3}
+      sx={{
+        padding: '10px',
+        margin: '10px 0',
+        backgroundColor: 'primary.main',
+      }}
+    >
+      <Typography variant='h6' color='white' fontWeight={'bolder'}>
         Pick your languages
       </Typography>
       <form>
-        <div role='group' aria-labelledby='checkbox-group'>
+        <div
+          role='group'
+          aria-labelledby='checkbox-group'
+          style={{ color: 'white' }}
+        >
           {languages.map((el) => (
             <FormControlLabel
               key={el}
               control={
                 <Checkbox
+                  style={{
+                    color: 'black',
+                  }}
                   id={el}
                   name='checked'
                   checked={formik.values.checked.includes(
@@ -27,9 +41,7 @@ const ChooseExerciseLang = ({ formik }) => {
                   onChange={formik.handleChange}
                 />
               }
-              label={
-                <span style={{ position: 'relative', top: '3px' }}>{el}</span>
-              }
+              label={<span>{el}</span>}
             />
           ))}
         </div>

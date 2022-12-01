@@ -51,9 +51,13 @@ const LanguageSelector = ({ language, setLanguage }) => {
   };
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 180, color: 'blue' }} size='small'>
-      <InputLabel>Language</InputLabel>
+    <FormControl
+      sx={{ m: 1, minWidth: 180, color: 'primary.main' }}
+      size='small'
+    >
+      <InputLabel sx={{ color: 'primary.main' }}>Language</InputLabel>
       <Select
+        sx={{ color: 'primary.main' }}
         labelId='demo-select-small'
         id='demo-select-small'
         value={language}

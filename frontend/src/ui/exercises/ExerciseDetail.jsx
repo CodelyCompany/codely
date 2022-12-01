@@ -63,7 +63,10 @@ const ExerciseDetail = ({ GetExercises, token }) => {
                 <Typography
                   variant='h3'
                   color='primary'
-                  sx={{ borderBottom: '3px solid rgb(25, 118, 210)' }}
+                  sx={{
+                    borderColor: 'primary.main',
+                    borderBottom: '3px solid',
+                  }}
                 >
                   {exercise.title}
                 </Typography>
@@ -71,8 +74,8 @@ const ExerciseDetail = ({ GetExercises, token }) => {
               <ListItem>
                 <ListItemAvatar>
                   <Avatar
-                    style={{
-                      backgroundColor: 'rgb(25, 118, 210)',
+                    sx={{
+                      backgroundColor: 'primary.main',
                     }}
                   >
                     <PersonIcon />
@@ -86,8 +89,8 @@ const ExerciseDetail = ({ GetExercises, token }) => {
               <ListItem>
                 <ListItemAvatar>
                   <Avatar
-                    style={{
-                      backgroundColor: 'rgb(25, 118, 210)',
+                    sx={{
+                      backgroundColor: 'primary.main',
                     }}
                   >
                     <GTranslateIcon />
@@ -101,8 +104,8 @@ const ExerciseDetail = ({ GetExercises, token }) => {
               <ListItem>
                 <ListItemAvatar>
                   <Avatar
-                    style={{
-                      backgroundColor: 'rgb(25, 118, 210)',
+                    sx={{
+                      backgroundColor: 'primary.main',
                     }}
                   >
                     <PsychologyIcon />
@@ -120,8 +123,8 @@ const ExerciseDetail = ({ GetExercises, token }) => {
               <ListItem>
                 <ListItemAvatar>
                   <Avatar
-                    style={{
-                      backgroundColor: 'rgb(25, 118, 210)',
+                    sx={{
+                      backgroundColor: 'primary.main',
                     }}
                   >
                     <FormatColorTextIcon />
@@ -134,7 +137,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
+                  <Avatar sx={{ backgroundColor: 'primary.main' }}>
                     <StarRateIcon />
                   </Avatar>
                 </ListItemAvatar>

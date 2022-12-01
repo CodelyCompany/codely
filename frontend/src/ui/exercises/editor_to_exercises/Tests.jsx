@@ -12,7 +12,8 @@ function Tests({ tests }) {
       <Box
         sx={{
           width: 'calc(100% - 6px)',
-          border: '3px solid rgb(25, 118, 210)',
+          borderColor: 'primary.main',
+          border: '3px solid',
           marginTop: '10px',
           padding: '10px 0',
           borderRadius: '5px',

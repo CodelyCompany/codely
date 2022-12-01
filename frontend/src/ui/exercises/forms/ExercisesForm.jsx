@@ -61,7 +61,13 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
   });
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', textAlign: 'start' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        textAlign: 'start',
+      }}
+    >
       <form
         style={{
           display: 'flex',
@@ -72,7 +78,8 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
         onSubmit={formik.handleSubmit}
       >
         <TextField
-          sx={{ marginBottom: '10px' }}
+          sx={{ input: { color: 'primary.main' }, marginBottom: '10px' }}
+          focused={true}
           id='title'
           name='title'
           label='Title'
@@ -82,7 +89,8 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
           helperText={formik.touched.title && formik.errors.title}
         />
         <TextField
-          sx={{ marginBottom: '10px' }}
+          sx={{ input: { color: 'primary.main' }, marginBottom: '10px' }}
+          focused={true}
           id='description'
           name='description'
           label='Description'
@@ -94,7 +102,10 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
           helperText={formik.touched.description && formik.errors.description}
         />
         <TextField
-          sx={{ marginBottom: '10px' }}
+          focused={true}
+          sx={{
+            marginBottom: '10px',
+          }}
           id='difficulty'
           name='difficulty'
           label='Difficulty'
@@ -105,13 +116,18 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
           helperText={formik.touched.difficulty && formik.errors.difficulty}
         >
           {[...Array(5).keys()].map((option) => (
-            <MenuItem key={option + 1} value={option + 1}>
+            <MenuItem
+              sx={{ color: 'primary.main' }}
+              key={option + 1}
+              value={option + 1}
+            >
               {option + 1}
             </MenuItem>
           ))}
         </TextField>
         <TextField
           sx={{ marginBottom: '10px' }}
+          focused={true}
           id='programmingLanguage'
           name='programmingLanguage'
           label='Programming language'
@@ -128,7 +144,11 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
           }
         >
           {programmingLanguages.map((option) => (
-            <MenuItem key={option} value={option}>
+            <MenuItem
+              sx={{ color: 'primary.main' }}
+              key={option}
+              value={option}
+            >
               {option}
             </MenuItem>
           ))}

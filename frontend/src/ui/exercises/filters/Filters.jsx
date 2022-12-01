@@ -51,6 +51,7 @@ function Filters({ exercises, setFilters, setSort, sort }) {
     <Box sx={{ width: '100%' }}>
       <Box>
         <Autocomplete
+          sx={{ input: { color: 'primary.main' } }}
           disablePortal
           id='combo-box'
           options={getTitles()}

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
+import { useAuth0 } from '@auth0/auth0-react';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import FormatColorTextIcon from '@mui/icons-material/FormatColorText';
@@ -22,6 +23,7 @@ import { GetExercises } from '../../../ducks/exercises/operations';
 import { getExerciseById } from '../../../ducks/exercises/selectors';
 import { getSocket } from '../../../ducks/socket/selectors';
 import { getToken } from '../../../ducks/token/selectors';
+import { getUserByUsername } from '../../../ducks/user/selectors';
 import OutputField from '../../code_editor/OutputField';
 import CustomArgs from '../../exercises/editor_to_exercises/CustomArgs';
 import GetToken from '../../user/GetToken';
@@ -43,6 +45,9 @@ const Exercise = ({ GetExercises, token, socket }) => {
   const [argumentValues, setArgumentValues] = useState([]);
   const [open, setOpen] = useState(false);
   const [output, setOutput] = useState('');
+
+  const { user } = useAuth0();
+  const foundUser = useSelector(getUserByUsername(user.nickname));
 
   const getTime = (time) =>
     `${Math.floor(time / 60)}:${
@@ -103,8 +108,12 @@ const Exercise = ({ GetExercises, token, socket }) => {
       <>
         <FinishDialog open={open} setOpen={setOpen} won={won} />
         <GetToken />
-        <Container sx={{ marginTop: '10px' }}>
+        <Container
+          className={`theme-${foundUser.theme}`}
+          sx={{ marginTop: '10px' }}
+        >
           <Paper
+            className={`theme-${foundUser.theme}`}
             elevation={3}
             sx={{
               padding: '10px',
@@ -118,11 +127,15 @@ const Exercise = ({ GetExercises, token, socket }) => {
               You are in versus mode. Try to solve this exercise faster than
               your opponent.
             </span>{' '}
-            <span style={{ color: 'rgb(25, 118, 210)', fontWeight: 'bolder' }}>
+            <span
+              className={`theme-${foundUser.theme}`}
+              style={{ fontWeight: 'bolder' }}
+            >
               Good luck & have fun!
             </span>
           </Paper>
           <Paper
+            className={`theme-${foundUser.theme}`}
             elevation={3}
             sx={{
               padding: '15px',
@@ -183,8 +196,12 @@ const Exercise = ({ GetExercises, token, socket }) => {
               </span>
             </span>
           </Paper>
-          <Box sx={{ width: '100%', display: 'flex' }}>
+          <Box
+            className={`theme-${foundUser.theme}`}
+            sx={{ width: '100%', display: 'flex' }}
+          >
             <List
+              className={`theme-${foundUser.theme}`}
               sx={{
                 width: '100%',
                 height: '100%',
@@ -195,14 +212,17 @@ const Exercise = ({ GetExercises, token, socket }) => {
                 <Typography
                   variant='h3'
                   color='primary'
-                  sx={{ borderBottom: '3px solid rgb(25, 118, 210)' }}
+                  sx={{
+                    borderBottom: '3px solid',
+                    borderColor: 'primary.main',
+                  }}
                 >
                   {exercise.title}
                 </Typography>
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
+                  <Avatar sx={{ backgroundColor: 'primary.main' }}>
                     <PersonIcon />
                   </Avatar>
                 </ListItemAvatar>
@@ -213,7 +233,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
+                  <Avatar sx={{ backgroundColor: 'primary.main' }}>
                     <GTranslateIcon />
                   </Avatar>
                 </ListItemAvatar>
@@ -224,7 +244,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
+                  <Avatar sx={{ backgroundColor: 'primary.main' }}>
                     <PsychologyIcon />
                   </Avatar>
                 </ListItemAvatar>
@@ -239,7 +259,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
+                  <Avatar sx={{ backgroundColor: 'primary.main' }}>
                     <FormatColorTextIcon />
                   </Avatar>
                 </ListItemAvatar>

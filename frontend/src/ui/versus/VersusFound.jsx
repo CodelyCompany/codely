@@ -47,6 +47,7 @@ const VersusFound = ({
   return (
     <Box>
       <Dialog
+        sx={{ color: 'red' }}
         open={open}
         onClose={handleClose}
         aria-labelledby='alert-dialog-title'

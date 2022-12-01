@@ -15,10 +15,13 @@ const Editor = () => {
 
   return (
     <Container>
-      <a className='editor-tag'>Write your code here!</a>
+      <a className='editor-tag' color='primary'>
+        Write your code here!
+      </a>
       <Box
         sx={{
-          border: '3px solid rgb(25, 118, 210)',
+          borderColor: 'primary.main',
+          border: '3px solid',
           marginTop: '20px',
           padding: '50px',
           borderRadius: '5px',

@@ -42,7 +42,6 @@
 }
 
 #line-numbering {
-  color: rgb(25, 118, 210);
   font-family: 'JetBrains Mono';
   font-weight: bolder;
   font-size: 14px;
@@ -50,5 +49,4 @@
 
 #code-area {
   font-family: 'JetBrains Mono';
-  background-color: white;
 }

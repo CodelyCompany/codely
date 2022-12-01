@@ -42,8 +42,11 @@ const PaginationExercises = ({
       }}
     >
       <FormControl sx={{ m: 1, minWidth: 120 }} size='small'>
-        <InputLabel id='demo-select-small'>Items per page</InputLabel>
+        <InputLabel sx={{ color: 'primary.main' }} id='demo-select-small'>
+          Items per page
+        </InputLabel>
         <Select
+          sx={{ color: 'primary.main' }}
           labelId='select-small'
           id='select-small'
           value={itemsPerPage}

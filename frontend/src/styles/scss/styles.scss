@@ -1,10 +1,34 @@
 $background-blue: rgb(25, 118, 210);
+$second-theme: #9a2150;
+
+#combo-box-label {
+  color: $second-theme;
+}
+
+#difficulty {
+  color: $second-theme;
+}
+
+#programmingLanguage {
+  color: $second-theme;
+}
 
 html {
   height: 100vh;
   body {
+    .theme-1 {
+      background-color: rgba(0, 0, 0, 0.9) !important;
+      border-color: $second-theme;
+      color: $second-theme;
+    }
+
     &.theme-1 {
       background-color: rgba(0, 0, 0, 0.9);
+      color: $second-theme;
+    }
+    .theme-1-sec {
+      background-color: $second-theme;
+      color: $second-theme;
     }
     .main-page-container {
       height: 80vh;
@@ -113,7 +137,6 @@ html {
 .editor-tag {
   font-weight: bolder;
   font-size: 50px;
-  color: $background-blue;
   position: relative;
   top: 20px;
 }

@@ -51,7 +51,7 @@ const NavbarMessages = ({
                 p: 2,
                 position: 'relative',
                 top: '4px',
-                color: 'rgb(25, 118, 210)',
+                color: 'primary.main',
                 fontWeight: 'bolder',
               }}
             >

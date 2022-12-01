@@ -103,7 +103,16 @@ const Navbar = ({
   };
 
   return (
-    <AppBar position='static'>
+    <AppBar
+      position='static'
+      className={
+        users.length && isAuthenticated
+          ? `theme-${
+              users.find((usr) => usr.username === user.nickname).theme
+            }-sec`
+          : `theme-0-sec`
+      }
+    >
       <GetToken />
       <Container maxWidth='xl'>
         <Toolbar disableGutters>
@@ -226,6 +235,11 @@ const Navbar = ({
                 <IoIosMail
                   onClick={handleClick}
                   style={{
+                    color:
+                      users.length &&
+                      users.find((usr) => usr.username === user.nickname).theme
+                        ? 'white'
+                        : 'primary.main',
                     fontSize: '30px',
                     cursor: 'pointer',
                     position: 'relative',

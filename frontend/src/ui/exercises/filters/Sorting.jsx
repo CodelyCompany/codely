@@ -7,8 +7,11 @@ function Sorting({ setSort, sort }) {
   return (
     <Box>
       <FormControl fullWidth>
-        <InputLabel id='select-label'>Sort by:</InputLabel>
+        <InputLabel sx={{ color: 'primary.main' }} id='select-label'>
+          Sort by:
+        </InputLabel>
         <Select
+          sx={{ color: 'primary.main' }}
           labelId='select-label'
           id='select'
           value={sort}

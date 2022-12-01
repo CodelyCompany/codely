@@ -233,7 +233,12 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
           onSubmit={formik.handleSubmit}
         >
           <TextField
-            sx={{ marginBottom: '10px' }}
+            focused
+            sx={{
+              color: 'primary.main',
+              marginBottom: '10px',
+              input: { color: 'primary.main' },
+            }}
             id='functionName'
             name='functionName'
             label='Function name'
@@ -247,7 +252,8 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
             }
           />
           <TextField
-            sx={{ marginBottom: '10px' }}
+            focused
+            sx={{ marginBottom: '10px', input: { color: 'primary.main' } }}
             type='number'
             id='argumentsQuantity'
             name='argumentsQuantity'
@@ -270,10 +276,12 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                 (argNumber) => (
                   <Box key={argNumber}>
                     <TextField
+                      focused
                       sx={{
                         marginTop: '10px',
                         width: `${formWithTypes ? 'calc(50% - 5px)' : '100%'}`,
                         marginRight: `${formWithTypes ? '5px' : '0'}`,
+                        input: { color: 'primary.main' },
                       }}
                       label={`${argNumber + 1}. Argument name`}
                       value={argumentsName[argNumber] || ''}

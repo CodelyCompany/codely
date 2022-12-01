@@ -50,7 +50,8 @@ const EditorField = ({
       <Box
         sx={{
           height: '300px',
-          border: '3px solid rgb(25, 118, 210)',
+          borderColor: 'primary.main',
+          border: '3px solid',
           borderRadius: '5px',
         }}
       >

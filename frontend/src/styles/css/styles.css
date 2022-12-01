@@ -1,8 +1,30 @@
+#combo-box-label {
+  color: #9a2150;
+}
+
+#difficulty {
+  color: #9a2150;
+}
+
+#programmingLanguage {
+  color: #9a2150;
+}
+
 html {
   height: 100vh;
 }
+html body .theme-1 {
+  background-color: rgba(0, 0, 0, 0.9) !important;
+  border-color: #9a2150;
+  color: #9a2150;
+}
 html body.theme-1 {
   background-color: rgba(0, 0, 0, 0.9);
+  color: #9a2150;
+}
+html body .theme-1-sec {
+  background-color: #9a2150;
+  color: #9a2150;
 }
 html body .main-page-container {
   height: 80vh;
@@ -117,7 +139,6 @@ html body .main-page-container .main-page ul li .border {
 .editor-tag {
   font-weight: bolder;
   font-size: 50px;
-  color: rgb(25, 118, 210);
   position: relative;
   top: 20px;
 }

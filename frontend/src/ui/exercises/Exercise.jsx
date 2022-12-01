@@ -67,7 +67,7 @@ const Exercise = ({ exercise }) => {
     <Card
       onClick={() => navigate(`/Exercise/${exercise._id}`)}
       sx={{
-        backgroundColor: 'rgb(25, 118, 210)',
+        backgroundColor: 'primary.main',
         width: '100%',
         cursor: 'pointer',
         marginTop: '10px',

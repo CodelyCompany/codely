@@ -88,11 +88,12 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
   return (
     <div>
       <Accordion
+        sx={{ backgroundColor: 'primary.background' }}
         disabled={step.currentStep !== 1}
         expanded={step.currentStep === 1}
       >
         <AccordionSummary
-          sx={{ backgroundColor: 'rgb(25, 118, 210)' }}
+          sx={{ backgroundColor: 'primary.main' }}
           aria-controls='panel1d-content'
           id='panel1d-header'
         >
@@ -110,11 +111,12 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
         </AccordionDetails>
       </Accordion>
       <Accordion
+        sx={{ backgroundColor: 'primary.background' }}
         disabled={step.currentStep !== 2}
         expanded={step.currentStep === 2}
       >
         <AccordionSummary
-          sx={{ backgroundColor: 'rgb(25, 118, 210)' }}
+          sx={{ backgroundColor: 'primary.main' }}
           aria-controls='panel3d-content'
           id='panel3d-header'
         >
@@ -138,11 +140,12 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
         </AccordionDetails>
       </Accordion>
       <Accordion
+        sx={{ backgroundColor: 'primary.background' }}
         disabled={step.currentStep !== 3}
         expanded={step.currentStep === 3}
       >
         <AccordionSummary
-          sx={{ backgroundColor: 'rgb(25, 118, 210)' }}
+          sx={{ backgroundColor: 'primary.main' }}
           aria-controls='panel2d-content'
           id='panel2d-header'
         >
@@ -160,11 +163,12 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
         </AccordionDetails>
       </Accordion>
       <Accordion
+        sx={{ backgroundColor: 'primary.background' }}
         disabled={step.currentStep !== 4}
         expanded={step.currentStep === 4}
       >
         <AccordionSummary
-          sx={{ backgroundColor: 'rgb(25, 118, 210)' }}
+          sx={{ backgroundColor: 'primary.main' }}
           aria-controls='panel3d-content'
           id='panel3d-header'
         >
@@ -183,11 +187,12 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
       </Accordion>
 
       <Accordion
+        sx={{ backgroundColor: 'primary.background' }}
         disabled={step.currentStep !== 5}
         expanded={step.currentStep === 5}
       >
         <AccordionSummary
-          sx={{ backgroundColor: 'rgb(25, 118, 210)' }}
+          sx={{ backgroundColor: 'primary.main' }}
           aria-controls='panel3d-content'
           id='panel3d-header'
         >
