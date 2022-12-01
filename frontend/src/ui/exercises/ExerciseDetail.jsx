@@ -25,6 +25,7 @@ import { getExerciseById } from '../../ducks/exercises/selectors';
 import { ChangeDeleteStatus } from '../../ducks/popups/actions';
 import { getRatingByExerciseId } from '../../ducks/reviews/selectors';
 import { getToken } from '../../ducks/token/selectors';
+import { getUserByUsername } from '../../ducks/user/selectors';
 import Confirmation from '../popups/Confirmation';
 import GetToken from '../user/GetToken';
 
@@ -36,6 +37,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
   const exercise = useSelector(getExerciseById(id));
   const rating = useSelector(getRatingByExerciseId(id));
   const { user } = useAuth0();
+  const foundUser = useSelector(getUserByUsername(user.nickname));
   const navigate = useNavigate();
   const [toDelete, setToDelete] = useState(false);
   const [argumentValues, setArgumentValues] = useState([]);
@@ -53,6 +55,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
         <Container sx={{ marginTop: '10px' }}>
           <Box sx={{ width: '100%', display: 'flex' }}>
             <List
+              className={`theme-${foundUser.theme}`}
               sx={{
                 width: '100%',
                 height: '100%',

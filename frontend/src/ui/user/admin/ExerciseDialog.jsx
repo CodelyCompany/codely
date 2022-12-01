@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { useAuth0 } from '@auth0/auth0-react';
 import Editor from '@monaco-editor/react';
 import {
   Box,
@@ -13,7 +14,7 @@ import {
 } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { PropTypes } from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import {
   CheckExercise,
@@ -21,7 +22,7 @@ import {
 } from '../../../ducks/exercises/operations';
 import { AddNotification } from '../../../ducks/notifications/operations';
 import { getToken } from '../../../ducks/token/selectors';
-import { getUsers } from '../../../ducks/user/selectors';
+import { getUserByUsername, getUsers } from '../../../ducks/user/selectors';
 import GetToken from '../GetToken';
 
 function ExerciseDialog({
@@ -34,6 +35,8 @@ function ExerciseDialog({
   AddNotification,
   users,
 }) {
+  const { user } = useAuth0();
+  const foundUser = useSelector(getUserByUsername(user.nickname));
   const checkExercise = () => {
     const userToNotify = users.find((usr) => usr.username === exercise.author);
     AddNotification(userToNotify._id, {
@@ -84,7 +87,8 @@ function ExerciseDialog({
             color='primary'
             fontWeight={'bolder'}
             sx={{
-              borderBottom: '3px solid rgb(25, 118, 210)',
+              borderColor: 'primary.main',
+              borderBottom: '3px solid',
               margin: '0 10px 10px 10px',
             }}
             id='alert-dialog-title'
@@ -116,9 +120,15 @@ function ExerciseDialog({
               id='alert-dialog-description'
               style={{ color: 'rgb(25, 118, 210)' }}
             >
-              <strong>Hints:</strong>
+              <strong
+                style={{
+                  color: foundUser.theme ? '#9a2150' : 'rgb(25, 118, 210)',
+                }}
+              >
+                Hints:
+              </strong>
               {exercise.hints.map((hint, index) => (
-                <ListItemText key={index}>
+                <ListItemText sx={{ color: 'primary.main' }} key={index}>
                   <strong>-</strong> {hint}
                 </ListItemText>
               ))}
@@ -130,7 +140,8 @@ function ExerciseDialog({
               sx={{
                 width: '100%',
                 height: '300px',
-                border: '3px solid rgb(25, 118, 210)',
+                borderColor: 'primary.main',
+                border: '3px solid',
                 marginBottom: '5px',
               }}
               rows={exercise.tests.map((el) => ({
@@ -154,7 +165,8 @@ function ExerciseDialog({
             <Box
               sx={{
                 width: '100%',
-                border: '3px solid rgb(25, 118, 210)',
+                borderColor: 'primary.main',
+                border: '3px solid',
                 borderRadius: '5px',
               }}
             >

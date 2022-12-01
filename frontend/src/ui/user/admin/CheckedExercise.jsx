@@ -1,15 +1,17 @@
 import React, { useEffect, useMemo } from 'react';
 
+import { useAuth0 } from '@auth0/auth0-react';
 import { Card, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { GetExercises } from '../../../ducks/exercises/operations';
 import { getExercisesFromState } from '../../../ducks/exercises/selectors';
 import { getToken } from '../../../ducks/token/selectors';
+import { getUserByUsername } from '../../../ducks/user/selectors';
 import GetToken from '../GetToken';
 
 const columns = [
@@ -31,6 +33,9 @@ function CheckedExercise({ checkedExercises, GetExercises, token }) {
     [checkedExercises]
   );
 
+  const { user } = useAuth0();
+  const foundUser = useSelector(getUserByUsername(user.nickname));
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,6 +44,7 @@ function CheckedExercise({ checkedExercises, GetExercises, token }) {
 
   return (
     <Card
+      className={`theme-${foundUser.theme}`}
       sx={{
         height: '500px',
         width: '50%',
@@ -56,9 +62,11 @@ function CheckedExercise({ checkedExercises, GetExercises, token }) {
       </Typography>
       <DataGrid
         sx={{
+          borderColor: 'primary.main',
           width: 'calc(100% - 20px)',
           height: '400px',
           margin: '10px',
+          color: 'primary.main',
         }}
         getRowId={(row) => row._id}
         rows={rows.map((row) => ({

@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { useAuth0 } from '@auth0/auth0-react';
 import LabelImportantIcon from '@mui/icons-material/LabelImportant';
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
@@ -7,13 +8,18 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { PropTypes } from 'prop-types';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FixedSizeList } from 'react-window';
+
+import { getUserByUsername } from '../../ducks/user/selectors';
 
 import PreparedExercisesChart from './PreparedExercisesChart';
 
 function UserExercisesList({ exercises, mode }) {
   const navigate = useNavigate();
+  const { user } = useAuth0();
+  const foundUser = useSelector(getUserByUsername(user.nickname));
 
   function renderRow(props) {
     const { index, style } = props;
@@ -24,7 +30,7 @@ function UserExercisesList({ exercises, mode }) {
           onClick={() => navigate(`/exercise/${exercises[index]._id}`)}
         >
           <ListItemText
-            sx={{ color: 'rgb(25, 118, 210)' }}
+            sx={{ color: 'primary.main' }}
             primary={
               <div>
                 <LabelImportantIcon sx={{ position: 'relative', top: '6px' }} />{' '}
@@ -39,11 +45,13 @@ function UserExercisesList({ exercises, mode }) {
 
   return (
     <Box
+      className={`theme-${foundUser.theme}`}
       sx={{
         width: '100%',
         height: '100%',
         bgcolor: 'background.paper',
-        borderBottom: '3px solid rgb(25, 118, 210)',
+        borderColor: 'primary.main',
+        borderBottom: '3px solid',
         display: 'flex',
         flexDirection: 'column',
       }}

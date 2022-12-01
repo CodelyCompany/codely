@@ -2,6 +2,14 @@
   color: #9a2150;
 }
 
+#testsQuantity {
+  color: #9a2150;
+}
+
+#hintsQuantity {
+  color: #9a2150;
+}
+
 #difficulty {
   color: #9a2150;
 }
@@ -14,12 +22,12 @@ html {
   height: 100vh;
 }
 html body .theme-1 {
-  background-color: rgba(0, 0, 0, 0.9) !important;
-  border-color: #9a2150;
+  background-color: #191919 !important;
+  border-color: #9a2150 !important;
   color: #9a2150;
 }
 html body.theme-1 {
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: #191919;
   color: #9a2150;
 }
 html body .theme-1-sec {

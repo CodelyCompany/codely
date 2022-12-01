@@ -116,7 +116,11 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
         sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
       >
         <TextField
-          sx={{ marginBottom: '10px', width: '900px' }}
+          focused
+          sx={{
+            marginBottom: '10px',
+            width: '900px',
+          }}
           id='hintsQuantity'
           name='hintsQuantity'
           label='Choose hints quantity'
@@ -145,10 +149,12 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
           [...Array(hintsQuantity).keys()].map((number) => (
             <div key={number} style={{ width: '100%' }}>
               <TextField
+                focused
                 sx={{
                   marginBottom: '10px',
                   marginRight: '10px',
                   width: '100%',
+                  input: { color: 'primary.main' },
                 }}
                 label={number === 0 ? 'Hints' : ''}
                 name='hint'

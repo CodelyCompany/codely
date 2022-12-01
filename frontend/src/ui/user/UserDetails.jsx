@@ -34,7 +34,8 @@ const UserDetails = ({ GetUsers, token }) => {
         <Box sx={{ margin: '20px' }}>
           <Box
             sx={{
-              borderBottom: '3px solid rgb(25, 118, 210)',
+              borderColor: 'primary.main',
+              borderBottom: '3px solid',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'end',

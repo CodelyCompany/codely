@@ -144,7 +144,13 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
         sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
       >
         <TextField
-          sx={{ marginBottom: '10px', width: '900px' }}
+          focused
+          sx={{
+            marginBottom: '10px',
+            width: '900px',
+            input: { color: 'primary.main' },
+            color: 'primary.main',
+          }}
           id='testsQuantity'
           name='testsQuantity'
           label='Choose tests quantity'
@@ -202,6 +208,8 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
                           : {};
                       return (
                         <TextField
+                          focused
+                          sx={{ input: { color: 'primary.main' } }}
                           {...label}
                           key={argNumber}
                           value={tests[index]?.input[argNumber] || ''}
@@ -226,6 +234,8 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
                 </Box>
                 <Box>
                   <TextField
+                    focused
+                    sx={{ input: { color: 'primary.main' } }}
                     {...outputLabel}
                     value={tests[index]?.output || ''}
                     onChange={(e) => handleOutput(index, e)}

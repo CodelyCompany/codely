@@ -35,12 +35,12 @@ const Settings = ({ UpdateUser, token }) => {
           Upload your avatar
         </Typography>
       </Box>
-      <Box padding='20px' borderTop='3px solid rgb(25, 118, 210)'>
+      <Box padding='20px' borderColor='primary.main' borderTop='3px solid'>
         <Typography color='primary' variant='h5' fontWeight='bolder'>
           Set your language
         </Typography>
       </Box>
-      <Box padding='20px' borderTop='3px solid rgb(25, 118, 210)'>
+      <Box padding='20px' borderColor='primary.main' borderTop='3px solid'>
         <Typography color='primary' variant='h5' fontWeight='bolder'>
           Set your theme
         </Typography>
@@ -53,10 +53,7 @@ const Settings = ({ UpdateUser, token }) => {
             sx={{ position: 'relative', bottom: '9px' }}
           />
           <Typography fontWeight='bolder'>Default</Typography>
-          <Paper
-            elevation={3}
-            sx={{ height: '20px', width: '20px', marginLeft: '10px' }}
-          >
+          <div style={{ height: '20px', width: '20px', marginLeft: '10px' }}>
             <Box
               sx={{
                 height: '50%',
@@ -65,7 +62,7 @@ const Settings = ({ UpdateUser, token }) => {
               }}
             ></Box>
             <Box sx={{ height: '50%' }}></Box>
-          </Paper>
+          </div>
         </Box>
         <Box sx={{ display: 'flex' }}>
           <Checkbox
@@ -76,10 +73,7 @@ const Settings = ({ UpdateUser, token }) => {
             sx={{ position: 'relative', bottom: '9px' }}
           />
           <Typography fontWeight='bolder'>Black & Blue</Typography>
-          <Paper
-            elevation={3}
-            sx={{ height: '20px', width: '20px', marginLeft: '10px' }}
-          >
+          <div style={{ height: '20px', width: '20px', marginLeft: '10px' }}>
             <Box
               sx={{
                 height: '50%',
@@ -94,7 +88,7 @@ const Settings = ({ UpdateUser, token }) => {
                 borderRadius: '0 0 5px 5px',
               }}
             ></Box>{' '}
-          </Paper>
+          </div>
         </Box>
       </Box>
     </Container>

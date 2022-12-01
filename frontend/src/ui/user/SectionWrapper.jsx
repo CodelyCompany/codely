@@ -18,7 +18,8 @@ const SectionWrapper = ({ children, mode, condition }) => {
   ) : (
     <Box
       sx={{
-        borderBottom: '3px solid rgb(25, 118, 210)',
+        borderColor: 'primary.main',
+        borderBottom: '3px solid',
         margin: '10px 0',
         padding: '10px 0',
         width: '100%',

@@ -5,6 +5,14 @@ $second-theme: #9a2150;
   color: $second-theme;
 }
 
+#testsQuantity {
+  color: $second-theme;
+}
+
+#hintsQuantity {
+  color: $second-theme;
+}
+
 #difficulty {
   color: $second-theme;
 }
@@ -17,13 +25,13 @@ html {
   height: 100vh;
   body {
     .theme-1 {
-      background-color: rgba(0, 0, 0, 0.9) !important;
-      border-color: $second-theme;
+      background-color: #191919 !important;
+      border-color: $second-theme !important;
       color: $second-theme;
     }
 
     &.theme-1 {
-      background-color: rgba(0, 0, 0, 0.9);
+      background-color: #191919;
       color: $second-theme;
     }
     .theme-1-sec {

@@ -162,7 +162,8 @@ const ExampleSolution = ({
             justifyContent: 'center',
             width: 'calc(900px - 10px)',
             height: '200px',
-            border: '3px solid rgb(25, 118, 210)',
+            borderColor: 'primary.main',
+            border: '3px solid',
             borderRadius: '5px',
             margin: '10px',
             padding: '5px',
@@ -170,6 +171,7 @@ const ExampleSolution = ({
         >
           {' '}
           <Editor
+            theme={foundUser.theme ? 'vs-dark' : 'vs'}
             loading={<CircularProgress />}
             height='100%'
             language={

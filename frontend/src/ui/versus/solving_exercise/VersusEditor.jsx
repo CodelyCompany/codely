@@ -24,7 +24,8 @@ const VersusEditor = ({ code, setCode, language, functionSignature }) => {
     <Box
       sx={{
         width: '100%',
-        border: '3px solid rgb(25, 118, 210)',
+        borderColor: 'primary.main',
+        border: '3px solid',
         borderRadius: '5px',
       }}
     >
