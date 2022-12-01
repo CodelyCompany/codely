@@ -6,6 +6,11 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: '3600'
+    nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
+    nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'
+    nginx.ingress.kubernetes.io/websocket-services: 'backend'
+    nginx.org/websocket-services: 'backend'
 spec:
   rules:
     - host: localhost
@@ -32,6 +37,20 @@ spec:
                 name: backend
                 port:
                   number: 5000
+          - path: /websocket/(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: backend
+                port:
+                  number: 5002
+          - path: /socket.io/(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: backend
+                port:
+                  number: 5002
           - path: /containers/(.*)
             pathType: Prefix
             backend:

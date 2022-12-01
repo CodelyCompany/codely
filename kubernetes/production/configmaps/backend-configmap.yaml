@@ -13,3 +13,4 @@ data:
   REDIS_HOST: redis
   APP_CONTAINERS_ADDRESS: http://backend-containers:5001
   APP_AUDIENCE: http://backend:5000
+  WEBSOCKET_PORT: '5002'

@@ -1,29 +1,22 @@
-const express = require('express');
-const socket = require('socket.io');
-const cors = require('cors');
-const app = express();
-const port = 5002;
+require('dotenv').config();
+const port = process.env.WEBSOCKET_PORT || 5002;
 const { v4: uuidv4 } = require('uuid');
 const Exercise = require('../models/Exercise');
 const _ = require('lodash');
 const client = require('../config/redisClient');
+const { createServer } = require('http');
+const { Server } = require('socket.io');
 
-app.use(
-  cors({
-    origin: '*',
-    methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT'],
-  })
-);
-
-const server = app.listen(port, () => {
-  console.log(`Websockets are listening on port ${port}`);
-});
-
-const io = socket(server, {
+const httpServer = createServer();
+const io = new Server(httpServer, {
   cors: {
     origin: '*',
   },
 });
+
+io.of('/websocket');
+
+httpServer.listen(port);
 
 const getRandomExercise = async (language) => {
   const exercises = await Exercise.aggregate([

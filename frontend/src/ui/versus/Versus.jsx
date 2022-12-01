@@ -33,7 +33,15 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
     },
     validationSchema: validateVersusLanguages,
     onSubmit: (values) => {
-      const socket = io('http://localhost:5002/');
+      const socket = io(
+        `${process.env.REACT_APP_WEBSOCKET_ADDRESS}` ||
+          'http://localhost:5002/',
+        {
+          reconnection: true,
+          transports: ['websocket'],
+        }
+      );
+      socket.io.opts.path = '/websocket/socket.io';
       ConnectSocket(socket);
       socket.emit(
         'game-preferences',

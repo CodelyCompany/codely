@@ -1,14 +1,19 @@
 kind: Service
 apiVersion: v1
 metadata:
-    name: backend
-    namespace: production
+  name: backend
+  namespace: production
 spec:
-    type: ClusterIP
-    ports:
-        - port: 5000
-          targetPort: 5000
-          protocol: TCP
-    selector:
-        app: codely
-        type: backend
+  type: ClusterIP
+  ports:
+    - name: backend
+      port: 5000
+      targetPort: 5000
+      protocol: TCP
+    - name: websocket
+      port: 5002
+      targetPort: 5002
+      protocol: TCP
+  selector:
+    app: codely
+    type: backend

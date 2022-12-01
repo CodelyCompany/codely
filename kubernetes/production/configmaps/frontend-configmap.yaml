@@ -8,3 +8,4 @@ data:
   REACT_APP_CONTAINERS_ADDRESS: http://localhost/containers
   REACT_APP_BACKEND: http://localhost/api
   REACT_APP_REDIRECT_URI: http://localhost
+  REACT_APP_WEBSOCKET_ADDRESS: http://localhost/
