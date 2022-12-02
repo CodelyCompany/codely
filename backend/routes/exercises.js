@@ -8,7 +8,7 @@ const axios = require('axios');
 const client = require('../config/redisClient');
 require('dotenv').config();
 const backendContainersAddress =
-  process.env.APP_BACKEND_CONTAINERS || 'http://localhost:5001';
+  process.env.APP_CONTAINERS_ADDRESS || 'http://localhost:5001';
 
 async function runTests(exercise, solution) {
   // const token = await axios.post(
