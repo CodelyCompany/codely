@@ -53,16 +53,22 @@ const Settings = ({ UpdateUser, token }) => {
             name='color-0'
             sx={{ position: 'relative', bottom: '9px' }}
           />
-          <Typography fontWeight='bolder'>Default</Typography>
+          <Typography fontWeight='bolder'>White & Magenta</Typography>
           <div style={{ height: '20px', width: '20px', marginLeft: '10px' }}>
             <Box
               sx={{
                 height: '50%',
-                backgroundColor: 'rgb(25, 118, 210)',
+                backgroundColor: '#9a2150',
                 borderRadius: '5px 5px 0 0',
               }}
             ></Box>
-            <Box sx={{ height: '50%' }}></Box>
+            <Box
+              sx={{
+                height: '50%',
+                backgroundColor: 'white',
+                borderRadius: '0 0 5px 5px',
+              }}
+            ></Box>
           </div>
         </Box>
         <Box sx={{ display: 'flex' }}>
@@ -73,12 +79,12 @@ const Settings = ({ UpdateUser, token }) => {
             onChange={changeColor}
             sx={{ position: 'relative', bottom: '9px' }}
           />
-          <Typography fontWeight='bolder'>Black & Blue</Typography>
+          <Typography fontWeight='bolder'>Black & Magenta</Typography>
           <div style={{ height: '20px', width: '20px', marginLeft: '10px' }}>
             <Box
               sx={{
                 height: '50%',
-                backgroundColor: 'rgb(25, 118, 210)',
+                backgroundColor: '#9a2150',
                 borderRadius: '5px 5px 0 0',
               }}
             ></Box>

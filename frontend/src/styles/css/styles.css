@@ -2,8 +2,16 @@
   color: #9a2150;
 }
 
+.border-theme-1 {
+  background-color: #9a2150;
+}
+
+.border-theme-0 {
+  background-color: #9a2150;
+}
+
 .main-theme-0 {
-  color: rgb(25, 118, 210);
+  color: #9a2150;
 }
 
 #combo-box-label {
@@ -119,7 +127,6 @@ html body .main-page-container .main-page ul li a {
   }
 }
 html body .main-page-container .main-page ul li .border {
-  background-color: rgb(25, 118, 210);
   height: 5px;
   width: 25vw;
   margin-right: 80px;

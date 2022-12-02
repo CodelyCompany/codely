@@ -5,8 +5,16 @@ $second-theme: #9a2150;
   color: $second-theme;
 }
 
+.border-theme-1 {
+  background-color: $second-theme;
+}
+
+.border-theme-0 {
+  background-color: $second-theme;
+}
+
 .main-theme-0 {
-  color: $background-blue;
+  color: $second-theme;
 }
 
 #combo-box-label {
@@ -121,7 +129,6 @@ html {
               }
             }
             .border {
-              background-color: $background-blue;
               height: 5px;
               width: 25vw;
               @media (max-width: 1500px) {
