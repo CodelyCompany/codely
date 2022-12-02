@@ -14,6 +14,17 @@ const urlData = {
   c_url: process.env.C_URL || 'http://c:6006',
 };
 
+const checkError = (err, res) => {
+  if (err.response && err.response.data.stderr) {
+    return res.status(202).send({ output: err.response.data.stderr });
+  } else if (err.response && err.response.data.message === 'Timeout') {
+    return res.status(202).send({ output: 'Timeout!' });
+  } else {
+    console.log(err);
+    return res.status(500).send(err);
+  }
+};
+
 router.post('/javascript', async (req, res) => {
   try {
     const data = req.body;
@@ -27,12 +38,7 @@ router.post('/javascript', async (req, res) => {
     });
     return res.status(200).send(response.data);
   } catch (error) {
-    if (error.response && error.response.data.stderr) {
-      return res.status(202).send({ output: error.response.data.stderr });
-    } else {
-      console.log(error);
-      res.status(500).send(error);
-    }
+    return checkError(error, res);
   }
 });
 
@@ -49,12 +55,7 @@ router.post('/python', async (req, res) => {
     });
     return res.status(200).send({ output: response.data.output.slice(0, -1) });
   } catch (error) {
-    if (error.response && error.response.data.stderr) {
-      return res.status(202).send({ output: error.response.data.stderr });
-    } else {
-      console.log(error);
-      res.status(500).send(error);
-    }
+    return checkError(error, res);
   }
 });
 
@@ -71,12 +72,7 @@ router.post('/bash', async (req, res) => {
     });
     return res.status(200).send(response.data);
   } catch (error) {
-    if (error.response && error.response.data.stderr) {
-      return res.status(202).send({ output: error.response.data.stderr });
-    } else {
-      console.log(error);
-      res.status(500).send(error);
-    }
+    return checkError(error, res);
   }
 });
 
@@ -93,12 +89,7 @@ router.post('/r', async (req, res) => {
     });
     return res.status(200).send(response.data);
   } catch (error) {
-    if (error.response && error.response.data.stderr) {
-      return res.status(202).send({ output: error.response.data.stderr });
-    } else {
-      console.log(error);
-      res.status(500).send(error);
-    }
+    return checkError(error, res);
   }
 });
 
@@ -121,12 +112,7 @@ router.post('/java', async (req, res) => {
     });
     return res.status(200).send(response.data);
   } catch (error) {
-    if (error.response && error.response.data.stderr) {
-      return res.status(202).send({ output: error.response.data.stderr });
-    } else {
-      console.log(error);
-      res.status(500).send(error);
-    }
+    return checkError(error, res);
   }
 });
 
@@ -145,12 +131,7 @@ router.post('/cpp', async (req, res) => {
     });
     return res.status(200).send(response.data);
   } catch (error) {
-    if (error.response && error.response.data.stderr) {
-      return res.status(202).send({ output: error.response.data.stderr });
-    } else {
-      console.log(error);
-      res.status(500).send(error);
-    }
+    return checkError(error, res);
   }
 });
 
@@ -170,12 +151,7 @@ router.post('/c', async (req, res) => {
     });
     return res.status(200).send(response.data);
   } catch (error) {
-    if (error.response && error.response.data.stderr) {
-      return res.status(202).send({ output: error.response.data.stderr });
-    } else {
-      console.log(error);
-      res.status(500).send(error);
-    }
+    return checkError(error, res);
   }
 });
 

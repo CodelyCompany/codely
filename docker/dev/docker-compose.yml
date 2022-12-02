@@ -2,7 +2,7 @@ version: '3'
 
 services:
   mongodb:
-    container_name: mongodb
+    restart: always
     image: mongo:latest
     ports:
       - '27017:27017'
@@ -63,6 +63,7 @@ services:
       context: ../../containers/javascript
     environment:
       - PORT=6000
+      - TIMEOUT=30000
     ports:
       - '6000:6000'
   python:
@@ -72,6 +73,7 @@ services:
       context: ../../containers/python
     environment:
       - PORT=6001
+      - TIMEOUT=30000
     ports:
       - '6001:6001'
   bash:
@@ -81,6 +83,7 @@ services:
       context: ../../containers/bash
     environment:
       - PORT=6002
+      - TIMEOUT=30000
     ports:
       - '6002:6002'
   r:
@@ -90,6 +93,7 @@ services:
       context: ../../containers/r
     environment:
       - PORT=6003
+      - TIMEOUT=30000
     ports:
       - '6003:6003'
   java:
@@ -99,6 +103,7 @@ services:
       context: ../../containers/java
     environment:
       - PORT=6004
+      - TIMEOUT=30000
     ports:
       - '6004:6004'
   cpp:
@@ -108,6 +113,7 @@ services:
       context: ../../containers/cpp
     environment:
       - PORT=6005
+      - TIMEOUT=30000
     ports:
       - '6005:6005'
   c:
@@ -117,6 +123,7 @@ services:
       context: ../../containers/c
     environment:
       - PORT=6006
+      - TIMEOUT=30000
     ports:
       - '6006:6006'
   frontend:
@@ -136,6 +143,7 @@ services:
       - REACT_APP_CONTAINERS_ADDRESS=http://localhost:5001
       - REACT_APP_BACKEND=http://localhost:5000
   redis:
+    restart: always
     image: redis:latest
     ports:
       - '6379:6379'
