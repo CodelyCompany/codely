@@ -52,6 +52,24 @@ const Navbar = ({
   const navigate = useNavigate();
   const [anchorElUser, setAnchorElUser] = useState(null);
   const { loginWithRedirect, isAuthenticated, logout, user } = useAuth0();
+  const [theme, setTheme] = useState(0);
+
+  const foundUser = useMemo(
+    () => users.find((usr) => usr.username === user.nickname),
+    [users]
+  );
+
+  useEffect(() => {
+    if (!foundUser) {
+      setTheme(parseInt(localStorage.getItem('theme')));
+      document.body.className = `theme-${parseInt(
+        localStorage.getItem('theme')
+      )}`;
+      return;
+    }
+    setTheme(foundUser.theme);
+    document.body.className = `theme-${foundUser.theme}`;
+  }, [foundUser]);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -70,14 +88,12 @@ const Navbar = ({
     if (isAuthenticated) {
       GetUsers(token);
       GetReviews(token);
-      const foundUser = users.find((usr) => usr.username === user.nickname);
       if (_.isEmpty(foundUser)) AddUser({ username: user.nickname }, token);
     }
   }, [isAuthenticated, token]);
 
   useEffect(() => {
     if (users.length) {
-      const foundUser = users.find((usr) => usr.username === user.nickname);
       if (!_.isEmpty(foundUser)) GetNotifications(foundUser._id, token);
     }
   }, [users]);
@@ -106,11 +122,7 @@ const Navbar = ({
     <AppBar
       position='static'
       className={
-        users.length && isAuthenticated
-          ? `theme-${
-              users.find((usr) => usr.username === user.nickname).theme
-            }-sec`
-          : `theme-0-sec`
+        users.length && isAuthenticated ? `theme-${theme}-sec` : `theme-0-sec`
       }
     >
       <GetToken />
@@ -235,11 +247,7 @@ const Navbar = ({
                 <IoIosMail
                   onClick={handleClick}
                   style={{
-                    color:
-                      users.length &&
-                      users.find((usr) => usr.username === user.nickname).theme
-                        ? 'white'
-                        : 'primary.main',
+                    color: users.length && theme ? 'white' : 'primary.main',
                     fontSize: '30px',
                     cursor: 'pointer',
                     position: 'relative',

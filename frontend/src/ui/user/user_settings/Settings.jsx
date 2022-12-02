@@ -25,6 +25,7 @@ const Settings = ({ UpdateUser, token }) => {
   }, [user, foundUser.theme]);
 
   const changeColor = (e) => {
+    localStorage.setItem('theme', e.target.value);
     UpdateUser({ _id: foundUser._id, theme: parseInt(e.target.value) }, token);
   };
 
