@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import {
   Autocomplete,
@@ -17,7 +17,13 @@ import Sorting from './Sorting';
 
 function Filters({ exercises, setFilters, setSort, sort }) {
   const getTitles = () => exercises.map((el) => el.title);
-
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary'
+        : 'primary',
+    [localStorage.getItem('theme')]
+  );
   const languages = ['JavaScript', 'Bash', 'C', 'C++', 'Java', 'Python', 'R'];
 
   const [autocompleteValue, setAutocompleteValue] = useState('');
@@ -51,7 +57,7 @@ function Filters({ exercises, setFilters, setSort, sort }) {
     <Box sx={{ width: '100%' }}>
       <Box>
         <Autocomplete
-          sx={{ input: { color: 'primary.main' } }}
+          color={color}
           disablePortal
           id='combo-box'
           options={getTitles()}
@@ -64,7 +70,11 @@ function Filters({ exercises, setFilters, setSort, sort }) {
             setInputAutocompleteValue(newInputValue);
           }}
           renderInput={(params) => (
-            <TextField {...params} label='Search exercise' />
+            <TextField
+              color={color}
+              {...params}
+              label={<Typography color={color}>Search exercise</Typography>}
+            />
           )}
         />
       </Box>
@@ -75,6 +85,7 @@ function Filters({ exercises, setFilters, setSort, sort }) {
             key={language}
             control={
               <Checkbox
+                color={color}
                 value={language.toLowerCase()}
                 onClick={filterByLanguage}
               />
@@ -89,7 +100,11 @@ function Filters({ exercises, setFilters, setSort, sort }) {
           <FormControlLabel
             key={number + 1}
             control={
-              <Checkbox value={number + 1} onChange={filterByDifficultyLevel} />
+              <Checkbox
+                color={color}
+                value={number + 1}
+                onChange={filterByDifficultyLevel}
+              />
             }
             label={number + 1}
           />

@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
-import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Container } from '@mui/material';
 import { Button } from '@mui/material';
 import * as _ from 'lodash';
@@ -27,7 +26,13 @@ const ExercisesList = ({ exercises, GetExercises, token }) => {
   const [sort, setSort] = useState(0);
   const navigate = useNavigate();
   const [itemsPerPage, setItemsPerPage] = useState(3);
-
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
   const goToExercisesForm = () => {
     navigate('/Exercises/form');
   };
@@ -54,6 +59,7 @@ const ExercisesList = ({ exercises, GetExercises, token }) => {
         <Button
           onClick={goToExercisesForm}
           variant='contained'
+          color={color.split('.')[0]}
           sx={{ margin: '10px', width: '100%' }}
         >
           Create your exercise!

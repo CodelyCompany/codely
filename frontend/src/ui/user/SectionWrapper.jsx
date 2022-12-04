@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { Box, Typography } from '@mui/material';
 import { PropTypes } from 'prop-types';
 
 const SectionWrapper = ({ children, mode, condition }) => {
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
+
   const info = () => {
     if (mode === 'reviews') return "You didn't write any reviews";
     if (mode === 'done') return "You didn't finish any exercises";
@@ -18,14 +26,14 @@ const SectionWrapper = ({ children, mode, condition }) => {
   ) : (
     <Box
       sx={{
-        borderColor: 'primary.main',
+        borderColor: color,
         borderBottom: '3px solid',
         margin: '10px 0',
         padding: '10px 0',
         width: '100%',
       }}
     >
-      <Typography sx={{ fontWeight: 'bolder' }} color='primary' variant='h6'>
+      <Typography sx={{ fontWeight: 'bolder', color }} variant='h6'>
         {info()}
       </Typography>
     </Box>

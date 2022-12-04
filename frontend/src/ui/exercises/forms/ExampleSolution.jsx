@@ -38,6 +38,13 @@ const ExampleSolution = ({
   const [tests, setTests] = useState(null);
   const { user } = useAuth0();
   const [triggered, setTriggered] = useState(false);
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
   const signature = useMemo(
     () =>
       getSignature(
@@ -49,7 +56,9 @@ const ExampleSolution = ({
     [step.dataFromStep1, step.dataFromStep2]
   );
 
-  const foundUser = useSelector(getUserByUsername(user.nickname));
+  const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
+    theme: 0,
+  };
 
   useEffect(() => {
     if (tests) setTriggered(true);
@@ -162,7 +171,7 @@ const ExampleSolution = ({
             justifyContent: 'center',
             width: 'calc(900px - 10px)',
             height: '200px',
-            borderColor: 'primary.main',
+            borderColor: color,
             border: '3px solid',
             borderRadius: '5px',
             margin: '10px',
@@ -171,7 +180,7 @@ const ExampleSolution = ({
         >
           {' '}
           <Editor
-            theme={foundUser.theme ? 'vs-dark' : 'vs'}
+            theme={foundUser?.theme ? 'vs-dark' : 'vs'}
             loading={<CircularProgress />}
             height='100%'
             language={

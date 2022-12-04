@@ -35,7 +35,13 @@ function ExerciseToCheck({ uncheckedExercises, GetUncheckedExercises, token }) {
   const foundUser = useSelector(getUserByUsername(user.nickname));
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState({});
-
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
   const handleClickOpen = (ex) => {
     setSelected(ex.row);
     setOpen(true);
@@ -57,19 +63,18 @@ function ExerciseToCheck({ uncheckedExercises, GetUncheckedExercises, token }) {
         }}
       >
         <Typography
-          color='primary'
           variant='h6'
-          sx={{ fontWeight: 'bolder', textAlign: 'center' }}
+          sx={{ fontWeight: 'bolder', textAlign: 'center', color }}
         >
           Exercises to check
         </Typography>
         <DataGrid
           sx={{
-            borderColor: 'primary.main',
+            borderColor: color,
             width: 'calc(100% - 20px)',
             height: '400px',
             margin: '10px',
-            color: 'primary.main',
+            color,
           }}
           getRowId={(row) => row._id}
           rows={rows.map((row) => ({

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { Box, Button, Container, Typography } from '@mui/material';
 import { useFormik } from 'formik';
@@ -75,7 +75,13 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
     socket.disconnect();
     DisconnectSocket();
   };
-
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary'
+        : 'primary',
+    [localStorage.getItem('theme')]
+  );
   return (
     <Container sx={{ display: 'flex', flexDirection: 'column' }}>
       {!socket && <ChooseExerciseLang formik={formik} />}
@@ -91,6 +97,7 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
       {!socket && (
         <>
           <Button
+            color={color}
             sx={{ marginTop: '20px' }}
             fullWidth
             onClick={() => connect()}

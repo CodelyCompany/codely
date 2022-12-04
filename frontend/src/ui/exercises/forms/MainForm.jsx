@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion from '@mui/material/Accordion';
@@ -24,6 +24,13 @@ import HintsForms from './HintsForms';
 import TestsForm from './TestsForm';
 
 function MainForm({ GetExercise, redirect, StopRedirect, token }) {
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
   const [step, setStep] = useState({
     currentStep: 1,
     dataFromStep1: '',
@@ -93,17 +100,14 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
         expanded={step.currentStep === 1}
       >
         <AccordionSummary
-          sx={{ backgroundColor: 'primary.main' }}
+          sx={{ backgroundColor: color }}
           aria-controls='panel1d-content'
           id='panel1d-header'
         >
           <Typography sx={{ color: 'white' }}>Main info</Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
-          <Typography
-            color='primary'
-            sx={{ margin: '10px', fontWeight: 'bolder' }}
-          >
+          <Typography sx={{ margin: '10px', fontWeight: 'bolder', color }}>
             Here you can set title, description and difficulty of your exercise.
             Remember to set the most proper programming language!
           </Typography>
@@ -116,7 +120,7 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
         expanded={step.currentStep === 2}
       >
         <AccordionSummary
-          sx={{ backgroundColor: 'primary.main' }}
+          sx={{ backgroundColor: color }}
           aria-controls='panel3d-content'
           id='panel3d-header'
         >
@@ -125,10 +129,7 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
           </Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
-          <Typography
-            color='primary'
-            sx={{ margin: '10px', fontWeight: 'bolder' }}
-          >
+          <Typography sx={{ margin: '10px', fontWeight: 'bolder', color }}>
             Here you can set amount of arguments for your function. You have to
             set the name for each argument.
           </Typography>
@@ -145,17 +146,14 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
         expanded={step.currentStep === 3}
       >
         <AccordionSummary
-          sx={{ backgroundColor: 'primary.main' }}
+          sx={{ backgroundColor: color }}
           aria-controls='panel2d-content'
           id='panel2d-header'
         >
           <Typography sx={{ color: 'white' }}>Inputs \ Outputs</Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
-          <Typography
-            color='primary'
-            sx={{ margin: '10px', fontWeight: 'bolder' }}
-          >
+          <Typography sx={{ margin: '10px', fontWeight: 'bolder', color }}>
             Choose quantity of your tests, then write expected outputs for each
             of your inputs.
           </Typography>
@@ -168,17 +166,14 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
         expanded={step.currentStep === 4}
       >
         <AccordionSummary
-          sx={{ backgroundColor: 'primary.main' }}
+          sx={{ backgroundColor: color }}
           aria-controls='panel3d-content'
           id='panel3d-header'
         >
           <Typography sx={{ color: 'white' }}>Hints</Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
-          <Typography
-            color='primary'
-            sx={{ margin: '10px', fontWeight: 'bolder' }}
-          >
+          <Typography sx={{ margin: '10px', fontWeight: 'bolder', color }}>
             Here you can choose quantity of your hints. Remember that not all
             users will be able to solve your exercise without some help.
           </Typography>
@@ -192,17 +187,14 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
         expanded={step.currentStep === 5}
       >
         <AccordionSummary
-          sx={{ backgroundColor: 'primary.main' }}
+          sx={{ backgroundColor: color }}
           aria-controls='panel3d-content'
           id='panel3d-header'
         >
           <Typography sx={{ color: 'white' }}>Example Solution</Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
-          <Typography
-            color='primary'
-            sx={{ margin: '10px', fontWeight: 'bolder' }}
-          >
+          <Typography sx={{ margin: '10px', fontWeight: 'bolder', color }}>
             Here you have to write an example solution to guarantee that your
             exercise is solvable. After solving, your exercise will be send to
             the admin to get an agreement.

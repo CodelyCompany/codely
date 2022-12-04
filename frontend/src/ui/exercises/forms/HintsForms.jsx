@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { Box, MenuItem } from '@mui/material';
 import { Button, TextField } from '@mui/material';
@@ -16,6 +16,13 @@ import {
 } from '../../../ducks/popups/actions';
 
 const HintsForms = ({ step, dataToEdit, setStep }) => {
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
   const [hintsQuantity, setHintsQuantity] = useState('');
   const [hints, setHints] = useState([]);
   const [triggered, setTriggered] = useState(false);
@@ -154,7 +161,7 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
                   marginBottom: '10px',
                   marginRight: '10px',
                   width: '100%',
-                  input: { color: 'primary.main' },
+                  input: { color },
                 }}
                 label={number === 0 ? 'Hints' : ''}
                 name='hint'

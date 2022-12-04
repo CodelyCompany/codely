@@ -13,7 +13,13 @@ const OutputField = ({ output }) => {
   const { user } = useAuth0();
   const foundUser = useSelector(getUserByUsername(user.nickname));
   const [lineNumbering, setLineNumbering] = useState('');
-
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
   const textAreaStyles = {
     resize: 'none',
   };
@@ -52,7 +58,7 @@ const OutputField = ({ output }) => {
               borderRadius: '5px 0 0 5px',
               overflow: 'auto',
               border: '3px solid',
-              borderColor: 'primary.main',
+              borderColor: color,
               borderRight: 0,
               paddingTop: '2px',
             }}
@@ -78,7 +84,7 @@ const OutputField = ({ output }) => {
                 borderRadius: '0 5px 5px 0',
                 backgroundColor: 'white',
                 fontFamily: 'JetBrains Mono',
-                borderColor: 'primary.main',
+                borderColor: color,
                 border: '3px solid',
                 fontSize: '14px',
                 width: 'calc(100% - 10px)',

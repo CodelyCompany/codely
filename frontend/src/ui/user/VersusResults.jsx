@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { Box, Typography } from '@mui/material';
 import Chart from 'chart.js/auto';
@@ -19,9 +19,17 @@ const VersusResults = ({ won, lost }) => {
     ],
   };
 
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-      <Typography variant='h6' color='primary' sx={{ fontWeight: 'bolder' }}>
+      <Typography variant='h6' sx={{ fontWeight: 'bolder', color }}>
         Your versus stats
       </Typography>
       <Doughnut

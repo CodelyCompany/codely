@@ -3,14 +3,16 @@ import React, { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, TextField, Typography } from '@mui/material';
 import { PropTypes } from 'prop-types';
-import { useSelector } from 'react-redux';
-
-import { getUserByUsername } from '../../../ducks/user/selectors';
 
 const CustomArgs = ({ args, setArgumentValues, argumentValues }) => {
   const { user } = useAuth0();
-  const foundUser = useSelector(getUserByUsername(user.nickname));
-
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
   useEffect(() => {
     setArgumentValues((prev) =>
       [...Array(args.length).keys()].map((el) => {
@@ -33,7 +35,7 @@ const CustomArgs = ({ args, setArgumentValues, argumentValues }) => {
     <Box
       sx={{
         margin: '10px 0',
-        borderColor: 'primary.main',
+        borderColor: color,
         borderTop: '3px solid',
         display: 'flex',
         flexDirection: 'column',
@@ -44,19 +46,19 @@ const CustomArgs = ({ args, setArgumentValues, argumentValues }) => {
       <Box
         sx={{
           padding: '10px',
-          borderColor: 'primary.main',
+          borderColor: color,
           borderLeft: '3px solid',
           borderRight: '3px solid',
         }}
       >
-        <Typography variant='h6' color='primary' fontWeight='bolder'>
+        <Typography variant='h6' sx={{ color }} fontWeight='bolder'>
           Function in the code field will be run with values inputted below
         </Typography>
       </Box>
       <Box className={`theme-${user.theme}`}>
         {args.map((arg, index) => (
           <TextField
-            sx={{ input: { color: 'primary.main', margin: '5px' } }}
+            sx={{ input: { color, margin: '5px' } }}
             focused={true}
             value={argumentValues[index] ?? ''}
             label={arg}

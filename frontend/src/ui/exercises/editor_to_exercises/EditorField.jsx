@@ -28,7 +28,13 @@ const EditorField = ({
   const [tests, setTests] = useState({});
   const { user } = useAuth0();
   const foundUser = useSelector(getUserByUsername(user.nickname));
-
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
   const handleCodeChange = (value) => {
     setCode(value);
   };
@@ -55,7 +61,7 @@ const EditorField = ({
       <Box
         sx={{
           height: '300px',
-          borderColor: 'primary.main',
+          borderColor: color,
           border: '3px solid',
           borderRadius: '5px',
         }}

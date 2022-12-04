@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -11,6 +11,13 @@ import { FaJava, FaPython } from 'react-icons/fa';
 import { SiC, SiCplusplus, SiR } from 'react-icons/si';
 
 const LanguageSelector = ({ language, setLanguage }) => {
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
   const style = {
     marginRight: '5px',
   };
@@ -51,13 +58,10 @@ const LanguageSelector = ({ language, setLanguage }) => {
   };
 
   return (
-    <FormControl
-      sx={{ m: 1, minWidth: 180, color: 'primary.main' }}
-      size='small'
-    >
-      <InputLabel sx={{ color: 'primary.main' }}>Language</InputLabel>
+    <FormControl sx={{ m: 1, minWidth: 180, color }} size='small'>
+      <InputLabel sx={{ color }}>Language</InputLabel>
       <Select
-        sx={{ color: 'primary.main' }}
+        sx={{ color }}
         labelId='demo-select-small'
         id='demo-select-small'
         value={language}

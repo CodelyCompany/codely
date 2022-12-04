@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { Box, Popover, Typography } from '@mui/material';
 import { PropTypes } from 'prop-types';
@@ -17,6 +17,14 @@ const NavbarMessages = ({
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
 
   const read = (id) => {
     ReadNotification(id, token);
@@ -51,7 +59,7 @@ const NavbarMessages = ({
                 p: 2,
                 position: 'relative',
                 top: '4px',
-                color: 'primary.main',
+                color,
                 fontWeight: 'bolder',
               }}
             >
@@ -70,7 +78,7 @@ const NavbarMessages = ({
           </Box>
         ))
       ) : (
-        <Typography color='primary' fontWeight='bolder' padding='10px'>
+        <Typography sx={{ color }} fontWeight='bolder' padding='10px'>
           Your mailbox is empty
         </Typography>
       )}

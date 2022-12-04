@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { Button } from '@mui/material';
 import axios from 'axios';
@@ -8,7 +8,17 @@ import { VscDebugStart } from 'react-icons/vsc';
 import RunAlert from '../popups/RunAlert';
 
 const RunButton = ({ code, setOutput, language }) => {
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
+
   const style = {
+    borderColor: color,
+    color,
     height: '40px',
     width: 180,
     marginTop: '8px',

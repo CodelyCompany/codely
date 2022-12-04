@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { MenuItem } from '@mui/material';
 import { Button, TextField } from '@mui/material';
@@ -17,6 +17,14 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
     'Python',
     'R',
   ];
+
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
 
   const validationSchema = yup.object({
     title: yup
@@ -78,7 +86,7 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
         onSubmit={formik.handleSubmit}
       >
         <TextField
-          sx={{ input: { color: 'primary.main' }, marginBottom: '10px' }}
+          sx={{ input: { color }, marginBottom: '10px' }}
           focused={true}
           id='title'
           name='title'
@@ -89,7 +97,7 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
           helperText={formik.touched.title && formik.errors.title}
         />
         <TextField
-          sx={{ input: { color: 'primary.main' }, marginBottom: '10px' }}
+          sx={{ input: { color }, marginBottom: '10px' }}
           focused={true}
           id='description'
           name='description'
@@ -116,11 +124,7 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
           helperText={formik.touched.difficulty && formik.errors.difficulty}
         >
           {[...Array(5).keys()].map((option) => (
-            <MenuItem
-              sx={{ color: 'primary.main' }}
-              key={option + 1}
-              value={option + 1}
-            >
+            <MenuItem sx={{ color }} key={option + 1} value={option + 1}>
               {option + 1}
             </MenuItem>
           ))}
@@ -144,17 +148,13 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
           }
         >
           {programmingLanguages.map((option) => (
-            <MenuItem
-              sx={{ color: 'primary.main' }}
-              key={option}
-              value={option}
-            >
+            <MenuItem sx={{ color }} key={option} value={option}>
               {option}
             </MenuItem>
           ))}
         </TextField>
 
-        <Button color='primary' variant='contained' type='submit'>
+        <Button sx={{ color }} variant='contained' type='submit'>
           Next
         </Button>
       </form>

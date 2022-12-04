@@ -15,7 +15,13 @@ import GetToken from '../GetToken';
 function AllUsers({ users, GetUsers, token }) {
   const { user } = useAuth0();
   const foundUser = useSelector(getUserByUsername(user.nickname));
-
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
   useEffect(() => {
     if (users.length) GetUsers(token);
   }, [token]);
@@ -57,7 +63,7 @@ function AllUsers({ users, GetUsers, token }) {
     >
       <GetToken />
       <Typography
-        color='primary'
+        sx={{ color }}
         fontWeight={'bolder'}
         variant='h6'
         textAlign={'center'}
@@ -69,8 +75,8 @@ function AllUsers({ users, GetUsers, token }) {
           width: 'calc(100% - 20px)',
           height: '300px',
           margin: '10px',
-          borderColor: 'primary.main',
-          color: 'primary.main',
+          borderColor: color,
+          color,
         }}
         getRowId={(row) => row._id}
         rows={rows.map((row) => ({

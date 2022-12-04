@@ -62,12 +62,18 @@ const Exercise = ({ exercise }) => {
   ];
 
   const navigate = useNavigate();
-
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
   return (
     <Card
       onClick={() => navigate(`/Exercise/${exercise._id}`)}
       sx={{
-        backgroundColor: 'primary.main',
+        backgroundColor: color,
         width: '100%',
         cursor: 'pointer',
         marginTop: '10px',

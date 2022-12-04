@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useMemo } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import Editor from '@monaco-editor/react';
@@ -45,7 +45,13 @@ function ExerciseDialog({
     CheckExercise(exercise._id, token);
     handleClose();
   };
-
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
   const handleClose = () => {
     setOpen(false);
   };
@@ -84,36 +90,36 @@ function ExerciseDialog({
           aria-describedby='alert-dialog-description'
         >
           <DialogTitle
-            color='primary'
             fontWeight={'bolder'}
             sx={{
-              borderColor: 'primary.main',
+              borderColor: color,
               borderBottom: '3px solid',
               margin: '0 10px 10px 10px',
+              color,
             }}
             id='alert-dialog-title'
           >
             {`Checking exercise`}
           </DialogTitle>
           <DialogContent>
-            <DialogContentText color='primary' id='alert-dialog-description'>
+            <DialogContentText sx={{ color }} id='alert-dialog-description'>
               <strong>Title:</strong> {exercise.title}
             </DialogContentText>
-            <DialogContentText color='primary' id='alert-dialog-description'>
+            <DialogContentText sx={{ color }} id='alert-dialog-description'>
               <strong>Author:</strong> {exercise.author}
             </DialogContentText>
-            <DialogContentText color='primary' id='alert-dialog-description'>
+            <DialogContentText sx={{ color }} id='alert-dialog-description'>
               <strong>Programming language:</strong>{' '}
               {exercise.programmingLanguage}
             </DialogContentText>
-            <DialogContentText color='primary' id='alert-dialog-description'>
+            <DialogContentText sx={{ color }} id='alert-dialog-description'>
               <strong>Creation date:</strong>{' '}
               {new Date(exercise.creationDate).toLocaleDateString()}
             </DialogContentText>
-            <DialogContentText color='primary' id='alert-dialog-description'>
+            <DialogContentText sx={{ color }} id='alert-dialog-description'>
               <strong>Description:</strong> {exercise.description}
             </DialogContentText>
-            <DialogContentText color='primary' id='alert-dialog-description'>
+            <DialogContentText sx={{ color }} id='alert-dialog-description'>
               <strong>Difficulty:</strong> {exercise.difficulty} / 5
             </DialogContentText>
             <div
@@ -128,19 +134,19 @@ function ExerciseDialog({
                 Hints:
               </strong>
               {exercise.hints.map((hint, index) => (
-                <ListItemText sx={{ color: 'primary.main' }} key={index}>
+                <ListItemText sx={{ color }} key={index}>
                   <strong>-</strong> {hint}
                 </ListItemText>
               ))}
             </div>
-            <DialogContentText color='primary'>
+            <DialogContentText sx={{ color }}>
               <strong>Tests:</strong>
             </DialogContentText>
             <DataGrid
               sx={{
                 width: '100%',
                 height: '300px',
-                borderColor: 'primary.main',
+                borderColor: color,
                 border: '3px solid',
                 marginBottom: '5px',
               }}
@@ -156,8 +162,7 @@ function ExerciseDialog({
               experimentalFeatures={{ newEditingApi: true }}
             />
             <DialogContentText
-              color='primary'
-              sx={{ fontWeight: 'bolder' }}
+              sx={{ fontWeight: 'bolder', color }}
               id='alert-dialog-description'
             >
               Example solution:
@@ -165,7 +170,7 @@ function ExerciseDialog({
             <Box
               sx={{
                 width: '100%',
-                borderColor: 'primary.main',
+                borderColor: color,
                 border: '3px solid',
                 borderRadius: '5px',
               }}

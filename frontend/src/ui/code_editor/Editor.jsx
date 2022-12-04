@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import React from 'react';
 
-import { Box, Container } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 
 import CodeField from './CodeField';
 import LanguageSelector from './LanguageSelector';
@@ -12,15 +12,31 @@ const Editor = () => {
   const [code, setCode] = useState('');
   const [output, setOutput] = useState(null);
   const [language, setLanguage] = useState('JavaScript');
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
 
   return (
     <Container>
-      <a className='editor-tag' color='primary'>
+      <Typography
+        className='editor-tag'
+        sx={{
+          color,
+          fontWeight: 'bolder',
+          fontSize: '50px',
+          position: 'relative',
+          top: '20px',
+        }}
+      >
         Write your code here!
-      </a>
+      </Typography>
       <Box
         sx={{
-          borderColor: 'primary.main',
+          borderColor: color,
           border: '3px solid',
           marginTop: '20px',
           padding: '50px',

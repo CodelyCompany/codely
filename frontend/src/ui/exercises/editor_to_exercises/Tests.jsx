@@ -6,13 +6,21 @@ import { PropTypes } from 'prop-types';
 import ConfettiAfterSolve from '../../popups/ConfettiAfterSolve';
 
 function Tests({ tests }) {
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
+
   return (
     <>
       {tests.correct === tests.tests && <ConfettiAfterSolve />}
       <Box
         sx={{
           width: 'calc(100% - 6px)',
-          borderColor: 'primary.main',
+          borderColor: color,
           border: '3px solid',
           marginTop: '10px',
           padding: '10px 0',
@@ -23,8 +31,7 @@ function Tests({ tests }) {
       >
         <Typography
           variant='h6'
-          color='primary'
-          sx={{ marginRight: '3px', fontWeight: 'bolder' }}
+          sx={{ marginRight: '3px', fontWeight: 'bolder', color }}
         >
           Tests passed:
         </Typography>

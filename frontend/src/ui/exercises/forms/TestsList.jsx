@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useMemo } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import {
@@ -18,15 +18,23 @@ import { getUserByUsername } from '../../../ducks/user/selectors';
 
 const TestsList = ({ step }) => {
   const { user } = useAuth0();
-  const foundUser = useSelector(getUserByUsername(user.nickname));
-
+  const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
+    theme: 0,
+  };
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
   return (
     <TableContainer
       className={`theme-${foundUser.theme}`}
       component={Paper}
       sx={{
         marginTop: '20px',
-        borderColor: 'primary.main',
+        borderColor: color,
         border: '3px solid',
       }}
     >

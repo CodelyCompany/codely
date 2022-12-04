@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import HelpIcon from '@mui/icons-material/Help';
 import {
@@ -16,7 +16,13 @@ import { getExerciseById } from '../../ducks/exercises/selectors';
 
 function ExerciseHints() {
   const [open, setOpen] = useState(false);
-
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
   const { id } = useParams();
 
   const exercise = useSelector(getExerciseById(id));
@@ -40,9 +46,9 @@ function ExerciseHints() {
       <HelpIcon
         sx={{
           curosor: 'pointer',
+          color,
         }}
         fontSize='large'
-        color='primary'
         onClick={handleClickOpen}
       />
       <Dialog

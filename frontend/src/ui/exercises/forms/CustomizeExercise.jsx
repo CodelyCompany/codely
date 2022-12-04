@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { Box, Button, MenuItem, TextField } from '@mui/material';
 import { useFormik } from 'formik';
@@ -21,6 +20,14 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
   const formWithTypes = useMemo(
     () => languagesWithTypes.includes(step.dataFromStep1?.programmingLanguage),
     [step.dataFromStep1]
+  );
+
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
   );
 
   const dropdownOptions = useMemo(
@@ -235,9 +242,9 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
           <TextField
             focused
             sx={{
-              color: 'primary.main',
+              color,
               marginBottom: '10px',
-              input: { color: 'primary.main' },
+              input: { color },
             }}
             id='functionName'
             name='functionName'
@@ -253,7 +260,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
           />
           <TextField
             focused
-            sx={{ marginBottom: '10px', input: { color: 'primary.main' } }}
+            sx={{ marginBottom: '10px', input: { color } }}
             type='number'
             id='argumentsQuantity'
             name='argumentsQuantity'
@@ -281,7 +288,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                         marginTop: '10px',
                         width: `${formWithTypes ? 'calc(50% - 5px)' : '100%'}`,
                         marginRight: `${formWithTypes ? '5px' : '0'}`,
-                        input: { color: 'primary.main' },
+                        input: { color },
                       }}
                       label={`${argNumber + 1}. Argument name`}
                       value={argumentsName[argNumber] || ''}
@@ -373,15 +380,14 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
           )}
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Button
-              color='primary'
               variant='contained'
               onClick={prev}
-              sx={{ margin: '10px 0' }}
+              sx={{ margin: '10px 0', color }}
             >
               Previous
             </Button>
 
-            <Button color='primary' variant='contained' type='submit'>
+            <Button sx={{ color }} variant='contained' type='submit'>
               Next
             </Button>
           </Box>

@@ -5,16 +5,32 @@ $second-theme: #9a2150;
   color: $second-theme;
 }
 
+.main-theme-2 {
+  color: $background-blue;
+}
+
 .border-theme-1 {
   background-color: $second-theme;
+}
+
+.border-theme-2 {
+  background-color: $background-blue;
 }
 
 .border-theme-0 {
   background-color: $second-theme;
 }
 
+.border-theme-2 {
+  background-color: $background-blue;
+}
+
 .main-theme-0 {
   color: $second-theme;
+}
+
+.main-theme-2 {
+  color: $background-blue;
 }
 
 #combo-box-label {
@@ -46,14 +62,30 @@ html {
       color: $second-theme;
     }
 
+    .theme-2 {
+      border-color: $background-blue !important;
+      color: $background-blue;
+    }
+
     &.theme-1 {
       background-color: #191919;
       color: $second-theme;
     }
+
+    &.theme-2 {
+      color: $background-blue;
+    }
+
     .theme-1-sec {
       background-color: $second-theme;
       color: $second-theme;
     }
+
+    .theme-2-sec {
+      background-color: $background-blue;
+      color: $background-blue;
+    }
+
     .main-page-container {
       // height: 80vh;
       @media (max-width: 900px) {

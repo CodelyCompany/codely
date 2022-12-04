@@ -1,17 +1,25 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import PropTypes from 'prop-types';
 
 function Sorting({ setSort, sort }) {
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary'
+        : 'primary',
+    [localStorage.getItem('theme')]
+  );
+
   return (
     <Box>
       <FormControl fullWidth>
-        <InputLabel sx={{ color: 'primary.main' }} id='select-label'>
+        <InputLabel color={color} id='select-label'>
           Sort by:
         </InputLabel>
         <Select
-          sx={{ color: 'primary.main' }}
+          color={color}
           labelId='select-label'
           id='select'
           value={sort}

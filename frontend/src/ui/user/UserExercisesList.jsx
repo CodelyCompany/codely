@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import LabelImportantIcon from '@mui/icons-material/LabelImportant';
@@ -17,6 +17,13 @@ import { getUserByUsername } from '../../ducks/user/selectors';
 import PreparedExercisesChart from './PreparedExercisesChart';
 
 function UserExercisesList({ exercises, mode }) {
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
   const navigate = useNavigate();
   const { user } = useAuth0();
   const foundUser = useSelector(getUserByUsername(user.nickname));
@@ -30,7 +37,7 @@ function UserExercisesList({ exercises, mode }) {
           onClick={() => navigate(`/exercise/${exercises[index]._id}`)}
         >
           <ListItemText
-            sx={{ color: 'primary.main' }}
+            sx={{ color }}
             primary={
               <div>
                 <LabelImportantIcon sx={{ position: 'relative', top: '6px' }} />{' '}
@@ -50,13 +57,13 @@ function UserExercisesList({ exercises, mode }) {
         width: '100%',
         height: '100%',
         bgcolor: 'background.paper',
-        borderColor: 'primary.main',
+        borderColor: color,
         borderBottom: '3px solid',
         display: 'flex',
         flexDirection: 'column',
       }}
     >
-      <Typography variant='h6' color='primary' sx={{ fontWeight: 'bolder' }}>
+      <Typography variant='h6' sx={{ fontWeight: 'bolder', color }}>
         {mode === 'prepared' ? 'Your prepared exercises:' : 'Done exercises:'}
       </Typography>
       <FixedSizeList

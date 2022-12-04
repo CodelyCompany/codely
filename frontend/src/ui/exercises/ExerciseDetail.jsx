@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import FormatColorTextIcon from '@mui/icons-material/FormatColorText';
@@ -41,7 +41,13 @@ const ExerciseDetail = ({ GetExercises, token }) => {
   const navigate = useNavigate();
   const [toDelete, setToDelete] = useState(false);
   const [argumentValues, setArgumentValues] = useState([]);
-
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
   useEffect(() => {
     if (_.isEmpty(exercise)) {
       GetExercises(token);
@@ -65,10 +71,10 @@ const ExerciseDetail = ({ GetExercises, token }) => {
               <ListItem>
                 <Typography
                   variant='h3'
-                  color='primary'
                   sx={{
-                    borderColor: 'primary.main',
+                    borderColor: color,
                     borderBottom: '3px solid',
+                    color,
                   }}
                 >
                   {exercise.title}
@@ -78,7 +84,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
                 <ListItemAvatar>
                   <Avatar
                     sx={{
-                      backgroundColor: 'primary.main',
+                      backgroundColor: color,
                     }}
                   >
                     <PersonIcon />
@@ -93,7 +99,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
                 <ListItemAvatar>
                   <Avatar
                     sx={{
-                      backgroundColor: 'primary.main',
+                      backgroundColor: color,
                     }}
                   >
                     <GTranslateIcon />
@@ -108,7 +114,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
                 <ListItemAvatar>
                   <Avatar
                     sx={{
-                      backgroundColor: 'primary.main',
+                      backgroundColor: color,
                     }}
                   >
                     <PsychologyIcon />
@@ -127,7 +133,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
                 <ListItemAvatar>
                   <Avatar
                     sx={{
-                      backgroundColor: 'primary.main',
+                      backgroundColor: color,
                     }}
                   >
                     <FormatColorTextIcon />
@@ -140,7 +146,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar sx={{ backgroundColor: 'primary.main' }}>
+                  <Avatar sx={{ backgroundColor: color }}>
                     <StarRateIcon />
                   </Avatar>
                 </ListItemAvatar>

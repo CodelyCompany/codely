@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { Box, MenuItem } from '@mui/material';
 import { Button, TextField } from '@mui/material';
@@ -7,6 +7,13 @@ import PropTypes from 'prop-types';
 import * as yup from 'yup';
 
 const TestsForm = ({ setStep, dataToEdit, step }) => {
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
   const [testsQuantity, setTestsQuantity] = useState('');
   const [tests, setTests] = useState([]);
   const [triggered, setTriggered] = useState(false);
@@ -148,8 +155,8 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
           sx={{
             marginBottom: '10px',
             width: '900px',
-            input: { color: 'primary.main' },
-            color: 'primary.main',
+            input: { color },
+            color,
           }}
           id='testsQuantity'
           name='testsQuantity'
@@ -209,7 +216,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
                       return (
                         <TextField
                           focused
-                          sx={{ input: { color: 'primary.main' } }}
+                          sx={{ input: { color } }}
                           {...label}
                           key={argNumber}
                           value={tests[index]?.input[argNumber] || ''}
@@ -235,7 +242,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
                 <Box>
                   <TextField
                     focused
-                    sx={{ input: { color: 'primary.main' } }}
+                    sx={{ input: { color } }}
                     {...outputLabel}
                     value={tests[index]?.output || ''}
                     onChange={(e) => handleOutput(index, e)}

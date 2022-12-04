@@ -1,10 +1,24 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
-import { Checkbox, FormControlLabel, Paper, Typography } from '@mui/material';
+import {
+  Box,
+  Checkbox,
+  FormControlLabel,
+  Paper,
+  Typography,
+} from '@mui/material';
 import { PropTypes } from 'prop-types';
 
 const ChooseExerciseLang = ({ formik }) => {
   const languages = ['JavaScript', 'Bash', 'C', 'C++', 'Java', 'Python', 'R'];
+
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary'
+        : 'primary',
+    [localStorage.getItem('theme')]
+  );
 
   return (
     <Paper
@@ -12,14 +26,15 @@ const ChooseExerciseLang = ({ formik }) => {
       sx={{
         padding: '10px',
         margin: '10px 0',
-        backgroundColor: 'primary.main',
+        backgroundColor: `${color}.main`,
       }}
     >
       <Typography variant='h6' color='white' fontWeight={'bolder'}>
         Pick your languages
       </Typography>
       <form>
-        <div
+        <Box
+          color={color}
           role='group'
           aria-labelledby='checkbox-group'
           style={{ color: 'white' }}
@@ -29,9 +44,7 @@ const ChooseExerciseLang = ({ formik }) => {
               key={el}
               control={
                 <Checkbox
-                  style={{
-                    color: 'black',
-                  }}
+                  color='checkbox'
                   id={el}
                   name='checked'
                   checked={formik.values.checked.includes(
@@ -44,7 +57,7 @@ const ChooseExerciseLang = ({ formik }) => {
               label={<span>{el}</span>}
             />
           ))}
-        </div>
+        </Box>
         <Typography fontWeight={'bolder'} color='error'>
           {formik.errors && formik.errors.checked}
         </Typography>

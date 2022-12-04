@@ -32,7 +32,13 @@ function CheckedExercise({ checkedExercises, GetExercises, token }) {
     () => (checkedExercises ? checkedExercises : []),
     [checkedExercises]
   );
-
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
   const { user } = useAuth0();
   const foundUser = useSelector(getUserByUsername(user.nickname));
 
@@ -54,19 +60,18 @@ function CheckedExercise({ checkedExercises, GetExercises, token }) {
     >
       <GetToken />
       <Typography
-        color='primary'
         variant='h6'
-        sx={{ fontWeight: 'bolder', textAlign: 'center' }}
+        sx={{ fontWeight: 'bolder', textAlign: 'center', color }}
       >
         Checked exercises
       </Typography>
       <DataGrid
         sx={{
-          borderColor: 'primary.main',
+          borderColor: color,
           width: 'calc(100% - 20px)',
           height: '400px',
           margin: '10px',
-          color: 'primary.main',
+          color,
         }}
         getRowId={(row) => row._id}
         rows={rows.map((row) => ({

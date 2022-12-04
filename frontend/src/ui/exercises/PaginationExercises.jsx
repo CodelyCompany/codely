@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import {
   Box,
@@ -32,6 +32,14 @@ const PaginationExercises = ({
     setItemsPerPage(e.target.value);
   };
 
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary'
+        : 'primary',
+    [localStorage.getItem('theme')]
+  );
+
   return (
     <Box
       sx={{
@@ -42,11 +50,12 @@ const PaginationExercises = ({
       }}
     >
       <FormControl sx={{ m: 1, minWidth: 120 }} size='small'>
-        <InputLabel sx={{ color: 'primary.main' }} id='demo-select-small'>
+        <InputLabel color={color.split('.')[0]} id='demo-select-small'>
           Items per page
         </InputLabel>
         <Select
-          sx={{ color: 'primary.main' }}
+          color={color}
+          sx={{ color }}
           labelId='select-small'
           id='select-small'
           value={itemsPerPage}
@@ -61,11 +70,11 @@ const PaginationExercises = ({
         </Select>
       </FormControl>
       <Pagination
+        color={color}
         sx={{ margin: '20px' }}
         page={page}
         onChange={handleChange}
         count={parseInt(Math.ceil(quantity / itemsPerPage))}
-        color='primary'
       />
     </Box>
   );
