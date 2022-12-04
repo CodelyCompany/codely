@@ -24,11 +24,11 @@ spec:
           image: mtx22/codely-backend-containers
           resources:
             requests:
-              memory: '20Mi'
-              cpu: '5m'
+              memory: '50Mi'
+              cpu: '100m'
             limits:
-              memory: '100Mi'
-              cpu: '28m'
+              memory: '150Mi'
+              cpu: '1000m'
           envFrom:
             - configMapRef:
                 name: backend-containers-configmap

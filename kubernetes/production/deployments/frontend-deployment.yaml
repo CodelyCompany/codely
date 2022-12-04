@@ -24,11 +24,11 @@ spec:
           image: mtx22/codely-frontend
           resources:
             requests:
-              memory: '100Mi'
-              cpu: '10m'
+              memory: '5Mi'
+              cpu: '5m'
             limits:
-              memory: '200Mi'
-              cpu: '50m'
+              memory: '30Mi'
+              cpu: '20m'
           ports:
             - containerPort: 80
           envFrom:
