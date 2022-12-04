@@ -57,9 +57,11 @@ const SearchingGame = ({ socket, setFound, found, DisconnectSocket }) => {
       <MutatingDots
         height='100'
         width='100'
-        color={!foundUser.theme ? 'rgb(25, 118, 210)' : 'rgb(166, 31, 114)'}
+        color={
+          foundUser.theme === 2 ? 'rgb(25, 118, 210)' : 'rgb(166, 31, 114)'
+        }
         secondaryColor={
-          !foundUser.theme ? 'rgb(25, 118, 210)' : 'rgb(166, 31, 114)'
+          foundUser.theme === 2 ? 'rgb(25, 118, 210)' : 'rgb(166, 31, 114)'
         }
         radius='12.5'
         ariaLabel='mutating-dots-loading'

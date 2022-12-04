@@ -30,24 +30,112 @@
   color: rgb(25, 118, 210);
 }
 
-#combo-box-label {
+#select-0 {
   color: #9a2150;
 }
 
-#testsQuantity {
+#select-1 {
   color: #9a2150;
 }
 
-#hintsQuantity {
+#select-2 {
+  color: rgb(25, 118, 210);
+}
+
+#select-small-0 {
   color: #9a2150;
 }
 
-#difficulty {
+#select-small-1 {
   color: #9a2150;
 }
 
-#programmingLanguage {
+#select-small-2 {
+  color: rgb(25, 118, 210);
+}
+
+#box-border-0 {
+  border-color: #9a2150;
+}
+
+#box-border-1 {
+  border-color: #9a2150;
+}
+
+#box-border-2 {
+  border-color: rgb(25, 118, 210);
+}
+
+#combo-box-label-0 {
   color: #9a2150;
+}
+
+#testsQuantity-0 {
+  color: #9a2150;
+}
+
+#hintsQuantity-0 {
+  color: #9a2150;
+}
+
+#combo-box-label-1 {
+  color: #9a2150;
+}
+
+#testsQuantity-1 {
+  color: #9a2150;
+}
+
+#hintsQuantity-1 {
+  color: #9a2150;
+}
+
+#combo-box-label-2 {
+  color: rgb(25, 118, 210);
+}
+
+#testsQuantity-2 {
+  color: rgb(25, 118, 210);
+}
+
+#hintsQuantity-2 {
+  color: rgb(25, 118, 210);
+}
+
+#difficulty-0 {
+  color: #9a2150;
+}
+
+#difficulty-1 {
+  color: #9a2150;
+}
+
+#difficulty-2 {
+  color: rgb(25, 118, 210);
+}
+
+#programmingLanguage-1 {
+  color: #9a2150;
+}
+
+#programmingLanguage-1 {
+  color: #9a2150;
+}
+
+#programmingLanguage-2 {
+  color: rgb(25, 118, 210);
+}
+
+#testsQuantity-0 {
+  color: #9a2150;
+}
+
+#testsQuantity-1 {
+  color: #9a2150;
+}
+
+#testsQuantity-2 {
+  color: rgb(25, 118, 210);
 }
 
 html {

@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
+import { useAuth0 } from '@auth0/auth0-react';
 import { Box, MenuItem } from '@mui/material';
 import { Button, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import * as yup from 'yup';
 
 import {
@@ -14,6 +15,7 @@ import {
   ChangeAddStatus,
   ChangeUpdateStatus,
 } from '../../../ducks/popups/actions';
+import { getUserByUsername } from '../../../ducks/user/selectors';
 
 const HintsForms = ({ step, dataToEdit, setStep }) => {
   const color = useMemo(
@@ -29,6 +31,10 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
   const [triggeringChangeQuantity, setTriggeringChangeQuantity] =
     useState(false);
   const [error, setError] = useState({});
+  const { user } = useAuth0();
+  const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
+    theme: 0,
+  };
 
   useEffect(() => {
     if (step.dataFromStep4) {
@@ -123,12 +129,13 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
         sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
       >
         <TextField
+          color={color.split('.')[0]}
           focused
           sx={{
             marginBottom: '10px',
             width: '900px',
           }}
-          id='hintsQuantity'
+          id={`hintsQuantity-${foundUser.theme}`}
           name='hintsQuantity'
           label='Choose hints quantity'
           value={hintsQuantity}
@@ -156,6 +163,7 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
           [...Array(hintsQuantity).keys()].map((number) => (
             <div key={number} style={{ width: '100%' }}>
               <TextField
+                color={color.split('.')[0]}
                 focused
                 sx={{
                   marginBottom: '10px',
@@ -178,6 +186,7 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
           ))}
 
         <Button
+          color={color.split('.')[0]}
           fullWidth
           sx={{ marginBottom: '10px' }}
           type='button'
@@ -187,6 +196,7 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
           Previous
         </Button>
         <Button
+          color={color.split('.')[0]}
           fullWidth
           type='button'
           onClick={() => goToNextStage()}

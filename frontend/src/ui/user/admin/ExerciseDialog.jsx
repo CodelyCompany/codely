@@ -128,7 +128,8 @@ function ExerciseDialog({
             >
               <strong
                 style={{
-                  color: foundUser.theme ? '#9a2150' : 'rgb(25, 118, 210)',
+                  color:
+                    foundUser.theme !== 2 ? '#9a2150' : 'rgb(25, 118, 210)',
                 }}
               >
                 Hints:
@@ -190,11 +191,16 @@ function ExerciseDialog({
           <DialogActions
             sx={{ display: 'flex', justifyContent: 'space-between' }}
           >
-            <Button variant='contained' onClick={handleClose}>
+            <Button
+              color={color.split('.')[0]}
+              variant='contained'
+              onClick={handleClose}
+            >
               Undo
             </Button>
             <Box>
               <Button
+                color={color.split('.')[0]}
                 variant='contained'
                 sx={{ marginRight: '10px' }}
                 onClick={() => deleteExercise()}
@@ -202,6 +208,7 @@ function ExerciseDialog({
                 Reject
               </Button>
               <Button
+                color={color.split('.')[0]}
                 variant='contained'
                 onClick={() => checkExercise()}
                 autoFocus

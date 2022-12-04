@@ -40,7 +40,9 @@ function CheckedExercise({ checkedExercises, GetExercises, token }) {
     [localStorage.getItem('theme')]
   );
   const { user } = useAuth0();
-  const foundUser = useSelector(getUserByUsername(user.nickname));
+  const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
+    theme: 0,
+  };
 
   const navigate = useNavigate();
 

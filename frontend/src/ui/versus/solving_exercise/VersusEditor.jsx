@@ -31,7 +31,7 @@ const VersusEditor = ({ code, setCode, language, functionSignature }) => {
     >
       <Editor
         loading={<CircularProgress />}
-        theme={foundUser.theme ? 'vs-dark' : 'vs'}
+        theme={foundUser.theme === 1 ? 'vs-dark' : 'vs'}
         height='300px'
         language={
           language.toLowerCase() === 'c++' ? 'cpp' : language.toLowerCase()

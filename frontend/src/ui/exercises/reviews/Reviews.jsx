@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 
@@ -21,6 +21,14 @@ const Reviews = () => {
   const [usersReview, setUsersReview] = useState(null);
   const [reviewable, setReviewable] = useState(false);
 
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary'
+        : 'primary',
+    [localStorage.getItem('theme')]
+  );
+
   useEffect(() => {
     setUsersReview(reviews.find((review) => review.author === foundUser._id));
     setReviewable(foundUser && foundUser.doneExercises.find((ex) => ex._id === id));
@@ -31,7 +39,7 @@ const Reviews = () => {
       <Box padding='20px'>
         <Typography
           variant='h4'
-          color='primary'
+          color={color}
           fontWeight={'bolder'}
           marginBottom={3}
         >

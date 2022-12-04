@@ -240,6 +240,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
           onSubmit={formik.handleSubmit}
         >
           <TextField
+            color={color.split('.')[0]}
             focused
             sx={{
               color,
@@ -259,6 +260,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
             }
           />
           <TextField
+            color={color.split('.')[0]}
             focused
             sx={{ marginBottom: '10px', input: { color } }}
             type='number'
@@ -283,6 +285,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                 (argNumber) => (
                   <Box key={argNumber}>
                     <TextField
+                      color={color.split('.')[0]}
                       focused
                       sx={{
                         marginTop: '10px',
@@ -309,6 +312,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                     />
                     {formWithTypes && (
                       <TextField
+                        color={color.split('.')[0]}
                         select
                         sx={{
                           marginTop: '10px',
@@ -347,6 +351,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
             : ''}
           {formWithTypes && (
             <TextField
+              color={color.split('.')[0]}
               select
               fullWidth
               label={`Output type`}
@@ -380,14 +385,19 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
           )}
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Button
+              color={color.split('.')[0]}
               variant='contained'
               onClick={prev}
-              sx={{ margin: '10px 0', color }}
+              sx={{ margin: '10px 0' }}
             >
               Previous
             </Button>
 
-            <Button sx={{ color }} variant='contained' type='submit'>
+            <Button
+              color={color.split('.')[0]}
+              variant='contained'
+              type='submit'
+            >
               Next
             </Button>
           </Box>

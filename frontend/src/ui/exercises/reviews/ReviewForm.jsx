@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 
@@ -26,6 +26,14 @@ const ReviewForm = ({ review, token }) => {
   const { id } = useParams();
   const localUser = useSelector(getUserByUsername(user.nickname));
   const dispatch = useDispatch();
+
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary'
+        : 'primary',
+    [localStorage.getItem('theme')]
+  );
 
   useEffect(() => {
     if (review) {
@@ -72,27 +80,28 @@ const ReviewForm = ({ review, token }) => {
   };
 
   return (
-    <Grid container spacing={2} className="review-card">
+    <Grid container spacing={2} className='review-card'>
       <Grid item xs={6}>
-        <Typography variant="h5" className="author">
+        <Typography variant='h5' className='author'>
           {user.nickname}
         </Typography>
       </Grid>
-      <Grid item xs={6} className="rating">
+      <Grid item xs={6} className='rating'>
         <Rating
           value={rating}
           onChange={(_, newRating) => {
             setRating(newRating);
           }}
-          size="large"
+          size='large'
           readOnly={!editing}
         />
       </Grid>
       <Grid item xs={12}>
         {editing ? (
           <TextField
-            label="Comment"
-            variant="outlined"
+            color={color}
+            label='Comment'
+            variant='outlined'
             multiline
             fullWidth
             value={comment}
@@ -106,23 +115,23 @@ const ReviewForm = ({ review, token }) => {
       </Grid>
       <Grid item xs={5}>
         <Box display={upvotes ? 'flex' : 'none'}>
-          <ThumbUp color="primary" />
-          <Typography color="primary" marginLeft={1}>
+          <ThumbUp color={color} />
+          <Typography color={color} marginLeft={1}>
             {upvotes}
           </Typography>
         </Box>
       </Grid>
       <Grid item xs={2}>
         <Button
-          color="primary"
-          variant="contained"
+          color={color}
+          variant='contained'
           onClick={editing ? handleSubmit : () => setEditing(true)}
         >
           {editing ? <AddIcon /> : <EditIcon />}
         </Button>
       </Grid>
       <Grid item xs={5}>
-        <Typography className="timestamp">
+        <Typography className='timestamp'>
           {review
             ? `${review.editedAt ? 'Edited ' : 'Created '}
                     ${new Date(

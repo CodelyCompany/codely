@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Button } from '@mui/material';
@@ -34,6 +34,14 @@ const Buttons = ({
   const [triggerSubmitAlert, setTriggerSubmitAlert] = useState(false);
   const [status, setStatus] = useState(null);
   const dispatch = useDispatch();
+
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary'
+        : 'primary',
+    [localStorage.getItem('theme')]
+  );
 
   const runCode = (code) => {
     axios
@@ -83,6 +91,7 @@ const Buttons = ({
         <Box>
           {' '}
           <Button
+            color={color}
             onClick={() => runCode(code)}
             sx={{ margin: '5px', width: '100px' }}
             variant='contained'
@@ -90,6 +99,7 @@ const Buttons = ({
             Run
           </Button>
           <Button
+            color={color}
             onClick={() => submitExercise()}
             sx={{ width: '100px' }}
             variant='contained'
@@ -100,6 +110,7 @@ const Buttons = ({
         <Box sx={{ display: 'flex' }}>
           <ExerciseHints />
           <Button
+            color={color}
             onClick={() => navigate(-1)}
             sx={{ width: '100px', margin: '5px' }}
             variant='contained'

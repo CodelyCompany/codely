@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, TextField, Typography } from '@mui/material';
@@ -58,6 +58,7 @@ const CustomArgs = ({ args, setArgumentValues, argumentValues }) => {
       <Box className={`theme-${user.theme}`}>
         {args.map((arg, index) => (
           <TextField
+            color={color.split('.')[0]}
             sx={{ input: { color, margin: '5px' } }}
             focused={true}
             value={argumentValues[index] ?? ''}

@@ -3,6 +3,7 @@ import { useEffect, useMemo } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Card, Typography } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import { DataGrid } from '@mui/x-data-grid';
 import _ from 'lodash';
 import { PropTypes } from 'prop-types';
@@ -12,9 +13,20 @@ import { getToken } from '../../../ducks/token/selectors';
 import { GetUsers } from '../../../ducks/user/operations';
 import { getUserByUsername, getUsers } from '../../../ducks/user/selectors';
 import GetToken from '../GetToken';
+
+const useStyles = makeStyles({
+  root: {
+    '&.MuiDataGrid-root .MuiDataGrid-cell:focus': {
+      outline: 'none',
+    },
+  },
+});
+
 function AllUsers({ users, GetUsers, token }) {
   const { user } = useAuth0();
-  const foundUser = useSelector(getUserByUsername(user.nickname));
+  const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
+    theme: 0,
+  };
   const color = useMemo(
     () =>
       parseInt(localStorage.getItem('theme') ?? 0) === 2
@@ -22,6 +34,9 @@ function AllUsers({ users, GetUsers, token }) {
         : 'primary.main',
     [localStorage.getItem('theme')]
   );
+
+  const classes = useStyles();
+
   useEffect(() => {
     if (users.length) GetUsers(token);
   }, [token]);
@@ -71,6 +86,7 @@ function AllUsers({ users, GetUsers, token }) {
         Registered users
       </Typography>
       <DataGrid
+        className={classes.root}
         sx={{
           width: 'calc(100% - 20px)',
           height: '300px',

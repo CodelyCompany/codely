@@ -166,21 +166,19 @@ const ExampleSolution = ({
         }}
       >
         <Box
+          id={`box-border-${foundUser.theme}`}
           sx={{
             display: 'flex',
             justifyContent: 'center',
             width: 'calc(900px - 10px)',
             height: '200px',
-            borderColor: color,
             border: '3px solid',
             borderRadius: '5px',
             margin: '10px',
-            padding: '5px',
           }}
         >
-          {' '}
           <Editor
-            theme={foundUser?.theme ? 'vs-dark' : 'vs'}
+            theme={foundUser?.theme === 1 ? 'vs-dark' : 'vs'}
             loading={<CircularProgress />}
             height='100%'
             language={
@@ -204,6 +202,7 @@ const ExampleSolution = ({
           }}
         >
           <Button
+            color={color.split('.')[0]}
             sx={{ marginBottom: '10px' }}
             variant='contained'
             onClick={prev}
@@ -211,6 +210,7 @@ const ExampleSolution = ({
             Previous
           </Button>
           <Button
+            color={color.split('.')[0]}
             variant='contained'
             onClick={() =>
               tests

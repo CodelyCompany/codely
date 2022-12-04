@@ -117,15 +117,16 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
               margin: '5px',
             }}
           >
-            <Typography color='primary'>
+            <Typography color={color}>
               Searching{[...Array(dots).keys()].map(() => '.')}{' '}
             </Typography>
-            <Typography color='primary'>
+            <Typography color={color}>
               {Math.floor(time / 60)}:
               {time % 60 < 10 ? '0' + (time % 60) : time % 60}
             </Typography>
           </Box>
           <Button
+            color={color}
             sx={{ marginTop: '20px' }}
             fullWidth
             onClick={() => disconnect()}

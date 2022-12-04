@@ -33,24 +33,100 @@ $second-theme: #9a2150;
   color: $background-blue;
 }
 
-#combo-box-label {
+#select-0 {
+  color: $second-theme;
+}
+#select-1 {
+  color: $second-theme;
+}
+#select-2 {
+  color: $background-blue;
+}
+
+#select-small-0 {
+  color: $second-theme;
+}
+#select-small-1 {
+  color: $second-theme;
+}
+#select-small-2 {
+  color: $background-blue;
+}
+
+#box-border-0 {
+  border-color: $second-theme;
+}
+#box-border-1 {
+  border-color: $second-theme;
+}
+#box-border-2 {
+  border-color: $background-blue;
+}
+
+#combo-box-label-0 {
   color: $second-theme;
 }
 
-#testsQuantity {
+#testsQuantity-0 {
   color: $second-theme;
 }
 
-#hintsQuantity {
+#hintsQuantity-0 {
+  color: $second-theme;
+}
+#combo-box-label-1 {
   color: $second-theme;
 }
 
-#difficulty {
+#testsQuantity-1 {
   color: $second-theme;
 }
 
-#programmingLanguage {
+#hintsQuantity-1 {
   color: $second-theme;
+}
+#combo-box-label-2 {
+  color: $background-blue;
+}
+
+#testsQuantity-2 {
+  color: $background-blue;
+}
+
+#hintsQuantity-2 {
+  color: $background-blue;
+}
+
+#difficulty-0 {
+  color: $second-theme;
+}
+
+#difficulty-1 {
+  color: $second-theme;
+}
+
+#difficulty-2 {
+  color: $background-blue;
+}
+
+#programmingLanguage-1 {
+  color: $second-theme;
+}
+#programmingLanguage-1 {
+  color: $second-theme;
+}
+#programmingLanguage-2 {
+  color: $background-blue;
+}
+
+#testsQuantity-0 {
+  color: $second-theme;
+}
+#testsQuantity-1 {
+  color: $second-theme;
+}
+#testsQuantity-2 {
+  color: $background-blue;
 }
 
 html {
@@ -87,10 +163,6 @@ html {
     }
 
     .main-page-container {
-      // height: 80vh;
-      @media (max-width: 900px) {
-        // height: 90vh;
-      }
       display: flex;
       justify-content: space-evenly;
       align-items: center;
@@ -109,15 +181,11 @@ html {
         flex-direction: column;
       }
       .main-page {
-        @media (max-width: 1500px) {
-          // margin-top: 250px;
-        }
         @media (max-width: 900px) {
           margin-top: 0px;
         }
         margin-left: 50px;
         display: flex;
-        // height: 100%;
         align-items: center;
         ul {
           list-style-type: none;
@@ -130,7 +198,6 @@ html {
                 font-size: 50px;
               }
               font-size: 100px;
-              // color: $background-blue;
               font-weight: bolder;
               -webkit-animation: appear 1s linear 0s 1 normal;
               -moz-animation: appear 1s linear 0s 1 normal;

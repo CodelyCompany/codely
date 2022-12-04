@@ -60,8 +60,13 @@ const Navbar = ({
   );
 
   useEffect(() => {
+    const theme = localStorage.getItem('theme');
+    if (!theme) localStorage.setItem('theme', 0);
+  }, []);
+
+  useEffect(() => {
     if (!foundUser) {
-      setTheme(parseInt(localStorage.getItem('theme')));
+      setTheme(parseInt(localStorage.getItem('theme') ?? 0));
       document.body.className = `theme-${parseInt(
         localStorage.getItem('theme')
       )}`;
@@ -69,7 +74,7 @@ const Navbar = ({
     }
     setTheme(foundUser.theme);
     document.body.className = `theme-${foundUser.theme}`;
-  }, [foundUser]);
+  }, [foundUser, localStorage.getItem('theme')]);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);

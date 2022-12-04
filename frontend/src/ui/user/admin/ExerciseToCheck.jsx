@@ -2,10 +2,12 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Card, Typography } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import { DataGrid } from '@mui/x-data-grid';
 import { PropTypes } from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 
+import { styles } from '../../../conf';
 import { GetUncheckedExercises } from '../../../ducks/exercises/operations';
 import { getUncheckedExercises } from '../../../ducks/exercises/selectors';
 import { getToken } from '../../../ducks/token/selectors';
@@ -26,13 +28,23 @@ const columns = [
   },
 ];
 
+const useStyles = makeStyles({
+  root: {
+    '&.MuiDataGrid-root .MuiDataGrid-cell:focus': {
+      outline: 'none',
+    },
+  },
+});
+
 function ExerciseToCheck({ uncheckedExercises, GetUncheckedExercises, token }) {
   const rows = useMemo(
     () => (uncheckedExercises ? uncheckedExercises : []),
     [uncheckedExercises]
   );
   const { user } = useAuth0();
-  const foundUser = useSelector(getUserByUsername(user.nickname));
+  const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
+    theme: 0,
+  };
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState({});
   const color = useMemo(
@@ -47,6 +59,8 @@ function ExerciseToCheck({ uncheckedExercises, GetUncheckedExercises, token }) {
     setOpen(true);
   };
 
+  const classes = useStyles();
+
   useEffect(() => {
     GetUncheckedExercises(token);
   }, [token]);
@@ -54,7 +68,7 @@ function ExerciseToCheck({ uncheckedExercises, GetUncheckedExercises, token }) {
   return (
     <>
       <Card
-        className={`theme-${foundUser.theme}`}
+        className={`theme-${foundUser?.theme}`}
         sx={{
           height: '500px',
           width: '50%',
@@ -69,6 +83,7 @@ function ExerciseToCheck({ uncheckedExercises, GetUncheckedExercises, token }) {
           Exercises to check
         </Typography>
         <DataGrid
+          className={classes.root}
           sx={{
             borderColor: color,
             width: 'calc(100% - 20px)',

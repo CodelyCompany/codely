@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import Editor from '@monaco-editor/react';
@@ -67,7 +67,7 @@ const EditorField = ({
         }}
       >
         <Editor
-          theme={foundUser.theme ? 'vs-dark' : 'vs'}
+          theme={foundUser.theme === 1 ? 'vs-dark' : 'vs'}
           loading={<CircularProgress />}
           height='100%'
           language={language.toLowerCase()}

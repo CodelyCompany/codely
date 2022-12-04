@@ -175,6 +175,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
                 }}
               >
                 <Button
+                  color={color.split('.')[0]}
                   variant='contained'
                   sx={{ height: '40px', marginTop: '50px', width: '100px' }}
                   onClick={() => {
@@ -184,6 +185,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
                   Delete
                 </Button>
                 <Button
+                  color={color.split('.')[0]}
                   variant='contained'
                   sx={{ height: '40px', marginTop: '10px', width: '100px' }}
                   onClick={() => navigate(`/exercises/edit/${id}`)}

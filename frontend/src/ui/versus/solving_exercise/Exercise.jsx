@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import CheckIcon from '@mui/icons-material/Check';
@@ -48,7 +48,13 @@ const Exercise = ({ GetExercises, token, socket }) => {
 
   const { user } = useAuth0();
   const foundUser = useSelector(getUserByUsername(user.nickname));
-
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary'
+        : 'primary',
+    [localStorage.getItem('theme')]
+  );
   const getTime = (time) =>
     `${Math.floor(time / 60)}:${
       time % 60 < 10 ? '0' + (time % 60).toString() : time % 60
@@ -211,10 +217,10 @@ const Exercise = ({ GetExercises, token, socket }) => {
               <ListItem>
                 <Typography
                   variant='h3'
-                  color='primary'
+                  color={color}
                   sx={{
                     borderBottom: '3px solid',
-                    borderColor: 'primary.main',
+                    borderColor: `${color}.main`,
                   }}
                 >
                   {exercise.title}
@@ -222,7 +228,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar sx={{ backgroundColor: 'primary.main' }}>
+                  <Avatar sx={{ backgroundColor: `${color}.main` }}>
                     <PersonIcon />
                   </Avatar>
                 </ListItemAvatar>
@@ -233,7 +239,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar sx={{ backgroundColor: 'primary.main' }}>
+                  <Avatar sx={{ backgroundColor: `${color}.main` }}>
                     <GTranslateIcon />
                   </Avatar>
                 </ListItemAvatar>
@@ -244,7 +250,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar sx={{ backgroundColor: 'primary.main' }}>
+                  <Avatar sx={{ backgroundColor: `${color}.main` }}>
                     <PsychologyIcon />
                   </Avatar>
                 </ListItemAvatar>
@@ -259,7 +265,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar sx={{ backgroundColor: 'primary.main' }}>
+                  <Avatar sx={{ backgroundColor: `${color}.main` }}>
                     <FormatColorTextIcon />
                   </Avatar>
                 </ListItemAvatar>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Button } from '@mui/material';
@@ -28,7 +28,13 @@ const Buttons = ({
   const [triggered, setTriggered] = useState(false);
   const foundUser = useSelector(getUserByUsername(user.nickname));
   const [passed, setPassed] = useState(false);
-
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary'
+        : 'primary',
+    [localStorage.getItem('theme')]
+  );
   const runCode = (code) => {
     axios
       .post(
@@ -94,10 +100,10 @@ const Buttons = ({
           margin: '10px 0',
         }}
       >
-        <Button variant='contained' onClick={() => runCode(code)}>
+        <Button color={color} variant='contained' onClick={() => runCode(code)}>
           Run
         </Button>
-        <Button variant='contained' onClick={finishEx}>
+        <Button color={color} variant='contained' onClick={finishEx}>
           Submit
         </Button>
       </Box>

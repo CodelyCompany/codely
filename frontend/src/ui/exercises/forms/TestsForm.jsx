@@ -1,10 +1,14 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
+import { useAuth0 } from '@auth0/auth0-react';
 import { Box, MenuItem } from '@mui/material';
 import { Button, TextField } from '@mui/material';
 import * as _ from 'lodash';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import * as yup from 'yup';
+
+import { getUserByUsername } from '../../../ducks/user/selectors';
 
 const TestsForm = ({ setStep, dataToEdit, step }) => {
   const color = useMemo(
@@ -18,6 +22,10 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
   const [tests, setTests] = useState([]);
   const [triggered, setTriggered] = useState(false);
   const [error, setError] = useState({});
+  const { user } = useAuth0();
+  const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
+    theme: 0,
+  };
 
   const inputValidation = yup
     .string('Enter an input')
@@ -151,14 +159,14 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
         sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
       >
         <TextField
+          color={color.split('.')[0]}
           focused
           sx={{
             marginBottom: '10px',
             width: '900px',
-            input: { color },
             color,
           }}
-          id='testsQuantity'
+          id={`testsQuantity-${foundUser.theme}`}
           name='testsQuantity'
           label='Choose tests quantity'
           value={testsQuantity}
@@ -215,6 +223,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
                           : {};
                       return (
                         <TextField
+                          color={color.split('.')[0]}
                           focused
                           sx={{ input: { color } }}
                           {...label}
@@ -241,6 +250,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
                 </Box>
                 <Box>
                   <TextField
+                    color={color.split('.')[0]}
                     focused
                     sx={{ input: { color } }}
                     {...outputLabel}
@@ -264,6 +274,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
           })}
 
         <Button
+          color={color.split('.')[0]}
           fullWidth
           sx={{ marginBottom: '10px' }}
           type='button'
@@ -273,6 +284,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
           Previous
         </Button>
         <Button
+          color={color.split('.')[0]}
           fullWidth
           type='button'
           onClick={() => submitValues()}

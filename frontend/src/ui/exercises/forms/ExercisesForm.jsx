@@ -1,11 +1,15 @@
 import React, { useMemo } from 'react';
 
+import { useAuth0 } from '@auth0/auth0-react';
 import { MenuItem } from '@mui/material';
 import { Button, TextField } from '@mui/material';
 import { Box } from '@mui/system';
 import { useFormik } from 'formik';
 import { PropTypes } from 'prop-types';
+import { useSelector } from 'react-redux';
 import * as yup from 'yup';
+
+import { getUserByUsername } from '../../../ducks/user/selectors';
 
 const ExercisesForm = ({ setStep, dataToEdit, step }) => {
   const programmingLanguages = [
@@ -17,6 +21,11 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
     'Python',
     'R',
   ];
+
+  const { user } = useAuth0();
+  const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
+    theme: 0,
+  };
 
   const color = useMemo(
     () =>
@@ -86,6 +95,7 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
         onSubmit={formik.handleSubmit}
       >
         <TextField
+          color={color.split('.')[0]}
           sx={{ input: { color }, marginBottom: '10px' }}
           focused={true}
           id='title'
@@ -97,6 +107,7 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
           helperText={formik.touched.title && formik.errors.title}
         />
         <TextField
+          color={color.split('.')[0]}
           sx={{ input: { color }, marginBottom: '10px' }}
           focused={true}
           id='description'
@@ -110,11 +121,13 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
           helperText={formik.touched.description && formik.errors.description}
         />
         <TextField
+          className={`dropdown-${foundUser.theme}`}
+          color={color.split('.')[0]}
           focused={true}
           sx={{
             marginBottom: '10px',
           }}
-          id='difficulty'
+          id={`difficulty-${foundUser.theme}`}
           name='difficulty'
           label='Difficulty'
           select
@@ -130,9 +143,10 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
           ))}
         </TextField>
         <TextField
+          color={color.split('.')[0]}
           sx={{ marginBottom: '10px' }}
           focused={true}
-          id='programmingLanguage'
+          id={`programmingLanguage-${foundUser.theme}`}
           name='programmingLanguage'
           label='Programming language'
           select
@@ -148,13 +162,13 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
           }
         >
           {programmingLanguages.map((option) => (
-            <MenuItem sx={{ color }} key={option} value={option}>
+            <MenuItem color={color.split('.')[0]} key={option} value={option}>
               {option}
             </MenuItem>
           ))}
         </TextField>
 
-        <Button sx={{ color }} variant='contained' type='submit'>
+        <Button color={color.split('.')[0]} variant='contained' type='submit'>
           Next
         </Button>
       </form>

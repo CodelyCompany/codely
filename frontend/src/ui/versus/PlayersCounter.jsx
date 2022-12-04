@@ -1,9 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { Box, Typography } from '@mui/material';
 import { PropTypes } from 'prop-types';
 
 const PlayersCounter = ({ socket }) => {
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary'
+        : 'primary',
+    [localStorage.getItem('theme')]
+  );
   const [players, setPlayers] = useState(0);
   useEffect(() => {
     socket.on('players', (mess) => {
@@ -19,7 +26,7 @@ const PlayersCounter = ({ socket }) => {
     <Box>
       <Typography
         variant='h3'
-        color='primary'
+        color={color}
         sx={{
           fontWeight: 'bolder',
           borderColor: 'primary.main',
@@ -29,7 +36,7 @@ const PlayersCounter = ({ socket }) => {
       >
         Waiting for opponent
       </Typography>
-      <Typography variant='h4' color='primary' fontWeight={'bolder'}>
+      <Typography variant='h4' color={color} fontWeight={'bolder'}>
         Active players: {players}
       </Typography>
     </Box>
