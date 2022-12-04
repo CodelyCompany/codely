@@ -78,10 +78,9 @@ router.post('/addUser', async (req, res) => {
 
 router.put('/editUser', async (req, res) => {
   try {
-    const data = req.body;
-    await User.updateOne({ _id: data._id }, { theme: data.theme });
-    const updatedUser = await User.findOne({ _id: data._id });
-    console.log(updatedUser);
+    const { _id, theme } = req.body;
+    await User.updateOne({ _id }, { theme });
+    const updatedUser = await User.findOne({ _id });
     return res.status(200).send(updatedUser);
   } catch (error) {
     console.log(error);
@@ -142,10 +141,11 @@ router.delete('/deleteUser/:id', async (req, res) => {
   }
 });
 
-
 router.get('/:id/avatar', (req, res) => {
   try {
-    res.status(200).sendFile(path.join(__dirname, `../avatars/${req.params.id}.png`));  
+    res
+      .status(200)
+      .sendFile(path.join(__dirname, `../avatars/${req.params.id}.png`));
   } catch (err) {
     res.sendStatus(404);
   }
@@ -157,14 +157,14 @@ router.patch('/:id/avatar', upload.single('avatar'), async (req, res) => {
     const tempPath = req.file.path;
     const targetPath = path.join(__dirname, `../avatars/${req.params.id}.png`);
     user.avatarTimestamp = Date.now();
-  
+
     if (!fs.existsSync(path.join(__dirname, '../avatars')))
       fs.mkdirSync(path.join(__dirname, '../avatars'));
-  
-    if (path.extname(req.file.originalname) === ".png") {
+
+    if (path.extname(req.file.originalname) === '.png') {
       fs.renameSync(tempPath, targetPath);
     } else res.status(400).send('Only .png images are accepted');
-  
+
     user.save();
     res.status(200).send(user);
   } catch (err) {
