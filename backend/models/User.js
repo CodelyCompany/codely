@@ -25,10 +25,6 @@ const userSchema = new Schema({
     type: Number,
     default: 0,
   },
-  lang: {
-    type: String,
-    default: 'eng',
-  },
 });
 
 module.exports = model('User', userSchema);
