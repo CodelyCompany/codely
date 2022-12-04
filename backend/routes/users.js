@@ -1,8 +1,13 @@
 const express = require('express');
-const router = express.Router();
+const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
 const User = require('../models/User');
 const Exercise = require('../models/Exercise');
 const Review = require('../models/Review');
+
+const router = express.Router();
+const upload = multer({ dest: path.join(__dirname, '../temp') });
 
 router.get('/', async (req, res) => {
   try {
@@ -134,6 +139,37 @@ router.delete('/deleteUser/:id', async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).send(error);
+  }
+});
+
+
+router.get('/:id/avatar', (req, res) => {
+  try {
+    res.status(200).sendFile(path.join(__dirname, `../avatars/${req.params.id}.png`));  
+  } catch (err) {
+    res.sendStatus(404);
+  }
+});
+
+router.patch('/:id/avatar', upload.single('avatar'), async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.params.id });
+    const tempPath = req.file.path;
+    const targetPath = path.join(__dirname, `../avatars/${req.params.id}.png`);
+    user.avatarTimestamp = Date.now();
+  
+    if (!fs.existsSync(path.join(__dirname, '../avatars')))
+      fs.mkdirSync(path.join(__dirname, '../avatars'));
+  
+    if (path.extname(req.file.originalname) === ".png") {
+      fs.renameSync(tempPath, targetPath);
+    } else res.status(400).send('Only .png images are accepted');
+  
+    user.save();
+    res.status(200).send(user);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Something went wrong');
   }
 });
 

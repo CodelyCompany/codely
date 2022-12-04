@@ -53,6 +53,7 @@ const Navbar = ({
   const [anchorElUser, setAnchorElUser] = useState(null);
   const { loginWithRedirect, isAuthenticated, logout, user } = useAuth0();
   const [theme, setTheme] = useState(0);
+  const [avatarUri, setAvatarUri] = useState(null);
 
   const foundUser = useMemo(
     () => users.find((usr) => usr.username === user.nickname),
@@ -99,7 +100,10 @@ const Navbar = ({
 
   useEffect(() => {
     if (users.length) {
-      if (!_.isEmpty(foundUser)) GetNotifications(foundUser._id, token);
+      if (!_.isEmpty(foundUser)) {
+        GetNotifications(foundUser._id, token);
+        setAvatarUri(`${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}/users/${foundUser._id}/avatar?${foundUser.avatarTimestamp}`);
+      }
     }
   }, [users]);
 
@@ -274,7 +278,7 @@ const Navbar = ({
             {isAuthenticated && (
               <Tooltip title='Open settings'>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt='User image' />
+                  <Avatar src={avatarUri} />
                 </IconButton>
               </Tooltip>
             )}

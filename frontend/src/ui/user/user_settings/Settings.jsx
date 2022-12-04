@@ -1,18 +1,23 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { useEffect } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
-import { Box, Checkbox, Container, Typography } from '@mui/material';
+import { Box, Button, Checkbox, Container, Paper, Typography } from '@mui/material';
 import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 
 import { getToken } from '../../../ducks/token/selectors';
 import { UpdateUser } from '../../../ducks/user/operations';
+import { UploadAvatar } from '../../../ducks/user/operations';
 import { getUserByUsername } from '../../../ducks/user/selectors';
 
-const Settings = ({ UpdateUser, token }) => {
+import UploadDialog from './UploadDialog';
+
+const Settings = ({ UpdateUser, UploadAvatar, token }) => {
   const [color, setColor] = useState(0);
+  const [image, setImage] = useState(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const { user } = useAuth0();
   const colorOpt = useMemo(
     () =>
@@ -35,12 +40,42 @@ const Settings = ({ UpdateUser, token }) => {
     UpdateUser({ _id: foundUser._id, theme: parseInt(e.target.value) }, token);
   };
 
+  const handleNewImage = (event) => {
+    setImage(event.target.files[0]);
+    setDialogOpen(true);
+  };
+
+  const handleUploadAbort = () => {
+    setImage(null);
+    setDialogOpen(false);
+  };
+
+  const handleImageUpload = () => {
+    const formData = new FormData();
+    formData.append(
+      'avatar',
+      image,
+      image.name
+    );
+    UploadAvatar(foundUser._id, formData, token);
+    setDialogOpen(false);
+  };
+
   return (
     <Container sx={{ marginTop: '20px' }}>
+      <UploadDialog
+        open={dialogOpen}
+        handleAbort={handleUploadAbort}
+        handleUpload={handleImageUpload}
+      />
       <Box padding='20px'>
         <Typography color={colorOpt} variant='h5' fontWeight='bolder'>
           Upload your avatar
         </Typography>
+        <Button variant='contained' component='label'>
+          {'Choose file \(.png\)'}
+          <input type='file' hidden onChange={handleNewImage}/>
+        </Button>
       </Box>
       <Box padding='20px' color={colorOpt} borderTop='3px solid'>
         <Typography color={colorOpt} variant='h5' fontWeight='bolder'>
@@ -143,11 +178,13 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   UpdateUser,
+  UploadAvatar,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);
 
 Settings.propTypes = {
   UpdateUser: PropTypes.func.isRequired,
+  UploadAvatar: PropTypes.func.isRequired,
   token: PropTypes.object,
 };
