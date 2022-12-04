@@ -152,6 +152,7 @@ services:
       - REACT_APP_CONTAINERS_CLIENT_SECRET=D61mgH5J4q7CqwvcO6iJtggeL65qQZnWrdhRS2SXwoJTtgHSMJbGhdUWiAGWmVFJ
       - REACT_APP_REDIRECT_URI=http://localhost:3000
       - REACT_APP_WEBSOCKET_ADDRESS=http://localhost:5002/
+      - REACT_APP_LOGOUT_URL=http://localhost:3000
   redis:
     image: redis:latest
     ports:
