@@ -4,6 +4,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Box, MenuItem } from '@mui/material';
 import { Button, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 import * as yup from 'yup';
 
@@ -18,6 +19,7 @@ import {
 import { getUserByUsername } from '../../../ducks/user/selectors';
 
 const HintsForms = ({ step, dataToEdit, setStep }) => {
+  const { t } = useTranslation();
   const color = useMemo(
     () =>
       parseInt(localStorage.getItem('theme') ?? 0) === 2
@@ -97,8 +99,8 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
   const hintSchema = yup.string().required();
 
   const hintsSchema = yup
-    .array('Enter all hints')
-    .of(yup.string('Enter the hint').required('This hint is required'));
+    .array(t('Enter all hints'))
+    .of(yup.string(t('Enter the hint')).required(t('This hint is required')));
 
   const goToNextStage = () => {
     hintsSchema
@@ -171,7 +173,7 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
                   width: '100%',
                   input: { color },
                 }}
-                label={number === 0 ? 'Hints' : ''}
+                label={number === 0 ? t('Hints') : ''}
                 name='hint'
                 value={getValue(number)}
                 error={error.error && !hintSchema.isValidSync(getValue(number))}
@@ -193,7 +195,7 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
           onClick={() => goToPreviousStage()}
           variant='contained'
         >
-          Previous
+          {t('Previous')}
         </Button>
         <Button
           color={color.split('.')[0]}
@@ -202,7 +204,7 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
           onClick={() => goToNextStage()}
           variant='contained'
         >
-          Next
+          {t('Next')}
         </Button>
       </form>
     </Box>

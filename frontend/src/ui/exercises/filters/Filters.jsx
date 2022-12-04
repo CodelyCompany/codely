@@ -9,6 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 
 import { getExercisesFromState } from '../../../ducks/exercises/selectors';
@@ -16,6 +17,7 @@ import { getExercisesFromState } from '../../../ducks/exercises/selectors';
 import Sorting from './Sorting';
 
 function Filters({ exercises, setFilters, setSort, sort }) {
+  const { t } = useTranslation();
   const getTitles = () => exercises.map((el) => el.title);
   const color = useMemo(
     () =>
@@ -73,13 +75,15 @@ function Filters({ exercises, setFilters, setSort, sort }) {
             <TextField
               color={color}
               {...params}
-              label={<Typography color={color}>Search exercise</Typography>}
+              label={
+                <Typography color={color}>{t('Search exercise')}</Typography>
+              }
             />
           )}
         />
       </Box>
       <Box>
-        <Typography>Filter by language:</Typography>
+        <Typography>{t('Filter by language:')}</Typography>
         {languages.map((language) => (
           <FormControlLabel
             key={language}
@@ -95,7 +99,7 @@ function Filters({ exercises, setFilters, setSort, sort }) {
         ))}
       </Box>
       <Box>
-        <Typography>Filter by difficulty level:</Typography>
+        <Typography>{t('Filter by difficulty level:')}</Typography>
         {[...Array(5).keys()].map((number) => (
           <FormControlLabel
             key={number + 1}

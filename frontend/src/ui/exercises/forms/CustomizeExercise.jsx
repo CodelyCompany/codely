@@ -3,12 +3,14 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Box, Button, MenuItem, TextField } from '@mui/material';
 import { useFormik } from 'formik';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { getDataTypes } from './utils/dataTypes';
 import CustomTypes from './CustomTypes';
 
 const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
+  const { t } = useTranslation();
   const [argumentsName, setArgumentsName] = useState([]);
   const [checked, setChecked] = useState(false);
   const [error, setError] = useState({});
@@ -108,48 +110,48 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
     .uniqueIn(argumentsName);
 
   const typesSchema = yup
-    .string('Enter all arguments type')
-    .required('Argument type is required');
+    .string(t('Enter all arguments type'))
+    .required(t('Argument type is required'));
 
   const argumentsNameSchema = yup.object({
     argumentsName: yup
-      .array('Eneter all arguments name')
+      .array(t('Eneter all arguments name'))
       .of(
         yup
-          .string('Enter all arguments name')
-          .required('All arguments are required')
+          .string(t('Enter all arguments name'))
+          .required(t('All arguments are required'))
           .matches(
             /^[a-zA-Z0-9]*[a-z][a-zA-Z0-9]*$/,
-            'Arguments name should consist only of letters and numbers'
+            t('Arguments name should consist only of letters and numbers')
           )
       )
-      .required('All arguments are required')
-      .unique('All arguments should be unique'),
+      .required(t('All arguments are required'))
+      .unique(t('All arguments should be unique')),
     types: yup
-      .array('Enter all argument types')
+      .array(t('Enter all argument types'))
       .of(
         yup
-          .string('Enter all arguments type')
-          .required('Argument type is required')
+          .string(t('Enter all arguments type'))
+          .required(t('Argument type is required'))
       )
       .notRequired(),
   });
 
   const validationSchema = yup.object({
     functionName: yup
-      .string('Enter a function name')
-      .min(1, 'Function name should be of minimum 1 character length')
-      .max(50, 'Function name should be of maximum 50 characters length')
-      .required('Function name is required')
+      .string(t('Enter a function name'))
+      .min(1, t('Function name should be of minimum 1 character length'))
+      .max(50, t('Function name should be of maximum 50 characters length'))
+      .required(t('Function name is required'))
       .matches(
         /^[a-zA-Z0-9]*[a-z][a-zA-Z0-9]*$/,
-        'Function name should consist of letters and numbers only'
+        t('Function name should consist of letters and numbers only')
       ),
     argumentsQuantity: yup
-      .number('Enter arguments quantity')
-      .min(1, 'Arguments quantity should be higher than 0')
-      .max(5, "Arguments quantity shouldn't be higher than 5")
-      .required('Arguments quantity are required'),
+      .number(t('Enter arguments quantity'))
+      .min(1, t('Arguments quantity should be higher than 0'))
+      .max(5, t("Arguments quantity shouldn't be higher than 5"))
+      .required(t('Arguments quantity are required')),
   });
 
   const formik = useFormik({
@@ -249,7 +251,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
             }}
             id='functionName'
             name='functionName'
-            label='Function name'
+            label={t('Function name')}
             value={formik.values.functionName}
             onChange={formik.handleChange}
             error={
@@ -266,7 +268,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
             type='number'
             id='argumentsQuantity'
             name='argumentsQuantity'
-            label='Function arguments quantity'
+            label={t('Function arguments quantity')}
             InputProps={{ inputProps: { min: 0 } }}
             value={formik.values.argumentsQuantity}
             onChange={formik.handleChange}
@@ -293,7 +295,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                         marginRight: `${formWithTypes ? '5px' : '0'}`,
                         input: { color },
                       }}
-                      label={`${argNumber + 1}. Argument name`}
+                      label={`${argNumber + 1}. ${t('Argument name')}`}
                       value={argumentsName[argNumber] || ''}
                       onChange={(e) => handleArgumentName(e, argNumber)}
                       error={
@@ -321,7 +323,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                           }`,
                           marginLeft: `${formWithTypes ? '5px' : '0'}`,
                         }}
-                        label={`${argNumber + 1}. Argument type`}
+                        label={`${argNumber + 1}. ${t('Argument type')}`}
                         value={types[argNumber] || ''}
                         onChange={(e) => setType(argNumber, e.target.value)}
                         error={
@@ -354,7 +356,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
               color={color.split('.')[0]}
               select
               fullWidth
-              label={`Output type`}
+              label={t(`Output type`)}
               value={types[formik.values.argumentsQuantity] || ''}
               sx={{ marginTop: '10px' }}
               onChange={(e) =>
@@ -390,7 +392,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
               onClick={prev}
               sx={{ margin: '10px 0' }}
             >
-              Previous
+              {t('Previous')}
             </Button>
 
             <Button
@@ -398,7 +400,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
               variant='contained'
               type='submit'
             >
-              Next
+              {t('Next')}
             </Button>
           </Box>
         </form>

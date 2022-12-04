@@ -3,9 +3,12 @@ import React, { useEffect, useMemo } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, TextField, Typography } from '@mui/material';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 const CustomArgs = ({ args, setArgumentValues, argumentValues }) => {
   const { user } = useAuth0();
+  const { t } = useTranslation();
+
   const color = useMemo(
     () =>
       parseInt(localStorage.getItem('theme') ?? 0) === 2
@@ -52,7 +55,9 @@ const CustomArgs = ({ args, setArgumentValues, argumentValues }) => {
         }}
       >
         <Typography variant='h6' sx={{ color }} fontWeight='bolder'>
-          Function in the code field will be run with values inputted below
+          {t(
+            'Function in the code field will be run with values inputted below'
+          )}
         </Typography>
       </Box>
       <Box className={`theme-${user.theme}`}>

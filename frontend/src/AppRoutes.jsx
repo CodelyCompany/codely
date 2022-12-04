@@ -1,8 +1,12 @@
 import React from 'react';
 
 import { createTheme, ThemeProvider } from '@mui/material';
+import i18next from 'i18next';
+import Backend from 'i18next-http-backend';
+import { initReactI18next } from 'react-i18next';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
+import languages from './config/languages';
 import Editor from './ui/code_editor/Editor';
 import ExerciseDetail from './ui/exercises/ExerciseDetail';
 import ExercisesList from './ui/exercises/ExercisesList';
@@ -17,6 +21,26 @@ import UserDetails from './ui/user/UserDetails';
 import Exercise from './ui/versus/solving_exercise/Exercise';
 import Versus from './ui/versus/Versus';
 import { theme } from './conf';
+
+i18next
+  .use(Backend)
+  .use(initReactI18next)
+  .init({
+    lng: languages || 'en',
+    fallbackLng: 'en',
+    ns: ['main'],
+    defaultNS: 'main',
+    react: {
+      wait: true,
+      useSuspense: false,
+    },
+    interpolation: {
+      escapeValue: false,
+    },
+    backend: {
+      loadPath: '/locales/{{lng}}/{{ns}}.json',
+    },
+  });
 
 const AppRoutes = () => {
   const themeObj = createTheme(theme);

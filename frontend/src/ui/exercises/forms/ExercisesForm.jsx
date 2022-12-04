@@ -6,12 +6,14 @@ import { Button, TextField } from '@mui/material';
 import { Box } from '@mui/system';
 import { useFormik } from 'formik';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import * as yup from 'yup';
 
 import { getUserByUsername } from '../../../ducks/user/selectors';
 
 const ExercisesForm = ({ setStep, dataToEdit, step }) => {
+  const { t } = useTranslation();
   const programmingLanguages = [
     'JavaScript',
     'Bash',
@@ -37,22 +39,22 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
 
   const validationSchema = yup.object({
     title: yup
-      .string('Enter a title')
-      .min(3, 'Title should be of minimum 3 characters length')
-      .max(50, 'Title should be of maximum 50 characters length')
-      .required('Title is required'),
+      .string(t('Enter a title'))
+      .min(3, t('Title should be of minimum 3 characters length'))
+      .max(50, t('Title should be of maximum 50 characters length'))
+      .required(t('Title is required')),
     description: yup
-      .string('Enter a description')
-      .max(5000, 'Description should be of maximum 5000 characters length')
-      .required('Description is required'),
+      .string(t('Enter a description'))
+      .max(5000, t('Description should be of maximum 5000 characters length'))
+      .required(t('Description is required')),
     difficulty: yup
-      .number('Enter a difficulty level')
-      .min(1, 'The minimum difficulty level is 1')
-      .max(5, 'The maximum difficulty level is 5')
-      .required('Difficulty level is required'),
+      .number(t('Enter a difficulty level'))
+      .min(1, t('The minimum difficulty level is 1'))
+      .max(5, t('The maximum difficulty level is 5'))
+      .required(t('Difficulty level is required')),
     programmingLanguage: yup
-      .string('Enter a programming language')
-      .required('Programming language is required'),
+      .string(t('Enter a programming language'))
+      .required(t('Programming language is required')),
   });
 
   const formik = useFormik({
@@ -100,7 +102,7 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
           focused={true}
           id='title'
           name='title'
-          label='Title'
+          label={t('Title')}
           value={formik.values.title}
           onChange={formik.handleChange}
           error={formik.touched.title && Boolean(formik.errors.title)}
@@ -112,7 +114,7 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
           focused={true}
           id='description'
           name='description'
-          label='Description'
+          label={t('Description')}
           value={formik.values.description}
           onChange={formik.handleChange}
           error={
@@ -129,7 +131,7 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
           }}
           id={`difficulty-${foundUser.theme}`}
           name='difficulty'
-          label='Difficulty'
+          label={t('Difficulty')}
           select
           value={formik.values.difficulty}
           onChange={formik.handleChange}
@@ -148,7 +150,7 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
           focused={true}
           id={`programmingLanguage-${foundUser.theme}`}
           name='programmingLanguage'
-          label='Programming language'
+          label={t('Programming language')}
           select
           value={formik.values.programmingLanguage}
           onChange={formik.handleChange}
@@ -169,7 +171,7 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
         </TextField>
 
         <Button color={color.split('.')[0]} variant='contained' type='submit'>
-          Next
+          {t('Next')}
         </Button>
       </form>
     </Box>

@@ -29,14 +29,14 @@ const CustomTypes = ({ open, setOpen, setCustomTypes }) => {
         <DialogTitle>Add other type / custom type</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            {`Here you can add other type which wasn't mentioned in the list.
-              Moreover you can add your own type fe. Fraction`}
+            {t(`Here you can add other type which wasn't mentioned in the list.
+              Moreover you can add your own type fe. Fraction`)}
           </DialogContentText>
           <TextField
             autoFocus
             margin='dense'
             id='type'
-            label='Type'
+            label={t('Type')}
             type='text'
             fullWidth
             variant='standard'

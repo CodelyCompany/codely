@@ -7,6 +7,7 @@ import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -42,6 +43,7 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
   const navigate = useNavigate();
   const { id } = useParams();
   const exercise = useSelector(getExerciseById(id));
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (redirect) {
@@ -104,12 +106,14 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
           aria-controls='panel1d-content'
           id='panel1d-header'
         >
-          <Typography sx={{ color: 'white' }}>Main info</Typography>
+          <Typography sx={{ color: 'white' }}>{t('Main info')}</Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
           <Typography sx={{ margin: '10px', fontWeight: 'bolder', color }}>
-            Here you can set title, description and difficulty of your exercise.
-            Remember to set the most proper programming language!
+            {t(
+              `Here you can set title, description and difficulty of your exercise.
+              Remember to set the most proper programming language!`
+            )}
           </Typography>
           <ExercisesForm setStep={setStep} dataToEdit={exercise} step={step} />
         </AccordionDetails>
@@ -125,13 +129,13 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
           id='panel3d-header'
         >
           <Typography sx={{ color: 'white' }}>
-            Customize exercise function
+            {t('Customize exercise function')}
           </Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
           <Typography sx={{ margin: '10px', fontWeight: 'bolder', color }}>
-            Here you can set amount of arguments for your function. You have to
-            set the name for each argument.
+            t(`Here you can set amount of arguments for your function. You have
+            to set the name for each argument.`)
           </Typography>
           <CustomizeExercise
             step={step}
@@ -150,12 +154,14 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
           aria-controls='panel2d-content'
           id='panel2d-header'
         >
-          <Typography sx={{ color: 'white' }}>Inputs \ Outputs</Typography>
+          <Typography sx={{ color: 'white' }}>
+            {t('Inputs  Outputs')}
+          </Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
           <Typography sx={{ margin: '10px', fontWeight: 'bolder', color }}>
-            Choose quantity of your tests, then write expected outputs for each
-            of your inputs.
+            {t(`Choose quantity of your tests, then write expected outputs for each
+            of your inputs.`)}
           </Typography>
           <TestsForm setStep={setStep} dataToEdit={exercise} step={step} />
         </AccordionDetails>
@@ -170,12 +176,14 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
           aria-controls='panel3d-content'
           id='panel3d-header'
         >
-          <Typography sx={{ color: 'white' }}>Hints</Typography>
+          <Typography sx={{ color: 'white' }}>{t('Hints')}</Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
           <Typography sx={{ margin: '10px', fontWeight: 'bolder', color }}>
-            Here you can choose quantity of your hints. Remember that not all
-            users will be able to solve your exercise without some help.
+            {t(
+              `Here you can choose quantity of your hints.
+               Remember that not all users will be able to solve your exercise without some help.`
+            )}
           </Typography>
           <HintsForms step={step} setStep={setStep} dataToEdit={exercise} />
         </AccordionDetails>
@@ -191,13 +199,15 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
           aria-controls='panel3d-content'
           id='panel3d-header'
         >
-          <Typography sx={{ color: 'white' }}>Example Solution</Typography>
+          <Typography sx={{ color: 'white' }}>
+            {t('Example Solution')}
+          </Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
           <Typography sx={{ margin: '10px', fontWeight: 'bolder', color }}>
-            Here you have to write an example solution to guarantee that your
+            {t(`Here you have to write an example solution to guarantee that your
             exercise is solvable. After solving, your exercise will be send to
-            the admin to get an agreement.
+            the admin to get an agreement.`)}
           </Typography>
           <ExampleSolution
             step={step}

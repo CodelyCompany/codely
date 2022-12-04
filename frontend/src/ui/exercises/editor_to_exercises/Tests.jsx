@@ -2,10 +2,12 @@ import React from 'react';
 
 import { Box, Typography } from '@mui/material';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 import ConfettiAfterSolve from '../../popups/ConfettiAfterSolve';
 
 function Tests({ tests }) {
+  const { t } = useTranslation();
   const color = useMemo(
     () =>
       parseInt(localStorage.getItem('theme') ?? 0) === 2
@@ -33,7 +35,7 @@ function Tests({ tests }) {
           variant='h6'
           sx={{ marginRight: '3px', fontWeight: 'bolder', color }}
         >
-          Tests passed:
+          {t('Tests passed: ')}
         </Typography>
         <Typography
           variant='h6'

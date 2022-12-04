@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import React from 'react';
 
 import { Box, Container, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 import CodeField from './CodeField';
 import LanguageSelector from './LanguageSelector';
@@ -19,6 +20,7 @@ const Editor = () => {
         : 'primary.main',
     [localStorage.getItem('theme')]
   );
+  const { t } = useTranslation();
 
   return (
     <Container>
@@ -32,7 +34,7 @@ const Editor = () => {
           top: '20px',
         }}
       >
-        Write your code here!
+        {t('Write your code here!')}
       </Typography>
       <Box
         sx={{

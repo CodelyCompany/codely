@@ -12,6 +12,7 @@ import { UpdateUser } from '../../../ducks/user/operations';
 import { UploadAvatar } from '../../../ducks/user/operations';
 import { getUserByUsername } from '../../../ducks/user/selectors';
 
+import SetLanguage from './SetLanguage';
 import UploadDialog from './UploadDialog';
 
 const Settings = ({ UpdateUser, UploadAvatar, token }) => {
@@ -52,11 +53,7 @@ const Settings = ({ UpdateUser, UploadAvatar, token }) => {
 
   const handleImageUpload = () => {
     const formData = new FormData();
-    formData.append(
-      'avatar',
-      image,
-      image.name
-    );
+    formData.append('avatar', image, image.name);
     UploadAvatar(foundUser._id, formData, token);
     setDialogOpen(false);
   };
@@ -72,19 +69,16 @@ const Settings = ({ UpdateUser, UploadAvatar, token }) => {
         <Typography color={colorOpt} variant='h5' fontWeight='bolder'>
           Upload your avatar
         </Typography>
-        <Button
-          variant='contained'
-          color={colorOpt}
-          component='label'
-        >
-          {'Choose file \(.png\)'}
-          <input type='file' hidden onChange={handleNewImage}/>
+        <Button variant='contained' color={colorOpt} component='label'>
+          {'Choose file (.png)'}
+          <input type='file' hidden onChange={handleNewImage} />
         </Button>
       </Box>
       <Box padding='20px' color={colorOpt} borderTop='3px solid'>
         <Typography color={colorOpt} variant='h5' fontWeight='bolder'>
           Set your language
         </Typography>
+        <SetLanguage />
       </Box>
       <Box padding='20px' color={colorOpt} borderTop='3px solid'>
         <Typography color={colorOpt} variant='h5' fontWeight='bolder'>

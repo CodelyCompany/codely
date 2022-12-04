@@ -6,6 +6,7 @@ import { Box, Button } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import axios from 'axios';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 
 import {
@@ -34,6 +35,7 @@ const ExampleSolution = ({
   ChangeUpdateStatus,
   token,
 }) => {
+  const { t } = useTranslation();
   const [code, setCode] = useState('');
   const [tests, setTests] = useState(null);
   const { user } = useAuth0();
@@ -207,7 +209,7 @@ const ExampleSolution = ({
             variant='contained'
             onClick={prev}
           >
-            Previous
+            {t('Previous')}
           </Button>
           <Button
             color={color.split('.')[0]}
@@ -222,9 +224,13 @@ const ExampleSolution = ({
           >
             {tests
               ? tests.correct !== tests.tests
-                ? `Check exercise again (Last run: ${tests.correct} / ${tests.tests})`
-                : `Click again to pass your exercise for admin verification.`
-              : 'Check exercise'}
+                ? `${t('Check exercise again (Last run:')} ${tests.correct} / ${
+                    tests.tests
+                  })`
+                : `${t(
+                    'Click again to pass your exercise for admin verification.'
+                  )}`
+              : t('Check exercise')}
           </Button>
         </Box>
       </Box>

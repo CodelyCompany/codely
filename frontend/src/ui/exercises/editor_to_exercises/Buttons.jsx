@@ -4,6 +4,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Button } from '@mui/material';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
@@ -43,6 +44,7 @@ const Buttons = ({
     [localStorage.getItem('theme')]
   );
 
+  const { t } = useTranslation();
   const runCode = (code) => {
     axios
       .post(
@@ -96,7 +98,7 @@ const Buttons = ({
             sx={{ margin: '5px', width: '100px' }}
             variant='contained'
           >
-            Run
+            {t('Run')}
           </Button>
           <Button
             color={color}
@@ -104,7 +106,7 @@ const Buttons = ({
             sx={{ width: '100px' }}
             variant='contained'
           >
-            Submit
+            {t('Submit')}
           </Button>
         </Box>
         <Box sx={{ display: 'flex' }}>
@@ -115,7 +117,7 @@ const Buttons = ({
             sx={{ width: '100px', margin: '5px' }}
             variant='contained'
           >
-            Undo
+            {t('Undo')}
           </Button>
         </Box>
       </Box>

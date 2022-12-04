@@ -5,12 +5,15 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { DiJsBadge } from 'react-icons/di';
 import { DiLinux } from 'react-icons/di';
 import { FaJava, FaPython } from 'react-icons/fa';
 import { SiC, SiCplusplus, SiR } from 'react-icons/si';
 
 const LanguageSelector = ({ language, setLanguage }) => {
+  const { t } = useTranslation();
+
   const color = useMemo(
     () =>
       parseInt(localStorage.getItem('theme') ?? 0) === 2
@@ -59,7 +62,7 @@ const LanguageSelector = ({ language, setLanguage }) => {
 
   return (
     <FormControl sx={{ m: 1, minWidth: 180, color }} size='small'>
-      <InputLabel sx={{ color }}>Language</InputLabel>
+      <InputLabel sx={{ color }}>{t('Language')}</InputLabel>
       <Select
         sx={{ color }}
         labelId='demo-select-small'

@@ -5,12 +5,14 @@ import { Box, MenuItem } from '@mui/material';
 import { Button, TextField } from '@mui/material';
 import * as _ from 'lodash';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import * as yup from 'yup';
 
 import { getUserByUsername } from '../../../ducks/user/selectors';
 
 const TestsForm = ({ setStep, dataToEdit, step }) => {
+  const { t } = useTranslation();
   const color = useMemo(
     () =>
       parseInt(localStorage.getItem('theme') ?? 0) === 2
@@ -28,24 +30,26 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
   };
 
   const inputValidation = yup
-    .string('Enter an input')
-    .required('Input is required');
+    .string(t('Enter an input'))
+    .required(t('Input is required'));
 
   const outputValidation = yup
-    .string('Enter an output')
-    .required('Output is required');
+    .string(t('Enter an output'))
+    .required(t('Output is required'));
 
   const testsValidationSchema = yup.object({
-    tests: yup.array('Enter all tests').of(
+    tests: yup.array(t('Enter all tests')).of(
       yup.object({
         input: yup
-          .array('Enter this field')
+          .array(t('Enter this field'))
           .of(
-            yup.string('Enter this field').required('This field is required')
+            yup
+              .string(t('Enter this field'))
+              .required(t('This field is required'))
           ),
         output: yup
-          .string('Enter this field')
-          .required('This field is required'),
+          .string(t('Enter this field'))
+          .required(t('This field is required')),
       })
     ),
   });
@@ -168,7 +172,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
           }}
           id={`testsQuantity-${foundUser.theme}`}
           name='testsQuantity'
-          label='Choose tests quantity'
+          label={t('Choose tests quantity')}
           value={testsQuantity}
           onChange={(e) => setTestsQuantity(parseInt(e.target.value))}
           select
@@ -195,7 +199,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
             const outputLabel =
               index === 0
                 ? {
-                    label: `output`,
+                    label: t(`output`),
                   }
                 : {};
             return (
@@ -281,7 +285,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
           onClick={() => goToPreviousStage()}
           variant='contained'
         >
-          Previous
+          {t('Previous')}
         </Button>
         <Button
           color={color.split('.')[0]}
@@ -290,7 +294,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
           onClick={() => submitValues()}
           variant='contained'
         >
-          Next
+          {t('Next')}
         </Button>
       </form>
     </Box>
