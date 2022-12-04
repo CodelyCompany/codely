@@ -72,7 +72,11 @@ const Settings = ({ UpdateUser, UploadAvatar, token }) => {
         <Typography color={colorOpt} variant='h5' fontWeight='bolder'>
           Upload your avatar
         </Typography>
-        <Button variant='contained' component='label'>
+        <Button
+          variant='contained'
+          color={colorOpt}
+          component='label'
+        >
           {'Choose file \(.png\)'}
           <input type='file' hidden onChange={handleNewImage}/>
         </Button>
