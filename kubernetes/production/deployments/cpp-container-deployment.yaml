@@ -1,30 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: cpp-container-deployment
-    namespace: production
-    labels:
+  name: cpp-container-deployment
+  namespace: production
+  labels:
+    app: codely
+    type: cpp-container
+spec:
+  selector:
+    matchLabels:
+      app: codely
+      type: cpp-container
+  replicas: 2
+  template:
+    metadata:
+      name: cpp-container-pod
+      labels:
         app: codely
         type: cpp-container
-spec:
-    selector:
-        matchLabels:
-            app: codely
-            type: cpp-container
-    replicas: 2
-    template:
-        metadata:
-            name: cpp-container-pod
-            labels:
-                app: codely
-                type: cpp-container
-        spec:
-            containers:
-                - name: cpp-container
-                  image: mtx22/codely-cpp
-                  env:
-                      - name: PORT
-                        valueFrom:
-                            configMapKeyRef:
-                                key: CPP_PORT
-                                name: containers-configmap
+    spec:
+      containers:
+        - name: cpp-container
+          image: mtx22/codely-cpp
+          env:
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: CPP_PORT
+                  name: containers-configmap

@@ -68,27 +68,27 @@ const ReviewForm = ({ review, token }) => {
   };
 
   return (
-    <Grid container spacing={2} className="review-card">
+    <Grid container spacing={2} className='review-card'>
       <Grid item xs={6}>
-        <Typography variant="h5" className="author">
+        <Typography variant='h5' className='author'>
           {user.nickname}
         </Typography>
       </Grid>
-      <Grid item xs={6} className="rating">
+      <Grid item xs={6} className='rating'>
         <Rating
           value={rating}
           onChange={(_, newRating) => {
             setRating(newRating);
           }}
-          size="large"
+          size='large'
           readOnly={!editing}
         />
       </Grid>
       <Grid item xs={12}>
         {editing ? (
           <TextField
-            label="Comment"
-            variant="outlined"
+            label='Comment'
+            variant='outlined'
             multiline
             fullWidth
             value={comment}
@@ -101,21 +101,21 @@ const ReviewForm = ({ review, token }) => {
         )}
       </Grid>
       <Grid item xs={5}>
-        <Typography color="primary">
+        <Typography color='primary'>
           {review ? review.upvotes.length - review.downvotes.length : null}
         </Typography>
       </Grid>
       <Grid item xs={2}>
         <Button
-          color="primary"
-          variant="contained"
+          color='primary'
+          variant='contained'
           onClick={editing ? handleSubmit : () => setEditing(true)}
         >
           {editing ? <AddIcon /> : <EditIcon />}
         </Button>
       </Grid>
       <Grid item xs={5}>
-        <Typography className="timestamp">
+        <Typography className='timestamp'>
           {review
             ? `${review.editedAt ? 'Edited ' : 'Created '}
                     ${new Date(

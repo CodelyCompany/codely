@@ -62,35 +62,35 @@ const ReviewCard = ({ review, token }) => {
   return (
     <>
       <GetToken />
-      <Grid container spacing={2} className="review-card">
+      <Grid container spacing={2} className='review-card'>
         <Grid item xs={6}>
-          <Typography variant="h5" className="author">
+          <Typography variant='h5' className='author'>
             {author.username}
           </Typography>
         </Grid>
-        <Grid item xs={6} className="rating">
-          <Rating value={review.rating} size="large" readOnly />
+        <Grid item xs={6} className='rating'>
+          <Rating value={review.rating} size='large' readOnly />
         </Grid>
         <Grid item xs={12}>
           <Typography>{review.comment}</Typography>
         </Grid>
         <Grid item xs={6}>
-          <Box className="likes">
+          <Box className='likes'>
             <ThumbUpIcon
               color={upvoted ? 'success' : 'disabled'}
               onClick={() => handleVote(true)}
-              className="up"
+              className='up'
             />
-            <Typography color="primary">{rating}</Typography>
+            <Typography color='primary'>{rating}</Typography>
             <ThumbDownIcon
               color={downvoted ? 'error' : 'disabled'}
               onClick={() => handleVote(false)}
-              className="down"
+              className='down'
             />
           </Box>
         </Grid>
         <Grid item xs={6}>
-          <Typography className="timestamp">
+          <Typography className='timestamp'>
             {review
               ? `${review.editedAt ? 'Edited ' : 'Created '}
                     ${new Date(

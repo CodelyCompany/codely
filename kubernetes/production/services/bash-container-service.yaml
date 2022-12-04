@@ -1,14 +1,14 @@
 kind: Service
 apiVersion: v1
 metadata:
-    name: bash
-    namespace: production
+  name: bash
+  namespace: production
 spec:
-    type: ClusterIP
-    ports:
-        - port: 6002
-          targetPort: 6002
-          protocol: TCP
-    selector:
-        app: codely
-        type: bash-container
+  type: ClusterIP
+  ports:
+    - port: 6002
+      targetPort: 6002
+      protocol: TCP
+  selector:
+    app: codely
+    type: bash-container
