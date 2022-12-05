@@ -5,6 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Alert, Box, Collapse } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 
 import { getError } from '../../ducks/exercises/selectors';
@@ -28,18 +29,19 @@ const ExerciseAlert = ({
   CloseUpdatePopup,
   error,
 }) => {
+  const { t } = useTranslation();
   const messages = {
     add: {
-      success: 'Exercise passed for admin verification',
-      error: 'Error occured during passing exercise for admin verification',
+      success: t('Exercise passed for admin verification'),
+      error: t('Error occured during passing exercise for admin verification'),
     },
     delete: {
-      success: 'Exercise deleted successfuly',
-      error: 'Error occured during deleting exercise',
+      success: t('Exercise deleted successfuly'),
+      error: t('Error occured during deleting exercise'),
     },
     update: {
-      success: 'Updated passed for admin verification',
-      error: 'Error occured during updating exercise',
+      success: t('Updated passed for admin verification'),
+      error: t('Error occured during updating exercise'),
     },
   };
 

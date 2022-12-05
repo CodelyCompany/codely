@@ -9,12 +9,14 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { getExerciseById } from '../../ducks/exercises/selectors';
 
 function ExerciseHints() {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const color = useMemo(
     () =>
@@ -58,7 +60,7 @@ function ExerciseHints() {
         aria-describedby='alert-dialog-description'
       >
         <DialogTitle id='alert-dialog-title'>
-          {`Hint: ${hintNumber + 1} / ${exercise.hints.length}`}
+          {`${t('Hint:')} ${hintNumber + 1} / ${exercise.hints.length}`}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id='alert-dialog-description'>
@@ -67,10 +69,10 @@ function ExerciseHints() {
         </DialogContent>
         <DialogActions>
           {hintNumber + 1 !== exercise.hints.length && (
-            <Button onClick={getNextHint}>Next</Button>
+            <Button onClick={getNextHint}>{t('Next')}</Button>
           )}
           <Button onClick={handleClose} autoFocus>
-            Close
+            {t('Close')}
           </Button>
         </DialogActions>
       </Dialog>

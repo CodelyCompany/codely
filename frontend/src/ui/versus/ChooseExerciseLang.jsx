@@ -8,9 +8,12 @@ import {
   Typography,
 } from '@mui/material';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 const ChooseExerciseLang = ({ formik }) => {
   const languages = ['JavaScript', 'Bash', 'C', 'C++', 'Java', 'Python', 'R'];
+
+  const { t } = useTranslation();
 
   const color = useMemo(
     () =>
@@ -30,7 +33,7 @@ const ChooseExerciseLang = ({ formik }) => {
       }}
     >
       <Typography variant='h6' color='white' fontWeight={'bolder'}>
-        Pick your languages
+        {t('Pick your languages')}
       </Typography>
       <form>
         <Box

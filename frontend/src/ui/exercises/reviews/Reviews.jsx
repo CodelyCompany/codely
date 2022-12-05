@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -14,6 +15,7 @@ import ReviewCard from './ReviewCard';
 import ReviewForm from './ReviewForm';
 
 const Reviews = () => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const { user } = useAuth0();
   const reviews = useSelector(getReviewsByExerciseId(id));
@@ -43,7 +45,7 @@ const Reviews = () => {
           fontWeight={'bolder'}
           marginBottom={3}
         >
-          Reviews
+          {t('Reviews')}
         </Typography>
         <Box>
         {

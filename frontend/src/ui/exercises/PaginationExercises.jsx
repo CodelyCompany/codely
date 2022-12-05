@@ -10,6 +10,7 @@ import {
   Select,
 } from '@mui/material';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 
 import { getExercisesQuantity } from '../../ducks/exercises/selectors';
@@ -22,6 +23,7 @@ const PaginationExercises = ({
   itemsPerPage,
   setItemsPerPage,
 }) => {
+  const { t } = useTranslation();
   const handleChange = (_event, value) => {
     setPage(value);
   };
@@ -58,14 +60,14 @@ const PaginationExercises = ({
     >
       <FormControl sx={{ m: 1, minWidth: 120 }} size='small'>
         <InputLabel sx={{ color: `${color}.main` }} id='demo-select-small'>
-          Items per page
+          {t('Items per page')}
         </InputLabel>
         <Select
           color={color}
           labelId='select-small'
           id={`select-small-${foundUser.theme}`}
           value={itemsPerPage}
-          label='Items per page'
+          label={t('Items per page')}
           onChange={handleItemsChange}
         >
           {availableItemsPerPage.map((el) => (

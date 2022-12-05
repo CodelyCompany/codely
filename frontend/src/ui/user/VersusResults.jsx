@@ -4,8 +4,10 @@ import { Box, Typography } from '@mui/material';
 import Chart from 'chart.js/auto';
 import { PropTypes } from 'prop-types';
 import { Doughnut } from 'react-chartjs-2';
+import { useTranslation } from 'react-i18next';
 
 const VersusResults = ({ won, lost }) => {
+  const { t } = useTranslation();
   const data = {
     labels: ['Won', 'Lost'],
     datasets: [
@@ -30,7 +32,7 @@ const VersusResults = ({ won, lost }) => {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       <Typography variant='h6' sx={{ fontWeight: 'bolder', color }}>
-        Your versus stats
+        {t('Your versus stats')}
       </Typography>
       <Doughnut
         style={{ alignSelf: 'center' }}

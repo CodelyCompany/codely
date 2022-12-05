@@ -4,6 +4,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Button } from '@mui/material';
 import axios from 'axios';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -23,6 +24,7 @@ const Buttons = ({
   argumentValues,
   language,
 }) => {
+  const { t } = useTranslation();
   const { user } = useAuth0();
   const { roomId, id } = useParams();
   const [triggered, setTriggered] = useState(false);
@@ -101,10 +103,10 @@ const Buttons = ({
         }}
       >
         <Button color={color} variant='contained' onClick={() => runCode(code)}>
-          Run
+          {t('Run')}
         </Button>
         <Button color={color} variant='contained' onClick={finishEx}>
-          Submit
+          {t('Submit')}
         </Button>
       </Box>
     </>

@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Box, Button, Container, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { io } from 'socket.io-client';
 import * as yup from 'yup';
@@ -19,12 +20,13 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
   const [dots, setDots] = useState(0);
   const [time, setTime] = useState(0);
   const [found, setFound] = useState(null);
+  const { t } = useTranslation();
 
   const validateVersusLanguages = yup.object({
     checked: yup
       .array()
       .of(yup.string())
-      .min(1, 'You have to pick at least one language'),
+      .min(1, t('You have to pick at least one language')),
   });
 
   const formik = useFormik({
@@ -103,7 +105,7 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
             onClick={() => connect()}
             variant='contained'
           >
-            Find opponent
+            {t('Find opponent')}
           </Button>
           <ProgrammingQuotes />
         </>
@@ -118,7 +120,8 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
             }}
           >
             <Typography color={color}>
-              Searching{[...Array(dots).keys()].map(() => '.')}{' '}
+              {t('Searching')}
+              {[...Array(dots).keys()].map(() => '.')}{' '}
             </Typography>
             <Typography color={color}>
               {Math.floor(time / 60)}:
@@ -132,7 +135,7 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
             onClick={() => disconnect()}
             variant='contained'
           >
-            Leave queue
+            {t('Leave queue')}
           </Button>
         </Box>
       )}{' '}

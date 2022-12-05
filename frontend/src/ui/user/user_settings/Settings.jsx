@@ -5,6 +5,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Button, Checkbox, Container, Paper, Typography } from '@mui/material';
 import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 
 import { getToken } from '../../../ducks/token/selectors';
@@ -16,6 +17,7 @@ import SetLanguage from './SetLanguage';
 import UploadDialog from './UploadDialog';
 
 const Settings = ({ UpdateUser, UploadAvatar, token }) => {
+  const { t } = useTranslation();
   const [color, setColor] = useState(0);
   const [image, setImage] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -67,7 +69,7 @@ const Settings = ({ UpdateUser, UploadAvatar, token }) => {
       />
       <Box padding='20px'>
         <Typography color={colorOpt} variant='h5' fontWeight='bolder'>
-          Upload your avatar
+          {t('Upload your avatar')}
         </Typography>
         <Button variant='contained' color={colorOpt} component='label'>
           {'Choose file (.png)'}
@@ -76,13 +78,13 @@ const Settings = ({ UpdateUser, UploadAvatar, token }) => {
       </Box>
       <Box padding='20px' color={colorOpt} borderTop='3px solid'>
         <Typography color={colorOpt} variant='h5' fontWeight='bolder'>
-          Set your language
+          {t('Set your language')}
         </Typography>
         <SetLanguage />
       </Box>
       <Box padding='20px' color={colorOpt} borderTop='3px solid'>
         <Typography color={colorOpt} variant='h5' fontWeight='bolder'>
-          Set your theme
+          {t('Set your theme')}
         </Typography>
         <Box sx={{ display: 'flex' }}>
           <Checkbox
@@ -93,7 +95,7 @@ const Settings = ({ UpdateUser, UploadAvatar, token }) => {
             name='color-0'
             sx={{ position: 'relative', bottom: '9px' }}
           />
-          <Typography fontWeight='bolder'>White & Magenta</Typography>
+          <Typography fontWeight='bolder'>{t('White & Magenta')}</Typography>
           <div style={{ height: '20px', width: '20px', marginLeft: '10px' }}>
             <Box
               sx={{
@@ -120,7 +122,7 @@ const Settings = ({ UpdateUser, UploadAvatar, token }) => {
             onChange={changeColor}
             sx={{ position: 'relative', bottom: '9px' }}
           />
-          <Typography fontWeight='bolder'>Black & Magenta</Typography>
+          <Typography fontWeight='bolder'>{t('Black & Magenta')}</Typography>
           <div style={{ height: '20px', width: '20px', marginLeft: '10px' }}>
             <Box
               sx={{
@@ -147,7 +149,7 @@ const Settings = ({ UpdateUser, UploadAvatar, token }) => {
             onChange={changeColor}
             sx={{ position: 'relative', bottom: '9px' }}
           />
-          <Typography fontWeight='bolder'>White & Blue</Typography>
+          <Typography fontWeight='bolder'>{t('White & Blue')}</Typography>
           <div style={{ height: '20px', width: '20px', marginLeft: '10px' }}>
             <Box
               sx={{

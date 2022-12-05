@@ -7,6 +7,7 @@ import { makeStyles } from '@mui/styles';
 import { DataGrid } from '@mui/x-data-grid';
 import _ from 'lodash';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 
 import { getToken } from '../../../ducks/token/selectors';
@@ -23,6 +24,7 @@ const useStyles = makeStyles({
 });
 
 function AllUsers({ users, GetUsers, token }) {
+  const { t } = useTranslation();
   const { user } = useAuth0();
   const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
     theme: 0,
@@ -46,27 +48,27 @@ function AllUsers({ users, GetUsers, token }) {
   const columns = [
     {
       field: 'username',
-      headerName: 'Username',
+      headerName: t('Username'),
       flex: 1,
     },
     {
       field: 'creationDate',
-      headerName: 'Creation date',
+      headerName: t('Creation date'),
       flex: 1,
     },
     {
       field: 'reviews',
-      headerName: 'Written reviews',
+      headerName: t('Written reviews'),
       flex: 1,
     },
     {
       field: 'preparedExercises',
-      headerName: 'Prepared exercises',
+      headerName: t('Prepared exercises'),
       flex: 1,
     },
     {
       field: 'solvedExercises',
-      headerName: 'Solved exercises',
+      headerName: t('Solved exercises'),
       flex: 1,
     },
   ];
@@ -83,7 +85,7 @@ function AllUsers({ users, GetUsers, token }) {
         variant='h6'
         textAlign={'center'}
       >
-        Registered users
+        {t('Registered users')}
       </Typography>
       <DataGrid
         className={classes.root}

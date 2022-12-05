@@ -15,6 +15,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import * as _ from 'lodash';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -33,6 +34,7 @@ import EditorField from './editor_to_exercises/EditorField';
 import Reviews from './reviews/Reviews';
 
 const ExerciseDetail = ({ GetExercises, token }) => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const exercise = useSelector(getExerciseById(id));
   const rating = useSelector(getRatingByExerciseId(id));
@@ -91,7 +93,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary='Author'
+                  primary={t('Author')}
                   secondary={exercise.author.username}
                 />
               </ListItem>
@@ -106,7 +108,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary='Programming Language'
+                  primary={t('Programming Language')}
                   secondary={exercise.programmingLanguage}
                 />
               </ListItem>
@@ -121,7 +123,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary='Difficulty'
+                  primary={t('Difficulty')}
                   secondary={[...Array(exercise.difficulty).keys()].map(
                     (el) => (
                       <StarRateIcon sx={{ color: 'gold' }} key={el} />
@@ -140,7 +142,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary='Description'
+                  primary={t('Description')}
                   secondary={exercise.description}
                 />
               </ListItem>
@@ -151,7 +153,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary='Rating'
+                  primary={t('Rating')}
                   secondary={
                     rating
                       ? [...Array(Math.round(rating)).keys()].map((num) => (
@@ -160,7 +162,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
                             key={`rating-${num}`}
                           />
                         ))
-                      : 'no reviews'
+                      : t('no reviews')
                   }
                 />
               </ListItem>
@@ -182,7 +184,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
                     setToDelete(true);
                   }}
                 >
-                  Delete
+                  {t('Delete')}
                 </Button>
                 <Button
                   color={color.split('.')[0]}
@@ -190,7 +192,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
                   sx={{ height: '40px', marginTop: '10px', width: '100px' }}
                   onClick={() => navigate(`/exercises/edit/${id}`)}
                 >
-                  Edit
+                  {t('Edit')}
                 </Button>
               </Box>
             )}

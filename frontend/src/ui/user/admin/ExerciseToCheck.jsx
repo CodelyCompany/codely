@@ -5,6 +5,7 @@ import { Card, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { DataGrid } from '@mui/x-data-grid';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 
 import { styles } from '../../../conf';
@@ -37,6 +38,7 @@ const useStyles = makeStyles({
 });
 
 function ExerciseToCheck({ uncheckedExercises, GetUncheckedExercises, token }) {
+  const { t } = useTranslation();
   const rows = useMemo(
     () => (uncheckedExercises ? uncheckedExercises : []),
     [uncheckedExercises]
@@ -80,7 +82,7 @@ function ExerciseToCheck({ uncheckedExercises, GetUncheckedExercises, token }) {
           variant='h6'
           sx={{ fontWeight: 'bolder', textAlign: 'center', color }}
         >
-          Exercises to check
+          {t('Exercises to check')}
         </Typography>
         <DataGrid
           className={classes.root}

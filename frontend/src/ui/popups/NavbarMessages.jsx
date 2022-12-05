@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 
 import { Box, Popover, Typography } from '@mui/material';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 
 import { ReadNotification } from '../../ducks/notifications/operations';
@@ -17,6 +18,8 @@ const NavbarMessages = ({
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const { t } = useTranslation();
 
   const color = useMemo(
     () =>
@@ -79,7 +82,7 @@ const NavbarMessages = ({
         ))
       ) : (
         <Typography sx={{ color }} fontWeight='bolder' padding='10px'>
-          Your mailbox is empty
+          {t('Your mailbox is empty')}
         </Typography>
       )}
     </Popover>

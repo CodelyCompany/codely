@@ -2,8 +2,10 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { Box, Typography } from '@mui/material';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 const PlayersCounter = ({ socket }) => {
+  const { t } = useTranslation();
   const color = useMemo(
     () =>
       parseInt(localStorage.getItem('theme') ?? 0) === 2
@@ -34,10 +36,10 @@ const PlayersCounter = ({ socket }) => {
           marginTop: '20px',
         }}
       >
-        Waiting for opponent
+        {t('Waiting for opponent')}
       </Typography>
       <Typography variant='h4' color={color} fontWeight={'bolder'}>
-        Active players: {players}
+        {t('Active players:')} {players}
       </Typography>
     </Box>
   );

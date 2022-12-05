@@ -16,6 +16,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -33,6 +34,7 @@ import FinishDialog from './FinishDialog';
 import VersusEditor from './VersusEditor';
 
 const Exercise = ({ GetExercises, token, socket }) => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const [code, setCode] = useState('');
   const exercise = useSelector(getExerciseById(id));
@@ -130,14 +132,14 @@ const Exercise = ({ GetExercises, token, socket }) => {
             }}
           >
             <span style={{ fontWeight: 'bolder' }}>
-              You are in versus mode. Try to solve this exercise faster than
-              your opponent.
+              {t(`You are in versus mode. Try to solve this exercise faster than
+              your opponent.`)}
             </span>{' '}
             <span
               className={`theme-${foundUser.theme}`}
               style={{ fontWeight: 'bolder' }}
             >
-              Good luck & have fun!
+              {t('Good luck & have fun!')}
             </span>
           </Paper>
           <Paper
@@ -159,7 +161,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
               }}
             >
               <span>
-                You:{' '}
+                {t('You:')}{' '}
                 {won ? (
                   <CheckIcon
                     color='success'
@@ -184,7 +186,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
               }}
             >
               <span>
-                Your opponent:{' '}
+                {t('Your opponent:')}{' '}
                 {opponentFinish ? (
                   <CheckIcon
                     color='success'
@@ -233,7 +235,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary='Author'
+                  primary={t('Author')}
                   secondary={exercise.author.username}
                 />
               </ListItem>
@@ -244,7 +246,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary='Programming Language'
+                  primary={t('Programming Language')}
                   secondary={exercise.programmingLanguage}
                 />
               </ListItem>
@@ -255,7 +257,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary='Difficulty'
+                  primary={t('Difficulty')}
                   secondary={[...Array(exercise.difficulty).keys()].map(
                     (el) => (
                       <StarRateIcon sx={{ color: 'gold' }} key={el} />
@@ -270,7 +272,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary='Description'
+                  primary={t('Description')}
                   secondary={exercise.description}
                 />
               </ListItem>

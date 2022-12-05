@@ -5,6 +5,7 @@ import { Card, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -28,6 +29,7 @@ const columns = [
 ];
 
 function CheckedExercise({ checkedExercises, GetExercises, token }) {
+  const { t } = useTranslation();
   const rows = useMemo(
     () => (checkedExercises ? checkedExercises : []),
     [checkedExercises]
@@ -65,7 +67,7 @@ function CheckedExercise({ checkedExercises, GetExercises, token }) {
         variant='h6'
         sx={{ fontWeight: 'bolder', textAlign: 'center', color }}
       >
-        Checked exercises
+        {t('Checked exercises')}
       </Typography>
       <DataGrid
         sx={{

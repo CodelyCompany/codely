@@ -7,8 +7,10 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 function UploadDialog({ open, handleAbort, handleUpload }) {
+  const { t } = useTranslation();
 
   return (
     <div>
@@ -18,17 +20,17 @@ function UploadDialog({ open, handleAbort, handleUpload }) {
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'
       >
-        <DialogTitle id='alert-dialog-title'>
-          Are you sure?
-        </DialogTitle>
+        <DialogTitle id='alert-dialog-title'>{t('Are you sure?')}</DialogTitle>
         <DialogContent>
           <DialogContentText id='alert-dialog-description'>
-            If you picked a wrong file, this is the last chance to go back!
+            {t(
+              'If you picked a wrong file, this is the last chance to go back!'
+            )}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleAbort}>Go back</Button>
-          <Button onClick={handleUpload}>Upload</Button>
+          <Button onClick={handleAbort}>{t('Go back')}</Button>
+          <Button onClick={handleUpload}>{t('Upload')}</Button>
         </DialogActions>
       </Dialog>
     </div>
@@ -38,7 +40,7 @@ function UploadDialog({ open, handleAbort, handleUpload }) {
 export default UploadDialog;
 
 UploadDialog.propTypes = {
-    open: PropTypes.bool,
-    handleAbort: PropTypes.func,
-    handleUpload: PropTypes.func,
-  };
+  open: PropTypes.bool,
+  handleAbort: PropTypes.func,
+  handleUpload: PropTypes.func,
+};

@@ -17,6 +17,7 @@ import {
 } from '@mui/material';
 import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { IoIosMail } from 'react-icons/io';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -54,6 +55,7 @@ const Navbar = ({
     useAuth0();
   const [theme, setTheme] = useState(0);
   const [avatarUri, setAvatarUri] = useState(null);
+  const { t } = useTranslation();
 
   const foundUser = useMemo(
     () => users.find((usr) => usr.username === user.nickname),
@@ -242,7 +244,7 @@ const Navbar = ({
                       }}
                       to={`/${page.toLowerCase()}`}
                     >
-                      {page}
+                      {t(page)}
                     </Link>
                   </Button>
                 ))}
@@ -302,7 +304,7 @@ const Navbar = ({
                     sx={{ cursor: 'pointer', fontWeight: 'bolder' }}
                     onClick={() => loginWithRedirect()}
                   >
-                    LOGIN
+                    {t('LOGIN')}
                   </Typography>
                 )}
 
@@ -327,7 +329,7 @@ const Navbar = ({
                       key={setting}
                       onClick={() => handleCloseUserMenu(setting)}
                     >
-                      <Typography textAlign='center'>{setting}</Typography>
+                      <Typography textAlign='center'>{t(setting)}</Typography>
                     </MenuItem>
                   ))}
                 </Menu>

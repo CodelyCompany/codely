@@ -2,9 +2,11 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { Box, Checkbox, Typography } from '@mui/material';
 import i18n from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 const SetLanguage = () => {
   const [language, setLanguage] = useState('eng');
+  const { t } = useTranslation();
 
   useEffect(() => {
     setLanguage(i18n.language);
@@ -42,7 +44,7 @@ const SetLanguage = () => {
           color={color}
           sx={{ position: 'relative', top: '10px' }}
         >
-          English
+          {t('English')}
         </Typography>
       </Box>
       <Box sx={{ display: 'flex' }}>
@@ -57,7 +59,7 @@ const SetLanguage = () => {
           color={color}
           sx={{ position: 'relative', top: '10px' }}
         >
-          Polish
+          {t('Polish')}
         </Typography>
       </Box>
     </Box>

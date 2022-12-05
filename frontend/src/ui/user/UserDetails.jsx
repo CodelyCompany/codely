@@ -5,6 +5,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Container, Typography } from '@mui/material';
 import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 
 import { getToken } from '../../ducks/token/selectors';
@@ -19,6 +20,7 @@ import VersusResults from './VersusResults';
 import WrittenReviews from './WrittenReviews';
 
 const UserDetails = ({ GetUsers, token }) => {
+  const { t } = useTranslation();
   const { user } = useAuth0();
   const color = useMemo(
     () =>
@@ -57,7 +59,7 @@ const UserDetails = ({ GetUsers, token }) => {
               {foundUser.username}
             </Typography>
             <Typography sx={{ color }} variant='h6'>
-              User since:{' '}
+              {t('User since:')}{' '}
               {new Date(foundUser.creationDate).toLocaleDateString()}
             </Typography>
           </Box>

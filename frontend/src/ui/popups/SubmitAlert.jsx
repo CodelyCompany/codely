@@ -4,8 +4,11 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Alert, Box, Collapse } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 const SubmitAlert = ({ triggered, setTriggered, passed }) => {
+  const { t } = useTranslation();
+
   const handleTrigger = () => {
     setTriggered(false);
   };
@@ -15,11 +18,11 @@ const SubmitAlert = ({ triggered, setTriggered, passed }) => {
       passed
         ? {
             severity: 'success',
-            message: 'Congratulation! Your code passed all tests',
+            message: t('Congratulation! Your code passed all tests'),
           }
         : {
             severity: 'error',
-            message: "Unfortunately, your code didn't pass tests",
+            message: t("Unfortunately, your code didn't pass tests"),
           },
     [passed]
   );

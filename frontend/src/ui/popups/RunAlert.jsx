@@ -4,8 +4,11 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Alert, Box, Collapse } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 const RunAlert = ({ triggered, setTriggered, code }) => {
+  const { t } = useTranslation();
+
   const handleTrigger = () => {
     setTriggered((prev) => !prev);
   };
@@ -13,8 +16,8 @@ const RunAlert = ({ triggered, setTriggered, code }) => {
   const messages = useMemo(
     () =>
       code === 200
-        ? { severity: 'success', message: 'Your code compiled successfully' }
-        : { severity: 'error', message: 'Your code compiled with errors' },
+        ? { severity: 'success', message: t('Your code compiled successfully') }
+        : { severity: 'error', message: t('Your code compiled with errors') },
     [code]
   );
 

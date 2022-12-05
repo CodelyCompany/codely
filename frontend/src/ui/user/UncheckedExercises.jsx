@@ -2,8 +2,10 @@ import React, { useMemo } from 'react';
 
 import { Box, Typography } from '@mui/material';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 function UncheckedExercises({ exercises }) {
+  const { t } = useTranslation();
   const color = useMemo(
     () =>
       parseInt(localStorage.getItem('theme') ?? 0) === 2
@@ -23,7 +25,7 @@ function UncheckedExercises({ exercises }) {
       }}
     >
       <Typography variant='h6' sx={{ fontWeight: 'bolder', color }}>
-        Exercises waiting for admin approval: {exercises.length}
+        {t('Exercises waiting for admin approval:')} {exercises.length}
       </Typography>
     </Box>
   );
