@@ -13,8 +13,7 @@ app.listen(port, () => {
 
 app.post('/', async (req, res) => {
   try {
-    data = req.body;
-    fs.writeFileSync('./execute.cpp', data.toExecute);
+    fs.writeFileSync('./execute.cpp', req.body.toExecute);
     execSync('g++ -o program execute.cpp', {
       encoding: 'utf-8',
       timeout: timeout,

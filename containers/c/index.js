@@ -13,8 +13,7 @@ app.listen(port, () => {
 
 app.post('/', async (req, res) => {
   try {
-    data = req.body;
-    fs.writeFileSync('./execute.c', data.toExecute);
+    fs.writeFileSync('./execute.c', req.body.toExecute);
     execSync('gcc execute.c -o program', {
       encoding: 'utf-8',
       timeout: timeout,

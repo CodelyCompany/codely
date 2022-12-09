@@ -17,12 +17,12 @@ const urlData = {
 const checkError = (err, res) => {
   if (err.response && err.response.data.stderr) {
     return res.status(202).send({ output: err.response.data.stderr });
-  } else if (err.response && err.response.data.message === 'Timeout') {
-    return res.status(202).send({ output: 'Timeout!' });
-  } else {
-    console.log(err);
-    return res.status(500).send(err);
   }
+  if (err.response && err.response.data.message === 'Timeout') {
+    return res.status(202).send({ output: 'Timeout!' });
+  }
+  console.log(err);
+  return res.status(500).send(err);
 };
 
 router.post('/javascript', async (req, res) => {
@@ -145,7 +145,6 @@ router.post('/c', async (req, res) => {
         \n${data.func}(${data.args.join(', ')});
         \n}`
         : data.toExecute;
-    console.log(toExecute);
     const response = await axios.post(urlData.c_url, {
       toExecute,
     });

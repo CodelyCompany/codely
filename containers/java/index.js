@@ -13,8 +13,7 @@ app.listen(port, () => {
 
 app.post('/', async (req, res) => {
   try {
-    data = req.body;
-    fs.writeFileSync('./Main.java', data.toExecute);
+    fs.writeFileSync('./Main.java', req.body.toExecute);
     execSync('javac Main.java', { encoding: 'utf-8', timeout: timeout });
     const output = execSync('java Main', {
       encoding: 'utf-8',
