@@ -145,6 +145,13 @@ html body .main-page-container .main-page ul li .border {
 .review-card .author {
   font-style: italic;
 }
+.review-card .exercise-link {
+  font-style: italic;
+}
+.review-card .exercise-link:hover {
+  font-weight: bold;
+  cursor: pointer;
+}
 .review-card .rating {
   text-align: end;
 }

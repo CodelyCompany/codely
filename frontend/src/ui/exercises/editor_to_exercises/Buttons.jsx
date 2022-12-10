@@ -4,11 +4,12 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Button } from '@mui/material';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
 import { getToken } from '../../../ducks/token/selectors';
+import { GetUsers } from '../../../ducks/user/operations';
 import { getUserByUsername } from '../../../ducks/user/selectors';
 import ExerciseHints from '../../popups/ExerciseHints';
 import RunAlert from '../../popups/RunAlert';
@@ -32,6 +33,7 @@ const Buttons = ({
   const [triggerAlert, setTriggerAlert] = useState(false);
   const [triggerSubmitAlert, setTriggerSubmitAlert] = useState(false);
   const [status, setStatus] = useState(null);
+  const dispatch = useDispatch();
 
   const runCode = (code) => {
     axios
@@ -70,6 +72,7 @@ const Buttons = ({
       .then((response) => {
         setTriggerSubmitAlert(true);
         setTests(response.data);
+        dispatch(GetUsers(token));
       });
   };
 

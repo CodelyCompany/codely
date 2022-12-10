@@ -19,24 +19,32 @@ const Reviews = () => {
   const reviews = useSelector(getReviewsByExerciseId(id));
   const foundUser = useSelector(getUserByUsername(user.nickname));
   const [usersReview, setUsersReview] = useState(null);
+  const [reviewable, setReviewable] = useState(false);
 
   useEffect(() => {
     setUsersReview(reviews.find((review) => review.author === foundUser._id));
+    setReviewable(foundUser && foundUser.doneExercises.find((ex) => ex._id === id));
   }, [foundUser]);
 
   return (
     reviews && (
-      <Box padding="20px">
+      <Box padding='20px'>
         <Typography
-          variant="h4"
-          color="primary"
+          variant='h4'
+          color='primary'
           fontWeight={'bolder'}
           marginBottom={3}
         >
           Reviews
         </Typography>
         <Box>
-          <ReviewForm review={usersReview} />
+        {
+          reviewable
+          ? <ReviewForm review={usersReview} />
+          : <Typography variant='h6' textAlign='center' marginBottom={3}>
+              You need to solve the exercise before reviewing it
+            </Typography>
+        }
         </Box>
         <Box>
           {reviews
