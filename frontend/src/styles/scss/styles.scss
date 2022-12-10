@@ -126,6 +126,15 @@ html {
     font-style: italic;
   }
 
+  .exercise-link {
+    font-style: italic;
+    
+    &:hover {
+      font-weight: bold;
+      cursor: pointer;
+    }
+  }
+
   .rating {
     text-align: end;
   }

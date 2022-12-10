@@ -5,7 +5,9 @@ import { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
+import ThumbUp from '@mui/icons-material/ThumbUp';
 import { Button, Grid, Rating, TextField, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { connect } from 'react-redux';
@@ -19,6 +21,7 @@ const ReviewForm = ({ review, token }) => {
   const { user } = useAuth0();
   const [editing, setEditing] = useState(true);
   const [rating, setRating] = useState(null);
+  const [upvotes, setUpvotes] = useState(null);
   const [comment, setComment] = useState('');
   const { id } = useParams();
   const localUser = useSelector(getUserByUsername(user.nickname));
@@ -29,6 +32,7 @@ const ReviewForm = ({ review, token }) => {
       setEditing(false);
       setComment(review.comment);
       setRating(review.rating);
+      setUpvotes(review.upvotes.length - review.downvotes.length);
     }
   }, [review]);
 
@@ -101,9 +105,12 @@ const ReviewForm = ({ review, token }) => {
         )}
       </Grid>
       <Grid item xs={5}>
-        <Typography color="primary">
-          {review ? review.upvotes.length - review.downvotes.length : null}
-        </Typography>
+        <Box display={upvotes ? 'flex' : 'none'}>
+          <ThumbUp color="primary" />
+          <Typography color="primary" marginLeft={1}>
+            {upvotes}
+          </Typography>
+        </Box>
       </Grid>
       <Grid item xs={2}>
         <Button
