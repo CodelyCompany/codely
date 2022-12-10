@@ -38,7 +38,7 @@ const WrittenReviews = () => {
         <Box>
             <Typography
                 marginBottom={3}
-                color='primary' variant='h6'
+                variant='h6'
                 color={color}
                 sx={{ fontWeight: 'bolder' }}>
                 Your reviews:
