@@ -52,7 +52,7 @@ const Reviews = () => {
           reviewable
           ? <ReviewForm review={usersReview} />
           : <Typography variant='h6' textAlign='center' marginBottom={3}>
-              You need to solve the exercise before reviewing it
+              {t("You need to solve the exercise before reviewing it")}
             </Typography>
         }
         </Box>

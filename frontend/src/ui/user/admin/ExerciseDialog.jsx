@@ -24,7 +24,7 @@ import { AddNotification } from '../../../ducks/notifications/operations';
 import { getToken } from '../../../ducks/token/selectors';
 import { getUserByUsername, getUsers } from '../../../ducks/user/selectors';
 import GetToken from '../GetToken';
-
+import { useTranslation } from 'react-i18next';
 function ExerciseDialog({
   open,
   setOpen,

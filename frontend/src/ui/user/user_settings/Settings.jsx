@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useEffect } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
-import { Box, Button, Checkbox, Container, Paper, Typography } from '@mui/material';
+import { Box, Button, Checkbox, Container, Typography } from '@mui/material';
 import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';

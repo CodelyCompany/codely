@@ -134,8 +134,8 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
           <Typography sx={{ margin: '10px', fontWeight: 'bolder', color }}>
-            t(`Here you can set amount of arguments for your function. You have
-            to set the name for each argument.`)
+            {t(`Here you can set amount of arguments for your function. You have
+            to set the name for each argument.`)}
           </Typography>
           <CustomizeExercise
             step={step}

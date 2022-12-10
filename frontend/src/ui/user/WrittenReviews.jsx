@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import ThumbUp from '@mui/icons-material/ThumbUp';
@@ -22,6 +22,14 @@ const WrittenReviews = () => {
     const token = useSelector(getToken);
     const dispatch = useDispatch();
 
+    const color = useMemo(
+      () =>
+        parseInt(localStorage.getItem('theme') ?? 0) === 2
+          ? 'secondary.main'
+          : 'primary.main',
+      [localStorage.getItem('theme')]
+    );
+
     useEffect(() => {
         dispatch(GetExercises(token));
     }, [dispatch]);
@@ -31,6 +39,7 @@ const WrittenReviews = () => {
             <Typography
                 marginBottom={3}
                 color='primary' variant='h6'
+                color={color}
                 sx={{ fontWeight: 'bolder' }}>
                 Your reviews:
             </Typography>
@@ -40,7 +49,8 @@ const WrittenReviews = () => {
                 <Grid key={review._id} container spacing={2} className="review-card">
                     <Grid item xs={6}>
                         <Typography variant="h5">
-                            <span className='exercise-link' onClick={() => navigate(`/Exercise/${review.exercise}`)}>
+                            <span className='exercise-link'
+                                  onClick={() => navigate(`/Exercise/${review.exercise}`)}>
                                 { exercises.find((ex) => ex._id === review.exercise).title }
                             </span>
                         </Typography>
@@ -53,8 +63,8 @@ const WrittenReviews = () => {
                     </Grid>
                     <Grid item xs={6}>
                         <Box display='flex'>
-                            <ThumbUp color="primary" />
-                            <Typography color="primary" marginLeft={1}>
+                            <ThumbUp color={color} />
+                            <Typography color={color} marginLeft={1}>
                                 {review.upvotes.length - review.downvotes.length}
                             </Typography>
                         </Box>
