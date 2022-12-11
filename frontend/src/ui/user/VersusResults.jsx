@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { Box, Typography } from '@mui/material';
 import Chart from 'chart.js/auto';
 import { PropTypes } from 'prop-types';
 import { Doughnut } from 'react-chartjs-2';
+import { useTranslation } from 'react-i18next';
 
 const VersusResults = ({ won, lost }) => {
+  const { t } = useTranslation();
   const data = {
     labels: ['Won', 'Lost'],
     datasets: [
@@ -19,10 +21,18 @@ const VersusResults = ({ won, lost }) => {
     ],
   };
 
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-      <Typography variant='h6' color='primary' sx={{ fontWeight: 'bolder' }}>
-        Your versus stats
+      <Typography variant='h6' sx={{ fontWeight: 'bolder', color }}>
+        {t('Your versus stats')}
       </Typography>
       <Doughnut
         style={{ alignSelf: 'center' }}

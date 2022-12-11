@@ -1,14 +1,25 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { Button } from '@mui/material';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { VscDebugStart } from 'react-icons/vsc';
 
 import RunAlert from '../popups/RunAlert';
 
 const RunButton = ({ code, setOutput, language }) => {
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
+
   const style = {
+    borderColor: color,
+    color,
     height: '40px',
     width: 180,
     marginTop: '8px',
@@ -17,6 +28,7 @@ const RunButton = ({ code, setOutput, language }) => {
 
   const [triggerAlert, setTriggerAlert] = useState(false);
   const [status, setStatus] = useState(null);
+  const { t } = useTranslation();
 
   const runCode = (code) => {
     //here should be added token as an argument after 1st of December
@@ -66,7 +78,7 @@ const RunButton = ({ code, setOutput, language }) => {
       />
       <Button variant='outlined' sx={style} onClick={() => runCode(code)}>
         <VscDebugStart style={{ position: 'relative', bottom: '3px' }} />
-        Run
+        {t('Run')}
       </Button>
     </>
   );

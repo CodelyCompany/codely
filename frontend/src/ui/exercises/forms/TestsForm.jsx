@@ -1,36 +1,55 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
+import { useAuth0 } from '@auth0/auth0-react';
 import { Box, MenuItem } from '@mui/material';
 import { Button, TextField } from '@mui/material';
 import * as _ from 'lodash';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import * as yup from 'yup';
 
+import { getUserByUsername } from '../../../ducks/user/selectors';
+
 const TestsForm = ({ setStep, dataToEdit, step }) => {
+  const { t } = useTranslation();
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
   const [testsQuantity, setTestsQuantity] = useState('');
   const [tests, setTests] = useState([]);
   const [triggered, setTriggered] = useState(false);
   const [error, setError] = useState({});
+  const { user } = useAuth0();
+  const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
+    theme: 0,
+  };
 
   const inputValidation = yup
-    .string('Enter an input')
-    .required('Input is required');
+    .string(t('Enter an input'))
+    .required(t('Input is required'));
 
   const outputValidation = yup
-    .string('Enter an output')
-    .required('Output is required');
+    .string(t('Enter an output'))
+    .required(t('Output is required'));
 
   const testsValidationSchema = yup.object({
-    tests: yup.array('Enter all tests').of(
+    tests: yup.array(t('Enter all tests')).of(
       yup.object({
         input: yup
-          .array('Enter this field')
+          .array(t('Enter this field'))
           .of(
-            yup.string('Enter this field').required('This field is required')
+            yup
+              .string(t('Enter this field'))
+              .required(t('This field is required'))
           ),
         output: yup
-          .string('Enter this field')
-          .required('This field is required'),
+          .string(t('Enter this field'))
+          .required(t('This field is required')),
       })
     ),
   });
@@ -144,10 +163,16 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
         sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
       >
         <TextField
-          sx={{ marginBottom: '10px', width: '900px' }}
-          id='testsQuantity'
+          color={color.split('.')[0]}
+          focused
+          sx={{
+            marginBottom: '10px',
+            width: '900px',
+            color,
+          }}
+          id={`testsQuantity-${foundUser.theme}`}
           name='testsQuantity'
-          label='Choose tests quantity'
+          label={t('Choose tests quantity')}
           value={testsQuantity}
           onChange={(e) => setTestsQuantity(parseInt(e.target.value))}
           select
@@ -174,7 +199,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
             const outputLabel =
               index === 0
                 ? {
-                    label: `output`,
+                    label: t(`output`),
                   }
                 : {};
             return (
@@ -202,6 +227,9 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
                           : {};
                       return (
                         <TextField
+                          color={color.split('.')[0]}
+                          focused
+                          sx={{ input: { color } }}
                           {...label}
                           key={argNumber}
                           value={tests[index]?.input[argNumber] || ''}
@@ -226,6 +254,9 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
                 </Box>
                 <Box>
                   <TextField
+                    color={color.split('.')[0]}
+                    focused
+                    sx={{ input: { color } }}
                     {...outputLabel}
                     value={tests[index]?.output || ''}
                     onChange={(e) => handleOutput(index, e)}
@@ -247,21 +278,23 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
           })}
 
         <Button
+          color={color.split('.')[0]}
           fullWidth
           sx={{ marginBottom: '10px' }}
           type='button'
           onClick={() => goToPreviousStage()}
           variant='contained'
         >
-          Previous
+          {t('Previous')}
         </Button>
         <Button
+          color={color.split('.')[0]}
           fullWidth
           type='button'
           onClick={() => submitValues()}
           variant='contained'
         >
-          Next
+          {t('Next')}
         </Button>
       </form>
     </Box>

@@ -11,6 +11,7 @@ import {
   DialogTitle,
 } from '@mui/material';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import { getUserByUsername } from '../../ducks/user/selectors';
@@ -27,6 +28,7 @@ const VersusFound = ({
 }) => {
   const { user } = useAuth0();
   const foundUser = useSelector(getUserByUsername(user.nickname));
+  const { t } = useTranslation();
 
   const handleClose = (event, reason) => {
     if (reason && reason === 'backdropClick') return;
@@ -47,23 +49,24 @@ const VersusFound = ({
   return (
     <Box>
       <Dialog
+        sx={{ color: 'red' }}
         open={open}
         onClose={handleClose}
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'
       >
-        <DialogTitle id='alert-dialog-title'>{'Versus found!'}</DialogTitle>
+        <DialogTitle id='alert-dialog-title'>{t('Versus found!')}</DialogTitle>
         <DialogContent>
           <DialogContentText id='alert-dialog-description'>
             {accepted ? (
-              'Waiting for your opponent.'
+              t('Waiting for your opponent.')
             ) : (
               <>
                 <span style={{ color: 'green' }}>
-                  We found an opponent for you!{' '}
+                  {t('We found an opponent for you!')}{' '}
                 </span>{' '}
-                If you are ready to compete with your opponent, please accept
-                the game.
+                {t(`If you are ready to compete with your opponent, please accept
+                the game.`)}
               </>
             )}
           </DialogContentText>
@@ -75,7 +78,7 @@ const VersusFound = ({
             color='error'
             disabled={accepted}
           >
-            Cancel
+            {t('Cancel')}
           </Button>
           <Button
             onClick={handleAccept}
@@ -84,7 +87,7 @@ const VersusFound = ({
             color='success'
             disabled={accepted}
           >
-            Accept
+            {t('Accept')}
           </Button>
         </DialogActions>
       </Dialog>

@@ -4,8 +4,11 @@ import Chart from 'chart.js/auto';
 import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
 import { Line } from 'react-chartjs-2';
+import { useTranslation } from 'react-i18next';
 
 const PreparedExercisesChart = ({ exercises, mode }) => {
+  const { t } = useTranslation();
+
   const labels = [
     'January',
     'February',
@@ -52,7 +55,8 @@ const PreparedExercisesChart = ({ exercises, mode }) => {
         datasets: [
           {
             data: getDataSet(),
-            label: mode === 'done' ? 'Solved exercises' : 'Prepared exercises',
+            label:
+              mode === 'done' ? t('Solved exercises') : t('Prepared exercises'),
             borderColor: 'rgb(255, 99, 132)',
             backgroundColor: 'rgba(255, 99, 132, 0.5)',
           },

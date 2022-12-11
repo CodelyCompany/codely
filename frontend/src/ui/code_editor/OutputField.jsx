@@ -1,13 +1,25 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import React from 'react';
 
+import { useAuth0 } from '@auth0/auth0-react';
 import { Box } from '@mui/material';
-// import CodeEditor from '@uiw/react-textarea-code-editor';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync';
-const OutputField = ({ output }) => {
-  const [lineNumbering, setLineNumbering] = useState('');
 
+import { getUserByUsername } from '../../ducks/user/selectors';
+
+const OutputField = ({ output }) => {
+  const { user } = useAuth0();
+  const foundUser = useSelector(getUserByUsername(user.nickname));
+  const [lineNumbering, setLineNumbering] = useState('');
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
   const textAreaStyles = {
     resize: 'none',
   };
@@ -27,6 +39,7 @@ const OutputField = ({ output }) => {
   return (
     <ScrollSync>
       <Box
+        className={`theme-${foundUser.theme}`}
         sx={{
           display: 'flex',
           width: '100%',
@@ -38,12 +51,14 @@ const OutputField = ({ output }) => {
       >
         <ScrollSyncPane>
           <textarea
+            className={`theme-${foundUser.theme}`}
             id='line-numbering'
             style={{
               ...textAreaStyles,
               borderRadius: '5px 0 0 5px',
               overflow: 'auto',
-              border: '3px solid rgb(25, 118, 210)',
+              border: '3px solid',
+              borderColor: color,
               borderRight: 0,
               paddingTop: '2px',
             }}
@@ -55,6 +70,7 @@ const OutputField = ({ output }) => {
         </ScrollSyncPane>
         <ScrollSyncPane>
           <div
+            className={`theme-${foundUser.theme}`}
             style={{
               width: '100%',
               overflow: 'auto',
@@ -62,13 +78,14 @@ const OutputField = ({ output }) => {
             }}
           >
             <textarea
-              id='code-area'
+              className={`theme-${foundUser.theme}`}
               style={{
                 ...textAreaStyles,
                 borderRadius: '0 5px 5px 0',
                 backgroundColor: 'white',
                 fontFamily: 'JetBrains Mono',
-                border: '3px solid rgb(25, 118, 210)',
+                borderColor: color,
+                border: '3px solid',
                 fontSize: '14px',
                 width: 'calc(100% - 10px)',
               }}

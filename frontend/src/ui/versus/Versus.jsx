@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { Box, Button, Container, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { io } from 'socket.io-client';
 import * as yup from 'yup';
@@ -19,12 +20,13 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
   const [dots, setDots] = useState(0);
   const [time, setTime] = useState(0);
   const [found, setFound] = useState(null);
+  const { t } = useTranslation();
 
   const validateVersusLanguages = yup.object({
     checked: yup
       .array()
       .of(yup.string())
-      .min(1, 'You have to pick at least one language'),
+      .min(1, t('You have to pick at least one language')),
   });
 
   const formik = useFormik({
@@ -75,7 +77,13 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
     socket.disconnect();
     DisconnectSocket();
   };
-
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary'
+        : 'primary',
+    [localStorage.getItem('theme')]
+  );
   return (
     <Container sx={{ display: 'flex', flexDirection: 'column' }}>
       {!socket && <ChooseExerciseLang formik={formik} />}
@@ -91,12 +99,13 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
       {!socket && (
         <>
           <Button
+            color={color}
             sx={{ marginTop: '20px' }}
             fullWidth
             onClick={() => connect()}
             variant='contained'
           >
-            Find opponent
+            {t('Find opponent')}
           </Button>
           <ProgrammingQuotes />
         </>
@@ -110,21 +119,23 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
               margin: '5px',
             }}
           >
-            <Typography color='primary'>
-              Searching{[...Array(dots).keys()].map(() => '.')}{' '}
+            <Typography color={color}>
+              {t('Searching')}
+              {[...Array(dots).keys()].map(() => '.')}{' '}
             </Typography>
-            <Typography color='primary'>
+            <Typography color={color}>
               {Math.floor(time / 60)}:
               {time % 60 < 10 ? '0' + (time % 60) : time % 60}
             </Typography>
           </Box>
           <Button
+            color={color}
             sx={{ marginTop: '20px' }}
             fullWidth
             onClick={() => disconnect()}
             variant='contained'
           >
-            Leave queue
+            {t('Leave queue')}
           </Button>
         </Box>
       )}{' '}

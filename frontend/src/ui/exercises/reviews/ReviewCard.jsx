@@ -7,6 +7,7 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import { Box, Grid, Rating, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { connect } from 'react-redux';
 
@@ -21,6 +22,7 @@ import { getUserByUsername } from '../../../ducks/user/selectors';
 import GetToken from '../../user/GetToken';
 
 const ReviewCard = ({ review, token }) => {
+  const { t } = useTranslation();
   const { user } = useAuth0();
   const author = useSelector(getAuthorByReviewId(review._id));
   const localUser = useSelector(getUserByUsername(user.nickname));
@@ -54,7 +56,7 @@ const ReviewCard = ({ review, token }) => {
 
       dispatch(EditReview(body, token));
     } catch (e) {
-      alert('Something went wrong, try again later');
+      alert(t('Something went wrong, try again later'));
       console.log(e);
     }
   };
@@ -62,40 +64,40 @@ const ReviewCard = ({ review, token }) => {
   return (
     <>
       <GetToken />
-      <Grid container spacing={2} className="review-card">
+      <Grid container spacing={2} className='review-card'>
         <Grid item xs={6}>
-          <Typography variant="h5" className="author">
+          <Typography variant='h5' className='author'>
             {author.username}
           </Typography>
         </Grid>
-        <Grid item xs={6} className="rating">
-          <Rating value={review.rating} size="large" readOnly />
+        <Grid item xs={6} className='rating'>
+          <Rating value={review.rating} size='large' readOnly />
         </Grid>
         <Grid item xs={12}>
           <Typography>{review.comment}</Typography>
         </Grid>
         <Grid item xs={6}>
-          <Box className="likes">
+          <Box className='likes'>
             <ThumbUpIcon
               color={upvoted ? 'success' : 'disabled'}
               onClick={() => handleVote(true)}
-              className="up"
+              className='up'
             />
-            <Typography color="primary">{rating}</Typography>
+            <Typography color='primary'>{rating}</Typography>
             <ThumbDownIcon
               color={downvoted ? 'error' : 'disabled'}
               onClick={() => handleVote(false)}
-              className="down"
+              className='down'
             />
           </Box>
         </Grid>
         <Grid item xs={6}>
-          <Typography className="timestamp">
+          <Typography className='timestamp'>
             {review
-              ? `${review.editedAt ? 'Edited ' : 'Created '}
+              ? `${review.editedAt ? t('Edited ') : t('Created ')}
                     ${new Date(
                       review.editedAt ? review.editedAt : review.creationDate
-                    ).toLocaleDateString()} at
+                    ).toLocaleDateString()} ${t('at')}
                     ${new Date(
                       review.editedAt ? review.editedAt : review.creationDate
                     ).toLocaleTimeString()}`

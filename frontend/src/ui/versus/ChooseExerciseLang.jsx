@@ -1,23 +1,53 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
-import { Checkbox, FormControlLabel, Paper, Typography } from '@mui/material';
+import {
+  Box,
+  Checkbox,
+  FormControlLabel,
+  Paper,
+  Typography,
+} from '@mui/material';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 const ChooseExerciseLang = ({ formik }) => {
   const languages = ['JavaScript', 'Bash', 'C', 'C++', 'Java', 'Python', 'R'];
 
+  const { t } = useTranslation();
+
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary'
+        : 'primary',
+    [localStorage.getItem('theme')]
+  );
+
   return (
-    <Paper elevation={3} sx={{ padding: '10px', margin: '10px 0' }}>
-      <Typography variant='h6' color='primary' fontWeight={'bolder'}>
-        Pick your languages
+    <Paper
+      elevation={3}
+      sx={{
+        padding: '10px',
+        margin: '10px 0',
+        backgroundColor: `${color}.main`,
+      }}
+    >
+      <Typography variant='h6' color='white' fontWeight={'bolder'}>
+        {t('Pick your languages')}
       </Typography>
       <form>
-        <div role='group' aria-labelledby='checkbox-group'>
+        <Box
+          color={color}
+          role='group'
+          aria-labelledby='checkbox-group'
+          style={{ color: 'white' }}
+        >
           {languages.map((el) => (
             <FormControlLabel
               key={el}
               control={
                 <Checkbox
+                  color='checkbox'
                   id={el}
                   name='checked'
                   checked={formik.values.checked.includes(
@@ -27,12 +57,10 @@ const ChooseExerciseLang = ({ formik }) => {
                   onChange={formik.handleChange}
                 />
               }
-              label={
-                <span style={{ position: 'relative', top: '3px' }}>{el}</span>
-              }
+              label={<span>{el}</span>}
             />
           ))}
-        </div>
+        </Box>
         <Typography fontWeight={'bolder'} color='error'>
           {formik.errors && formik.errors.checked}
         </Typography>

@@ -1,10 +1,17 @@
 import React, { useEffect } from 'react';
 
+import { useAuth0 } from '@auth0/auth0-react';
 import Editor from '@monaco-editor/react';
 import { Box, CircularProgress } from '@mui/material';
 import { PropTypes } from 'prop-types';
+import { useSelector } from 'react-redux';
+
+import { getUserByUsername } from '../../../ducks/user/selectors';
 
 const VersusEditor = ({ code, setCode, language, functionSignature }) => {
+  const { user } = useAuth0();
+  const foundUser = useSelector(getUserByUsername(user.nickname));
+
   const handleCodeChange = (value) => {
     setCode(value);
   };
@@ -17,12 +24,14 @@ const VersusEditor = ({ code, setCode, language, functionSignature }) => {
     <Box
       sx={{
         width: '100%',
-        border: '3px solid rgb(25, 118, 210)',
+        borderColor: 'primary.main',
+        border: '3px solid',
         borderRadius: '5px',
       }}
     >
       <Editor
         loading={<CircularProgress />}
+        theme={foundUser.theme === 1 ? 'vs-dark' : 'vs'}
         height='300px'
         language={
           language.toLowerCase() === 'c++' ? 'cpp' : language.toLowerCase()

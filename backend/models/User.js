@@ -9,6 +9,7 @@ const userSchema = new Schema({
     unique: true,
   },
   creationDate: { type: Date, default: Date.now },
+  avatarTimestamp: { type: Date, default: Date.now },
   preparedExercises: [{ type: Schema.Types.ObjectId, ref: 'Exercise' }],
   doneExercises: [{ type: Schema.Types.ObjectId, ref: 'Exercise' }],
   writtenReviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
@@ -17,6 +18,10 @@ const userSchema = new Schema({
     default: 0,
   },
   lostVersus: {
+    type: Number,
+    default: 0,
+  },
+  theme: {
     type: Number,
     default: 0,
   },

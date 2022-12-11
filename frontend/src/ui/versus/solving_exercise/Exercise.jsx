@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
+import { useAuth0 } from '@auth0/auth0-react';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import FormatColorTextIcon from '@mui/icons-material/FormatColorText';
@@ -15,6 +16,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -22,6 +24,7 @@ import { GetExercises } from '../../../ducks/exercises/operations';
 import { getExerciseById } from '../../../ducks/exercises/selectors';
 import { getSocket } from '../../../ducks/socket/selectors';
 import { getToken } from '../../../ducks/token/selectors';
+import { getUserByUsername } from '../../../ducks/user/selectors';
 import OutputField from '../../code_editor/OutputField';
 import CustomArgs from '../../exercises/editor_to_exercises/CustomArgs';
 import GetToken from '../../user/GetToken';
@@ -31,6 +34,7 @@ import FinishDialog from './FinishDialog';
 import VersusEditor from './VersusEditor';
 
 const Exercise = ({ GetExercises, token, socket }) => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const [code, setCode] = useState('');
   const exercise = useSelector(getExerciseById(id));
@@ -44,6 +48,15 @@ const Exercise = ({ GetExercises, token, socket }) => {
   const [open, setOpen] = useState(false);
   const [output, setOutput] = useState('');
 
+  const { user } = useAuth0();
+  const foundUser = useSelector(getUserByUsername(user.nickname));
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary'
+        : 'primary',
+    [localStorage.getItem('theme')]
+  );
   const getTime = (time) =>
     `${Math.floor(time / 60)}:${
       time % 60 < 10 ? '0' + (time % 60).toString() : time % 60
@@ -103,8 +116,12 @@ const Exercise = ({ GetExercises, token, socket }) => {
       <>
         <FinishDialog open={open} setOpen={setOpen} won={won} />
         <GetToken />
-        <Container sx={{ marginTop: '10px' }}>
+        <Container
+          className={`theme-${foundUser.theme}`}
+          sx={{ marginTop: '10px' }}
+        >
           <Paper
+            className={`theme-${foundUser.theme}`}
             elevation={3}
             sx={{
               padding: '10px',
@@ -115,14 +132,18 @@ const Exercise = ({ GetExercises, token, socket }) => {
             }}
           >
             <span style={{ fontWeight: 'bolder' }}>
-              You are in versus mode. Try to solve this exercise faster than
-              your opponent.
+              {t(`You are in versus mode. Try to solve this exercise faster than
+              your opponent.`)}
             </span>{' '}
-            <span style={{ color: 'rgb(25, 118, 210)', fontWeight: 'bolder' }}>
-              Good luck & have fun!
+            <span
+              className={`theme-${foundUser.theme}`}
+              style={{ fontWeight: 'bolder' }}
+            >
+              {t('Good luck & have fun!')}
             </span>
           </Paper>
           <Paper
+            className={`theme-${foundUser.theme}`}
             elevation={3}
             sx={{
               padding: '15px',
@@ -140,7 +161,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
               }}
             >
               <span>
-                You:{' '}
+                {t('You:')}{' '}
                 {won ? (
                   <CheckIcon
                     color='success'
@@ -165,7 +186,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
               }}
             >
               <span>
-                Your opponent:{' '}
+                {t('Your opponent:')}{' '}
                 {opponentFinish ? (
                   <CheckIcon
                     color='success'
@@ -183,8 +204,12 @@ const Exercise = ({ GetExercises, token, socket }) => {
               </span>
             </span>
           </Paper>
-          <Box sx={{ width: '100%', display: 'flex' }}>
+          <Box
+            className={`theme-${foundUser.theme}`}
+            sx={{ width: '100%', display: 'flex' }}
+          >
             <List
+              className={`theme-${foundUser.theme}`}
               sx={{
                 width: '100%',
                 height: '100%',
@@ -194,42 +219,45 @@ const Exercise = ({ GetExercises, token, socket }) => {
               <ListItem>
                 <Typography
                   variant='h3'
-                  color='primary'
-                  sx={{ borderBottom: '3px solid rgb(25, 118, 210)' }}
+                  color={color}
+                  sx={{
+                    borderBottom: '3px solid',
+                    borderColor: `${color}.main`,
+                  }}
                 >
                   {exercise.title}
                 </Typography>
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
+                  <Avatar sx={{ backgroundColor: `${color}.main` }}>
                     <PersonIcon />
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary='Author'
+                  primary={t('Author')}
                   secondary={exercise.author.username}
                 />
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
+                  <Avatar sx={{ backgroundColor: `${color}.main` }}>
                     <GTranslateIcon />
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary='Programming Language'
+                  primary={t('Programming Language')}
                   secondary={exercise.programmingLanguage}
                 />
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
+                  <Avatar sx={{ backgroundColor: `${color}.main` }}>
                     <PsychologyIcon />
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary='Difficulty'
+                  primary={t('Difficulty')}
                   secondary={[...Array(exercise.difficulty).keys()].map(
                     (el) => (
                       <StarRateIcon sx={{ color: 'gold' }} key={el} />
@@ -239,12 +267,12 @@ const Exercise = ({ GetExercises, token, socket }) => {
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
+                  <Avatar sx={{ backgroundColor: `${color}.main` }}>
                     <FormatColorTextIcon />
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary='Description'
+                  primary={t('Description')}
                   secondary={exercise.description}
                 />
               </ListItem>

@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
+import { useAuth0 } from '@auth0/auth0-react';
 import { MenuItem } from '@mui/material';
 import { Button, TextField } from '@mui/material';
 import { Box } from '@mui/system';
 import { useFormik } from 'formik';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import * as yup from 'yup';
 
+import { getUserByUsername } from '../../../ducks/user/selectors';
+
 const ExercisesForm = ({ setStep, dataToEdit, step }) => {
+  const { t } = useTranslation();
   const programmingLanguages = [
     'JavaScript',
     'Bash',
@@ -18,24 +24,37 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
     'R',
   ];
 
+  const { user } = useAuth0();
+  const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
+    theme: 0,
+  };
+
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
+
   const validationSchema = yup.object({
     title: yup
-      .string('Enter a title')
-      .min(3, 'Title should be of minimum 3 characters length')
-      .max(50, 'Title should be of maximum 50 characters length')
-      .required('Title is required'),
+      .string(t('Enter a title'))
+      .min(3, t('Title should be of minimum 3 characters length'))
+      .max(50, t('Title should be of maximum 50 characters length'))
+      .required(t('Title is required')),
     description: yup
-      .string('Enter a description')
-      .max(5000, 'Description should be of maximum 5000 characters length')
-      .required('Description is required'),
+      .string(t('Enter a description'))
+      .max(5000, t('Description should be of maximum 5000 characters length'))
+      .required(t('Description is required')),
     difficulty: yup
-      .number('Enter a difficulty level')
-      .min(1, 'The minimum difficulty level is 1')
-      .max(5, 'The maximum difficulty level is 5')
-      .required('Difficulty level is required'),
+      .number(t('Enter a difficulty level'))
+      .min(1, t('The minimum difficulty level is 1'))
+      .max(5, t('The maximum difficulty level is 5'))
+      .required(t('Difficulty level is required')),
     programmingLanguage: yup
-      .string('Enter a programming language')
-      .required('Programming language is required'),
+      .string(t('Enter a programming language'))
+      .required(t('Programming language is required')),
   });
 
   const formik = useFormik({
@@ -61,7 +80,13 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
   });
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', textAlign: 'start' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        textAlign: 'start',
+      }}
+    >
       <form
         style={{
           display: 'flex',
@@ -72,20 +97,24 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
         onSubmit={formik.handleSubmit}
       >
         <TextField
-          sx={{ marginBottom: '10px' }}
+          color={color.split('.')[0]}
+          sx={{ input: { color }, marginBottom: '10px' }}
+          focused={true}
           id='title'
           name='title'
-          label='Title'
+          label={t('Title')}
           value={formik.values.title}
           onChange={formik.handleChange}
           error={formik.touched.title && Boolean(formik.errors.title)}
           helperText={formik.touched.title && formik.errors.title}
         />
         <TextField
-          sx={{ marginBottom: '10px' }}
+          color={color.split('.')[0]}
+          sx={{ input: { color }, marginBottom: '10px' }}
+          focused={true}
           id='description'
           name='description'
-          label='Description'
+          label={t('Description')}
           value={formik.values.description}
           onChange={formik.handleChange}
           error={
@@ -94,10 +123,15 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
           helperText={formik.touched.description && formik.errors.description}
         />
         <TextField
-          sx={{ marginBottom: '10px' }}
-          id='difficulty'
+          className={`dropdown-${foundUser.theme}`}
+          color={color.split('.')[0]}
+          focused={true}
+          sx={{
+            marginBottom: '10px',
+          }}
+          id={`difficulty-${foundUser.theme}`}
           name='difficulty'
-          label='Difficulty'
+          label={t('Difficulty')}
           select
           value={formik.values.difficulty}
           onChange={formik.handleChange}
@@ -105,16 +139,18 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
           helperText={formik.touched.difficulty && formik.errors.difficulty}
         >
           {[...Array(5).keys()].map((option) => (
-            <MenuItem key={option + 1} value={option + 1}>
+            <MenuItem sx={{ color }} key={option + 1} value={option + 1}>
               {option + 1}
             </MenuItem>
           ))}
         </TextField>
         <TextField
+          color={color.split('.')[0]}
           sx={{ marginBottom: '10px' }}
-          id='programmingLanguage'
+          focused={true}
+          id={`programmingLanguage-${foundUser.theme}`}
           name='programmingLanguage'
-          label='Programming language'
+          label={t('Programming language')}
           select
           value={formik.values.programmingLanguage}
           onChange={formik.handleChange}
@@ -128,14 +164,14 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
           }
         >
           {programmingLanguages.map((option) => (
-            <MenuItem key={option} value={option}>
+            <MenuItem color={color.split('.')[0]} key={option} value={option}>
               {option}
             </MenuItem>
           ))}
         </TextField>
 
-        <Button color='primary' variant='contained' type='submit'>
-          Next
+        <Button color={color.split('.')[0]} variant='contained' type='submit'>
+          {t('Next')}
         </Button>
       </form>
     </Box>

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useMemo } from 'react';
 
 import StarIcon from '@mui/icons-material/Star';
 import Card from '@mui/material/Card';
@@ -62,12 +62,18 @@ const Exercise = ({ exercise }) => {
   ];
 
   const navigate = useNavigate();
-
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
   return (
     <Card
       onClick={() => navigate(`/Exercise/${exercise._id}`)}
       sx={{
-        backgroundColor: 'rgb(25, 118, 210)',
+        backgroundColor: color,
         width: '100%',
         cursor: 'pointer',
         marginTop: '10px',
