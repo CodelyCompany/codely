@@ -2,7 +2,7 @@ import { createAction } from 'redux-api-middleware';
 
 import { types } from './types';
 
-export const GetUsers = (token = null) =>
+export const GetUsers = (token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
@@ -22,7 +22,8 @@ export const GetUsers = (token = null) =>
     ],
   });
 
-export const AddUser = (body, token = null) =>
+
+export const AddUser = (body, token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
@@ -43,7 +44,7 @@ export const AddUser = (body, token = null) =>
     ],
   });
 
-export const UpdateUser = (body, token = null) =>
+export const UpdateUser = (body, token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
@@ -64,7 +65,7 @@ export const UpdateUser = (body, token = null) =>
     ],
   });
 
-export const UploadAvatar = (userId, body, token = null) =>
+export const UploadAvatar = (userId, body, token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'

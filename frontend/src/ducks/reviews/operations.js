@@ -2,7 +2,7 @@ import { createAction } from 'redux-api-middleware';
 
 import { types } from './types';
 
-export const GetReviews = (token = null) =>
+export const GetReviews = (token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
@@ -22,7 +22,7 @@ export const GetReviews = (token = null) =>
     ],
   });
 
-export const AddReview = (body, token = null) =>
+export const AddReview = (body, token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
