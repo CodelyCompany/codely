@@ -16,10 +16,7 @@ export const GetExercises = (token = null) =>
       types.GET_EXERCISES_REQUEST,
       {
         type: types.GET_EXERCISES_SUCCESS,
-        payload: async (action, state, res) => {
-          const json = await res.json();
-          return json;
-        },
+        payload: async (action, state, res) => await res.json(),
       },
       types.GET_EXERCISES_FAILURE,
     ],

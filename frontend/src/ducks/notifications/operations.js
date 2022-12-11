@@ -16,10 +16,7 @@ export const GetNotifications = (userId, token = null) =>
       types.GET_NOTIFICATIONS_REQUEST,
       {
         type: types.GET_NOTIFICATIONS_SUCCESS,
-        payload: async (action, state, res) => {
-          const json = await res.json();
-          return json;
-        },
+        payload: async (action, state, res) => await res.json(),
       },
       types.GET_NOTIFICATIONS_FAILURE,
     ],

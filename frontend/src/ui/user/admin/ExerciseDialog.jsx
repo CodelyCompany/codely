@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 
 import {
@@ -24,7 +25,6 @@ import { AddNotification } from '../../../ducks/notifications/operations';
 import { getToken } from '../../../ducks/token/selectors';
 import { getUserByUsername, getUsers } from '../../../ducks/user/selectors';
 import GetToken from '../GetToken';
-import { useTranslation } from 'react-i18next';
 function ExerciseDialog({
   open,
   setOpen,

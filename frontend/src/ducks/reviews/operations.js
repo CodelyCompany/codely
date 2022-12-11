@@ -16,10 +16,7 @@ export const GetReviews = (token = null) =>
       types.GET_REVIEWS_REQUEST,
       {
         type: types.GET_REVIEWS_SUCCESS,
-        payload: async (action, state, res) => {
-          const json = await res.json();
-          return json;
-        },
+        payload: async (action, state, res) => await res.json(),
       },
       types.GET_REVIEWS_FAILURE,
     ],
@@ -40,10 +37,7 @@ export const AddReview = (body, token = null) =>
       types.POST_REVIEW_REQUEST,
       {
         type: types.POST_REVIEW_SUCCESS,
-        payload: async (action, state, res) => {
-          const json = await res.json();
-          return json;
-        },
+        payload: async (action, state, res) => await res.json(),
       },
       types.POST_REVIEW_FAILURE,
     ],
@@ -64,10 +58,7 @@ export const EditReview = (body, token) =>
       types.EDIT_REVIEW_REQUEST,
       {
         type: types.EDIT_REVIEW_SUCCESS,
-        payload: async (action, state, res) => {
-          const json = await res.json();
-          return json;
-        },
+        payload: async (action, state, res) => await res.json(),
       },
       types.EDIT_REVIEW_FAILURE,
     ],
