@@ -16,11 +16,11 @@ app.post('/', async (req, res) => {
     fs.writeFileSync('./execute.sh', req.body.toExecute);
     const output = execSync('bash execute.sh', {
       encoding: 'utf-8',
-      timeout: timeout,
+      timeout,
     });
     return res.status(200).send({ output });
   } catch (error) {
-    if (error && error.code === 'ETIMEDOUT') {
+    if (error.code === 'ETIMEDOUT') {
       res.status(408).send({ message: 'Timeout' });
     }
     console.log(error);

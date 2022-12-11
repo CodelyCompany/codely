@@ -14,17 +14,15 @@ app.listen(port, () => {
 app.post('/', async (req, res) => {
   try {
     fs.writeFileSync('./execute.cpp', req.body.toExecute);
-    execSync('g++ -o program execute.cpp', {
+    const execOptions = {
       encoding: 'utf-8',
-      timeout: timeout,
-    });
-    const output = execSync('./program', {
-      encoding: 'utf-8',
-      timeout: timeout,
-    });
+      timeout,
+    };
+    execSync('g++ -o program execute.cpp', execOptions);
+    const output = execSync('./program', execOptions);
     return res.status(200).send({ output });
   } catch (error) {
-    if (error && error.code === 'ETIMEDOUT') {
+    if (error.code === 'ETIMEDOUT') {
       res.status(408).send({ message: 'Timeout' });
     }
     console.log(error);

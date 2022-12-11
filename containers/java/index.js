@@ -14,14 +14,15 @@ app.listen(port, () => {
 app.post('/', async (req, res) => {
   try {
     fs.writeFileSync('./Main.java', req.body.toExecute);
-    execSync('javac Main.java', { encoding: 'utf-8', timeout: timeout });
-    const output = execSync('java Main', {
+    const execOptions = {
       encoding: 'utf-8',
-      timeout: timeout,
-    });
+      timeout,
+    };
+    execSync('javac Main.java', execOptions);
+    const output = execSync('java Main', execOptions);
     return res.status(200).send({ output });
   } catch (error) {
-    if (error && error.code === 'ETIMEDOUT') {
+    if (error.code === 'ETIMEDOUT') {
       res.status(408).send({ message: 'Timeout' });
     }
     console.log(error);

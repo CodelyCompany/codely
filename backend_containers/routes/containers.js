@@ -15,11 +15,13 @@ const urlData = {
 };
 
 const checkError = (err, res) => {
-  if (err.response && err.response.data.stderr) {
-    return res.status(202).send({ output: err.response.data.stderr });
-  }
-  if (err.response && err.response.data.message === 'Timeout') {
-    return res.status(202).send({ output: 'Timeout!' });
+  if (err.response) {
+    if (err.response.data.stderr) {
+      return res.status(202).send({ output: err.response.data.stderr });
+    }
+    if (err.response.data.message === 'Timeout') {
+      return res.status(202).send({ output: 'Timeout!' });
+    }
   }
   console.log(err);
   return res.status(500).send(err);
