@@ -13,7 +13,7 @@ spec:
     - ReadWriteOnce
   hostPath:
     #    Path dla linux - nie działa
-    path: '/databases/mongodb'
+    path: '/mnt/data/production/mongodb'
     #    Path dla Windows - działa
     #    path: '/run/desktop/mnt/host/mongodb'
   claimRef:
