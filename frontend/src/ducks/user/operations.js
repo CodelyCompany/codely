@@ -2,7 +2,7 @@ import { createAction } from 'redux-api-middleware';
 
 import { types } from './types';
 
-export const GetUsers = (token = null) =>
+export const GetUsers = (token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
@@ -16,16 +16,14 @@ export const GetUsers = (token = null) =>
       types.GET_USERS_REQUEST,
       {
         type: types.GET_USERS_SUCCESS,
-        payload: async (action, state, res) => {
-          const json = await res.json();
-          return json;
-        },
+        payload: async (action, state, res) => await res.json(),
       },
       types.GET_USERS_FAILURE,
     ],
   });
 
-export const AddUser = (body, token = null) =>
+
+export const AddUser = (body, token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
@@ -40,16 +38,13 @@ export const AddUser = (body, token = null) =>
       types.POST_USER_REQUEST,
       {
         type: types.POST_USER_SUCCESS,
-        payload: async (action, state, res) => {
-          const json = await res.json();
-          return json;
-        },
+        payload: async (action, state, res) => await res.json(),
       },
       types.POST_USER_FAILURE,
     ],
   });
 
-export const UpdateUser = (body, token = null) =>
+export const UpdateUser = (body, token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
@@ -64,16 +59,13 @@ export const UpdateUser = (body, token = null) =>
       types.UPDATE_USER_REQUEST,
       {
         type: types.UPDATE_USER_SUCCESS,
-        payload: async (action, state, res) => {
-          const json = await res.json();
-          return json;
-        },
+        payload: async (action, state, res) => await res.json(),
       },
       types.UPDATE_USER_FAILURE,
     ],
   });
 
-export const UploadAvatar = (userId, body, token = null) =>
+export const UploadAvatar = (userId, body, token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
@@ -87,10 +79,7 @@ export const UploadAvatar = (userId, body, token = null) =>
       types.UPLOAD_AVATAR_REQUEST,
       {
         type: types.UPLOAD_AVATAR_SUCCESS,
-        payload: async (action, state, res) => {
-          const json = await res.json();
-          return json;
-        },
+        payload: async (action, state, res) => await res.json(),
       },
       types.UPLOAD_AVATAR_FAILURE,
     ],

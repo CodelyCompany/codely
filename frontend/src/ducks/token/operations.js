@@ -9,22 +9,19 @@ export const GetAuthToken = () =>
     headers: {
       'Content-Type': 'application/json',
     },
-    body: {
+    body: JSON.stringify({
       client_id: process.env.REACT_APP_CONTAINERS_CLIENT_ID,
       client_secret: process.env.REACT_APP_CONTAINERS_CLIENT_SECRET,
       audience: `${
-        process.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
+        process.env.REACT_APP_BACKEND || 'http://localhost:5000'
       }`,
       grant_type: 'client_credentials',
-    },
+    }),
     types: [
       types.GET_TOKEN_REQUEST,
       {
         type: types.GET_TOKEN_SUCCESS,
-        payload: async (action, state, res) => {
-          const json = await res.json();
-          return json;
-        },
+        payload: async (action, state, res) => await res.json(),
       },
       types.GET_TOKEN_FAILURE,
     ],

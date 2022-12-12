@@ -5,10 +5,13 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { VscDebugStart } from 'react-icons/vsc';
+import { connect } from 'react-redux';
 
+import { getToken } from '../../ducks/token/selectors';
 import RunAlert from '../popups/RunAlert';
+import GetToken from '../user/GetToken';
 
-const RunButton = ({ code, setOutput, language }) => {
+const RunButton = ({ code, setOutput, language, token }) => {
   const color = useMemo(
     () =>
       parseInt(localStorage.getItem('theme') ?? 0) === 2
@@ -31,19 +34,6 @@ const RunButton = ({ code, setOutput, language }) => {
   const { t } = useTranslation();
 
   const runCode = (code) => {
-    //here should be added token as an argument after 1st of December
-
-    // (async () => {
-    //   await axios
-    //     .post(`https://${process.env.REACT_APP_DOMAIN}/oauth/token`, {
-    //       client_id: process.env.REACT_APP_CONTAINERS_CLIENT_ID,
-    //       client_secret: process.env.REACT_APP_CONTAINERS_CLIENT_SECRET,
-    //       audience: `${
-    //         process.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
-    //       }`,
-    //       grant_type: 'client_credentials',
-    //     })
-    //     .then((token) => {
     axios
       .post(
         `${
@@ -51,12 +41,12 @@ const RunButton = ({ code, setOutput, language }) => {
         }/${language.toLowerCase() === 'c++' ? 'cpp' : language.toLowerCase()}`,
         {
           toExecute: code,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-        // {
-        //   headers: {
-        //     Authorization: `Bearer ${token.data.access_token}`,
-        //   },
-        // }
       )
       .then((response) => {
         setStatus(response.status);
@@ -64,13 +54,11 @@ const RunButton = ({ code, setOutput, language }) => {
         setOutput(response.data.output.toString());
       })
       .catch((err) => console.log(err));
-    // })
-    // .catch((e) => console.log(e));
-    // })();
   };
 
   return (
     <>
+      <GetToken />
       <RunAlert
         triggered={triggerAlert}
         setTriggered={setTriggerAlert}
@@ -84,10 +72,15 @@ const RunButton = ({ code, setOutput, language }) => {
   );
 };
 
-export default RunButton;
+const mapStateToProps = (state) => ({
+  token: getToken(state),
+});
+
+export default connect(mapStateToProps)(RunButton);
 
 RunButton.propTypes = {
   code: PropTypes.string.isRequired,
   setOutput: PropTypes.func.isRequired,
   language: PropTypes.string.isRequired,
+  token: PropTypes.string,
 };
