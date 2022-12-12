@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useEffect } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Container, Typography } from '@mui/material';
 import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 
 import { getToken } from '../../ducks/token/selectors';
@@ -19,8 +20,15 @@ import VersusResults from './VersusResults';
 import WrittenReviews from './WrittenReviews';
 
 const UserDetails = ({ GetUsers, token }) => {
+  const { t } = useTranslation();
   const { user } = useAuth0();
-
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
   useEffect(() => {
     GetUsers(token);
   }, [token]);
@@ -34,23 +42,24 @@ const UserDetails = ({ GetUsers, token }) => {
         <Box sx={{ margin: '20px' }}>
           <Box
             sx={{
-              borderBottom: '3px solid rgb(25, 118, 210)',
+              borderColor: color,
+              borderBottom: '3px solid',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'end',
             }}
           >
             <Typography
-              color='primary'
               variant='h2'
               sx={{
                 fontWeight: 'bolder',
+                color,
               }}
             >
               {foundUser.username}
             </Typography>
-            <Typography color='primary' variant='h6'>
-              User since:{' '}
+            <Typography sx={{ color }} variant='h6'>
+              {t('User since:')}{' '}
               {new Date(foundUser.creationDate).toLocaleDateString()}
             </Typography>
           </Box>

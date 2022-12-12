@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
+import { useAuth0 } from '@auth0/auth0-react';
 import Editor from '@monaco-editor/react';
 import { Box } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
+import { useSelector } from 'react-redux';
 
+import { getUserByUsername } from '../../../ducks/user/selectors';
 import OutputField from '../../code_editor/OutputField';
 
 import Buttons from './Buttons';
@@ -23,7 +26,15 @@ const EditorField = ({
   const [code, setCode] = useState(functionSignature);
   const [output, setOutput] = useState('');
   const [tests, setTests] = useState({});
-
+  const { user } = useAuth0();
+  const foundUser = useSelector(getUserByUsername(user.nickname));
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
   const handleCodeChange = (value) => {
     setCode(value);
   };
@@ -50,11 +61,13 @@ const EditorField = ({
       <Box
         sx={{
           height: '300px',
-          border: '3px solid rgb(25, 118, 210)',
+          borderColor: color,
+          border: '3px solid',
           borderRadius: '5px',
         }}
       >
         <Editor
+          theme={foundUser.theme === 1 ? 'vs-dark' : 'vs'}
           loading={<CircularProgress />}
           height='100%'
           language={language.toLowerCase()}

@@ -22,9 +22,21 @@ spec:
       containers:
         - name: c-container
           image: mtx22/codely-c
+          resources:
+            requests:
+              memory: '50Mi'
+              cpu: '100m'
+            limits:
+              memory: '100Mi'
+              cpu: '1000m'
           env:
             - name: PORT
               valueFrom:
                 configMapKeyRef:
                   key: C_PORT
+                  name: containers-configmap
+            - name: TIMEOUT
+              valueFrom:
+                configMapKeyRef:
+                  key: TIMEOUT
                   name: containers-configmap

@@ -22,6 +22,13 @@ spec:
       containers:
         - name: frontend-container
           image: mtx22/codely-frontend
+          resources:
+            requests:
+              memory: '5Mi'
+              cpu: '5m'
+            limits:
+              memory: '30Mi'
+              cpu: '20m'
           ports:
             - containerPort: 80
           envFrom:

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Container } from '@mui/system';
@@ -9,6 +9,16 @@ import MainPage from './MainPage';
 
 const LoadWrapper = ({ children }) => {
   const { isLoading, isAuthenticated } = useAuth0();
+
+  const [theme, setTheme] = useState(0);
+
+  const getColors = () => {
+    if (!theme || theme === 1) return ['#9a2150', 'hsl(337, 73%, 42%)'];
+    return ['#3449eb', '#51E5FF'];
+  };
+  useEffect(() => {
+    setTheme(parseInt(localStorage.getItem('theme')) ?? 0);
+  }, []);
 
   return isLoading ? (
     <Container
@@ -26,8 +36,8 @@ const LoadWrapper = ({ children }) => {
         ariaLabel='progress-bar-loading'
         wrapperStyle={{}}
         wrapperClass='progress-bar-wrapper'
-        borderColor='#3449eb'
-        barColor='#51E5FF'
+        borderColor={getColors()[0]}
+        barColor={getColors()[1]}
       />
     </Container>
   ) : isAuthenticated ? (

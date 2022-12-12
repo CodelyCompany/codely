@@ -7,6 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
@@ -24,7 +25,7 @@ const Confirmation = ({
   token,
 }) => {
   const { id } = useParams();
-
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const handleClose = () => {
@@ -47,17 +48,17 @@ const Confirmation = ({
         aria-describedby='alert-dialog-description'
       >
         <DialogTitle id='alert-dialog-title'>
-          {'Delete confirmation'}
+          {t('Delete confirmation')}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id='alert-dialog-description'>
-            Are you sure you want to delete this exercise?
+            {t('Are you sure you want to delete this exercise?')}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClose}>{t('Cancel')}</Button>
           <Button onClick={deleteExercise} autoFocus>
-            Delete
+            {t('Delete')}
           </Button>
         </DialogActions>
       </Dialog>

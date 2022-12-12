@@ -2,7 +2,7 @@ export const getReviewsByExerciseId = (id) => (state) =>
   state.reviews.reviews.filter((review) => review.exercise === id);
 
 export const getReviewsByUserId = (id) => (state) =>
-  state.reviews.reviews.filter((review) => review.user === id);
+  state.reviews.reviews.filter((review) => review.author === id);
 
 export const getRatingByExerciseId = (id) => (state) => {
   const reviews = state.reviews.reviews.filter(

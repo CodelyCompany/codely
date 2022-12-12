@@ -1,5 +1,6 @@
-import * as React from 'react';
+import React, { useMemo } from 'react';
 
+import { useAuth0 } from '@auth0/auth0-react';
 import Editor from '@monaco-editor/react';
 import {
   Box,
@@ -13,7 +14,8 @@ import {
 } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { PropTypes } from 'prop-types';
-import { connect } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { connect, useSelector } from 'react-redux';
 
 import {
   CheckExercise,
@@ -21,9 +23,8 @@ import {
 } from '../../../ducks/exercises/operations';
 import { AddNotification } from '../../../ducks/notifications/operations';
 import { getToken } from '../../../ducks/token/selectors';
-import { getUsers } from '../../../ducks/user/selectors';
+import { getUserByUsername, getUsers } from '../../../ducks/user/selectors';
 import GetToken from '../GetToken';
-
 function ExerciseDialog({
   open,
   setOpen,
@@ -34,15 +35,24 @@ function ExerciseDialog({
   AddNotification,
   users,
 }) {
+  const { t } = useTranslation();
+  const { user } = useAuth0();
+  const foundUser = useSelector(getUserByUsername(user.nickname));
   const checkExercise = () => {
     const userToNotify = users.find((usr) => usr.username === exercise.author);
     AddNotification(userToNotify._id, {
-      content: `Admin accepted your exercise: ${exercise.title}`,
+      content: `${t('Admin accepted your exercise')}: ${exercise.title}`,
     });
     CheckExercise(exercise._id, token);
     handleClose();
   };
-
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
   const handleClose = () => {
     setOpen(false);
   };
@@ -50,7 +60,7 @@ function ExerciseDialog({
   const deleteExercise = () => {
     const userToNotify = users.find((usr) => usr.username === exercise.author);
     AddNotification(userToNotify._id, {
-      content: `Admin rejected your exercise: ${exercise.title}`,
+      content: `${t('Admin rejected your exercise')}: ${exercise.title}`,
     });
     DeleteUncheckedExercise(exercise._id, token);
     setOpen(false);
@@ -59,12 +69,12 @@ function ExerciseDialog({
   const columns = [
     {
       field: 'input',
-      headerName: 'Inputs',
+      headerName: t('Inputs'),
       flex: 1,
     },
     {
       field: 'output',
-      headerName: 'Outputs',
+      headerName: t('Outputs'),
       flex: 1,
     },
   ];
@@ -81,56 +91,65 @@ function ExerciseDialog({
           aria-describedby='alert-dialog-description'
         >
           <DialogTitle
-            color='primary'
             fontWeight={'bolder'}
             sx={{
-              borderBottom: '3px solid rgb(25, 118, 210)',
+              borderColor: color,
+              borderBottom: '3px solid',
               margin: '0 10px 10px 10px',
+              color,
             }}
             id='alert-dialog-title'
           >
-            {`Checking exercise`}
+            {t(`Checking exercise`)}
           </DialogTitle>
           <DialogContent>
-            <DialogContentText color='primary' id='alert-dialog-description'>
-              <strong>Title:</strong> {exercise.title}
+            <DialogContentText sx={{ color }} id='alert-dialog-description'>
+              <strong>{t('Title')}:</strong> {exercise.title}
             </DialogContentText>
-            <DialogContentText color='primary' id='alert-dialog-description'>
-              <strong>Author:</strong> {exercise.author}
+            <DialogContentText sx={{ color }} id='alert-dialog-description'>
+              <strong>{t('Author')}:</strong> {exercise.author}
             </DialogContentText>
-            <DialogContentText color='primary' id='alert-dialog-description'>
-              <strong>Programming language:</strong>{' '}
+            <DialogContentText sx={{ color }} id='alert-dialog-description'>
+              <strong>{t('Programming language')}:</strong>{' '}
               {exercise.programmingLanguage}
             </DialogContentText>
-            <DialogContentText color='primary' id='alert-dialog-description'>
-              <strong>Creation date:</strong>{' '}
+            <DialogContentText sx={{ color }} id='alert-dialog-description'>
+              <strong>{t('Creation date')}:</strong>{' '}
               {new Date(exercise.creationDate).toLocaleDateString()}
             </DialogContentText>
-            <DialogContentText color='primary' id='alert-dialog-description'>
-              <strong>Description:</strong> {exercise.description}
+            <DialogContentText sx={{ color }} id='alert-dialog-description'>
+              <strong>{t('Description')}:</strong> {exercise.description}
             </DialogContentText>
-            <DialogContentText color='primary' id='alert-dialog-description'>
-              <strong>Difficulty:</strong> {exercise.difficulty} / 5
+            <DialogContentText sx={{ color }} id='alert-dialog-description'>
+              <strong>{t('Difficulty')}:</strong> {exercise.difficulty} / 5
             </DialogContentText>
             <div
               id='alert-dialog-description'
               style={{ color: 'rgb(25, 118, 210)' }}
             >
-              <strong>Hints:</strong>
+              <strong
+                style={{
+                  color:
+                    foundUser.theme !== 2 ? '#9a2150' : 'rgb(25, 118, 210)',
+                }}
+              >
+                {t('Hints:')}
+              </strong>
               {exercise.hints.map((hint, index) => (
-                <ListItemText key={index}>
+                <ListItemText sx={{ color }} key={index}>
                   <strong>-</strong> {hint}
                 </ListItemText>
               ))}
             </div>
-            <DialogContentText color='primary'>
-              <strong>Tests:</strong>
+            <DialogContentText sx={{ color }}>
+              <strong>{t('Tests:')}</strong>
             </DialogContentText>
             <DataGrid
               sx={{
                 width: '100%',
                 height: '300px',
-                border: '3px solid rgb(25, 118, 210)',
+                borderColor: color,
+                border: '3px solid',
                 marginBottom: '5px',
               }}
               rows={exercise.tests.map((el) => ({
@@ -145,16 +164,16 @@ function ExerciseDialog({
               experimentalFeatures={{ newEditingApi: true }}
             />
             <DialogContentText
-              color='primary'
-              sx={{ fontWeight: 'bolder' }}
+              sx={{ fontWeight: 'bolder', color }}
               id='alert-dialog-description'
             >
-              Example solution:
+              {t('Example solution:')}
             </DialogContentText>
             <Box
               sx={{
                 width: '100%',
-                border: '3px solid rgb(25, 118, 210)',
+                borderColor: color,
+                border: '3px solid',
                 borderRadius: '5px',
               }}
             >
@@ -173,23 +192,29 @@ function ExerciseDialog({
           <DialogActions
             sx={{ display: 'flex', justifyContent: 'space-between' }}
           >
-            <Button variant='contained' onClick={handleClose}>
-              Undo
+            <Button
+              color={color.split('.')[0]}
+              variant='contained'
+              onClick={handleClose}
+            >
+              {t('Undo')}
             </Button>
             <Box>
               <Button
+                color={color.split('.')[0]}
                 variant='contained'
                 sx={{ marginRight: '10px' }}
                 onClick={() => deleteExercise()}
               >
-                Reject
+                {t('Reject')}
               </Button>
               <Button
+                color={color.split('.')[0]}
                 variant='contained'
                 onClick={() => checkExercise()}
                 autoFocus
               >
-                Accept
+                {t('Accept')}
               </Button>
             </Box>
           </DialogActions>

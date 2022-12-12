@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import FormatColorTextIcon from '@mui/icons-material/FormatColorText';
@@ -15,6 +15,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import * as _ from 'lodash';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -25,6 +26,7 @@ import { getExerciseById } from '../../ducks/exercises/selectors';
 import { ChangeDeleteStatus } from '../../ducks/popups/actions';
 import { getRatingByExerciseId } from '../../ducks/reviews/selectors';
 import { getToken } from '../../ducks/token/selectors';
+import { getUserByUsername } from '../../ducks/user/selectors';
 import Confirmation from '../popups/Confirmation';
 import GetToken from '../user/GetToken';
 
@@ -32,14 +34,22 @@ import EditorField from './editor_to_exercises/EditorField';
 import Reviews from './reviews/Reviews';
 
 const ExerciseDetail = ({ GetExercises, token }) => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const exercise = useSelector(getExerciseById(id));
   const rating = useSelector(getRatingByExerciseId(id));
   const { user } = useAuth0();
+  const foundUser = useSelector(getUserByUsername(user.nickname));
   const navigate = useNavigate();
   const [toDelete, setToDelete] = useState(false);
   const [argumentValues, setArgumentValues] = useState([]);
-
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
   useEffect(() => {
     if (_.isEmpty(exercise)) {
       GetExercises(token);
@@ -53,6 +63,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
         <Container sx={{ marginTop: '10px' }}>
           <Box sx={{ width: '100%', display: 'flex' }}>
             <List
+              className={`theme-${foundUser.theme}`}
               sx={{
                 width: '100%',
                 height: '100%',
@@ -62,8 +73,11 @@ const ExerciseDetail = ({ GetExercises, token }) => {
               <ListItem>
                 <Typography
                   variant='h3'
-                  color='primary'
-                  sx={{ borderBottom: '3px solid rgb(25, 118, 210)' }}
+                  sx={{
+                    borderColor: color,
+                    borderBottom: '3px solid',
+                    color,
+                  }}
                 >
                   {exercise.title}
                 </Typography>
@@ -71,45 +85,45 @@ const ExerciseDetail = ({ GetExercises, token }) => {
               <ListItem>
                 <ListItemAvatar>
                   <Avatar
-                    style={{
-                      backgroundColor: 'rgb(25, 118, 210)',
+                    sx={{
+                      backgroundColor: color,
                     }}
                   >
                     <PersonIcon />
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary='Author'
+                  primary={t('Author')}
                   secondary={exercise.author.username}
                 />
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
                   <Avatar
-                    style={{
-                      backgroundColor: 'rgb(25, 118, 210)',
+                    sx={{
+                      backgroundColor: color,
                     }}
                   >
                     <GTranslateIcon />
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary='Programming Language'
+                  primary={t('Programming Language')}
                   secondary={exercise.programmingLanguage}
                 />
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
                   <Avatar
-                    style={{
-                      backgroundColor: 'rgb(25, 118, 210)',
+                    sx={{
+                      backgroundColor: color,
                     }}
                   >
                     <PsychologyIcon />
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary='Difficulty'
+                  primary={t('Difficulty')}
                   secondary={[...Array(exercise.difficulty).keys()].map(
                     (el) => (
                       <StarRateIcon sx={{ color: 'gold' }} key={el} />
@@ -120,26 +134,26 @@ const ExerciseDetail = ({ GetExercises, token }) => {
               <ListItem>
                 <ListItemAvatar>
                   <Avatar
-                    style={{
-                      backgroundColor: 'rgb(25, 118, 210)',
+                    sx={{
+                      backgroundColor: color,
                     }}
                   >
                     <FormatColorTextIcon />
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary='Description'
+                  primary={t('Description')}
                   secondary={exercise.description}
                 />
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar style={{ backgroundColor: 'rgb(25, 118, 210)' }}>
+                  <Avatar sx={{ backgroundColor: color }}>
                     <StarRateIcon />
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary='Rating'
+                  primary={t('Rating')}
                   secondary={
                     rating
                       ? [...Array(Math.round(rating)).keys()].map((num) => (
@@ -148,7 +162,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
                             key={`rating-${num}`}
                           />
                         ))
-                      : 'no reviews'
+                      : t('no reviews')
                   }
                 />
               </ListItem>
@@ -163,20 +177,22 @@ const ExerciseDetail = ({ GetExercises, token }) => {
                 }}
               >
                 <Button
+                  color={color.split('.')[0]}
                   variant='contained'
                   sx={{ height: '40px', marginTop: '50px', width: '100px' }}
                   onClick={() => {
                     setToDelete(true);
                   }}
                 >
-                  Delete
+                  {t('Delete')}
                 </Button>
                 <Button
+                  color={color.split('.')[0]}
                   variant='contained'
                   sx={{ height: '40px', marginTop: '10px', width: '100px' }}
                   onClick={() => navigate(`/exercises/edit/${id}`)}
                 >
-                  Edit
+                  {t('Edit')}
                 </Button>
               </Box>
             )}

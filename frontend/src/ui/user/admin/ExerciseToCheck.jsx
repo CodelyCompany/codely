@@ -1,13 +1,17 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
+import { useAuth0 } from '@auth0/auth0-react';
 import { Card, Typography } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import { DataGrid } from '@mui/x-data-grid';
 import { PropTypes } from 'prop-types';
-import { connect } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { connect, useSelector } from 'react-redux';
 
 import { GetUncheckedExercises } from '../../../ducks/exercises/operations';
 import { getUncheckedExercises } from '../../../ducks/exercises/selectors';
 import { getToken } from '../../../ducks/token/selectors';
+import { getUserByUsername } from '../../../ducks/user/selectors';
 
 import ExerciseDialog from './ExerciseDialog';
 
@@ -24,18 +28,39 @@ const columns = [
   },
 ];
 
+const useStyles = makeStyles({
+  root: {
+    '&.MuiDataGrid-root .MuiDataGrid-cell:focus': {
+      outline: 'none',
+    },
+  },
+});
+
 function ExerciseToCheck({ uncheckedExercises, GetUncheckedExercises, token }) {
+  const { t } = useTranslation();
   const rows = useMemo(
     () => (uncheckedExercises ? uncheckedExercises : []),
     [uncheckedExercises]
   );
+  const { user } = useAuth0();
+  const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
+    theme: 0,
+  };
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState({});
-
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
   const handleClickOpen = (ex) => {
     setSelected(ex.row);
     setOpen(true);
   };
+
+  const classes = useStyles();
 
   useEffect(() => {
     GetUncheckedExercises(token);
@@ -44,6 +69,7 @@ function ExerciseToCheck({ uncheckedExercises, GetUncheckedExercises, token }) {
   return (
     <>
       <Card
+        className={`theme-${foundUser?.theme}`}
         sx={{
           height: '500px',
           width: '50%',
@@ -52,17 +78,19 @@ function ExerciseToCheck({ uncheckedExercises, GetUncheckedExercises, token }) {
         }}
       >
         <Typography
-          color='primary'
           variant='h6'
-          sx={{ fontWeight: 'bolder', textAlign: 'center' }}
+          sx={{ fontWeight: 'bolder', textAlign: 'center', color }}
         >
-          Exercises to check
+          {t('Exercises to check')}
         </Typography>
         <DataGrid
+          className={classes.root}
           sx={{
+            borderColor: color,
             width: 'calc(100% - 20px)',
             height: '400px',
             margin: '10px',
+            color,
           }}
           getRowId={(row) => row._id}
           rows={rows.map((row) => ({

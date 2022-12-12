@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
+import { useAuth0 } from '@auth0/auth0-react';
 import { Box, MenuItem } from '@mui/material';
 import { Button, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { connect, useSelector } from 'react-redux';
 import * as yup from 'yup';
 
 import {
@@ -14,14 +16,27 @@ import {
   ChangeAddStatus,
   ChangeUpdateStatus,
 } from '../../../ducks/popups/actions';
+import { getUserByUsername } from '../../../ducks/user/selectors';
 
 const HintsForms = ({ step, dataToEdit, setStep }) => {
+  const { t } = useTranslation();
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
   const [hintsQuantity, setHintsQuantity] = useState('');
   const [hints, setHints] = useState([]);
   const [triggered, setTriggered] = useState(false);
   const [triggeringChangeQuantity, setTriggeringChangeQuantity] =
     useState(false);
   const [error, setError] = useState({});
+  const { user } = useAuth0();
+  const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
+    theme: 0,
+  };
 
   useEffect(() => {
     if (step.dataFromStep4) {
@@ -84,8 +99,8 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
   const hintSchema = yup.string().required();
 
   const hintsSchema = yup
-    .array('Enter all hints')
-    .of(yup.string('Enter the hint').required('This hint is required'));
+    .array(t('Enter all hints'))
+    .of(yup.string(t('Enter the hint')).required(t('This hint is required')));
 
   const goToNextStage = () => {
     hintsSchema
@@ -116,8 +131,13 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
         sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
       >
         <TextField
-          sx={{ marginBottom: '10px', width: '900px' }}
-          id='hintsQuantity'
+          color={color.split('.')[0]}
+          focused
+          sx={{
+            marginBottom: '10px',
+            width: '900px',
+          }}
+          id={`hintsQuantity-${foundUser.theme}`}
           name='hintsQuantity'
           label='Choose hints quantity'
           value={hintsQuantity}
@@ -145,12 +165,15 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
           [...Array(hintsQuantity).keys()].map((number) => (
             <div key={number} style={{ width: '100%' }}>
               <TextField
+                color={color.split('.')[0]}
+                focused
                 sx={{
                   marginBottom: '10px',
                   marginRight: '10px',
                   width: '100%',
+                  input: { color },
                 }}
-                label={number === 0 ? 'Hints' : ''}
+                label={number === 0 ? t('Hints') : ''}
                 name='hint'
                 value={getValue(number)}
                 error={error.error && !hintSchema.isValidSync(getValue(number))}
@@ -165,21 +188,23 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
           ))}
 
         <Button
+          color={color.split('.')[0]}
           fullWidth
           sx={{ marginBottom: '10px' }}
           type='button'
           onClick={() => goToPreviousStage()}
           variant='contained'
         >
-          Previous
+          {t('Previous')}
         </Button>
         <Button
+          color={color.split('.')[0]}
           fullWidth
           type='button'
           onClick={() => goToNextStage()}
           variant='contained'
         >
-          Next
+          {t('Next')}
         </Button>
       </form>
     </Box>

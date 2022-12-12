@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Button } from '@mui/material';
 import axios from 'axios';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -23,12 +24,19 @@ const Buttons = ({
   argumentValues,
   language,
 }) => {
+  const { t } = useTranslation();
   const { user } = useAuth0();
   const { roomId, id } = useParams();
   const [triggered, setTriggered] = useState(false);
   const foundUser = useSelector(getUserByUsername(user.nickname));
   const [passed, setPassed] = useState(false);
-
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary'
+        : 'primary',
+    [localStorage.getItem('theme')]
+  );
   const runCode = (code) => {
     axios
       .post(
@@ -94,11 +102,11 @@ const Buttons = ({
           margin: '10px 0',
         }}
       >
-        <Button variant='contained' onClick={() => runCode(code)}>
-          Run
+        <Button color={color} variant='contained' onClick={() => runCode(code)}>
+          {t('Run')}
         </Button>
-        <Button variant='contained' onClick={finishEx}>
-          Submit
+        <Button color={color} variant='contained' onClick={finishEx}>
+          {t('Submit')}
         </Button>
       </Box>
     </>

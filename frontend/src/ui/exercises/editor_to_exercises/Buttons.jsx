@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Button } from '@mui/material';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
 import { getToken } from '../../../ducks/token/selectors';
+import { GetUsers } from '../../../ducks/user/operations';
 import { getUserByUsername } from '../../../ducks/user/selectors';
 import ExerciseHints from '../../popups/ExerciseHints';
 import RunAlert from '../../popups/RunAlert';
@@ -32,7 +34,17 @@ const Buttons = ({
   const [triggerAlert, setTriggerAlert] = useState(false);
   const [triggerSubmitAlert, setTriggerSubmitAlert] = useState(false);
   const [status, setStatus] = useState(null);
+  const dispatch = useDispatch();
 
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary'
+        : 'primary',
+    [localStorage.getItem('theme')]
+  );
+
+  const { t } = useTranslation();
   const runCode = (code) => {
     axios
       .post(
@@ -70,6 +82,7 @@ const Buttons = ({
       .then((response) => {
         setTriggerSubmitAlert(true);
         setTests(response.data);
+        dispatch(GetUsers(token));
       });
   };
 
@@ -80,28 +93,31 @@ const Buttons = ({
         <Box>
           {' '}
           <Button
+            color={color}
             onClick={() => runCode(code)}
             sx={{ margin: '5px', width: '100px' }}
             variant='contained'
           >
-            Run
+            {t('Run')}
           </Button>
           <Button
+            color={color}
             onClick={() => submitExercise()}
             sx={{ width: '100px' }}
             variant='contained'
           >
-            Submit
+            {t('Submit')}
           </Button>
         </Box>
         <Box sx={{ display: 'flex' }}>
           <ExerciseHints />
           <Button
+            color={color}
             onClick={() => navigate(-1)}
             sx={{ width: '100px', margin: '5px' }}
             variant='contained'
           >
-            Undo
+            {t('Undo')}
           </Button>
         </Box>
       </Box>

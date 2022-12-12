@@ -2,7 +2,7 @@ import { createAction } from 'redux-api-middleware';
 
 import { types } from './types';
 
-export const GetExercises = (token = null) =>
+export const GetExercises = (token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
@@ -16,16 +16,13 @@ export const GetExercises = (token = null) =>
       types.GET_EXERCISES_REQUEST,
       {
         type: types.GET_EXERCISES_SUCCESS,
-        payload: async (action, state, res) => {
-          const json = await res.json();
-          return json;
-        },
+        payload: async (action, state, res) => await res.json(),
       },
       types.GET_EXERCISES_FAILURE,
     ],
   });
 
-export const GetUncheckedExercises = (token = null) =>
+export const GetUncheckedExercises = (token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
@@ -48,7 +45,7 @@ export const GetUncheckedExercises = (token = null) =>
     ],
   });
 
-export const AddExercise = (body, token = null) =>
+export const AddExercise = (body, token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
@@ -72,7 +69,7 @@ export const AddExercise = (body, token = null) =>
     ],
   });
 
-export const DeleteExercise = (id, token = null) =>
+export const DeleteExercise = (id, token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
@@ -95,7 +92,7 @@ export const DeleteExercise = (id, token = null) =>
     ],
   });
 
-export const DeleteUncheckedExercise = (id, token = null) =>
+export const DeleteUncheckedExercise = (id, token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
@@ -118,7 +115,7 @@ export const DeleteUncheckedExercise = (id, token = null) =>
     ],
   });
 
-export const UpdateExercise = (body, token = null) =>
+export const UpdateExercise = (body, token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
@@ -142,7 +139,7 @@ export const UpdateExercise = (body, token = null) =>
     ],
   });
 
-export const GetExercise = (id, token = null) =>
+export const GetExercise = (id, token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
@@ -165,7 +162,7 @@ export const GetExercise = (id, token = null) =>
     ],
   });
 
-export const CheckExercise = (id, token = null) =>
+export const CheckExercise = (id, token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'

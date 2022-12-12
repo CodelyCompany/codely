@@ -10,6 +10,7 @@ import {
   Slide,
 } from '@mui/material';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -23,6 +24,8 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 const FinishDialog = ({ open, setOpen, won, DisconnectSocket }) => {
   const navigate = useNavigate();
+
+  const { t } = useTranslation();
 
   const handleClose = (event, reason) => {
     if (reason && reason === 'backdropClick') return;
@@ -61,7 +64,7 @@ const FinishDialog = ({ open, setOpen, won, DisconnectSocket }) => {
             margin: '10px 20px',
           }}
         >
-          {won ? 'You win!' : 'You lose!'}
+          {won ? t('You win!') : t('You lose!')}
         </DialogTitle>
         <DialogContent>
           <DialogContentText
@@ -69,8 +72,12 @@ const FinishDialog = ({ open, setOpen, won, DisconnectSocket }) => {
             sx={{ fontSize: '20px' }}
           >
             {won
-              ? 'You solved this exercise faster than your opponent. Congrats!'
-              : 'You solved this exercise slower than your opponent. Better luck next time!'}
+              ? t(
+                  'You solved this exercise faster than your opponent. Congrats!'
+                )
+              : t(
+                  'You solved this exercise slower than your opponent. Better luck next time!'
+                )}
             {won ? (
               <img src={wonImage} alt='easy peasy image' />
             ) : (
@@ -84,14 +91,14 @@ const FinishDialog = ({ open, setOpen, won, DisconnectSocket }) => {
             color={won ? 'success' : 'error'}
             variant='contained'
           >
-            Quit
+            {t('Quit')}
           </Button>
           <Button
             onClick={handleFindNewVersus}
             color={won ? 'success' : 'error'}
             variant='contained'
           >
-            Find new versus
+            {t('Find new versus')}
           </Button>
         </DialogActions>
       </Dialog>

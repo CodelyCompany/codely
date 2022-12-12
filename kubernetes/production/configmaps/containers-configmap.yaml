@@ -12,3 +12,4 @@ data:
   JAVA_PORT: '6004'
   CPP_PORT: '6005'
   C_PORT: '6006'
+  TIMEOUT: '30000'

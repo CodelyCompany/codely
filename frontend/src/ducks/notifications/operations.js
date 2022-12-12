@@ -2,7 +2,7 @@ import { createAction } from 'redux-api-middleware';
 
 import { types } from './types';
 
-export const GetNotifications = (userId, token = null) =>
+export const GetNotifications = (userId, token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
@@ -16,16 +16,13 @@ export const GetNotifications = (userId, token = null) =>
       types.GET_NOTIFICATIONS_REQUEST,
       {
         type: types.GET_NOTIFICATIONS_SUCCESS,
-        payload: async (action, state, res) => {
-          const json = await res.json();
-          return json;
-        },
+        payload: async (action, state, res) => await res.json(),
       },
       types.GET_NOTIFICATIONS_FAILURE,
     ],
   });
 
-export const AddNotification = (userId, notification, token = null) =>
+export const AddNotification = (userId, notification, token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
@@ -49,7 +46,7 @@ export const AddNotification = (userId, notification, token = null) =>
     ],
   });
 
-export const ReadNotification = (notificationId, token = null) =>
+export const ReadNotification = (notificationId, token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'

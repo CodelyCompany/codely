@@ -7,6 +7,7 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import { Box, Grid, Rating, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { connect } from 'react-redux';
 
@@ -21,6 +22,7 @@ import { getUserByUsername } from '../../../ducks/user/selectors';
 import GetToken from '../../user/GetToken';
 
 const ReviewCard = ({ review, token }) => {
+  const { t } = useTranslation();
   const { user } = useAuth0();
   const author = useSelector(getAuthorByReviewId(review._id));
   const localUser = useSelector(getUserByUsername(user.nickname));
@@ -54,7 +56,7 @@ const ReviewCard = ({ review, token }) => {
 
       dispatch(EditReview(body, token));
     } catch (e) {
-      alert('Something went wrong, try again later');
+      alert(t('Something went wrong, try again later'));
       console.log(e);
     }
   };
@@ -92,10 +94,10 @@ const ReviewCard = ({ review, token }) => {
         <Grid item xs={6}>
           <Typography className='timestamp'>
             {review
-              ? `${review.editedAt ? 'Edited ' : 'Created '}
+              ? `${review.editedAt ? t('Edited ') : t('Created ')}
                     ${new Date(
                       review.editedAt ? review.editedAt : review.creationDate
-                    ).toLocaleDateString()} at
+                    ).toLocaleDateString()} ${t('at')}
                     ${new Date(
                       review.editedAt ? review.editedAt : review.creationDate
                     ).toLocaleTimeString()}`
