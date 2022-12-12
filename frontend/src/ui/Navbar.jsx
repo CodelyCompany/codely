@@ -129,7 +129,10 @@ const Navbar = ({
   };
 
   const handleCloseUserMenu = (setting) => {
-    setting === 'Logout' && logout();
+    setting === 'Logout' &&
+      logout({
+        returnTo: process.env.REACT_APP_LOGOUT_URL || 'http://localhost:3000',
+      });
     setting === 'Profile' && navigate('/user');
     setting === 'Admin Panel' && navigate('/admin');
     setting === 'Settings' && navigate('/settings');

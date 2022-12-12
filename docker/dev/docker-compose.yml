@@ -2,7 +2,7 @@ version: '3'
 
 services:
   mongodb:
-    container_name: mongodb
+    restart: always
     image: mongo:latest
     ports:
       - '27017:27017'
@@ -67,6 +67,7 @@ services:
       context: ../../containers/javascript
     environment:
       - PORT=6000
+      - TIMEOUT=30000
     ports:
       - '6000:6000'
   python:
@@ -76,6 +77,7 @@ services:
       context: ../../containers/python
     environment:
       - PORT=6001
+      - TIMEOUT=30000
     ports:
       - '6001:6001'
   bash:
@@ -85,6 +87,7 @@ services:
       context: ../../containers/bash
     environment:
       - PORT=6002
+      - TIMEOUT=30000
     ports:
       - '6002:6002'
   r:
@@ -94,6 +97,7 @@ services:
       context: ../../containers/r
     environment:
       - PORT=6003
+      - TIMEOUT=30000
     ports:
       - '6003:6003'
   java:
@@ -103,6 +107,7 @@ services:
       context: ../../containers/java
     environment:
       - PORT=6004
+      - TIMEOUT=30000
     ports:
       - '6004:6004'
   cpp:
@@ -112,6 +117,7 @@ services:
       context: ../../containers/cpp
     environment:
       - PORT=6005
+      - TIMEOUT=30000
     ports:
       - '6005:6005'
   c:
@@ -121,6 +127,7 @@ services:
       context: ../../containers/c
     environment:
       - PORT=6006
+      - TIMEOUT=30000
     ports:
       - '6006:6006'
   frontend:
@@ -145,6 +152,7 @@ services:
       - REACT_APP_CONTAINERS_CLIENT_SECRET=D61mgH5J4q7CqwvcO6iJtggeL65qQZnWrdhRS2SXwoJTtgHSMJbGhdUWiAGWmVFJ
       - REACT_APP_REDIRECT_URI=http://localhost:3000
       - REACT_APP_WEBSOCKET_ADDRESS=http://localhost:5002/
+      - REACT_APP_LOGOUT_URL=http://localhost:3000
   redis:
     image: redis:latest
     ports:
