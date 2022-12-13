@@ -5,4 +5,4 @@ metadata:
   name: mongodb-configmap
   namespace: production
 data:
-  MONGO_INITDB_DATABASE: production
+  MONGO_INITDB_DATABASE: local
