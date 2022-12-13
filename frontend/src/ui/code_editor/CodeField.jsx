@@ -43,7 +43,7 @@ const CodeField = ({ code, setCode, language }) => {
       >
         <Editor
           loading={<CircularProgress />}
-          theme={foundUser && foundUser.theme === 0 ? 'vs' : 'vs-dark'}
+          theme={foundUser && foundUser.theme === 1 ? 'vs-dark' : 'vs'}
           height='100%'
           language={
             language.toLowerCase() === 'c++' ? 'cpp' : language.toLowerCase()
