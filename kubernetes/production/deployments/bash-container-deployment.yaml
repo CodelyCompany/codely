@@ -11,7 +11,7 @@ spec:
     matchLabels:
       app: codely
       type: bash-container
-  replicas: 2
+  replicas: 3
   template:
     metadata:
       name: bash-container-pod
