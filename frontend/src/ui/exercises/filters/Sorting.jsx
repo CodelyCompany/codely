@@ -27,14 +27,14 @@ function Sorting({ setSort, sort }) {
     <Box>
       <FormControl fullWidth>
         <InputLabel sx={{ color: `${color}.main` }} id='select-label'>
-          {t('Sort by:')}
+          {t('Sort by')}
         </InputLabel>
         <Select
           color={color}
           labelId='select-label'
           id={`select-${foundUser.theme}`}
           value={sort}
-          label='Sort by'
+          label={t('Sort by')}
           onChange={(e) => setSort(parseInt(e.target.value))}
         >
           <MenuItem value={0}>{t('Default')}</MenuItem>
