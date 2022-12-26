@@ -25,6 +25,19 @@ $second-theme: #9a2150;
   }
 }
 
+#versus-run-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+  @media (max-width: 600px) {
+    flex-direction: column;
+    button {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  }
+}
+
 #exercises-buttons {
   display: flex;
   justify-content: space-between;

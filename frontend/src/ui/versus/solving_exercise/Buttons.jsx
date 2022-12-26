@@ -99,11 +99,7 @@ const Buttons = ({
         passed={passed}
       />
       <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          margin: '10px 0',
-        }}
+        id='versus-run-buttons'
       >
         <Button color={color} variant='contained' onClick={() => runCode(code)}>
           {t('Run')}
