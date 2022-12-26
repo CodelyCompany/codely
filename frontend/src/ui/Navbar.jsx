@@ -175,7 +175,7 @@ const Navbar = ({
                   onClick={handleOpenNavMenu}
                   color='inherit'
                 >
-                  <MenuIcon />
+                  {isAuthenticated && <MenuIcon />}
                 </IconButton>
                 <Menu
                   id='menu-appbar'

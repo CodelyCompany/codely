@@ -1,6 +1,14 @@
 $background-blue: rgb(25, 118, 210);
 $second-theme: #9a2150;
 
+#registered-since-info {
+  display: flex;
+  @media (max-width: 550px) {
+    flex-direction: column;
+    align-items: start;
+  }
+}
+
 .main-theme-1 {
   color: $second-theme;
 }
@@ -287,7 +295,7 @@ html {
 
   .exercise-link {
     font-style: italic;
-    
+
     &:hover {
       font-weight: bold;
       cursor: pointer;
