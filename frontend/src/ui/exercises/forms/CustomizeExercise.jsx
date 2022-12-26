@@ -231,13 +231,13 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
         setOpen={setOpen}
         setCustomTypes={setCustomTypes}
       />
-      <Box>
+      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
         <form
           style={{
             display: 'flex',
             flexDirection: 'column',
-            width: '900px',
-            margin: '10px',
+            width: '100%',
+            maxWidth: '900px',
           }}
           onSubmit={formik.handleSubmit}
         >
@@ -245,6 +245,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
             color={color.split('.')[0]}
             focused
             sx={{
+              width: '100%',
               color,
               marginBottom: '10px',
               input: { color },

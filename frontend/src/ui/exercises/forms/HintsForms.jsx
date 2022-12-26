@@ -128,14 +128,15 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
       }}
     >
       <Box
-        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}
       >
         <TextField
           color={color.split('.')[0]}
           focused
           sx={{
             marginBottom: '10px',
-            width: '900px',
+            width: '100%',
+            maxWidth: '900px',
           }}
           id={`hintsQuantity-${foundUser.theme}`}
           name='hintsQuantity'
@@ -157,7 +158,8 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
           justifyContent: 'center',
           flexDirection: 'column',
           alignItems: 'center',
-          width: '900px',
+          width: '100%',
+          maxWidth: '900px',
           margin: '10px',
         }}
       >

@@ -9,6 +9,51 @@ $second-theme: #9a2150;
   }
 }
 
+#exercise-wrapper {
+  width: 100%;
+  display: flex;
+  #manage-exercise {
+    display: flex;
+    margin-right: 5px;
+    flex-direction: column;
+  }
+  @media (max-width: 700px) {
+    flex-direction: column;
+    button {
+      width: 100%;
+    }
+  }
+}
+
+#exercises-buttons {
+  display: flex;
+  justify-content: space-between;
+  #tools-buttons {
+    display: flex;
+    flex-direction: row;
+  }
+  @media (max-width: 700px) {
+    #run-buttons {
+      display: flex;
+      flex-direction: column;
+      button {
+        width: 100%;
+        margin: 0 0 10px 0;
+      }
+    }
+    #tools-buttons {
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: center;
+      button {
+        width: 100%;
+      }
+      margin-bottom: 10px;
+    }
+    flex-direction: column;
+  }
+}
+
 #editor {
 display: flex;
   @media (max-width: 1200px) {
