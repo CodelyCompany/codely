@@ -4,12 +4,13 @@ import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box } from '@mui/material';
 import PropTypes from 'prop-types';
+import { ThreeDots } from 'react-loader-spinner';
 import { useSelector } from 'react-redux';
 import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync';
 
 import { getUserByUsername } from '../../ducks/user/selectors';
 
-const OutputField = ({ output }) => {
+const OutputField = ({ output, isFinishedLoading }) => {
   const { user } = useAuth0();
   const foundUser = useSelector(getUserByUsername(user.nickname));
   const [lineNumbering, setLineNumbering] = useState('');
@@ -44,12 +45,12 @@ const OutputField = ({ output }) => {
           display: 'flex',
           width: '100%',
           marginRigth: '5px',
-          justifyContent: 'end',
+          justifyContent: 'center',
           marginTop: '10px',
           maxHeight: '200px',
         }}
       >
-        <ScrollSyncPane>
+        {isFinishedLoading ? <><ScrollSyncPane>
           <textarea
             className={`theme-${foundUser.theme}`}
             id='line-numbering'
@@ -68,33 +69,44 @@ const OutputField = ({ output }) => {
             value={lineNumbering}
           />
         </ScrollSyncPane>
-        <ScrollSyncPane>
-          <div
-            className={`theme-${foundUser.theme}`}
-            style={{
-              width: '100%',
-              overflow: 'auto',
-              height: '100%',
-            }}
-          >
-            <textarea
+          <ScrollSyncPane>
+            <div
               className={`theme-${foundUser.theme}`}
               style={{
-                ...textAreaStyles,
-                borderRadius: '0 5px 5px 0',
-                backgroundColor: 'white',
-                fontFamily: 'JetBrains Mono',
-                borderColor: color,
-                border: '3px solid',
-                fontSize: '14px',
-                width: 'calc(100% - 10px)',
+                width: '100%',
+                overflow: 'auto',
+                height: '100%',
               }}
-              disabled={true}
-              name='code'
-              value={output}
-            />
-          </div>
-        </ScrollSyncPane>
+            >
+          <textarea
+            className={`theme-${foundUser.theme}`}
+            style={{
+              ...textAreaStyles,
+              borderRadius: '0 5px 5px 0',
+              backgroundColor: 'white',
+              fontFamily: 'JetBrains Mono',
+              borderColor: color,
+              border: '3px solid',
+              fontSize: '14px',
+              width: 'calc(100% - 10px)',
+            }}
+            disabled={true}
+            name='code'
+            value={output}
+          />
+            </div>
+          </ScrollSyncPane></> : <ThreeDots
+          height="80"
+          width="80"
+          radius="9"
+          color="gray"
+          ariaLabel="three-dots-loading"
+          wrapperStyle={{
+            textAlign: 'center',
+          }}
+          wrapperClassName=""
+          visible={true}
+        />}
       </Box>
     </ScrollSync>
   );
@@ -104,4 +116,5 @@ export default OutputField;
 
 OutputField.propTypes = {
   output: PropTypes.string,
+  isFinishedLoading: PropTypes.bool.isRequired,
 };
