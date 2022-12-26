@@ -9,6 +9,25 @@ $second-theme: #9a2150;
   }
 }
 
+#editor {
+display: flex;
+  @media (max-width: 1200px) {
+    flex-direction: column;
+  }
+  #code-editor-buttons {
+    display: flex;
+    flex-direction: column;
+    @media (max-width: 1200px) {
+      button {
+        width: 100%;
+        &:last-of-type {
+          margin-bottom: 20px;
+        }
+      }
+    }
+  }
+}
+
 .main-theme-1 {
   color: $second-theme;
 }
