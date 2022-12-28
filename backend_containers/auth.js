@@ -12,7 +12,8 @@ const jwtCheck = expressJwt({
     jwksRequestsPerMinute: 5,
     jwksUri: `https://${auth_url}/.well-known/jwks.json`,
   }),
-  audience: process.env.APP_AUDIENCE,
+  // audience: process.env.APP_AUDIENCE,
+  audience: 'http://backend_containers:5001',
   issuer: `https://${auth_url}/`,
   algorithms: ['RS256'],
 });
