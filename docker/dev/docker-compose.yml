@@ -9,7 +9,6 @@ services:
     volumes:
       - /home/${USER}/mongodb/database:/data/db
     environment:
-      - MONGO_INITDB_DATABASE=local
       - MONGO_INITDB_ROOT_USERNAME=user
       - MONGO_INITDB_ROOT_PASSWORD=secr3t
   backend:
@@ -23,18 +22,24 @@ services:
       - PORT=5000
       - MONGO_HOST=mongodb
       - MONGO_PORT=27017
-      - MONGO_DATABASE=local
       - MONGO_USERNAME=user
       - MONGO_PASSWORD=secr3t
       - REDIS_PORT=6379
       - REDIS_HOST=redis
       - REDIS_PASSWORD=secr3t
       - APP_DOMAIN=dev-v6t-co5x.us.auth0.com
-      - APP_CONTAINERS_CLIENT_ID=dzGcSwBjm0Roj6eZhnc1tjC284q242fW
-      - APP_CONTAINERS_CLIENT_SECRET=1ZgtLjP2kkJpJGK8xQ2uqCoJuKcZxCgiJVuBUFbY83MLHXlgEYGoro2y8zdsOLLz
+      # localhost:5001
+      # - APP_CONTAINERS_CLIENT_ID=QSvLjmFauHStq3f2TaCZoPKv7COiB3g6
+      # - APP_CONTAINERS_CLIENT_SECRET=_DmuijkjloZoW1SBSXi-QnjANrwqwL7P2R2XeUavl_17BxKtPIyYWvOBKYd0sUg3
       - APP_CONTAINERS_ADDRESS=http://backend_containers:5001
       - APP_AUDIENCE=http://localhost:5000
       - WEBSOCKET_PORT=5002
+      # localhost:5000
+      - APP_CONTAINERS_CLIENT_ID=dzGcSwBjm0Roj6eZhnc1tjC284q242fW
+      - APP_CONTAINERS_CLIENT_SECRET=1ZgtLjP2kkJpJGK8xQ2uqCoJuKcZxCgiJVuBUFbY83MLHXlgEYGoro2y8zdsOLLz
+      # backend_containers:5001
+      # - APP_CONTAINERS_CLIENT_ID=90QvzzznRcPk83lthmGVMRBDCRbxYYTh
+      # - APP_CONTAINERS_CLIENT_SECRET=TAnnCvrdfoPJOenHDPNHtOdYxwGtvRsuxwA0hawpR2uG7BuEef_LFFJ-88pf7Sgj
     volumes:
       - ../../backend:/opt/app
     ports:
@@ -58,7 +63,7 @@ services:
     ports:
       - '5001:5001'
     environment:
-      - APP_AUDIENCE=http://backend-containers:5001
+      - APP_AUDIENCE=http://localhost:5000
       - APP_DOMAIN=dev-v6t-co5x.us.auth0.com
   javascript:
     restart: always
@@ -144,12 +149,15 @@ services:
       - ../../frontend/node_modules:/opt/app/node_modules
       - ../../frontend:/opt/app
     environment:
-      - REACT_APP_CONTAINERS_ADDRESS=http://localhost:5001
-      - REACT_APP_BACKEND=http://localhost:5000
+      - REACT_APP_BACKEND_CLIENT_ID=dzGcSwBjm0Roj6eZhnc1tjC284q242fW
+      - REACT_APP_BACKEND_CLIENT_SECRET=1ZgtLjP2kkJpJGK8xQ2uqCoJuKcZxCgiJVuBUFbY83MLHXlgEYGoro2y8zdsOLLz
       - REACT_APP_DOMAIN=dev-v6t-co5x.us.auth0.com
       - REACT_APP_CLIENT_ID=S78rEYoT9kikIwcv3l0AI1Lg49AxSmMb
-      - REACT_APP_CONTAINERS_CLIENT_ID=7iSINn2Fvm0tkLKH8XwwyiqYYEzJFYSM
-      - REACT_APP_CONTAINERS_CLIENT_SECRET=D61mgH5J4q7CqwvcO6iJtggeL65qQZnWrdhRS2SXwoJTtgHSMJbGhdUWiAGWmVFJ
+      - REACT_APP_CONTAINERS_CLIENT_ID=QSvLjmFauHStq3f2TaCZoPKv7COiB3g6
+      - REACT_APP_CONTAINERS_CLIENT_SECRET=_DmuijkjloZoW1SBSXi-QnjANrwqwL7P2R2XeUavl_17BxKtPIyYWvOBKYd0sUg3
+      - REACT_APP_ADDRESS=http://localhost:3000
+      - REACT_APP_CONTAINERS_ADDRESS=http://localhost:5001
+      - REACT_APP_BACKEND=http://localhost:5000
       - REACT_APP_REDIRECT_URI=http://localhost:3000
       - REACT_APP_WEBSOCKET_ADDRESS=http://localhost:5002/
       - REACT_APP_LOGOUT_URL=http://localhost:3000

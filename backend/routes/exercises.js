@@ -152,11 +152,16 @@ router.post('/addExercise', async (req, res) => {
 });
 
 router.post('/checkBeforeAddExercise', async (req, res) => {
-  const data = req.body;
-  const counterCorrect = await runTests(data, data.exampleSolution);
-  return res
-    .status(200)
-    .send({ tests: data.tests.length, correct: counterCorrect });
+  try {
+    const data = req.body;
+    const counterCorrect = await runTests(data, data.exampleSolution);
+    return res
+      .status(200)
+      .send({ tests: data.tests.length, correct: counterCorrect });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
 });
 
 router.post('/checkSolution/:id', async (req, res) => {
