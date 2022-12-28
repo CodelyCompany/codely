@@ -27,7 +27,6 @@ const exerciseSchema = new Schema({
   argumentsName: [{ type: String }],
   types: [{ type: String }],
   functionSignature: { type: String, required: true },
-  argumentsName: [{ type: String }],
 });
 
 module.exports = model('Exercise', exerciseSchema);

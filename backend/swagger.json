@@ -7,9 +7,7 @@
   },
   "host": "localhost:5000",
   "basePath": "/",
-  "schemes": [
-    "http"
-  ],
+  "schemes": ["http"],
   "paths": {
     "/users/": {
       "get": {

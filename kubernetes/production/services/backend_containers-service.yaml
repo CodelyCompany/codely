@@ -1,14 +1,14 @@
 kind: Service
 apiVersion: v1
 metadata:
-    name: backend-containers
-    namespace: production
+  name: backend-containers
+  namespace: production
 spec:
-    type: ClusterIP
-    ports:
-        - port: 5001
-          targetPort: 5001
-          protocol: TCP
-    selector:
-        app: codely
-        type: backend-containers
+  type: ClusterIP
+  ports:
+    - port: 5001
+      targetPort: 5001
+      protocol: TCP
+  selector:
+    app: codely
+    type: backend-containers

@@ -22,7 +22,6 @@ export const GetUsers = (token) =>
     ],
   });
 
-
 export const AddUser = (body, token) =>
   createAction({
     endpoint: `${

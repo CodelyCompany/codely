@@ -14,79 +14,90 @@ import { getToken } from '../../ducks/token/selectors';
 import { getUserByUsername } from '../../ducks/user/selectors';
 
 const WrittenReviews = () => {
-    const { user } = useAuth0();
-    const navigate = useNavigate();
-    const foundUser = useSelector(getUserByUsername(user.nickname));
-    const reviews = useSelector(getReviewsByUserId(foundUser._id));
-    const exercises = useSelector(getExercisesFromState);
-    const token = useSelector(getToken);
-    const dispatch = useDispatch();
+  const { user } = useAuth0();
+  const navigate = useNavigate();
+  const foundUser = useSelector(getUserByUsername(user.nickname));
+  const reviews = useSelector(getReviewsByUserId(foundUser._id));
+  const exercises = useSelector(getExercisesFromState);
+  const token = useSelector(getToken);
+  const dispatch = useDispatch();
 
-    const color = useMemo(
-      () =>
-        parseInt(localStorage.getItem('theme') ?? 0) === 2
-          ? 'secondary.main'
-          : 'primary.main',
-      [localStorage.getItem('theme')]
-    );
+  const color = useMemo(
+    () =>
+      parseInt(localStorage.getItem('theme') ?? 0) === 2
+        ? 'secondary.main'
+        : 'primary.main',
+    [localStorage.getItem('theme')]
+  );
 
-    useEffect(() => {
-        dispatch(GetExercises(token));
-    }, [dispatch]);
+  useEffect(() => {
+    dispatch(GetExercises(token));
+  }, [dispatch]);
 
-    return (
-        <Box>
-            <Typography
-                marginBottom={3}
-                variant='h6'
-                color={color}
-                sx={{ fontWeight: 'bolder' }}>
-                Your reviews:
-            </Typography>
-        {
-            reviews && exercises && exercises.length > 0
-            ? reviews.map((review) =>
-                <Grid key={review._id} container spacing={2} className="review-card">
-                    <Grid item xs={6}>
-                        <Typography variant="h5">
-                            <span className='exercise-link'
-                                  onClick={() => navigate(`/Exercise/${review.exercise}`)}>
-                                { exercises.find((ex) => ex._id === review.exercise).title }
-                            </span>
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={6} className="rating">
-                        <Rating value={review.rating} size="large" readOnly />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography>{review.comment}</Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Box display='flex'>
-                            <ThumbUp color={color} />
-                            <Typography color={color} marginLeft={1}>
-                                {review.upvotes.length - review.downvotes.length}
-                            </Typography>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Typography className="timestamp">
-                            {review
-                            ? `${review.editedAt ? 'Edited ' : 'Created '}
+  return (
+    <Box>
+      <Typography
+        marginBottom={3}
+        variant='h6'
+        color={color}
+        sx={{ fontWeight: 'bolder' }}
+      >
+        Your reviews:
+      </Typography>
+      {reviews && exercises && exercises.length > 0
+        ? reviews.map((review) => (
+            <Grid
+              key={review._id}
+              container
+              spacing={2}
+              className='review-card'
+            >
+              <Grid item xs={6}>
+                <Typography variant='h5'>
+                  <span
+                    className='exercise-link'
+                    onClick={() => navigate(`/Exercise/${review.exercise}`)}
+                  >
+                    {exercises.find((ex) => ex._id === review.exercise).title}
+                  </span>
+                </Typography>
+              </Grid>
+              <Grid item xs={6} className='rating'>
+                <Rating value={review.rating} size='large' readOnly />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography>{review.comment}</Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Box display='flex'>
+                  <ThumbUp color={color} />
+                  <Typography color={color} marginLeft={1}>
+                    {review.upvotes.length - review.downvotes.length}
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography className='timestamp'>
+                  {review
+                    ? `${review.editedAt ? 'Edited ' : 'Created '}
                                     ${new Date(
-                                    review.editedAt ? review.editedAt : review.creationDate
+                                      review.editedAt
+                                        ? review.editedAt
+                                        : review.creationDate
                                     ).toLocaleDateString()} at
                                     ${new Date(
-                                    review.editedAt ? review.editedAt : review.creationDate
+                                      review.editedAt
+                                        ? review.editedAt
+                                        : review.creationDate
                                     ).toLocaleTimeString()}`
-                            : null}
-                        </Typography>
-                    </Grid>
-                </Grid>)
-            : null
-        }
-        </Box>
-    );
+                    : null}
+                </Typography>
+              </Grid>
+            </Grid>
+          ))
+        : null}
+    </Box>
+  );
 };
 
 export default WrittenReviews;
