@@ -17,7 +17,7 @@ async function getToken() {
       {
         client_id: process.env.APP_CONTAINERS_CLIENT_ID,
         client_secret: process.env.APP_CONTAINERS_CLIENT_SECRET,
-        audience: process.env.APP_CONTAINERS_ADDRESS,
+        audience: process.env.APP_AUDIENCE,
         grant_type: 'client_credentials',
       },
       {

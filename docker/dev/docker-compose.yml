@@ -28,18 +28,11 @@ services:
       - REDIS_HOST=redis
       - REDIS_PASSWORD=secr3t
       - APP_DOMAIN=dev-v6t-co5x.us.auth0.com
-      # localhost:5001
-      # - APP_CONTAINERS_CLIENT_ID=QSvLjmFauHStq3f2TaCZoPKv7COiB3g6
-      # - APP_CONTAINERS_CLIENT_SECRET=_DmuijkjloZoW1SBSXi-QnjANrwqwL7P2R2XeUavl_17BxKtPIyYWvOBKYd0sUg3
       - APP_CONTAINERS_ADDRESS=http://backend_containers:5001
       - APP_AUDIENCE=http://localhost:5000
       - WEBSOCKET_PORT=5002
-      # localhost:5000
       - APP_CONTAINERS_CLIENT_ID=dzGcSwBjm0Roj6eZhnc1tjC284q242fW
       - APP_CONTAINERS_CLIENT_SECRET=1ZgtLjP2kkJpJGK8xQ2uqCoJuKcZxCgiJVuBUFbY83MLHXlgEYGoro2y8zdsOLLz
-      # backend_containers:5001
-      # - APP_CONTAINERS_CLIENT_ID=90QvzzznRcPk83lthmGVMRBDCRbxYYTh
-      # - APP_CONTAINERS_CLIENT_SECRET=TAnnCvrdfoPJOenHDPNHtOdYxwGtvRsuxwA0hawpR2uG7BuEef_LFFJ-88pf7Sgj
     volumes:
       - ../../backend:/opt/app
     ports:
