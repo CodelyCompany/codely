@@ -11,7 +11,7 @@ spec:
     matchLabels:
       app: codely
       type: frontend
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       name: frontend-pod
@@ -34,5 +34,5 @@ spec:
           envFrom:
             - configMapRef:
                 name: frontend-configmap
-            - secretRef:
-                name: frontend-secret
+            # - secretRef:
+            #     name: frontend-secret

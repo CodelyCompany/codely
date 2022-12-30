@@ -5,4 +5,4 @@ metadata:
   name: backend-containers-configmap
   namespace: production
 data:
-  APP_AUDIENCE: http://backend-containers:5001
+  APP_AUDIENCE: http://localhost/api

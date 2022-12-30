@@ -11,7 +11,7 @@ spec:
     matchLabels:
       app: codely
       type: backend-containers
-  replicas: 7
+  replicas: 1
   template:
     metadata:
       name: backend-containers-pod
