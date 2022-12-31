@@ -50,7 +50,7 @@ const CodeField = ({ code, setCode, language }) => {
           }
           value={code}
           onChange={handleCodeChange}
-          width='70%'
+          width='100%'
         />
       </Box>
     </Box>
