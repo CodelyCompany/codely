@@ -10,7 +10,7 @@ import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync';
 
 import { getUserByUsername } from '../../ducks/user/selectors';
 
-const OutputField = ({ output, LoadingFinished }) => {
+const OutputField = ({ output, loadingFinished }) => {
   const { user } = useAuth0();
   const foundUser = useSelector(getUserByUsername(user.nickname));
   const [lineNumbering, setLineNumbering] = useState('');
@@ -50,63 +50,69 @@ const OutputField = ({ output, LoadingFinished }) => {
           maxHeight: '200px',
         }}
       >
-        {LoadingFinished ? <><ScrollSyncPane>
-          <textarea
-            className={`theme-${foundUser.theme}`}
-            id='line-numbering'
-            style={{
-              ...textAreaStyles,
-              borderRadius: '5px 0 0 5px',
-              overflow: 'auto',
-              border: '3px solid',
-              borderColor: color,
-              borderRight: 0,
-              paddingTop: '2px',
+        {loadingFinished ? (
+          <>
+            <ScrollSyncPane>
+              <textarea
+                className={`theme-${foundUser.theme}`}
+                id='line-numbering'
+                style={{
+                  ...textAreaStyles,
+                  borderRadius: '5px 0 0 5px',
+                  overflow: 'auto',
+                  border: '3px solid',
+                  borderColor: color,
+                  borderRight: 0,
+                  paddingTop: '2px',
+                }}
+                name='line-numbering'
+                disabled={true}
+                cols='3'
+                value={lineNumbering}
+              />
+            </ScrollSyncPane>
+            <ScrollSyncPane>
+              <div
+                className={`theme-${foundUser.theme}`}
+                style={{
+                  width: '100%',
+                  overflow: 'auto',
+                  height: '100%',
+                }}
+              >
+                <textarea
+                  className={`theme-${foundUser.theme}`}
+                  style={{
+                    ...textAreaStyles,
+                    borderRadius: '0 5px 5px 0',
+                    backgroundColor: 'white',
+                    fontFamily: 'JetBrains Mono',
+                    borderColor: color,
+                    border: '3px solid',
+                    fontSize: '14px',
+                    width: 'calc(100% - 10px)',
+                  }}
+                  disabled={true}
+                  name='code'
+                  value={output}
+                />
+              </div>
+            </ScrollSyncPane>
+          </>
+        ) : (
+          <ThreeDots
+            height='80'
+            width='80'
+            radius='9'
+            color='gray'
+            ariaLabel='three-dots-loading'
+            wrapperStyle={{
+              textAlign: 'center',
             }}
-            name='line-numbering'
-            disabled={true}
-            cols='3'
-            value={lineNumbering}
+            wrapperClassName=''
+            visible={true}
           />
-        </ScrollSyncPane>
-          <ScrollSyncPane>
-            <div
-              className={`theme-${foundUser.theme}`}
-              style={{
-                width: '100%',
-                overflow: 'auto',
-                height: '100%',
-              }}
-            >
-          <textarea
-            className={`theme-${foundUser.theme}`}
-            style={{
-              ...textAreaStyles,
-              borderRadius: '0 5px 5px 0',
-              backgroundColor: 'white',
-              fontFamily: 'JetBrains Mono',
-              borderColor: color,
-              border: '3px solid',
-              fontSize: '14px',
-              width: 'calc(100% - 10px)',
-            }}
-            disabled={true}
-            name='code'
-            value={output}
-          />
-            </div>
-          </ScrollSyncPane></> : <ThreeDots
-          height="80"
-          width="80"
-          radius="9"
-          color="gray"
-          ariaLabel="three-dots-loading"
-          wrapperStyle={{
-            textAlign: 'center',
-          }}
-          wrapperClassName=""
-          visible={true}
-        />}
+        )}
       </Box>
     </ScrollSync>
   );
@@ -116,5 +122,5 @@ export default OutputField;
 
 OutputField.propTypes = {
   output: PropTypes.string,
-  LoadingFinished: PropTypes.bool.isRequired,
+  loadingFinished: PropTypes.bool.isRequired,
 };

@@ -69,7 +69,9 @@ const Editor = () => {
           <br />
           <CodeField language={language} code={code} setCode={setCode} />
         </Box>
-        {(output || !loadingFinished) && <OutputField output={output} loadingFinished={loadingFinished} />}
+        {(output || !loadingFinished) && (
+          <OutputField output={output} loadingFinished={loadingFinished} />
+        )}
       </Box>
     </Container>
   );
