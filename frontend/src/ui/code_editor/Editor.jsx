@@ -13,7 +13,7 @@ const Editor = () => {
   const [code, setCode] = useState('');
   const [output, setOutput] = useState(null);
   const [language, setLanguage] = useState('JavaScript');
-  const [isFinishedLoading, setIsFinishedLoading] = useState(true);
+  const [loadingFinished, setLoadingFinished] = useState(true);
 
   const color = useMemo(
     () =>
@@ -62,14 +62,14 @@ const Editor = () => {
               code={code}
               setOutput={setOutput}
               language={language}
-              isFinishedLoading={isFinishedLoading}
-              setIsFinishedLoading={setIsFinishedLoading}
+              loadingFinished={loadingFinished}
+              setLoadingFinished={setLoadingFinished}
             />
           </Box>
           <br />
           <CodeField language={language} code={code} setCode={setCode} />
         </Box>
-        {(output || !isFinishedLoading) && <OutputField output={output} isFinishedLoading={isFinishedLoading} />}
+        {(output || !loadingFinished) && <OutputField output={output} loadingFinished={loadingFinished} />}
       </Box>
     </Container>
   );

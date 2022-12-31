@@ -47,7 +47,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
   const [argumentValues, setArgumentValues] = useState([]);
   const [open, setOpen] = useState(false);
   const [output, setOutput] = useState('');
-  const [isFinishedLoading, setIsFinishedLoading] = useState(true);
+  const [loadingFinished, setLoadingFinished] = useState(true);
 
   const { user } = useAuth0();
   const foundUser = useSelector(getUserByUsername(user.nickname));
@@ -286,7 +286,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
               setArgumentValues={setArgumentValues}
             />
             <Buttons
-              setIsFinishedLoading={setIsFinishedLoading}
+              setLoadingFinished={setLoadingFinished}
               code={code}
               won={!opponentFinish}
               setOutput={setOutput}
@@ -300,7 +300,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
               language={exercise.programmingLanguage}
               functionSignature={exercise.functionSignature}
             />
-            {output && <OutputField output={output} isFinishedLoading={isFinishedLoading}/>}
+            {output && <OutputField output={output} loadingFinished={loadingFinished}/>}
           </Box>
         </Container>
       </>

@@ -23,7 +23,7 @@ const Buttons = ({
   functionName,
   argumentValues,
   language,
-  setIsFinishedLoading,
+  setLoadingFinished,
 }) => {
   const { t } = useTranslation();
   const { user } = useAuth0();
@@ -39,7 +39,7 @@ const Buttons = ({
     [localStorage.getItem('theme')]
   );
   const runCode = (code) => {
-    setIsFinishedLoading(false);
+    setLoadingFinished(false);
     axios
       .post(
         `${
@@ -60,7 +60,7 @@ const Buttons = ({
         setOutput(response.data.output.toString());
       })
       .catch((err) => console.log(err))
-      .finally(() => setIsFinishedLoading(true));
+      .finally(() => setLoadingFinished(true));
   };
 
   const finishEx = () => {
@@ -132,5 +132,5 @@ Buttons.propTypes = {
   functionName: PropTypes.string.isRequired,
   argumentValues: PropTypes.array.isRequired,
   language: PropTypes.string.isRequired,
-  setIsFinishedLoading: PropTypes.func.isRequired,
+  setLoadingFinished: PropTypes.func.isRequired,
 };

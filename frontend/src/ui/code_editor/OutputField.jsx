@@ -10,7 +10,7 @@ import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync';
 
 import { getUserByUsername } from '../../ducks/user/selectors';
 
-const OutputField = ({ output, isFinishedLoading }) => {
+const OutputField = ({ output, LoadingFinished }) => {
   const { user } = useAuth0();
   const foundUser = useSelector(getUserByUsername(user.nickname));
   const [lineNumbering, setLineNumbering] = useState('');
@@ -50,7 +50,7 @@ const OutputField = ({ output, isFinishedLoading }) => {
           maxHeight: '200px',
         }}
       >
-        {isFinishedLoading ? <><ScrollSyncPane>
+        {LoadingFinished ? <><ScrollSyncPane>
           <textarea
             className={`theme-${foundUser.theme}`}
             id='line-numbering'
@@ -116,5 +116,5 @@ export default OutputField;
 
 OutputField.propTypes = {
   output: PropTypes.string,
-  isFinishedLoading: PropTypes.bool.isRequired,
+  LoadingFinished: PropTypes.bool.isRequired,
 };

@@ -26,7 +26,7 @@ const EditorField = ({
   const [code, setCode] = useState(functionSignature);
   const [output, setOutput] = useState('');
   const [tests, setTests] = useState({});
-  const [isFinishedLoading, setIsFinishedLoading] = useState(true);
+  const [loadingFinished, setLoadingFinished] = useState(true);
   const { user } = useAuth0();
   const foundUser = useSelector(getUserByUsername(user.nickname));
   const color = useMemo(
@@ -49,7 +49,7 @@ const EditorField = ({
           argumentValues={argumentValues}
         />
         <Buttons
-          setIsFinishedLoading={setIsFinishedLoading}
+          setLoadingFinished={setLoadingFinished}
           argumentValues={argumentValues}
           setOutput={setOutput}
           code={code}
@@ -78,7 +78,7 @@ const EditorField = ({
           width='100%'
         />
       </Box>
-      {output && <OutputField output={output} isFinishedLoading={isFinishedLoading} />}
+      {output && <OutputField output={output} loadingFinished={loadingFinished} />}
       {!_.isEmpty(tests) && <Tests tests={tests} />}
     </Box>
   );

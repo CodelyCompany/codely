@@ -26,7 +26,7 @@ const Buttons = ({
   token,
   argumentValues,
   functionName,
-  setIsFinishedLoading,
+  seLoadingFinished,
 }) => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -47,7 +47,7 @@ const Buttons = ({
 
   const { t } = useTranslation();
   const runCode = (code) => {
-    setIsFinishedLoading(false);
+    seLoadingFinished(false);
     axios
       .post(
         `${
@@ -70,7 +70,7 @@ const Buttons = ({
         setOutput(response.data.output.toString());
       })
       .catch((err) => console.log(err))
-      .finally(() => setIsFinishedLoading(true));
+      .finally(() => seLoadingFinished(true));
   };
 
   const submitExercise = () => {
@@ -153,5 +153,5 @@ Buttons.propTypes = {
   token: PropTypes.string,
   argumentValues: PropTypes.array.isRequired,
   functionName: PropTypes.string.isRequired,
-  setIsFinishedLoading: PropTypes.func.isRequired,
+  seLoadingFinished: PropTypes.func.isRequired,
 };
