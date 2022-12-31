@@ -13,6 +13,8 @@ const Editor = () => {
   const [code, setCode] = useState('');
   const [output, setOutput] = useState(null);
   const [language, setLanguage] = useState('JavaScript');
+  const [loadingFinished, setLoadingFinished] = useState(true);
+
   const color = useMemo(
     () =>
       parseInt(localStorage.getItem('theme') ?? 0) === 2
@@ -55,13 +57,21 @@ const Editor = () => {
               flexDirection: 'column',
             }}
           >
-            <LanguageSelector language={language} setLanguage={setLanguage} />{' '}
-            <RunButton code={code} setOutput={setOutput} language={language} />
-          </Box>{' '}
+            <LanguageSelector language={language} setLanguage={setLanguage} />
+            <RunButton
+              code={code}
+              setOutput={setOutput}
+              language={language}
+              loadingFinished={loadingFinished}
+              setLoadingFinished={setLoadingFinished}
+            />
+          </Box>
           <br />
           <CodeField language={language} code={code} setCode={setCode} />
         </Box>
-        {output && <OutputField output={output} />}
+        {(output || !loadingFinished) && (
+          <OutputField output={output} loadingFinished={loadingFinished} />
+        )}
       </Box>
     </Container>
   );

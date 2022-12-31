@@ -65,8 +65,9 @@ const VersusFound = ({
                 <span style={{ color: 'green' }}>
                   {t('We found an opponent for you!')}{' '}
                 </span>{' '}
-                {t(`If you are ready to compete with your opponent, please accept
-                the game.`)}
+                {t(
+                  `If you are ready to compete with your opponent, please accept the game.`
+                )}
               </>
             )}
           </DialogContentText>

@@ -15,25 +15,26 @@ import { getToken } from '../../../ducks/token/selectors';
 import { getUserByUsername } from '../../../ducks/user/selectors';
 import GetToken from '../GetToken';
 
-const columns = [
-  {
-    field: 'title',
-    headerName: 'Title',
-    flex: 1,
-  },
-  {
-    field: 'author',
-    headerName: 'Author',
-    flex: 1,
-  },
-];
-
 function CheckedExercise({ checkedExercises, GetExercises, token }) {
   const { t } = useTranslation();
   const rows = useMemo(
     () => (checkedExercises ? checkedExercises : []),
     [checkedExercises]
   );
+
+  const columns = [
+    {
+      field: 'title',
+      headerName: t('Title'),
+      flex: 1,
+    },
+    {
+      field: 'author',
+      headerName: t('Author'),
+      flex: 1,
+    },
+  ];
+
   const color = useMemo(
     () =>
       parseInt(localStorage.getItem('theme') ?? 0) === 2

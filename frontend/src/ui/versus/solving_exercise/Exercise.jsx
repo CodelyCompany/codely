@@ -47,6 +47,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
   const [argumentValues, setArgumentValues] = useState([]);
   const [open, setOpen] = useState(false);
   const [output, setOutput] = useState('');
+  const [loadingFinished, setLoadingFinished] = useState(true);
 
   const { user } = useAuth0();
   const foundUser = useSelector(getUserByUsername(user.nickname));
@@ -132,8 +133,9 @@ const Exercise = ({ GetExercises, token, socket }) => {
             }}
           >
             <span style={{ fontWeight: 'bolder' }}>
-              {t(`You are in versus mode. Try to solve this exercise faster than
-              your opponent.`)}
+              {t(
+                `You are in versus mode. Try to solve this exercise faster than your opponent.`
+              )}
             </span>{' '}
             <span
               className={`theme-${foundUser.theme}`}
@@ -161,7 +163,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
               }}
             >
               <span>
-                {t('You:')}{' '}
+                {t('You-key')}
                 {won ? (
                   <CheckIcon
                     color='success'
@@ -285,6 +287,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
               setArgumentValues={setArgumentValues}
             />
             <Buttons
+              setLoadingFinished={setLoadingFinished}
               code={code}
               won={!opponentFinish}
               setOutput={setOutput}
@@ -298,7 +301,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
               language={exercise.programmingLanguage}
               functionSignature={exercise.functionSignature}
             />
-            {output && <OutputField output={output} />}
+            {output && <OutputField output={output} loadingFinished={loadingFinished}/>}
           </Box>
         </Container>
       </>

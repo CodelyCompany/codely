@@ -11,7 +11,7 @@ import { getToken } from '../../ducks/token/selectors';
 import RunAlert from '../popups/RunAlert';
 import GetToken from '../user/GetToken';
 
-const RunButton = ({ code, setOutput, language, token }) => {
+const RunButton = ({ code, setOutput, language, token, loadingFinished, setLoadingFinished }) => {
   const color = useMemo(
     () =>
       parseInt(localStorage.getItem('theme') ?? 0) === 2
@@ -34,6 +34,7 @@ const RunButton = ({ code, setOutput, language, token }) => {
   const { t } = useTranslation();
 
   const runCode = (code) => {
+    setLoadingFinished(false);
     axios
       .post(
         `${
@@ -53,7 +54,8 @@ const RunButton = ({ code, setOutput, language, token }) => {
         setTriggerAlert(true);
         setOutput(response.data.output.toString());
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => setLoadingFinished(true));
   };
 
   return (
@@ -64,7 +66,12 @@ const RunButton = ({ code, setOutput, language, token }) => {
         setTriggered={setTriggerAlert}
         code={status}
       />
-      <Button variant='outlined' sx={style} onClick={() => runCode(code)}>
+      <Button
+        disabled={!loadingFinished}
+        variant='outlined'
+        sx={style}
+        onClick={() => runCode(code)}
+      >
         <VscDebugStart style={{ position: 'relative', bottom: '3px' }} />
         {t('Run')}
       </Button>
@@ -83,4 +90,6 @@ RunButton.propTypes = {
   setOutput: PropTypes.func.isRequired,
   language: PropTypes.string.isRequired,
   token: PropTypes.string,
+  loadingFinished: PropTypes.bool.isRequired,
+  setLoadingFinished: PropTypes.func.isRequired,
 };

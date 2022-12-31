@@ -8,6 +8,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FixedSizeList } from 'react-window';
@@ -17,6 +18,7 @@ import { getUserByUsername } from '../../ducks/user/selectors';
 import PreparedExercisesChart from './PreparedExercisesChart';
 
 function UserExercisesList({ exercises, mode }) {
+  const { t } = useTranslation();
   const color = useMemo(
     () =>
       parseInt(localStorage.getItem('theme') ?? 0) === 2
@@ -64,7 +66,9 @@ function UserExercisesList({ exercises, mode }) {
       }}
     >
       <Typography variant='h6' sx={{ fontWeight: 'bolder', color }}>
-        {mode === 'prepared' ? 'Your prepared exercises:' : 'Done exercises:'}
+        {mode === 'prepared'
+          ? t('Your prepared exercises:')
+          : t('Done exercises:')}
       </Typography>
       <FixedSizeList
         height={100}

@@ -31,7 +31,17 @@ const VersusResults = ({ won, lost }) => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-      <Typography variant='h6' sx={{ fontWeight: 'bolder', color }}>
+      <Typography
+        variant='h6'
+        sx={{
+          fontWeight: 'bolder',
+          borderTop:
+            parseInt(localStorage.getItem('theme') ?? 0) === 0
+              ? '3px solid black'
+              : '3px solid',
+          color,
+        }}
+      >
         {t('Your versus stats')}
       </Typography>
       <Doughnut
@@ -44,7 +54,6 @@ const VersusResults = ({ won, lost }) => {
         }}
         data={data}
       />
-      ;
     </Box>
   );
 };

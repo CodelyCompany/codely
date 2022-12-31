@@ -16,8 +16,8 @@ const RunAlert = ({ triggered, setTriggered, code }) => {
   const messages = useMemo(
     () =>
       code === 200
-        ? { severity: 'success', message: t('Your code compiled successfully') }
-        : { severity: 'error', message: t('Your code compiled with errors') },
+        ? { severity: 'success', message: t('Your code ran successfully') }
+        : { severity: 'error', message: t('Your code ran with errors') },
     [code]
   );
 

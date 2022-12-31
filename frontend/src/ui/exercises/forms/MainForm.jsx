@@ -111,8 +111,8 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
         <AccordionDetails sx={{ textAlign: 'center' }}>
           <Typography sx={{ margin: '10px', fontWeight: 'bolder', color }}>
             {t(
-              `Here you can set title, description and difficulty of your exercise.
-              Remember to set the most proper programming language!`
+              // eslint-disable-next-line max-len
+              `Here you can set title, description and difficulty of your exercise. Remember to set the most proper programming language!`
             )}
           </Typography>
           <ExercisesForm setStep={setStep} dataToEdit={exercise} step={step} />
@@ -134,8 +134,10 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
           <Typography sx={{ margin: '10px', fontWeight: 'bolder', color }}>
-            {t(`Here you can set amount of arguments for your function. You have
-            to set the name for each argument.`)}
+            {t(
+              // eslint-disable-next-line max-len
+              `Here you can set amount of arguments for your function. You have to set the name for each argument.`
+            )}
           </Typography>
           <CustomizeExercise
             step={step}
@@ -160,8 +162,9 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
           <Typography sx={{ margin: '10px', fontWeight: 'bolder', color }}>
-            {t(`Choose quantity of your tests, then write expected outputs for each
-            of your inputs.`)}
+            {t(
+              `Choose quantity of your tests, then write expected outputs for each of your inputs.`
+            )}
           </Typography>
           <TestsForm setStep={setStep} dataToEdit={exercise} step={step} />
         </AccordionDetails>
@@ -181,8 +184,8 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
         <AccordionDetails sx={{ textAlign: 'center' }}>
           <Typography sx={{ margin: '10px', fontWeight: 'bolder', color }}>
             {t(
-              `Here you can choose quantity of your hints.
-               Remember that not all users will be able to solve your exercise without some help.`
+              // eslint-disable-next-line max-len
+              `Here you can choose quantity of your hints. Remember that not all users will be able to solve your exercise without some help.`
             )}
           </Typography>
           <HintsForms step={step} setStep={setStep} dataToEdit={exercise} />
@@ -205,9 +208,10 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: 'center' }}>
           <Typography sx={{ margin: '10px', fontWeight: 'bolder', color }}>
-            {t(`Here you have to write an example solution to guarantee that your
-            exercise is solvable. After solving, your exercise will be send to
-            the admin to get an agreement.`)}
+            {t(
+              // eslint-disable-next-line max-len
+              `Here you have to write an example solution to guarantee that your exercise is solvable. After solving, your exercise will be send to the admin to get an agreement.`
+            )}
           </Typography>
           <ExampleSolution
             step={step}
