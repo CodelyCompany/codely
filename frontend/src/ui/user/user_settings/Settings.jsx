@@ -72,7 +72,7 @@ const Settings = ({ UpdateUser, UploadAvatar, token }) => {
           {t('Upload your avatar')}
         </Typography>
         <Button variant='contained' color={colorOpt} component='label'>
-          {'Choose file (.png)'}
+          {t('Choose file (.png)')}
           <input type='file' hidden onChange={handleNewImage} />
         </Button>
       </Box>

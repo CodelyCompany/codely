@@ -132,8 +132,9 @@ const Exercise = ({ GetExercises, token, socket }) => {
             }}
           >
             <span style={{ fontWeight: 'bolder' }}>
-              {t(`You are in versus mode. Try to solve this exercise faster than
-              your opponent.`)}
+              {t(
+                `You are in versus mode. Try to solve this exercise faster than your opponent.`
+              )}
             </span>{' '}
             <span
               className={`theme-${foundUser.theme}`}
@@ -161,7 +162,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
               }}
             >
               <span>
-                {t('You:')}{' '}
+                {t('You-key')}
                 {won ? (
                   <CheckIcon
                     color='success'

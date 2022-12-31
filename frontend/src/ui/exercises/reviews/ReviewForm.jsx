@@ -102,7 +102,7 @@ const ReviewForm = ({ review, token }) => {
         {editing ? (
           <TextField
             color={color}
-            label='Comment'
+            label={t('Comment')}
             variant='outlined'
             multiline
             fullWidth

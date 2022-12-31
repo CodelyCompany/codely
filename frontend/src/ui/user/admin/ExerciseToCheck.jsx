@@ -15,19 +15,6 @@ import { getUserByUsername } from '../../../ducks/user/selectors';
 
 import ExerciseDialog from './ExerciseDialog';
 
-const columns = [
-  {
-    field: 'title',
-    headerName: 'Title',
-    flex: 1,
-  },
-  {
-    field: 'author',
-    headerName: 'Author',
-    flex: 1,
-  },
-];
-
 const useStyles = makeStyles({
   root: {
     '&.MuiDataGrid-root .MuiDataGrid-cell:focus': {
@@ -46,6 +33,20 @@ function ExerciseToCheck({ uncheckedExercises, GetUncheckedExercises, token }) {
   const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
     theme: 0,
   };
+
+  const columns = [
+    {
+      field: 'title',
+      headerName: t('Title'),
+      flex: 1,
+    },
+    {
+      field: 'author',
+      headerName: t('Author'),
+      flex: 1,
+    },
+  ];
+
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState({});
   const color = useMemo(
