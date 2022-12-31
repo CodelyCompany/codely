@@ -8,6 +8,16 @@ $second-theme: #9a2150;
     align-items: start;
   }
 }
+#admin-tables {
+  width: 100%;
+  display: flex;
+  @media (max-width: 800px) {
+    flex-direction: column;
+    div {
+      width: calc(100% - 30px);
+    }
+  }
+}
 
 #versus-image {
   width: 100%;
