@@ -79,9 +79,9 @@ const FinishDialog = ({ open, setOpen, won, DisconnectSocket }) => {
                   'You solved this exercise slower than your opponent. Better luck next time!'
                 )}
             {won ? (
-              <img src={wonImage} alt='easy peasy image' />
+              <img id='versus-image' src={wonImage} alt='easy peasy image' />
             ) : (
-              <img src={lostImage} alt='coffin dance image' />
+              <img id='versus-image' src={lostImage} alt='coffin dance image' />
             )}
           </DialogContentText>
         </DialogContent>
