@@ -11,7 +11,7 @@ spec:
     matchLabels:
       app: codely
       type: backend-containers
-  replicas: 1
+  replicas: 7
   template:
     metadata:
       name: backend-containers-pod
@@ -30,7 +30,5 @@ spec:
               memory: '150Mi'
               cpu: '1000m'
           envFrom:
-            - configMapRef:
-                name: backend-containers-configmap
             - secretRef:
                 name: backend-containers-secret
