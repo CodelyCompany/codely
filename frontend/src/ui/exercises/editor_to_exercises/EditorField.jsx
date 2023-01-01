@@ -48,8 +48,10 @@ const EditorField = ({
           setArgumentValues={setArgumentValues}
           argumentValues={argumentValues}
         />
+        {console.log(loadingFinished)}
         <Buttons
           setLoadingFinished={setLoadingFinished}
+          loadingFinished={loadingFinished}
           argumentValues={argumentValues}
           setOutput={setOutput}
           code={code}
@@ -78,7 +80,9 @@ const EditorField = ({
           width='100%'
         />
       </Box>
-      {output && <OutputField output={output} loadingFinished={loadingFinished} />}
+      {output && (
+        <OutputField output={output} loadingFinished={loadingFinished} />
+      )}
       {!_.isEmpty(tests) && <Tests tests={tests} />}
     </Box>
   );

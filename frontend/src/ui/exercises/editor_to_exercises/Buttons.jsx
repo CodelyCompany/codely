@@ -27,6 +27,7 @@ const Buttons = ({
   argumentValues,
   functionName,
   setLoadingFinished,
+  loadingFinished,
 }) => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -74,6 +75,7 @@ const Buttons = ({
   };
 
   const submitExercise = () => {
+    setLoadingFinished(false);
     axios
       .post(
         `${
@@ -86,7 +88,8 @@ const Buttons = ({
         setTriggerSubmitAlert(true);
         setTests(response.data);
         dispatch(GetUsers(token));
-      });
+      })
+      .finally(() => setLoadingFinished(true));
   };
 
   return (
@@ -94,8 +97,9 @@ const Buttons = ({
       <GetToken />
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Box>
-          {' '}
+          {console.log(loadingFinished)}
           <Button
+            disabled={!loadingFinished}
             color={color}
             onClick={() => runCode(code)}
             sx={{ margin: '5px', width: '100px' }}
@@ -104,6 +108,7 @@ const Buttons = ({
             {t('Run')}
           </Button>
           <Button
+            disabled={!loadingFinished}
             color={color}
             onClick={() => submitExercise()}
             sx={{ width: '100px' }}
@@ -154,4 +159,5 @@ Buttons.propTypes = {
   argumentValues: PropTypes.array.isRequired,
   functionName: PropTypes.string.isRequired,
   setLoadingFinished: PropTypes.func.isRequired,
+  loadingFinished: PropTypes.bool.isRequired,
 };
