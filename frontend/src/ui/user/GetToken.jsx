@@ -8,7 +8,7 @@ import { getToken } from '../../ducks/token/selectors';
 
 function GetToken({ token, GetAuthToken }) {
   useEffect(() => {
-    // if (!token) GetAuthToken();
+    if (!token) GetAuthToken();
   }, []);
 }
 
