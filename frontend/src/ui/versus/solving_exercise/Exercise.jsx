@@ -288,6 +288,7 @@ const Exercise = ({ GetExercises, token, socket }) => {
             />
             <Buttons
               setLoadingFinished={setLoadingFinished}
+              loadingFinished={loadingFinished}
               code={code}
               won={!opponentFinish}
               setOutput={setOutput}
@@ -301,7 +302,9 @@ const Exercise = ({ GetExercises, token, socket }) => {
               language={exercise.programmingLanguage}
               functionSignature={exercise.functionSignature}
             />
-            {output && <OutputField output={output} loadingFinished={loadingFinished}/>}
+            {output && (
+              <OutputField output={output} loadingFinished={loadingFinished} />
+            )}
           </Box>
         </Container>
       </>
