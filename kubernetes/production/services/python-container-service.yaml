@@ -1,14 +1,14 @@
 kind: Service
 apiVersion: v1
 metadata:
-    name: python
-    namespace: production
+  name: python
+  namespace: production
 spec:
-    type: ClusterIP
-    ports:
-        - port: 6001
-          targetPort: 6001
-          protocol: TCP
-    selector:
-        app: codely
-        type: python-container
+  type: ClusterIP
+  ports:
+    - port: 6001
+      targetPort: 6001
+      protocol: TCP
+  selector:
+    app: codely
+    type: python-container

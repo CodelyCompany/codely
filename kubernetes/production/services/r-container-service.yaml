@@ -1,14 +1,14 @@
 kind: Service
 apiVersion: v1
 metadata:
-    name: r
-    namespace: production
+  name: r
+  namespace: production
 spec:
-    type: ClusterIP
-    ports:
-        - port: 6003
-          targetPort: 6003
-          protocol: TCP
-    selector:
-        app: codely
-        type: r-container
+  type: ClusterIP
+  ports:
+    - port: 6003
+      targetPort: 6003
+      protocol: TCP
+  selector:
+    app: codely
+    type: r-container

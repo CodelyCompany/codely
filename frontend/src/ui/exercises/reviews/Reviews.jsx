@@ -33,7 +33,9 @@ const Reviews = () => {
 
   useEffect(() => {
     setUsersReview(reviews.find((review) => review.author === foundUser._id));
-    setReviewable(foundUser && foundUser.doneExercises.find((ex) => ex._id === id));
+    setReviewable(
+      foundUser && foundUser.doneExercises.find((ex) => ex._id === id)
+    );
   }, [foundUser]);
 
   return (
@@ -48,13 +50,13 @@ const Reviews = () => {
           {t('Reviews')}
         </Typography>
         <Box>
-        {
-          reviewable
-          ? <ReviewForm review={usersReview} />
-          : <Typography variant='h6' textAlign='center' marginBottom={3}>
-              {t("You need to solve the exercise before reviewing it")}
+          {reviewable ? (
+            <ReviewForm review={usersReview} />
+          ) : (
+            <Typography variant='h6' textAlign='center' marginBottom={3}>
+              {t('You need to solve the exercise before reviewing it')}
             </Typography>
-        }
+          )}
         </Box>
         <Box>
           {reviews

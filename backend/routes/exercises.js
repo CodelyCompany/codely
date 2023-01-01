@@ -10,18 +10,31 @@ require('dotenv').config();
 const backendContainersAddress =
   process.env.APP_CONTAINERS_ADDRESS || 'http://localhost:5001';
 
+async function getToken() {
+  try {
+    const response = await axios.post(
+      `https://${process.env.APP_DOMAIN}/oauth/token`,
+      {
+        client_id: process.env.APP_CONTAINERS_CLIENT_ID,
+        client_secret: process.env.APP_CONTAINERS_CLIENT_SECRET,
+        audience: process.env.APP_AUDIENCE,
+        grant_type: 'client_credentials',
+      },
+      {
+        headers: {
+          'content-type': 'application/json',
+          'Accept-Encoding': 'application/json',
+        },
+      }
+    );
+    return response.data.access_token;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 async function runTests(exercise, solution) {
-  // const token = await axios.post(
-  //     `https://${process.env.APP_DOMAIN}/oauth/token`,
-  //     {
-  //         client_id: process.env.APP_CONTAINERS_CLIENT_ID,
-  //         client_secret: process.env.APP_CONTAINERS_CLIENT_SECRET,
-  //         audience: `${
-  //             process.env.APP_CONTAINERS_ADDRESS || 'httpa://localhost:5001'
-  //         }`,
-  //         grant_type: 'client_credentials',
-  //     }
-  // );
+  const token = await getToken();
   let counterCorrect = 0;
   for (let i = 0; i < exercise.tests.length; i++) {
     const element = exercise.tests[i];
@@ -33,6 +46,9 @@ async function runTests(exercise, solution) {
         toExecute: solution,
         args: element.input,
         func: exercise.functionName,
+      },
+      {
+        headers: { authorization: `Bearer ${token}` },
       }
     );
     const res1 = response.data.output.replace(/(\r\n|\n|\r)/gm, '');
@@ -152,11 +168,16 @@ router.post('/addExercise', async (req, res) => {
 });
 
 router.post('/checkBeforeAddExercise', async (req, res) => {
-  const data = req.body;
-  const counterCorrect = await runTests(data, data.exampleSolution);
-  return res
-    .status(200)
-    .send({ tests: data.tests.length, correct: counterCorrect });
+  try {
+    const data = req.body;
+    const counterCorrect = await runTests(data, data.exampleSolution);
+    return res
+      .status(200)
+      .send({ tests: data.tests.length, correct: counterCorrect });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
 });
 
 router.post('/checkSolution/:id', async (req, res) => {

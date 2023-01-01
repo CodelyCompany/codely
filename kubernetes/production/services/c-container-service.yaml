@@ -1,14 +1,14 @@
 kind: Service
 apiVersion: v1
 metadata:
-    name: c
-    namespace: production
+  name: c
+  namespace: production
 spec:
-    type: ClusterIP
-    ports:
-        - port: 6006
-          targetPort: 6006
-          protocol: TCP
-    selector:
-        app: codely
-        type: c-container
+  type: ClusterIP
+  ports:
+    - port: 6006
+      targetPort: 6006
+      protocol: TCP
+  selector:
+    app: codely
+    type: c-container

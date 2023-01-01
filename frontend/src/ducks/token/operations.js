@@ -12,9 +12,7 @@ export const GetAuthToken = () =>
     body: JSON.stringify({
       client_id: process.env.REACT_APP_BACKEND_CLIENT_ID,
       client_secret: process.env.REACT_APP_BACKEND_CLIENT_SECRET,
-      audience: `${
-        process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-      }`,
+      audience: `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}`,
       grant_type: 'client_credentials',
     }),
     types: [

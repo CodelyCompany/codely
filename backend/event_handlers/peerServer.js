@@ -123,7 +123,7 @@ const cancelGame = (id) => {
   const users = io.sockets.adapter.nsp.sockets;
   [0, 1].forEach((num) => {
     users.get(room[num]).leave(`/game-${id}`);
-    users.get(room[num]).join(`/waiting`);
+    users.get(room[num]).join('/waiting');
   });
 };
 

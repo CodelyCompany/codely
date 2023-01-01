@@ -30,7 +30,5 @@ spec:
               memory: '150Mi'
               cpu: '1000m'
           envFrom:
-            - configMapRef:
-                name: backend-containers-configmap
             - secretRef:
                 name: backend-containers-secret
