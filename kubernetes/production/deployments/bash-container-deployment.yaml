@@ -6,6 +6,7 @@ metadata:
   labels:
     app: codely
     type: bash-container
+    network: closed
 spec:
   selector:
     matchLabels:

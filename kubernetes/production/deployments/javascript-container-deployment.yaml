@@ -6,11 +6,13 @@ metadata:
   labels:
     app: codely
     type: javascript-container
+    network: closed
 spec:
   selector:
     matchLabels:
       app: codely
       type: javascript-container
+      network: closed
   replicas: 3
   template:
     metadata:
@@ -18,6 +20,7 @@ spec:
       labels:
         app: codely
         type: javascript-container
+        network: closed
     spec:
       containers:
         - name: javascript-container

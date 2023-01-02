@@ -4,6 +4,7 @@ kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.6.1/aio/deploy/recommended.yaml
 sleep 2
 kubectl apply -f ../kubernetes/production/production-namespace.yaml
+kubectl apply -f ../kubernetes/production/network-policy-containers.yaml
 kubectl apply -f ../kubernetes/production/secrets/
 kubectl apply -f ../kubernetes/production/configmaps/
 kubectl apply -f ../kubernetes/production/services/
