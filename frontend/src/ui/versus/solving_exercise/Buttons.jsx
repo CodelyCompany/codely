@@ -24,6 +24,7 @@ const Buttons = ({
   argumentValues,
   language,
   setLoadingFinished,
+  loadingFinished,
 }) => {
   const { t } = useTranslation();
   const { user } = useAuth0();
@@ -64,6 +65,7 @@ const Buttons = ({
   };
 
   const finishEx = () => {
+    setLoadingFinished(false);
     axios
       .put(
         `${process.env.REACT_APP_BACKEND}/exercises/checkVersus/${id}/room/${roomId}`,
@@ -87,7 +89,8 @@ const Buttons = ({
         }
         setPassed(false);
         setTriggered(true);
-      });
+      })
+      .finally(() => setLoadingFinished(true));
   };
 
   return (
@@ -101,10 +104,20 @@ const Buttons = ({
       <Box
         id='versus-run-buttons'
       >
-        <Button color={color} variant='contained' onClick={() => runCode(code)}>
+        <Button
+          disabled={!loadingFinished}
+          color={color}
+          variant='contained'
+          onClick={() => runCode(code)}
+        >
           {t('Run')}
         </Button>
-        <Button color={color} variant='contained' onClick={finishEx}>
+        <Button
+          disabled={!loadingFinished}
+          color={color}
+          variant='contained'
+          onClick={finishEx}
+        >
           {t('Submit')}
         </Button>
       </Box>
@@ -129,4 +142,5 @@ Buttons.propTypes = {
   argumentValues: PropTypes.array.isRequired,
   language: PropTypes.string.isRequired,
   setLoadingFinished: PropTypes.func.isRequired,
+  loadingFinished: PropTypes.bool.isRequired,
 };

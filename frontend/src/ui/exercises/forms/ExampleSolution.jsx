@@ -7,6 +7,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import axios from 'axios';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { ThreeDots } from 'react-loader-spinner';
 import { connect, useSelector } from 'react-redux';
 
 import {
@@ -40,6 +41,8 @@ const ExampleSolution = ({
   const [tests, setTests] = useState(null);
   const { user } = useAuth0();
   const [triggered, setTriggered] = useState(false);
+  const [finishedLoading, setFinishedLoading] = useState(true);
+
   const color = useMemo(
     () =>
       parseInt(localStorage.getItem('theme') ?? 0) === 2
@@ -125,6 +128,7 @@ const ExampleSolution = ({
   };
 
   const verifySolution = () => {
+    setFinishedLoading(false);
     axios
       .post(
         `${
@@ -148,7 +152,8 @@ const ExampleSolution = ({
       )
       .then((response) => {
         setTests(response.data);
-      });
+      })
+      .finally(() => setFinishedLoading(true));
   };
 
   return (
@@ -213,9 +218,11 @@ const ExampleSolution = ({
           >
             {t('Previous')}
           </Button>
+          {console.log(finishedLoading)}
           <Button
             color={color.split('.')[0]}
             variant='contained'
+            disabled={!finishedLoading}
             onClick={() =>
               tests
                 ? tests.correct !== tests.tests
@@ -224,15 +231,34 @@ const ExampleSolution = ({
                 : verifySolution()
             }
           >
-            {tests
-              ? tests.correct !== tests.tests
-                ? `${t('Check exercise again (Last run:')} ${tests.correct} / ${
+            {finishedLoading ? (
+              tests ? (
+                tests.correct !== tests.tests ? (
+                  `${t('Check exercise again (Last run:')} ${tests.correct} / ${
                     tests.tests
                   })`
-                : `${t(
+                ) : (
+                  `${t(
                     'Click again to pass your exercise for admin verification.'
                   )}`
-              : t('Check exercise')}
+                )
+              ) : (
+                t('Check exercise')
+              )
+            ) : (
+              <ThreeDots
+                height='20'
+                width='20'
+                radius='9'
+                color='gray'
+                ariaLabel='three-dots-loading'
+                wrapperStyle={{
+                  textAlign: 'center',
+                }}
+                wrapperClassName=''
+                visible={true}
+              />
+            )}
           </Button>
         </Box>
       </Box>
