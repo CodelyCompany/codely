@@ -92,8 +92,8 @@ const Buttons = ({
   return (
     <>
       <GetToken />
-      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Box>
+      <Box id='exercises-buttons'>
+        <Box id='run-buttons'>
           {' '}
           <Button
             color={color}
@@ -112,7 +112,7 @@ const Buttons = ({
             {t('Submit')}
           </Button>
         </Box>
-        <Box sx={{ display: 'flex' }}>
+        <Box id='tools-buttons'>
           <ExerciseHints />
           <Button
             color={color}

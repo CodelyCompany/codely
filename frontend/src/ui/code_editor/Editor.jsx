@@ -50,12 +50,9 @@ const Editor = () => {
           height: '100%',
         }}
       >
-        <Box style={{ display: 'flex' }}>
+        <Box id='editor' >
           <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-            }}
+            id='code-editor-buttons'
           >
             <LanguageSelector language={language} setLanguage={setLanguage} />
             <RunButton

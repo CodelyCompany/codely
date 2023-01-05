@@ -41,6 +41,7 @@ const UserDetails = ({ GetUsers, token }) => {
       {foundUser && (
         <Box sx={{ margin: '20px' }}>
           <Box
+            id='registered-since-info'
             sx={{
               borderColor: color,
               borderBottom: '3px solid',

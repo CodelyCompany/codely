@@ -1,6 +1,106 @@
 $background-blue: rgb(25, 118, 210);
 $second-theme: #9a2150;
 
+#registered-since-info {
+  display: flex;
+  @media (max-width: 550px) {
+    flex-direction: column;
+    align-items: start;
+  }
+}
+#admin-tables {
+  width: 100%;
+  display: flex;
+  @media (max-width: 800px) {
+    flex-direction: column;
+    div {
+      width: calc(100% - 30px);
+    }
+  }
+}
+
+#versus-image {
+  width: 100%;
+  height: 100%;
+}
+
+#exercise-wrapper {
+  width: 100%;
+  display: flex;
+  #manage-exercise {
+    display: flex;
+    margin-right: 5px;
+    flex-direction: column;
+  }
+  @media (max-width: 700px) {
+    flex-direction: column;
+    button {
+      width: 100%;
+    }
+  }
+}
+
+#versus-run-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+  @media (max-width: 600px) {
+    flex-direction: column;
+    button {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  }
+}
+
+#exercises-buttons {
+  display: flex;
+  justify-content: space-between;
+  #tools-buttons {
+    display: flex;
+    flex-direction: row;
+  }
+  @media (max-width: 700px) {
+    #run-buttons {
+      display: flex;
+      flex-direction: column;
+      button {
+        width: 100%;
+        margin: 0 0 10px 0;
+      }
+    }
+    #tools-buttons {
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: center;
+      button {
+        width: 100%;
+      }
+      margin-bottom: 10px;
+    }
+    flex-direction: column;
+  }
+}
+
+#editor {
+  display: flex;
+  @media (max-width: 1200px) {
+    flex-direction: column;
+  }
+  #code-editor-buttons {
+    display: flex;
+    flex-direction: column;
+    @media (max-width: 1200px) {
+      button {
+        width: 100%;
+        &:last-of-type {
+          margin-bottom: 20px;
+        }
+      }
+    }
+  }
+}
+
 .main-theme-1 {
   color: $second-theme;
 }

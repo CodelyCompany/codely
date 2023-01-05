@@ -160,7 +160,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
       }}
     >
       <Box
-        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}
       >
         <TextField
           color={color.split('.')[0]}
@@ -190,7 +190,8 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
           justifyContent: 'center',
           flexDirection: 'column',
           alignItems: 'center',
-          width: '900px',
+          width: '100%',
+          maxWidth: '900px',
           margin: '10px',
         }}
       >
