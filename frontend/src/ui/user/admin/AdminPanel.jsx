@@ -10,7 +10,7 @@ import ExerciseToCheck from './ExerciseToCheck';
 const AdminPanel = () => (
   <AdminPanelWrapper>
     <Box sx={{ width: '100%', height: '100%' }}>
-      <Box sx={{ wdith: '100%', display: 'flex' }}>
+      <Box id='admin-tables'>
         <ExerciseToCheck />
         <CheckedExercise />
       </Box>

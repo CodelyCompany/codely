@@ -2,7 +2,7 @@ import React from 'react';
 
 import AppRoutes from './AppRoutes';
 
-import './styles/css/styles.css';
+import './styles/scss/styles.scss';
 import './App.css';
 
 const App = () => (

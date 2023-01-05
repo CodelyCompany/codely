@@ -44,8 +44,7 @@ const PreparedExercisesChart = ({ exercises, mode }) => {
       style={{ alignSelf: 'center' }}
       options={{
         tension: 0.2,
-        maintainAspectRatio: false,
-        responsive: false,
+        responsive: true,
         ticks: {
           stepSize: 1,
         },

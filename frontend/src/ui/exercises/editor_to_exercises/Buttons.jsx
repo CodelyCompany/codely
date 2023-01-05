@@ -95,9 +95,8 @@ const Buttons = ({
   return (
     <>
       <GetToken />
-      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Box>
-          {console.log(loadingFinished)}
+      <Box id='exercises-buttons'>
+        <Box id='run-buttons'>
           <Button
             disabled={!loadingFinished}
             color={color}
@@ -117,7 +116,7 @@ const Buttons = ({
             {t('Submit')}
           </Button>
         </Box>
-        <Box sx={{ display: 'flex' }}>
+        <Box id='tools-buttons'>
           <ExerciseHints />
           <Button
             color={color}

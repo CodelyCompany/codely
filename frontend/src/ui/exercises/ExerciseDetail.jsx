@@ -61,7 +61,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
       <>
         <GetToken />
         <Container sx={{ marginTop: '10px' }}>
-          <Box sx={{ width: '100%', display: 'flex' }}>
+          <Box id='exercise-wrapper'>
             <List
               className={`theme-${foundUser.theme}`}
               sx={{
@@ -170,11 +170,7 @@ const ExerciseDetail = ({ GetExercises, token }) => {
 
             {user.nickname === exercise.author.username && (
               <Box
-                sx={{
-                  display: 'flex',
-                  marginRight: '5px',
-                  flexDirection: 'column',
-                }}
+                id='manage-exercise'
               >
                 <Button
                   color={color.split('.')[0]}

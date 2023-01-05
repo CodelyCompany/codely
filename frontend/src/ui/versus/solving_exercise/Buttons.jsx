@@ -102,11 +102,7 @@ const Buttons = ({
         passed={passed}
       />
       <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          margin: '10px 0',
-        }}
+        id='versus-run-buttons'
       >
         <Button
           disabled={!loadingFinished}

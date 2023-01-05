@@ -177,7 +177,8 @@ const ExampleSolution = ({
           sx={{
             display: 'flex',
             justifyContent: 'center',
-            width: 'calc(900px - 10px)',
+            width: '100%',
+            maxWidth: 'calc(900px - 10px)',
             height: '200px',
             border: '3px solid',
             borderRadius: '5px',
@@ -205,7 +206,8 @@ const ExampleSolution = ({
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            width: '900px',
+            width: '100%',
+            maxWidth: '900px',
           }}
         >
           <Button
