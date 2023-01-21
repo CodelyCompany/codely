@@ -5,6 +5,8 @@ import { Container } from '@mui/system';
 import PropTypes from 'prop-types';
 import { ProgressBar } from 'react-loader-spinner';
 
+import usePopups from '../helpers/usePopups';
+
 import MainPage from './MainPage';
 
 const LoadWrapper = ({ children }) => {
@@ -19,6 +21,8 @@ const LoadWrapper = ({ children }) => {
   useEffect(() => {
     setTheme(parseInt(localStorage.getItem('theme')) ?? 0);
   }, []);
+
+  usePopups();
 
   return isLoading ? (
     <Container

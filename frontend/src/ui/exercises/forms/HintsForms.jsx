@@ -12,10 +12,6 @@ import {
   AddExercise,
   UpdateExercise,
 } from '../../../ducks/exercises/operations';
-import {
-  ChangeAddStatus,
-  ChangeUpdateStatus,
-} from '../../../ducks/popups/actions';
 import { getUserByUsername } from '../../../ducks/user/selectors';
 
 const HintsForms = ({ step, dataToEdit, setStep }) => {
@@ -216,8 +212,6 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
 const mapDispatchToProps = {
   AddExercise,
   UpdateExercise,
-  ChangeAddStatus,
-  ChangeUpdateStatus,
 };
 
 export default connect(null, mapDispatchToProps)(HintsForms);

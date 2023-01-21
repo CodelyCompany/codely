@@ -5,6 +5,7 @@ import thunk from 'redux-thunk';
 
 import { exercisesReducer } from './exercises/reducer';
 import { notificationsReducer } from './notifications/reducer';
+import popupMiddleware from './popups/middleware';
 import { popupsReducer } from './popups/reducer';
 import { startRedirect } from './redirects/middleware';
 import { redirectReducer } from './redirects/reducer';
@@ -29,7 +30,7 @@ const combinedReducers = combineReducers({
 const store = createStore(
   combinedReducers,
   composeEnhancers(
-    applyMiddleware(thunk, createMiddleware(), startRedirect, logger)
+    applyMiddleware(thunk, createMiddleware(), startRedirect, popupMiddleware, logger)
   )
 );
 

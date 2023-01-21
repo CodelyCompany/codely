@@ -1,14 +1,14 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 
 import { Button } from '@mui/material';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { VscDebugStart } from 'react-icons/vsc';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 
+import { addPopup } from '../../ducks/popups/actions';
 import { getToken } from '../../ducks/token/selectors';
-import RunAlert from '../popups/RunAlert';
 import GetToken from '../user/GetToken';
 
 const RunButton = ({ code, setOutput, language, token, loadingFinished, setLoadingFinished }) => {
@@ -20,6 +20,8 @@ const RunButton = ({ code, setOutput, language, token, loadingFinished, setLoadi
     [localStorage.getItem('theme')]
   );
 
+  const dispatch = useDispatch();
+
   const style = {
     borderColor: color,
     color,
@@ -29,8 +31,6 @@ const RunButton = ({ code, setOutput, language, token, loadingFinished, setLoadi
     marginLeft: '8px',
   };
 
-  const [triggerAlert, setTriggerAlert] = useState(false);
-  const [status, setStatus] = useState(null);
   const { t } = useTranslation();
 
   const runCode = (code) => {
@@ -50,8 +50,15 @@ const RunButton = ({ code, setOutput, language, token, loadingFinished, setLoadi
         }
       )
       .then((response) => {
-        setStatus(response.status);
-        setTriggerAlert(true);
+        response.status === 200
+          ? dispatch(addPopup({
+              messageKey: 'Your code ran successfully',
+              options: { variant: 'success' },
+          }))
+          : dispatch(addPopup({
+              messageKey: 'Your code ran with errors',
+              options: { variant: 'error' },
+          }));
         setOutput(response.data.output.toString());
       })
       .catch((err) => console.log(err))
@@ -61,11 +68,6 @@ const RunButton = ({ code, setOutput, language, token, loadingFinished, setLoadi
   return (
     <>
       <GetToken />
-      <RunAlert
-        triggered={triggerAlert}
-        setTriggered={setTriggerAlert}
-        code={status}
-      />
       <Button
         disabled={!loadingFinished}
         variant='outlined'

@@ -13,7 +13,6 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
 import { DeleteExercise } from '../../ducks/exercises/operations';
-import { ChangeDeleteStatus } from '../../ducks/popups/actions';
 import { getToken } from '../../ducks/token/selectors';
 import GetToken from '../user/GetToken';
 
@@ -21,7 +20,6 @@ const Confirmation = ({
   open,
   setOpen,
   DeleteExercise,
-  ChangeDeleteStatus,
   token,
 }) => {
   const { id } = useParams();
@@ -34,7 +32,6 @@ const Confirmation = ({
 
   const deleteExercise = () => {
     DeleteExercise(id, token);
-    ChangeDeleteStatus();
     navigate('/exercises');
   };
 
@@ -72,7 +69,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   DeleteExercise,
-  ChangeDeleteStatus,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Confirmation);
@@ -81,6 +77,5 @@ Confirmation.propTypes = {
   open: PropTypes.bool,
   setOpen: PropTypes.func,
   DeleteExercise: PropTypes.func,
-  ChangeDeleteStatus: PropTypes.func,
   token: PropTypes.string,
 };

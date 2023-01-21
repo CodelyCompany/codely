@@ -1,17 +1,17 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Button } from '@mui/material';
 import axios from 'axios';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { connect, useSelector } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
+import { addPopup } from '../../../ducks/popups/actions';
 import { getSocket } from '../../../ducks/socket/selectors';
 import { getToken } from '../../../ducks/token/selectors';
 import { getUserByUsername } from '../../../ducks/user/selectors';
-import SubmitAlert from '../../popups/SubmitAlert';
 import GetToken from '../../user/GetToken';
 
 const Buttons = ({
@@ -29,9 +29,8 @@ const Buttons = ({
   const { t } = useTranslation();
   const { user } = useAuth0();
   const { roomId, id } = useParams();
-  const [triggered, setTriggered] = useState(false);
   const foundUser = useSelector(getUserByUsername(user.nickname));
-  const [passed, setPassed] = useState(false);
+  const dispatch = useDispatch();
   const color = useMemo(
     () =>
       parseInt(localStorage.getItem('theme') ?? 0) === 2
@@ -82,13 +81,17 @@ const Buttons = ({
       )
       .then((response) => {
         if (response.data.tests === response.data.correct) {
-          setPassed(true);
-          setTriggered(true);
+          dispatch(addPopup({
+            message: t('Congratulation! Your code passed all tests'),
+            options: { variant: 'success' },
+          }));
           socket.emit('game-finished', roomId);
           return;
         }
-        setPassed(false);
-        setTriggered(true);
+        dispatch(addPopup({
+          message: t("Unfortunately, your code didn't pass tests"),
+          options: { variant: 'error' },
+        }));
       })
       .finally(() => setLoadingFinished(true));
   };
@@ -96,11 +99,6 @@ const Buttons = ({
   return (
     <>
       <GetToken />
-      <SubmitAlert
-        triggered={triggered}
-        setTriggered={setTriggered}
-        passed={passed}
-      />
       <Box
         id='versus-run-buttons'
       >

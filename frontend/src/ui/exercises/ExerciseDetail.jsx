@@ -23,7 +23,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { DeleteExercise, GetExercises } from '../../ducks/exercises/operations';
 import { getExerciseById } from '../../ducks/exercises/selectors';
-import { ChangeDeleteStatus } from '../../ducks/popups/actions';
 import { getRatingByExerciseId } from '../../ducks/reviews/selectors';
 import { getToken } from '../../ducks/token/selectors';
 import { getUserByUsername } from '../../ducks/user/selectors';
@@ -216,7 +215,6 @@ const ExerciseDetail = ({ GetExercises, token }) => {
 const mapDispatchToProps = {
   GetExercises,
   DeleteExercise,
-  ChangeDeleteStatus,
 };
 
 const mapStateToProps = (state) => ({

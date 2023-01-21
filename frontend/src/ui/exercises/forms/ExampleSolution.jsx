@@ -8,19 +8,15 @@ import axios from 'axios';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { ThreeDots } from 'react-loader-spinner';
-import { connect, useSelector } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 
 import {
   AddExercise,
   UpdateExercise,
 } from '../../../ducks/exercises/operations';
-import {
-  ChangeAddStatus,
-  ChangeUpdateStatus,
-} from '../../../ducks/popups/actions';
+import { addPopup } from '../../../ducks/popups/actions';
 import { getToken } from '../../../ducks/token/selectors';
 import { getUserByUsername } from '../../../ducks/user/selectors';
-import SubmitAlert from '../../popups/SubmitAlert';
 import GetToken from '../../user/GetToken';
 
 import { getSignature } from './utils/functionSignatures';
@@ -30,18 +26,16 @@ const ExampleSolution = ({
   step,
   setStep,
   AddExercise,
-  ChangeAddStatus,
   dataToEdit,
   UpdateExercise,
-  ChangeUpdateStatus,
   token,
 }) => {
   const { t } = useTranslation();
   const [code, setCode] = useState('');
   const [tests, setTests] = useState(null);
   const { user } = useAuth0();
-  const [triggered, setTriggered] = useState(false);
   const [finishedLoading, setFinishedLoading] = useState(true);
+  const dispatch = useDispatch();
 
   const color = useMemo(
     () =>
@@ -66,7 +60,16 @@ const ExampleSolution = ({
   };
 
   useEffect(() => {
-    if (tests) setTriggered(true);
+    if (tests && tests.correct === tests.tests)
+      dispatch(addPopup({
+        messageKey: 'Congratulation! Your code passed all tests',
+        options: { variant: 'success' },
+      }));
+    if (tests && tests.correct !== tests.tests)
+      dispatch(addPopup({
+        messageKey: "Unfortunately, your code didn't pass tests",
+        options: { variant: 'error' },
+      }));
   }, [tests]);
 
   useEffect(() => {
@@ -108,7 +111,6 @@ const ExampleSolution = ({
         },
         token
       );
-      ChangeAddStatus();
       return;
     }
     UpdateExercise(
@@ -124,7 +126,6 @@ const ExampleSolution = ({
       },
       token
     );
-    ChangeUpdateStatus();
   };
 
   const verifySolution = () => {
@@ -159,11 +160,6 @@ const ExampleSolution = ({
   return (
     <>
       <GetToken />
-      <SubmitAlert
-        triggered={triggered}
-        setTriggered={setTriggered}
-        passed={tests && tests.correct === tests.tests}
-      />
       <Box
         sx={{
           display: 'flex',
@@ -218,7 +214,6 @@ const ExampleSolution = ({
           >
             {t('Previous')}
           </Button>
-          {console.log(finishedLoading)}
           <Button
             color={color.split('.')[0]}
             variant='contained'
@@ -273,9 +268,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   AddExercise,
-  ChangeAddStatus,
   UpdateExercise,
-  ChangeUpdateStatus,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExampleSolution);
@@ -284,9 +277,7 @@ ExampleSolution.propTypes = {
   step: PropTypes.object.isRequired,
   setStep: PropTypes.func.isRequired,
   AddExercise: PropTypes.func,
-  ChangeAddStatus: PropTypes.func,
   dataToEdit: PropTypes.object,
   UpdateExercise: PropTypes.func,
-  ChangeUpdateStatus: PropTypes.func,
   token: PropTypes.string,
 };
