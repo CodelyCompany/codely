@@ -35,7 +35,7 @@ services:
       - APP_CONTAINERS_CLIENT_SECRET=1ZgtLjP2kkJpJGK8xQ2uqCoJuKcZxCgiJVuBUFbY83MLHXlgEYGoro2y8zdsOLLz
     volumes:
       - ../../backend:/opt/app
-      - ../../backend/avatars:/opt/app/avatars
+      # - ../../backend/avatars:/opt/app/avatars
     ports:
       - '5000:5000'
       - '5002:5002'
