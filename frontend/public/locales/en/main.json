@@ -33,7 +33,7 @@
   "Output type": "Output type",
   "Previous": "Previous",
   "Next": "Next",
-  "Here you can add other type which wasn\"t mentioned in the list. Moreover you can add your own type fe. Fraction": "Here you can add other type which wasn\"t mentioned in the list. Moreover you can add your own type fe. Fraction",
+  "Here you can add other type which wasn't mentioned in the list. Moreover you can add your own type fe. Fraction": "Here you can add other type which wasn't mentioned in the list. Moreover you can add your own type fe. Fraction",
   "Type": "Type",
   "Cancel": "Cancel",
   "Add": "Add",
@@ -190,5 +190,6 @@
   "Done exercises:": "Done exercises:",
   "Your prepared exercises:": "Your prepared exercises:",
   "Your reviews:": "Your reviews:",
-  "Choose hints quantity": "Choose hints quantity"
+  "Choose hints quantity": "Choose hints quantity",
+  "Other types / Custom types": "Other types / Custom types"
 }

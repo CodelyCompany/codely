@@ -33,7 +33,7 @@
   "Output type": "Typ wynikowy",
   "Previous": "Cofnij",
   "Next": "Dalej",
-  "Here you can add other type which wasn\"t mentioned in the list. Moreover you can add your own type fe. Fraction": "Tutaj możesz dodać typ argumentu, który nie znajdował się na liście. Możesz stworzyć swój własny typ, np. Ułamek",
+  "Here you can add other type which wasn't mentioned in the list. Moreover you can add your own type fe. Fraction": "Tutaj możesz dodać typ argumentu, który nie znajdował się na liście. Możesz stworzyć swój własny typ, np. Ułamek",
   "Type": "Typ",
   "Cancel": "Anuluj",
   "Add": "dodaj",
@@ -190,5 +190,6 @@
   "Done exercises:": "Wykonane zadania:",
   "Your prepared exercises:": "Stworzone zadania:",
   "Your reviews:": "Recenzje:",
-  "Choose hints quantity": "Wybierz ilość podpowiedzi"
+  "Choose hints quantity": "Wybierz ilość podpowiedzi",
+  "Other types / Custom types": "Inny typ / Własny typ"
 }

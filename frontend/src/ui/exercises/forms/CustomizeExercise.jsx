@@ -17,7 +17,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
   const [types, setTypes] = useState([]);
   const [open, setOpen] = useState(false);
   const [customTypes, setCustomTypes] = useState([]);
-  const additionalOption = 'Other types / Custom types';
+  const additionalOption = t('Other types / Custom types');
   const languagesWithTypes = ['Java', 'C++', 'C'];
   const formWithTypes = useMemo(
     () => languagesWithTypes.includes(step.dataFromStep1?.programmingLanguage),
