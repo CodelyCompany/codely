@@ -136,7 +136,7 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
           }}
           id={`hintsQuantity-${foundUser.theme}`}
           name='hintsQuantity'
-          label='Choose hints quantity'
+          label={t('Choose hints quantity')}
           value={hintsQuantity}
           onChange={(e) => setHintsQuantity(parseInt(e.target.value))}
           select
