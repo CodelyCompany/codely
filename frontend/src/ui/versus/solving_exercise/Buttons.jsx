@@ -81,17 +81,17 @@ const Buttons = ({
       )
       .then((response) => {
         if (response.data.tests === response.data.correct) {
-          dispatch(addPopup({
-            message: t('Congratulation! Your code passed all tests'),
-            options: { variant: 'success' },
-          }));
+          dispatch(addPopup(
+            t('Congratulation! Your code passed all tests'),
+            'success'
+          ));
           socket.emit('game-finished', roomId);
           return;
         }
-        dispatch(addPopup({
-          message: t("Unfortunately, your code didn't pass tests"),
-          options: { variant: 'error' },
-        }));
+        dispatch(addPopup(
+          "Unfortunately, your code didn't pass tests",
+          'error'
+        ));
       })
       .finally(() => setLoadingFinished(true));
   };
