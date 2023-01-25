@@ -82,7 +82,7 @@ const Buttons = ({
       .then((response) => {
         if (response.data.tests === response.data.correct) {
           dispatch(addPopup(
-            t('Congratulation! Your code passed all tests'),
+            'Congratulation! Your code passed all tests',
             'success'
           ));
           socket.emit('game-finished', roomId);
