@@ -1,11 +1,15 @@
 import { types } from './types';
 
-export const addPopup = (payload) => ({
+export const addPopup = (messageKey, variant) => ({
   type: types.ADD_POPUP,
-  payload: { ...payload, key: new Date().getTime() + Math.random() },
+  payload: {
+    key: new Date().getTime() + Math.random(),
+    messageKey,
+    options: { variant },
+  },
 });
 
-export const removePopup = (payload) => ({
+export const removePopup = (key) => ({
   type: types.REMOVE_POPUP,
-  payload,
+  payload: key,
 });

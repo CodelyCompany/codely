@@ -48,7 +48,6 @@ const EditorField = ({
           setArgumentValues={setArgumentValues}
           argumentValues={argumentValues}
         />
-        {console.log(loadingFinished)}
         <Buttons
           setLoadingFinished={setLoadingFinished}
           loadingFinished={loadingFinished}

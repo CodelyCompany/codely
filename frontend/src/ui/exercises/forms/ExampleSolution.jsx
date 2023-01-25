@@ -61,15 +61,15 @@ const ExampleSolution = ({
 
   useEffect(() => {
     if (tests && tests.correct === tests.tests)
-      dispatch(addPopup({
-        messageKey: 'Congratulation! Your code passed all tests',
-        options: { variant: 'success' },
-      }));
+      dispatch(addPopup(
+        'Congratulation! Your code passed all tests',
+        'success'
+      ));
     if (tests && tests.correct !== tests.tests)
-      dispatch(addPopup({
-        messageKey: "Unfortunately, your code didn't pass tests",
-        options: { variant: 'error' },
-      }));
+      dispatch(addPopup(
+        "Unfortunately, your code didn't pass tests",
+        'error'
+      ));
   }, [tests]);
 
   useEffect(() => {

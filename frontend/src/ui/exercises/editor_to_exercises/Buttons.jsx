@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Button } from '@mui/material';
@@ -9,12 +9,11 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
+import { addPopup } from '../../../ducks/popups/actions';
 import { getToken } from '../../../ducks/token/selectors';
 import { GetUsers } from '../../../ducks/user/operations';
 import { getUserByUsername } from '../../../ducks/user/selectors';
 import ExerciseHints from '../../popups/ExerciseHints';
-import RunAlert from '../../popups/RunAlert';
-import SubmitAlert from '../../popups/SubmitAlert';
 import GetToken from '../../user/GetToken';
 
 const Buttons = ({
@@ -33,9 +32,6 @@ const Buttons = ({
   const { id } = useParams();
   const { user } = useAuth0();
   const foundUser = useSelector(getUserByUsername(user.nickname));
-  const [triggerAlert, setTriggerAlert] = useState(false);
-  const [triggerSubmitAlert, setTriggerSubmitAlert] = useState(false);
-  const [status, setStatus] = useState(null);
   const dispatch = useDispatch();
 
   const color = useMemo(
@@ -66,8 +62,9 @@ const Buttons = ({
         }
       )
       .then((response) => {
-        setStatus(response.status);
-        setTriggerAlert(true);
+        dispatch(addPopup(
+          response.status === 200 ? 'Your code ran successfully' : 'Your code ran with errors',
+          response.status === 200 ? 'success' : 'error'));
         setOutput(response.data.output.toString());
       })
       .catch((err) => console.log(err))
@@ -85,8 +82,11 @@ const Buttons = ({
         { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((response) => {
-        setTriggerSubmitAlert(true);
         setTests(response.data);
+        dispatch(addPopup(
+          response.data.tests === response.data.correct ? 'Congratulation! Your code passed all tests' : "Unfortunately, your code didn't pass tests",
+          response.data.tests === response.data.correct ? 'success' : 'error'
+        ));
         dispatch(GetUsers(token));
       })
       .finally(() => setLoadingFinished(true));
@@ -128,16 +128,6 @@ const Buttons = ({
           </Button>
         </Box>
       </Box>
-      <RunAlert
-        triggered={triggerAlert}
-        setTriggered={setTriggerAlert}
-        code={status}
-      />
-      <SubmitAlert
-        triggered={triggerSubmitAlert}
-        setTriggered={setTriggerSubmitAlert}
-        passed={tests.tests === tests.correct}
-      />
     </>
   );
 };

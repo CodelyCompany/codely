@@ -12,10 +12,10 @@ const keymap = {
 const popupMiddleware = (store) => (next) => (action) => {
 
     if (Object.keys(keymap).includes(action.type))
-        store.dispatch(addPopup({
-            messageKey: keymap[action.type],
-            options: { variant: action.type.endsWith('SUCCESS') ? 'success' : 'error' },
-        }));
+        store.dispatch(addPopup(
+            keymap[action.type],
+            action.type.endsWith('SUCCESS') ? 'success' : 'error'
+        ));
     next(action);
 };
 

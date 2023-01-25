@@ -51,14 +51,14 @@ const RunButton = ({ code, setOutput, language, token, loadingFinished, setLoadi
       )
       .then((response) => {
         response.status === 200
-          ? dispatch(addPopup({
-              messageKey: 'Your code ran successfully',
-              options: { variant: 'success' },
-          }))
-          : dispatch(addPopup({
-              messageKey: 'Your code ran with errors',
-              options: { variant: 'error' },
-          }));
+          ? dispatch(addPopup(
+              'Your code ran successfully',
+              'success'
+          ))
+          : dispatch(addPopup(
+              'Your code ran with errors',
+              'error'
+          ));
         setOutput(response.data.output.toString());
       })
       .catch((err) => console.log(err))
