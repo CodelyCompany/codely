@@ -8,15 +8,14 @@ import EditIcon from '@mui/icons-material/Edit';
 import ThumbUp from '@mui/icons-material/ThumbUp';
 import { Button, Grid, Rating, TextField, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
+import { AddReview, EditReview } from 'ducks/reviews/operations';
+import { getToken } from 'ducks/token/selectors';
+import { getUserByUsername } from 'ducks/user/selectors';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
-
-import { AddReview, EditReview } from '../../../ducks/reviews/operations';
-import { getToken } from '../../../ducks/token/selectors';
-import { getUserByUsername } from '../../../ducks/user/selectors';
 
 const ReviewForm = ({ review, token }) => {
   const { t } = useTranslation();

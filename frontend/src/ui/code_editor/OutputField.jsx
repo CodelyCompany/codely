@@ -8,7 +8,7 @@ import { ThreeDots } from 'react-loader-spinner';
 import { useSelector } from 'react-redux';
 import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync';
 
-import { getUserByUsername } from '../../ducks/user/selectors';
+import { getUserByUsername } from 'ducks/user/selectors';
 
 const OutputField = ({ output, loadingFinished }) => {
   const { user } = useAuth0();

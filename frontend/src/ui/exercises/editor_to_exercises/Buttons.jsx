@@ -3,25 +3,23 @@ import React, { useMemo } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Button } from '@mui/material';
 import axios from 'axios';
+import { addPopup } from 'ducks/popups/actions';
+import { getToken } from 'ducks/token/selectors';
+import { GetUsers } from 'ducks/user/operations';
+import { getUserByUsername } from 'ducks/user/selectors';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-
-import { addPopup } from '../../../ducks/popups/actions';
-import { getToken } from '../../../ducks/token/selectors';
-import { GetUsers } from '../../../ducks/user/operations';
-import { getUserByUsername } from '../../../ducks/user/selectors';
-import ExerciseHints from '../../popups/ExerciseHints';
-import GetToken from '../../user/GetToken';
+import ExerciseHints from 'ui/popups/ExerciseHints';
+import GetToken from 'ui/user/GetToken';
 
 const Buttons = ({
   setOutput,
   code,
   language,
   setTests,
-  tests,
   token,
   argumentValues,
   functionName,
@@ -84,7 +82,9 @@ const Buttons = ({
       .then((response) => {
         setTests(response.data);
         dispatch(addPopup(
-          response.data.tests === response.data.correct ? 'Congratulation! Your code passed all tests' : "Unfortunately, your code didn't pass tests",
+          response.data.tests === response.data.correct ?
+              'Congratulation! Your code passed all tests' :
+              "Unfortunately, your code didn't pass tests",
           response.data.tests === response.data.correct ? 'success' : 'error'
         ));
         dispatch(GetUsers(token));
@@ -143,7 +143,6 @@ Buttons.propTypes = {
   code: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,
   setTests: PropTypes.func,
-  tests: PropTypes.object,
   token: PropTypes.string,
   argumentValues: PropTypes.array.isRequired,
   functionName: PropTypes.string.isRequired,

@@ -14,24 +14,22 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
+import { GetExercises } from 'ducks/exercises/operations';
+import { getExerciseById } from 'ducks/exercises/selectors';
+import { getSocket } from 'ducks/socket/selectors';
+import { getToken } from 'ducks/token/selectors';
+import { getUserByUsername } from 'ducks/user/selectors';
 import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-
-import { GetExercises } from '../../../ducks/exercises/operations';
-import { getExerciseById } from '../../../ducks/exercises/selectors';
-import { getSocket } from '../../../ducks/socket/selectors';
-import { getToken } from '../../../ducks/token/selectors';
-import { getUserByUsername } from '../../../ducks/user/selectors';
-import OutputField from '../../code_editor/OutputField';
-import CustomArgs from '../../exercises/editor_to_exercises/CustomArgs';
-import GetToken from '../../user/GetToken';
-
-import Buttons from './Buttons';
-import FinishDialog from './FinishDialog';
-import VersusEditor from './VersusEditor';
+import OutputField from 'ui/code_editor/OutputField';
+import CustomArgs from 'ui/exercises/editor_to_exercises/CustomArgs';
+import GetToken from 'ui/user/GetToken';
+import Buttons from 'ui/versus/solving_exercise/Buttons';
+import FinishDialog from 'ui/versus/solving_exercise/FinishDialog';
+import VersusEditor from 'ui/versus/solving_exercise/VersusEditor';
 
 const Exercise = ({ GetExercises, token, socket }) => {
   const { t } = useTranslation();

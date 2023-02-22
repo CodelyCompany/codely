@@ -1,6 +1,5 @@
+import { types } from 'ducks/notifications/types';
 import { createAction } from 'redux-api-middleware';
-
-import { types } from './types';
 
 export const GetNotifications = (userId, token) =>
   createAction({

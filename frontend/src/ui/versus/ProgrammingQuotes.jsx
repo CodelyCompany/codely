@@ -2,12 +2,11 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Paper, Typography } from '@mui/material';
+import { getToken } from 'ducks/token/selectors';
+import { getUserByUsername } from 'ducks/user/selectors';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import { ImQuotesLeft, ImQuotesRight } from 'react-icons/im';
 import { useSelector } from 'react-redux';
-
-import { getToken } from '../../ducks/token/selectors';
-import { getUserByUsername } from '../../ducks/user/selectors';
 
 const ProgrammingQuotes = () => {
   const { user } = useAuth0();

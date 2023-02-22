@@ -1,6 +1,5 @@
+import { types } from 'ducks/exercises/types';
 import { createAction } from 'redux-api-middleware';
-
-import { types } from './types';
 
 export const GetExercises = (token) =>
   createAction({

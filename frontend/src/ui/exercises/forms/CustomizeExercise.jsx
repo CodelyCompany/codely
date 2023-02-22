@@ -4,10 +4,9 @@ import { Box, Button, MenuItem, TextField } from '@mui/material';
 import { useFormik } from 'formik';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import CustomTypes from 'ui/exercises/forms/CustomTypes';
+import { getDataTypes } from 'ui/exercises/forms/utils/dataTypes';
 import * as yup from 'yup';
-
-import { getDataTypes } from './utils/dataTypes';
-import CustomTypes from './CustomTypes';
 
 const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
   const { t } = useTranslation();

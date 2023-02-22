@@ -1,6 +1,5 @@
+import { types } from 'ducks/user/types';
 import { createAction } from 'redux-api-middleware';
-
-import { types } from './types';
 
 export const GetUsers = (token) =>
   createAction({

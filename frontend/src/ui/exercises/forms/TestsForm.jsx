@@ -3,13 +3,11 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, MenuItem } from '@mui/material';
 import { Button, TextField } from '@mui/material';
-import * as _ from 'lodash';
+import { getUserByUsername } from 'ducks/user/selectors';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import * as yup from 'yup';
-
-import { getUserByUsername } from '../../../ducks/user/selectors';
 
 const TestsForm = ({ setStep, dataToEdit, step }) => {
   const { t } = useTranslation();

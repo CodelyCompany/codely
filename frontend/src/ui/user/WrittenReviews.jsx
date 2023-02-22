@@ -8,11 +8,11 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { GetExercises } from '../../ducks/exercises/operations';
-import { getExercisesFromState } from '../../ducks/exercises/selectors';
-import { getReviewsByUserId } from '../../ducks/reviews/selectors';
-import { getToken } from '../../ducks/token/selectors';
-import { getUserByUsername } from '../../ducks/user/selectors';
+import { GetExercises } from 'ducks/exercises/operations';
+import { getExercisesFromState } from 'ducks/exercises/selectors';
+import { getReviewsByUserId } from 'ducks/reviews/selectors';
+import { getToken } from 'ducks/token/selectors';
+import { getUserByUsername } from 'ducks/user/selectors';
 
 const WrittenReviews = () => {
   const { t } = useTranslation();

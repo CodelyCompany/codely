@@ -23,19 +23,19 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
-import { GetNotifications } from '../ducks/notifications/operations';
+import { GetNotifications } from 'ducks/notifications/operations';
 import {
   getNotifications,
   getUnreadNotificationsQuantity,
-} from '../ducks/notifications/selectors';
-import { GetReviews } from '../ducks/reviews/operations';
-import { getToken } from '../ducks/token/selectors';
-import { AddUser, GetUsers } from '../ducks/user/operations';
-import { getUsers } from '../ducks/user/selectors';
-import logo from '../logo.png';
+} from 'ducks/notifications/selectors';
+import { GetReviews } from 'ducks/reviews/operations';
+import { getToken } from 'ducks/token/selectors';
+import { AddUser, GetUsers } from 'ducks/user/operations';
+import { getUsers } from 'ducks/user/selectors';
+import logo from 'logo.png';
 
-import NavbarMessages from './popups/NavbarMessages';
-import GetToken from './user/GetToken';
+import NavbarMessages from 'ui/popups/NavbarMessages';
+import GetToken from 'ui/user/GetToken';
 
 const Navbar = ({
   GetUsers,

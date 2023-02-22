@@ -3,17 +3,16 @@ import React, { useEffect, useMemo } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Card, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { GetExercises } from '../../../ducks/exercises/operations';
-import { getExercisesFromState } from '../../../ducks/exercises/selectors';
-import { getToken } from '../../../ducks/token/selectors';
-import { getUserByUsername } from '../../../ducks/user/selectors';
-import GetToken from '../GetToken';
+import { GetExercises } from 'ducks/exercises/operations';
+import { getExercisesFromState } from 'ducks/exercises/selectors';
+import { getToken } from 'ducks/token/selectors';
+import { getUserByUsername } from 'ducks/user/selectors';
+import GetToken from 'ui/user/GetToken';
 
 function CheckedExercise({ checkedExercises, GetExercises, token }) {
   const { t } = useTranslation();

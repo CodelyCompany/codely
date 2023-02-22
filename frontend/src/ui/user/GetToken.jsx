@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
 
+import { GetAuthToken } from 'ducks/token/operations';
+import { getToken } from 'ducks/token/selectors';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-
-import { GetAuthToken } from '../../ducks/token/operations';
-import { getToken } from '../../ducks/token/selectors';
 
 function GetToken({ token, GetAuthToken }) {
   useEffect(() => {

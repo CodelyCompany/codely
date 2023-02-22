@@ -2,20 +2,18 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { Box, Container } from '@mui/material';
 import { Button } from '@mui/material';
+import { GetExercises } from 'ducks/exercises/operations';
+import { getExercisesFromState } from 'ducks/exercises/selectors';
+import { getToken } from 'ducks/token/selectors';
 import * as _ from 'lodash';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
-import { GetExercises } from '../../ducks/exercises/operations';
-import { getExercisesFromState } from '../../ducks/exercises/selectors';
-import { getToken } from '../../ducks/token/selectors';
-import GetToken from '../user/GetToken';
-
-import Filters from './filters/Filters';
-import Exercise from './Exercise';
-import PaginationExercises from './PaginationExercises';
+import Exercise from 'ui/exercises/Exercise';
+import Filters from 'ui/exercises/filters/Filters';
+import PaginationExercises from 'ui/exercises/PaginationExercises';
+import GetToken from 'ui/user/GetToken';
 
 const ExercisesList = ({ exercises, GetExercises, token }) => {
   const { t } = useTranslation();

@@ -4,10 +4,10 @@ import React from 'react';
 import { Box, Container, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
-import CodeField from './CodeField';
-import LanguageSelector from './LanguageSelector';
-import OutputField from './OutputField';
-import RunButton from './RunButton';
+import CodeField from 'ui/code_editor/CodeField';
+import LanguageSelector from 'ui/code_editor/LanguageSelector';
+import OutputField from 'ui/code_editor/OutputField';
+import RunButton from 'ui/code_editor/RunButton';
 
 const Editor = () => {
   const [code, setCode] = useState('');

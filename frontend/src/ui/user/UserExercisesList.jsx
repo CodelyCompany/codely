@@ -13,9 +13,9 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FixedSizeList } from 'react-window';
 
-import { getUserByUsername } from '../../ducks/user/selectors';
+import { getUserByUsername } from 'ducks/user/selectors';
 
-import PreparedExercisesChart from './PreparedExercisesChart';
+import PreparedExercisesChart from 'ui/user/PreparedExercisesChart';
 
 function UserExercisesList({ exercises, mode }) {
   const { t } = useTranslation();

@@ -4,15 +4,13 @@ import { useEffect } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Typography } from '@mui/material';
+import { getReviewsByExerciseId } from 'ducks/reviews/selectors';
+import { getUserByUsername } from 'ducks/user/selectors';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-
-import { getReviewsByExerciseId } from '../../../ducks/reviews/selectors';
-import { getUserByUsername } from '../../../ducks/user/selectors';
-
-import ReviewCard from './ReviewCard';
-import ReviewForm from './ReviewForm';
+import ReviewCard from 'ui/exercises/reviews/ReviewCard';
+import ReviewForm from 'ui/exercises/reviews/ReviewForm';
 
 const Reviews = () => {
   const { t } = useTranslation();

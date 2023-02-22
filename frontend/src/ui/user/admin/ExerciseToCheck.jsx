@@ -8,12 +8,12 @@ import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 
-import { GetUncheckedExercises } from '../../../ducks/exercises/operations';
-import { getUncheckedExercises } from '../../../ducks/exercises/selectors';
-import { getToken } from '../../../ducks/token/selectors';
-import { getUserByUsername } from '../../../ducks/user/selectors';
+import { GetUncheckedExercises } from 'ducks/exercises/operations';
+import { getUncheckedExercises } from 'ducks/exercises/selectors';
+import { getToken } from 'ducks/token/selectors';
+import { getUserByUsername } from 'ducks/user/selectors';
 
-import ExerciseDialog from './ExerciseDialog';
+import ExerciseDialog from 'ui/user/admin/ExerciseDialog';
 
 const useStyles = makeStyles({
   root: {

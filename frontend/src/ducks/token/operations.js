@@ -1,6 +1,5 @@
+import { types } from 'ducks/token/types';
 import { createAction } from 'redux-api-middleware';
-
-import { types } from './types';
 
 export const GetAuthToken = () =>
   createAction({

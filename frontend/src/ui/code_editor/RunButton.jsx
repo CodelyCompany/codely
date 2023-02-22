@@ -2,14 +2,13 @@ import React, { useMemo } from 'react';
 
 import { Button } from '@mui/material';
 import axios from 'axios';
+import { addPopup } from 'ducks/popups/actions';
+import { getToken } from 'ducks/token/selectors';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { VscDebugStart } from 'react-icons/vsc';
 import { connect, useDispatch } from 'react-redux';
-
-import { addPopup } from '../../ducks/popups/actions';
-import { getToken } from '../../ducks/token/selectors';
-import GetToken from '../user/GetToken';
+import GetToken from 'ui/user/GetToken';
 
 const RunButton = ({ code, setOutput, language, token, loadingFinished, setLoadingFinished }) => {
   const color = useMemo(

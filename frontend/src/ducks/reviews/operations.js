@@ -1,6 +1,5 @@
+import { types } from 'ducks/reviews/types';
 import { createAction } from 'redux-api-middleware';
-
-import { types } from './types';
 
 export const GetReviews = (token) =>
   createAction({

@@ -3,21 +3,19 @@ import { useEffect } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Container, Typography } from '@mui/material';
+import { getToken } from 'ducks/token/selectors';
+import { GetUsers } from 'ducks/user/operations';
+import { getUserByUsername } from 'ducks/user/selectors';
 import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
-
-import { getToken } from '../../ducks/token/selectors';
-import { GetUsers } from '../../ducks/user/operations';
-import { getUserByUsername } from '../../ducks/user/selectors';
-
-import GetToken from './GetToken';
-import SectionWrapper from './SectionWrapper';
-import UncheckedExercises from './UncheckedExercises';
-import UserExercisesList from './UserExercisesList';
-import VersusResults from './VersusResults';
-import WrittenReviews from './WrittenReviews';
+import GetToken from 'ui/user/GetToken';
+import SectionWrapper from 'ui/user/SectionWrapper';
+import UncheckedExercises from 'ui/user/UncheckedExercises';
+import UserExercisesList from 'ui/user/UserExercisesList';
+import VersusResults from 'ui/user/VersusResults';
+import WrittenReviews from 'ui/user/WrittenReviews';
 
 const UserDetails = ({ GetUsers, token }) => {
   const { t } = useTranslation();

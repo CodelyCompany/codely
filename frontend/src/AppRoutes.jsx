@@ -6,21 +6,20 @@ import Backend from 'i18next-http-backend';
 import { SnackbarProvider } from 'notistack';
 import { initReactI18next } from 'react-i18next';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-
-import languages from './config/languages';
-import Editor from './ui/code_editor/Editor';
-import ExerciseDetail from './ui/exercises/ExerciseDetail';
-import ExercisesList from './ui/exercises/ExercisesList';
-import MainForm from './ui/exercises/forms/MainForm';
-import LoadWrapper from './ui/LoadWrapper';
-import MainPage from './ui/MainPage';
-import Navbar from './ui/Navbar';
-import AdminPanel from './ui/user/admin/AdminPanel';
-import Settings from './ui/user/user_settings/Settings';
-import UserDetails from './ui/user/UserDetails';
-import Exercise from './ui/versus/solving_exercise/Exercise';
-import Versus from './ui/versus/Versus';
-import { theme } from './conf';
+import { theme } from 'conf';
+import languages from 'config/languages';
+import Editor from 'ui/code_editor/Editor';
+import ExerciseDetail from 'ui/exercises/ExerciseDetail';
+import ExercisesList from 'ui/exercises/ExercisesList';
+import MainForm from 'ui/exercises/forms/MainForm';
+import LoadWrapper from 'ui/LoadWrapper';
+import MainPage from 'ui/MainPage';
+import Navbar from 'ui/Navbar';
+import AdminPanel from 'ui/user/admin/AdminPanel';
+import Settings from 'ui/user/user_settings/Settings';
+import UserDetails from 'ui/user/UserDetails';
+import Exercise from 'ui/versus/solving_exercise/Exercise';
+import Versus from 'ui/versus/Versus';
 
 i18next
   .use(Backend)
@@ -48,7 +47,11 @@ const AppRoutes = () => {
   return (
     <BrowserRouter>
       <ThemeProvider theme={themeObj}>
-        <SnackbarProvider maxSnack={3} autoHideDuration={3000} anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}>
+        <SnackbarProvider
+            maxSnack={3}
+            autoHideDuration={3000}
+            anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
+        >
           <Navbar />
           <LoadWrapper>
             <Routes>

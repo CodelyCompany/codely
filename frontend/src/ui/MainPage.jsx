@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
-import codeGif from '../styles/6iE3BC564u.gif';
-import codeGifDarkTheme from '../styles/0082BUw8UC.gif';
-import codeGifPinkTheme from '../styles/MKteEKMiiu.gif';
+import codeGif from 'styles/6iE3BC564u.gif';
+import codeGifDarkTheme from 'styles/0082BUw8UC.gif';
+import codeGifPinkTheme from 'styles/MKteEKMiiu.gif';
 
 const MainPage = () => {
   const [theme, setTheme] = useState(0);

@@ -1,4 +1,4 @@
-import { types } from './types';
+import { types } from 'ducks/popups/types';
 
 export const addPopup = (messageKey, variant) => ({
   type: types.ADD_POPUP,

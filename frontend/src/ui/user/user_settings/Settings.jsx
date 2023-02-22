@@ -3,18 +3,16 @@ import { useEffect } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Button, Checkbox, Container, Typography } from '@mui/material';
+import { getToken } from 'ducks/token/selectors';
+import { UpdateUser } from 'ducks/user/operations';
+import { UploadAvatar } from 'ducks/user/operations';
+import { getUserByUsername } from 'ducks/user/selectors';
 import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
-
-import { getToken } from '../../../ducks/token/selectors';
-import { UpdateUser } from '../../../ducks/user/operations';
-import { UploadAvatar } from '../../../ducks/user/operations';
-import { getUserByUsername } from '../../../ducks/user/selectors';
-
-import SetLanguage from './SetLanguage';
-import UploadDialog from './UploadDialog';
+import SetLanguage from 'ui/user/user_settings/SetLanguage';
+import UploadDialog from 'ui/user/user_settings/UploadDialog';
 
 const Settings = ({ UpdateUser, UploadAvatar, token }) => {
   const { t } = useTranslation();

@@ -9,14 +9,13 @@ import {
   DialogTitle,
   Slide,
 } from '@mui/material';
+import lostImage from 'coffin-dance.png';
+import { DisconnectSocket } from 'ducks/socket/actions';
+import wonImage from 'easy-peasy.png';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
-import lostImage from '../../../coffin-dance.png';
-import { DisconnectSocket } from '../../../ducks/socket/actions';
-import wonImage from '../../../easy-peasy.png';
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;

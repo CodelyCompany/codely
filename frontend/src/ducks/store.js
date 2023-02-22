@@ -1,18 +1,17 @@
+import { exercisesReducer } from 'ducks/exercises/reducer';
+import { notificationsReducer } from 'ducks/notifications/reducer';
+import popupMiddleware from 'ducks/popups/middleware';
+import { popupsReducer } from 'ducks/popups/reducer';
+import { startRedirect } from 'ducks/redirects/middleware';
+import { redirectReducer } from 'ducks/redirects/reducer';
+import { reviewsReducer } from 'ducks/reviews/reducer';
+import { socketReducer } from 'ducks/socket/reducer';
+import { tokenReducer } from 'ducks/token/reducer';
+import { usersReducer } from 'ducks/user/reducer';
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import { createMiddleware } from 'redux-api-middleware';
 import logger from 'redux-logger';
 import thunk from 'redux-thunk';
-
-import { exercisesReducer } from './exercises/reducer';
-import { notificationsReducer } from './notifications/reducer';
-import popupMiddleware from './popups/middleware';
-import { popupsReducer } from './popups/reducer';
-import { startRedirect } from './redirects/middleware';
-import { redirectReducer } from './redirects/reducer';
-import { reviewsReducer } from './reviews/reducer';
-import { socketReducer } from './socket/reducer';
-import { tokenReducer } from './token/reducer';
-import { usersReducer } from './user/reducer';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

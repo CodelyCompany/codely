@@ -5,14 +5,13 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Card, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { DataGrid } from '@mui/x-data-grid';
+import { getToken } from 'ducks/token/selectors';
+import { GetUsers } from 'ducks/user/operations';
+import { getUserByUsername, getUsers } from 'ducks/user/selectors';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
-
-import { getToken } from '../../../ducks/token/selectors';
-import { GetUsers } from '../../../ducks/user/operations';
-import { getUserByUsername, getUsers } from '../../../ducks/user/selectors';
-import GetToken from '../GetToken';
+import GetToken from 'ui/user/GetToken';
 
 const useStyles = makeStyles({
   root: {

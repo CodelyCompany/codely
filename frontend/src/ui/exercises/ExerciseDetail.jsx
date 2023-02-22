@@ -13,6 +13,11 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
+import { DeleteExercise, GetExercises } from 'ducks/exercises/operations';
+import { getExerciseById } from 'ducks/exercises/selectors';
+import { getRatingByExerciseId } from 'ducks/reviews/selectors';
+import { getToken } from 'ducks/token/selectors';
+import { getUserByUsername } from 'ducks/user/selectors';
 import * as _ from 'lodash';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -20,17 +25,10 @@ import { useSelector } from 'react-redux';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-
-import { DeleteExercise, GetExercises } from '../../ducks/exercises/operations';
-import { getExerciseById } from '../../ducks/exercises/selectors';
-import { getRatingByExerciseId } from '../../ducks/reviews/selectors';
-import { getToken } from '../../ducks/token/selectors';
-import { getUserByUsername } from '../../ducks/user/selectors';
-import Confirmation from '../popups/Confirmation';
-import GetToken from '../user/GetToken';
-
-import EditorField from './editor_to_exercises/EditorField';
-import Reviews from './reviews/Reviews';
+import EditorField from 'ui/exercises/editor_to_exercises/EditorField';
+import Reviews from 'ui/exercises/reviews/Reviews';
+import Confirmation from 'ui/popups/Confirmation';
+import GetToken from 'ui/user/GetToken';
 
 const ExerciseDetail = ({ GetExercises, token }) => {
   const { t } = useTranslation();
