@@ -1,4 +1,4 @@
-import reactRefresh from '@vitejs/plugin-react';
+import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import jsconfigPaths from 'vite-jsconfig-paths';
 import envCompatible from 'vite-plugin-env-compatible';
@@ -14,7 +14,7 @@ export default defineConfig({
     outDir: 'build',
   },
   plugins: [
-    reactRefresh(),
+    react(),
     envCompatible(),
     jsconfigPaths(),
     svgrPlugin({

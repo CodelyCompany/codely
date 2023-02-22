@@ -5,7 +5,7 @@ import { types } from './types';
 export const GetReviews = (token) =>
   createAction({
     endpoint: `${
-      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+      import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'
     }/reviews/`,
     method: 'GET',
     headers: {
@@ -25,7 +25,7 @@ export const GetReviews = (token) =>
 export const AddReview = (body, token) =>
   createAction({
     endpoint: `${
-      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+      import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'
     }/reviews/addReview`,
     method: 'POST',
     body: JSON.stringify(body),
@@ -46,7 +46,7 @@ export const AddReview = (body, token) =>
 export const EditReview = (body, token) =>
   createAction({
     endpoint: `${
-      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+      import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'
     }/reviews/editReview`,
     method: 'PUT',
     body: JSON.stringify(body),

@@ -36,7 +36,7 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
     validationSchema: validateVersusLanguages,
     onSubmit: (values) => {
       const socket = io(
-        `${process.env.REACT_APP_WEBSOCKET_ADDRESS}` ||
+        `${import.meta.env.REACT_APP_WEBSOCKET_ADDRESS}` ||
           'http://localhost:5002/',
         {
           reconnection: true,

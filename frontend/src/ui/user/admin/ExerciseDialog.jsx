@@ -13,6 +13,7 @@ import {
   ListItemText,
 } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
+import _ from 'lodash';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
