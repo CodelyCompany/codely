@@ -54,8 +54,8 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "vite",
-    "dev": "WATCHPACK_POLLING=true vite",
+    "start": "vite --host",
+    "dev": "WATCHPACK_POLLING=true vite --host",
     "build": "vite build",
     "test": "vite test",
     "serve": "vite preview",
