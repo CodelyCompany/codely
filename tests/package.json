@@ -1,0 +1,19 @@
+{
+  "name": "tests",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@wdio/cli": "^8.3.10"
+  },
+  "scripts": {
+    "test": "wdio run ./wdio.conf.js"
+  },
+  "dependencies": {
+    "@wdio/dot-reporter": "^8.3.0",
+    "@wdio/local-runner": "^8.3.10",
+    "@wdio/mocha-framework": "^8.3.0",
+    "@wdio/selenium-standalone-service": "^8.3.2",
+    "@wdio/spec-reporter": "^8.3.0"
+  }
+}
