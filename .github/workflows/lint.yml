@@ -15,11 +15,9 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        working-directory: ./frontend
         uses: actions/checkout@v2
 
       - name: Set up Node.js
-        working-directory: ./frontend
         uses: actions/setup-node@v1
         with:
           node-version: 18.7.0
@@ -36,7 +34,6 @@ jobs:
           fi
 
       - name: Run linters
-        working-directory: ./frontend
         uses: wearerequired/lint-action@v2
         with:
           eslint: true
