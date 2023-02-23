@@ -23,7 +23,14 @@ jobs:
           node-version: 15
 
       - name: Install Node.js dependencies
-        run: npm ci
+        run: |
+          if [ -e yarn.lock ]; then
+          yarn install --frozen-lockfile
+          elif [ -e package-lock.json ]; then
+          npm ci
+          else
+          npm i
+          fi
 
       - name: Run linters
         uses: wearerequired/lint-action@v2
