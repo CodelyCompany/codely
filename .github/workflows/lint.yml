@@ -9,8 +9,8 @@ on:
       - main
 
 jobs:
-  run-linters:
-    name: Run linters
+  run-linter:
+    name: Run linter
     runs-on: ubuntu-latest
 
     steps:
@@ -33,8 +33,6 @@ jobs:
           npm i
           fi
 
-      - name: Run linters
-        uses: wearerequired/lint-action@v2
-        with:
-          eslint: true
-          prettier: true
+      - name: Run linter
+        working-directory: ./frontend
+        run: yarn run lint
