@@ -34,7 +34,6 @@ jobs:
           fi
 
       - name: Run linters
-        working-directory: ./frontend
         uses: wearerequired/lint-action@v2
         with:
           eslint: true
