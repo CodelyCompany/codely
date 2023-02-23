@@ -15,14 +15,17 @@ jobs:
 
     steps:
       - name: Check out Git repository
+        working-directory: ./frontend
         uses: actions/checkout@v2
 
       - name: Set up Node.js
+        working-directory: ./frontend
         uses: actions/setup-node@v1
         with:
-          node-version: 15
+          node-version: 18.7.0
 
       - name: Install Node.js dependencies
+        working-directory: ./frontend
         run: |
           if [ -e yarn.lock ]; then
           yarn install --frozen-lockfile
@@ -33,6 +36,7 @@ jobs:
           fi
 
       - name: Run linters
+        working-directory: ./frontend
         uses: wearerequired/lint-action@v2
         with:
           eslint: true
