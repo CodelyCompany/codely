@@ -15,14 +15,6 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import * as _ from 'lodash';
-import { PropTypes } from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import { IoIosMail } from 'react-icons/io';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-
 import { GetNotifications } from 'ducks/notifications/operations';
 import {
   getNotifications,
@@ -32,8 +24,14 @@ import { GetReviews } from 'ducks/reviews/operations';
 import { getToken } from 'ducks/token/selectors';
 import { AddUser, GetUsers } from 'ducks/user/operations';
 import { getUsers } from 'ducks/user/selectors';
+import * as _ from 'lodash';
 import logo from 'logo.png';
-
+import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import { IoIosMail } from 'react-icons/io';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import NavbarMessages from 'ui/popups/NavbarMessages';
 import GetToken from 'ui/user/GetToken';
 

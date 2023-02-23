@@ -3,7 +3,6 @@ import React, { useMemo } from 'react';
 import { Box, Typography } from '@mui/material';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
-
 import ConfettiAfterSolve from 'ui/popups/ConfettiAfterSolve';
 
 function Tests({ tests }) {

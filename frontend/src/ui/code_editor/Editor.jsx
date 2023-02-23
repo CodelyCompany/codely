@@ -3,7 +3,6 @@ import React from 'react';
 
 import { Box, Container, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-
 import CodeField from 'ui/code_editor/CodeField';
 import LanguageSelector from 'ui/code_editor/LanguageSelector';
 import OutputField from 'ui/code_editor/OutputField';

@@ -1,13 +1,12 @@
 import React from 'react';
 
 import { createTheme, ThemeProvider } from '@mui/material';
+import { theme } from 'conf';
 import i18next from 'i18next';
 import Backend from 'i18next-http-backend';
 import { SnackbarProvider } from 'notistack';
 import { initReactI18next } from 'react-i18next';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { theme } from 'conf';
-import languages from 'config/languages';
 import Editor from 'ui/code_editor/Editor';
 import ExerciseDetail from 'ui/exercises/ExerciseDetail';
 import ExercisesList from 'ui/exercises/ExercisesList';
@@ -20,6 +19,8 @@ import Settings from 'ui/user/user_settings/Settings';
 import UserDetails from 'ui/user/UserDetails';
 import Exercise from 'ui/versus/solving_exercise/Exercise';
 import Versus from 'ui/versus/Versus';
+
+import languages from 'config/languages';
 
 i18next
   .use(Backend)

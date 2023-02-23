@@ -4,15 +4,14 @@ import { useAuth0 } from '@auth0/auth0-react';
 import ThumbUp from '@mui/icons-material/ThumbUp';
 import { Grid, Rating, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
-import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-
 import { GetExercises } from 'ducks/exercises/operations';
 import { getExercisesFromState } from 'ducks/exercises/selectors';
 import { getReviewsByUserId } from 'ducks/reviews/selectors';
 import { getToken } from 'ducks/token/selectors';
 import { getUserByUsername } from 'ducks/user/selectors';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const WrittenReviews = () => {
   const { t } = useTranslation();

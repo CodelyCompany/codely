@@ -4,15 +4,13 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Card, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { DataGrid } from '@mui/x-data-grid';
-import { PropTypes } from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import { connect, useSelector } from 'react-redux';
-
 import { GetUncheckedExercises } from 'ducks/exercises/operations';
 import { getUncheckedExercises } from 'ducks/exercises/selectors';
 import { getToken } from 'ducks/token/selectors';
 import { getUserByUsername } from 'ducks/user/selectors';
-
+import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import { connect, useSelector } from 'react-redux';
 import ExerciseDialog from 'ui/user/admin/ExerciseDialog';
 
 const useStyles = makeStyles({
