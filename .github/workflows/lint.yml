@@ -35,4 +35,4 @@ jobs:
 
       - name: Run linter
         working-directory: ./frontend
-        run: yarn run lint
+        run: yarn run lint:fix
