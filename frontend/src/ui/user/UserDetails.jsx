@@ -3,23 +3,23 @@ import { useEffect } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Container, Typography } from '@mui/material';
-import { getToken } from 'ducks/token/selectors';
 import { GetUsers } from 'ducks/user/operations';
 import { getUserByUsername } from 'ducks/user/selectors';
+import useToken from "helpers/useToken";
 import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
-import GetToken from 'ui/user/GetToken';
 import SectionWrapper from 'ui/user/SectionWrapper';
 import UncheckedExercises from 'ui/user/UncheckedExercises';
 import UserExercisesList from 'ui/user/UserExercisesList';
 import VersusResults from 'ui/user/VersusResults';
 import WrittenReviews from 'ui/user/WrittenReviews';
 
-const UserDetails = ({ GetUsers, token }) => {
+const UserDetails = ({ GetUsers }) => {
   const { t } = useTranslation();
   const { user } = useAuth0();
+  const { token } = useToken();
   const color = useMemo(
     () =>
       parseInt(localStorage.getItem('theme') ?? 0) === 2
@@ -35,7 +35,6 @@ const UserDetails = ({ GetUsers, token }) => {
 
   return (
     <Container sx={{ height: '100%' }}>
-      <GetToken />
       {foundUser && (
         <Box sx={{ margin: '20px' }}>
           <Box
@@ -117,17 +116,12 @@ const UserDetails = ({ GetUsers, token }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  token: getToken(state),
-});
-
 const mapDispatchToProps = {
   GetUsers,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserDetails);
+export default connect(null, mapDispatchToProps)(UserDetails);
 
 UserDetails.propTypes = {
   GetUsers: PropTypes.func.isRequired,
-  token: PropTypes.string,
 };

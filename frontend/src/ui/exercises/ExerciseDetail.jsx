@@ -16,8 +16,8 @@ import ListItemText from '@mui/material/ListItemText';
 import { DeleteExercise, GetExercises } from 'ducks/exercises/operations';
 import { getExerciseById } from 'ducks/exercises/selectors';
 import { getRatingByExerciseId } from 'ducks/reviews/selectors';
-import { getToken } from 'ducks/token/selectors';
 import { getUserByUsername } from 'ducks/user/selectors';
+import useToken from "helpers/useToken";
 import * as _ from 'lodash';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -28,11 +28,11 @@ import { useNavigate } from 'react-router-dom';
 import EditorField from 'ui/exercises/editor_to_exercises/EditorField';
 import Reviews from 'ui/exercises/reviews/Reviews';
 import Confirmation from 'ui/popups/Confirmation';
-import GetToken from 'ui/user/GetToken';
 
-const ExerciseDetail = ({ GetExercises, token }) => {
+const ExerciseDetail = ({ GetExercises }) => {
   const { t } = useTranslation();
   const { id } = useParams();
+  const { token } = useToken();
   const exercise = useSelector(getExerciseById(id));
   const rating = useSelector(getRatingByExerciseId(id));
   const { user } = useAuth0();
@@ -56,7 +56,6 @@ const ExerciseDetail = ({ GetExercises, token }) => {
   return (
     exercise && (
       <>
-        <GetToken />
         <Container sx={{ marginTop: '10px' }}>
           <Box id='exercise-wrapper'>
             <List
@@ -215,13 +214,8 @@ const mapDispatchToProps = {
   DeleteExercise,
 };
 
-const mapStateToProps = (state) => ({
-  token: getToken(state),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ExerciseDetail);
+export default connect(null, mapDispatchToProps)(ExerciseDetail);
 
 ExerciseDetail.propTypes = {
   GetExercises: PropTypes.func.isRequired,
-  token: PropTypes.string,
 };

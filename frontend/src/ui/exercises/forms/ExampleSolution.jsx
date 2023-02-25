@@ -10,15 +10,14 @@ import {
   UpdateExercise,
 } from 'ducks/exercises/operations';
 import { addPopup } from 'ducks/popups/actions';
-import { getToken } from 'ducks/token/selectors';
 import { getUserByUsername } from 'ducks/user/selectors';
+import useToken from "helpers/useToken";
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { ThreeDots } from 'react-loader-spinner';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import TestsList from 'ui/exercises/forms/TestsList';
 import { getSignature } from 'ui/exercises/forms/utils/functionSignatures';
-import GetToken from 'ui/user/GetToken';
 
 const ExampleSolution = ({
   step,
@@ -26,9 +25,9 @@ const ExampleSolution = ({
   AddExercise,
   dataToEdit,
   UpdateExercise,
-  token,
 }) => {
   const { t } = useTranslation();
+  const { token } = useToken();
   const [code, setCode] = useState('');
   const [tests, setTests] = useState(null);
   const { user } = useAuth0();
@@ -157,7 +156,6 @@ const ExampleSolution = ({
 
   return (
     <>
-      <GetToken />
       <Box
         sx={{
           display: 'flex',
@@ -260,16 +258,12 @@ const ExampleSolution = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  token: getToken(state),
-});
-
 const mapDispatchToProps = {
   AddExercise,
   UpdateExercise,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ExampleSolution);
+export default connect(null, mapDispatchToProps)(ExampleSolution);
 
 ExampleSolution.propTypes = {
   step: PropTypes.object.isRequired,
@@ -277,5 +271,4 @@ ExampleSolution.propTypes = {
   AddExercise: PropTypes.func,
   dataToEdit: PropTypes.object,
   UpdateExercise: PropTypes.func,
-  token: PropTypes.string,
 };
