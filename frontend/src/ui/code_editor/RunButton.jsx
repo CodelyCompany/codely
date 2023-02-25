@@ -19,16 +19,6 @@ const RunButton = ({ code, setOutput, language, loadingFinished, setLoadingFinis
   );
 
   const dispatch = useDispatch();
-
-  const style = {
-    borderColor: color,
-    color,
-    height: '40px',
-    width: 180,
-    marginTop: '8px',
-    marginLeft: '8px',
-  };
-
   const { t } = useTranslation();
   const { token } = useToken();
 
@@ -68,11 +58,12 @@ const RunButton = ({ code, setOutput, language, loadingFinished, setLoadingFinis
     <>
       <Button
         disabled={!loadingFinished}
+        id="run-button"
+        sx={{ borderColor: color, color }}
         variant='outlined'
-        sx={style}
         onClick={() => runCode(code)}
       >
-        <VscDebugStart style={{ position: 'relative', bottom: '3px' }} />
+        <VscDebugStart id="run-button-icon" />
         {t('Run')}
       </Button>
     </>

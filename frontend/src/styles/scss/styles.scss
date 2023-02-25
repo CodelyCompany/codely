@@ -56,10 +56,24 @@ $second-theme: #9a2150;
 #exercises-buttons {
   display: flex;
   justify-content: space-between;
+
   #tools-buttons {
     display: flex;
     flex-direction: row;
+
+    button {
+      width: 100%;
+      margin: 5px;
+    }
   }
+
+  #run-buttons {
+
+    button:first-of-type {
+      margin: 5px;
+    }
+  }
+
   @media (max-width: 700px) {
     #run-buttons {
       display: flex;
@@ -367,11 +381,21 @@ html {
   }
 }
 
-.editor-tag {
+#editor-tag {
   font-weight: bolder;
   font-size: 50px;
   position: relative;
   top: 20px;
+}
+
+#editor-wrapper {
+  border: 3px solid;
+  margin-top: 20px;
+  padding: 50px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .review-card {
@@ -424,3 +448,104 @@ html {
     text-align: end;
   }
 }
+
+#code-field-container {
+  display: flex;
+  width: 100%;
+  margin-left: 7px;
+
+  #code-field-wrapper {
+    height: 370px;
+    width: 100%;
+    overflow: auto;
+    border: 3px solid;
+    border-radius: 5px;
+    text-align: start;
+    padding: 2px;
+  }
+}
+
+#language-selector-form {
+  margin: 8px;
+  min-width: 180px;
+}
+
+#output-field-wrapper {
+  display: flex;
+  width: 100%;
+  margin-right: 5px;
+  justify-content: center;
+  margin-top: 10px;
+  max-height: 200px;
+
+  #line-numbering {
+    border-radius: 5px 0 0 5px;
+    overflow: auto;
+    border: 3px solid;
+    border-right: 0;
+    padding-top: 2px;
+  }
+
+  #text-area-wrapper {
+    width: 100%;
+    overflow: auto;
+    height: 100%;
+
+    #output-text-area {
+      border-radius: 0 5px 5px 0;
+      background-color: white;
+      font-family: "JetBrains Mono";
+      border: 3px solid;
+      font-size: 14px;
+      width: calc(100% - 10px);
+    }
+  }
+}
+
+#run-button {
+  height: 40px;
+  width: 180px;
+  margin-top: 8px;
+  margin-left: 8px;
+  #run-button-icon {
+    position: relative;
+    bottom: 3px;
+  }
+}
+
+#custom-args-container {
+  margin: 10px 0;
+  border-top: 3px solid;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  text-align: center;
+
+  #custom-args-wrapper {
+    padding: 10px;
+    border-left: 3px solid;
+    border-right: 3px solid;
+  }
+}
+
+#editor-field-wrapper {
+  height: 300px;
+  border: 3px solid;
+  border-radius: 5px;
+}
+
+#tests-wrapper {
+  width: calc(100% - 6px);
+  border: 3px solid;
+  margin-top: 10px;
+  padding: 10px 0;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+
+  #tests-text {
+    margin-right: 3px;
+    font-weight: bolder;
+  }
+}
+

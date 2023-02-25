@@ -99,7 +99,6 @@ const Buttons = ({
             disabled={!loadingFinished}
             color={color}
             onClick={() => runCode(code)}
-            sx={{ margin: '5px', width: '100px' }}
             variant='contained'
           >
             {t('Run')}
@@ -108,7 +107,6 @@ const Buttons = ({
             disabled={!loadingFinished}
             color={color}
             onClick={() => submitExercise()}
-            sx={{ width: '100px' }}
             variant='contained'
           >
             {t('Submit')}
@@ -119,7 +117,6 @@ const Buttons = ({
           <Button
             color={color}
             onClick={() => navigate(-1)}
-            sx={{ width: '100px', margin: '5px' }}
             variant='contained'
           >
             {t('Undo')}

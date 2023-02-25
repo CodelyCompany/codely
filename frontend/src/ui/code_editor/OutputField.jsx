@@ -40,14 +40,7 @@ const OutputField = ({ output, loadingFinished }) => {
     <ScrollSync>
       <Box
         className={`theme-${foundUser.theme}`}
-        sx={{
-          display: 'flex',
-          width: '100%',
-          marginRigth: '5px',
-          justifyContent: 'center',
-          marginTop: '10px',
-          maxHeight: '200px',
-        }}
+        id="output-field-wrapper"
       >
         {loadingFinished ? (
           <>
@@ -57,12 +50,6 @@ const OutputField = ({ output, loadingFinished }) => {
                 id='line-numbering'
                 style={{
                   ...textAreaStyles,
-                  borderRadius: '5px 0 0 5px',
-                  overflow: 'auto',
-                  border: '3px solid',
-                  borderColor: color,
-                  borderRight: 0,
-                  paddingTop: '2px',
                 }}
                 name='line-numbering'
                 disabled={true}
@@ -73,23 +60,14 @@ const OutputField = ({ output, loadingFinished }) => {
             <ScrollSyncPane>
               <div
                 className={`theme-${foundUser.theme}`}
-                style={{
-                  width: '100%',
-                  overflow: 'auto',
-                  height: '100%',
-                }}
+                id="text-area-wrapper"
               >
                 <textarea
                   className={`theme-${foundUser.theme}`}
+                  id="output-text-area"
                   style={{
                     ...textAreaStyles,
-                    borderRadius: '0 5px 5px 0',
-                    backgroundColor: 'white',
-                    fontFamily: 'JetBrains Mono',
                     borderColor: color,
-                    border: '3px solid',
-                    fontSize: '14px',
-                    width: 'calc(100% - 10px)',
                   }}
                   disabled={true}
                   name='code'

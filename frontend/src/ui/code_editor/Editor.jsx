@@ -25,30 +25,10 @@ const Editor = () => {
 
   return (
     <Container>
-      <Typography
-        className='editor-tag'
-        sx={{
-          color,
-          fontWeight: 'bolder',
-          fontSize: '50px',
-          position: 'relative',
-          top: '20px',
-        }}
-      >
+      <Typography id='editor-tag'>
         {t('Write your code here!')}
       </Typography>
-      <Box
-        sx={{
-          borderColor: color,
-          border: '3px solid',
-          marginTop: '20px',
-          padding: '50px',
-          borderRadius: '5px',
-          display: 'flex',
-          flexDirection: 'column',
-          height: '100%',
-        }}
-      >
+      <Box id="editor-wrapper" borderColor={color}>
         <Box id='editor' >
           <Box
             id='code-editor-buttons'
