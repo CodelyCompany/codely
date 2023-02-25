@@ -10,11 +10,10 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@mui/material';
+import { getUserByUsername } from 'ducks/user/selectors';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-
-import { getUserByUsername } from '../../ducks/user/selectors';
 
 const VersusFound = ({
   open,

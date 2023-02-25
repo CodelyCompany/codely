@@ -7,15 +7,13 @@ import Box from '@mui/material/Box';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
+import { getUserByUsername } from 'ducks/user/selectors';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FixedSizeList } from 'react-window';
-
-import { getUserByUsername } from '../../ducks/user/selectors';
-
-import PreparedExercisesChart from './PreparedExercisesChart';
+import PreparedExercisesChart from 'ui/user/PreparedExercisesChart';
 
 function UserExercisesList({ exercises, mode }) {
   const { t } = useTranslation();

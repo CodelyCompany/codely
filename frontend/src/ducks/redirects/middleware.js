@@ -1,6 +1,5 @@
-import { types as exTypes } from '../exercises/types';
-
-import { types } from './types';
+import { types as exTypes } from 'ducks/exercises/types';
+import { types } from 'ducks/redirects/types';
 
 export const startRedirect = (store) => (next) => (action) => {
   if (

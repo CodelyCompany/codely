@@ -5,22 +5,20 @@ import Editor from '@monaco-editor/react';
 import { Box, Button } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import axios from 'axios';
+import {
+  AddExercise,
+  UpdateExercise,
+} from 'ducks/exercises/operations';
+import { addPopup } from 'ducks/popups/actions';
+import { getToken } from 'ducks/token/selectors';
+import { getUserByUsername } from 'ducks/user/selectors';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { ThreeDots } from 'react-loader-spinner';
 import { connect, useDispatch, useSelector } from 'react-redux';
-
-import {
-  AddExercise,
-  UpdateExercise,
-} from '../../../ducks/exercises/operations';
-import { addPopup } from '../../../ducks/popups/actions';
-import { getToken } from '../../../ducks/token/selectors';
-import { getUserByUsername } from '../../../ducks/user/selectors';
-import GetToken from '../../user/GetToken';
-
-import { getSignature } from './utils/functionSignatures';
-import TestsList from './TestsList';
+import TestsList from 'ui/exercises/forms/TestsList';
+import { getSignature } from 'ui/exercises/forms/utils/functionSignatures';
+import GetToken from 'ui/user/GetToken';
 
 const ExampleSolution = ({
   step,
@@ -133,7 +131,7 @@ const ExampleSolution = ({
     axios
       .post(
         `${
-          process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+          import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'
         }/exercises/checkBeforeAddExercise`,
         {
           exampleSolution: code,

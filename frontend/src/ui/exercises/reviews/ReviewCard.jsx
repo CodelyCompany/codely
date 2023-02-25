@@ -6,20 +6,19 @@ import { useAuth0 } from '@auth0/auth0-react';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import { Box, Grid, Rating, Typography } from '@mui/material';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import { connect } from 'react-redux';
-
-import { EditReview } from '../../../ducks/reviews/operations';
+import { EditReview } from 'ducks/reviews/operations';
 import {
   getAuthorByReviewId,
   isDownvotedByUserId,
   isUpvotedByUserId,
-} from '../../../ducks/reviews/selectors';
-import { getToken } from '../../../ducks/token/selectors';
-import { getUserByUsername } from '../../../ducks/user/selectors';
-import GetToken from '../../user/GetToken';
+} from 'ducks/reviews/selectors';
+import { getToken } from 'ducks/token/selectors';
+import { getUserByUsername } from 'ducks/user/selectors';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
+import GetToken from 'ui/user/GetToken';
 
 const ReviewCard = ({ review, token }) => {
   const { t } = useTranslation();

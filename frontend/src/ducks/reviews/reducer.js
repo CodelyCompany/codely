@@ -1,4 +1,4 @@
-import { types } from './types';
+import { types } from 'ducks/reviews/types';
 
 export const reviewsReducer = (state = { reviews: [] }, action) => {
   switch (action.type) {

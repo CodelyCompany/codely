@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
+import { getUserByUsername } from 'ducks/user/selectors';
 import { PropTypes } from 'prop-types';
 import { MutatingDots } from 'react-loader-spinner';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
-import { getUserByUsername } from '../../ducks/user/selectors';
-
-import VersusFound from './VersusFound';
+import VersusFound from 'ui/versus/VersusFound';
 
 const SearchingGame = ({ socket, setFound, found, DisconnectSocket }) => {
   const navigate = useNavigate();

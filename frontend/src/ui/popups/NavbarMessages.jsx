@@ -1,12 +1,11 @@
 import React, { useMemo } from 'react';
 
 import { Box, Popover, Typography } from '@mui/material';
+import { ReadNotification } from 'ducks/notifications/operations';
+import { getToken } from 'ducks/token/selectors';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-
-import { ReadNotification } from '../../ducks/notifications/operations';
-import { getToken } from '../../ducks/token/selectors';
 
 const NavbarMessages = ({
   anchorEl,

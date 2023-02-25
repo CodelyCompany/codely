@@ -3,16 +3,15 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, MenuItem } from '@mui/material';
 import { Button, TextField } from '@mui/material';
+import {
+  AddExercise,
+  UpdateExercise,
+} from 'ducks/exercises/operations';
+import { getUserByUsername } from 'ducks/user/selectors';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 import * as yup from 'yup';
-
-import {
-  AddExercise,
-  UpdateExercise,
-} from '../../../ducks/exercises/operations';
-import { getUserByUsername } from '../../../ducks/user/selectors';
 
 const HintsForms = ({ step, dataToEdit, setStep }) => {
   const { t } = useTranslation();

@@ -3,10 +3,9 @@ import React, { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import Editor from '@monaco-editor/react';
 import { Box, CircularProgress } from '@mui/material';
+import { getUserByUsername } from 'ducks/user/selectors';
 import { PropTypes } from 'prop-types';
 import { useSelector } from 'react-redux';
-
-import { getUserByUsername } from '../../../ducks/user/selectors';
 
 const VersusEditor = ({ code, setCode, language, functionSignature }) => {
   const { user } = useAuth0();

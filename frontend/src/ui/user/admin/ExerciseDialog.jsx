@@ -13,18 +13,18 @@ import {
   ListItemText,
 } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import { PropTypes } from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import { connect, useSelector } from 'react-redux';
-
 import {
   CheckExercise,
   DeleteUncheckedExercise,
-} from '../../../ducks/exercises/operations';
-import { AddNotification } from '../../../ducks/notifications/operations';
-import { getToken } from '../../../ducks/token/selectors';
-import { getUserByUsername, getUsers } from '../../../ducks/user/selectors';
-import GetToken from '../GetToken';
+} from 'ducks/exercises/operations';
+import { AddNotification } from 'ducks/notifications/operations';
+import { getToken } from 'ducks/token/selectors';
+import { getUserByUsername, getUsers } from 'ducks/user/selectors';
+import _ from 'lodash';
+import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import { connect, useSelector } from 'react-redux';
+import GetToken from 'ui/user/GetToken';
 function ExerciseDialog({
   open,
   setOpen,

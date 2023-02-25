@@ -3,17 +3,15 @@ import React, { useMemo } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Button } from '@mui/material';
 import axios from 'axios';
+import { addPopup } from 'ducks/popups/actions';
+import { getSocket } from 'ducks/socket/selectors';
+import { getToken } from 'ducks/token/selectors';
+import { getUserByUsername } from 'ducks/user/selectors';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-
-import { addPopup } from '../../../ducks/popups/actions';
-import { getSocket } from '../../../ducks/socket/selectors';
-import { getToken } from '../../../ducks/token/selectors';
-import { getUserByUsername } from '../../../ducks/user/selectors';
-import GetToken from '../../user/GetToken';
-
+import GetToken from 'ui/user/GetToken';
 const Buttons = ({
   socket,
   code,
@@ -43,7 +41,7 @@ const Buttons = ({
     axios
       .post(
         `${
-          process.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
+          import.meta.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
         }/${language.toLowerCase() === 'c++' ? 'cpp' : language.toLowerCase()}`,
         {
           toExecute: code,
@@ -67,7 +65,7 @@ const Buttons = ({
     setLoadingFinished(false);
     axios
       .put(
-        `${process.env.REACT_APP_BACKEND}/exercises/checkVersus/${id}/room/${roomId}`,
+        `${import.meta.env.REACT_APP_BACKEND}/exercises/checkVersus/${id}/room/${roomId}`,
         {
           user: foundUser._id,
           won,

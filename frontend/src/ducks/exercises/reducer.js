@@ -1,4 +1,4 @@
-import { types } from './types';
+import { types } from 'ducks/exercises/types';
 
 export const exercisesReducer = (
   state = { exercises: [], exercisesToCheck: [], error: false },

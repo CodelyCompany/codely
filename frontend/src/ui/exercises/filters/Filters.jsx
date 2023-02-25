@@ -8,13 +8,11 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { getExercisesFromState } from 'ducks/exercises/selectors';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-
-import { getExercisesFromState } from '../../../ducks/exercises/selectors';
-
-import Sorting from './Sorting';
+import Sorting from 'ui/exercises/filters/Sorting';
 
 function Filters({ exercises, setFilters, setSort, sort }) {
   const { t } = useTranslation();

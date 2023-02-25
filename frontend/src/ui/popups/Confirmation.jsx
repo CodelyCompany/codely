@@ -6,15 +6,14 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { DeleteExercise } from 'ducks/exercises/operations';
+import { getToken } from 'ducks/token/selectors';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-
-import { DeleteExercise } from '../../ducks/exercises/operations';
-import { getToken } from '../../ducks/token/selectors';
-import GetToken from '../user/GetToken';
+import GetToken from 'ui/user/GetToken';
 
 const Confirmation = ({
   open,

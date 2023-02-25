@@ -15,27 +15,25 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+import { GetNotifications } from 'ducks/notifications/operations';
+import {
+  getNotifications,
+  getUnreadNotificationsQuantity,
+} from 'ducks/notifications/selectors';
+import { GetReviews } from 'ducks/reviews/operations';
+import { getToken } from 'ducks/token/selectors';
+import { AddUser, GetUsers } from 'ducks/user/operations';
+import { getUsers } from 'ducks/user/selectors';
 import * as _ from 'lodash';
+import logo from 'logo.png';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { IoIosMail } from 'react-icons/io';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-
-import { GetNotifications } from '../ducks/notifications/operations';
-import {
-  getNotifications,
-  getUnreadNotificationsQuantity,
-} from '../ducks/notifications/selectors';
-import { GetReviews } from '../ducks/reviews/operations';
-import { getToken } from '../ducks/token/selectors';
-import { AddUser, GetUsers } from '../ducks/user/operations';
-import { getUsers } from '../ducks/user/selectors';
-import logo from '../logo.png';
-
-import NavbarMessages from './popups/NavbarMessages';
-import GetToken from './user/GetToken';
+import NavbarMessages from 'ui/popups/NavbarMessages';
+import GetToken from 'ui/user/GetToken';
 
 const Navbar = ({
   GetUsers,
@@ -108,7 +106,7 @@ const Navbar = ({
       if (!_.isEmpty(foundUser)) {
         GetNotifications(foundUser._id, token);
         setAvatarUri(
-          `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}/users/${
+          `${import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'}/users/${
             foundUser._id
           }/avatar?${foundUser.avatarTimestamp}`
         );
@@ -131,7 +129,7 @@ const Navbar = ({
   const handleCloseUserMenu = (setting) => {
     setting === 'Logout' &&
       logout({
-        returnTo: process.env.REACT_APP_LOGOUT_URL || 'http://localhost:3000',
+        returnTo: import.meta.env.REACT_APP_LOGOUT_URL || 'http://localhost:3000',
       });
     setting === 'Profile' && navigate('/user');
     setting === 'Admin Panel' && navigate('/admin');
