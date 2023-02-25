@@ -4,23 +4,21 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Button } from '@mui/material';
 import axios from 'axios';
 import { addPopup } from 'ducks/popups/actions';
-import { getToken } from 'ducks/token/selectors';
 import { GetUsers } from 'ducks/user/operations';
 import { getUserByUsername } from 'ducks/user/selectors';
+import useToken from "helpers/useToken";
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import ExerciseHints from 'ui/popups/ExerciseHints';
-import GetToken from 'ui/user/GetToken';
 
 const Buttons = ({
   setOutput,
   code,
   language,
   setTests,
-  token,
   argumentValues,
   functionName,
   setLoadingFinished,
@@ -29,6 +27,7 @@ const Buttons = ({
   const navigate = useNavigate();
   const { id } = useParams();
   const { user } = useAuth0();
+  const { token } = useToken();
   const foundUser = useSelector(getUserByUsername(user.nickname));
   const dispatch = useDispatch();
 
@@ -94,7 +93,6 @@ const Buttons = ({
 
   return (
     <>
-      <GetToken />
       <Box id='exercises-buttons'>
         <Box id='run-buttons'>
           <Button
@@ -132,18 +130,13 @@ const Buttons = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  token: getToken(state),
-});
-
-export default connect(mapStateToProps)(Buttons);
+export default Buttons;
 
 Buttons.propTypes = {
   setOutput: PropTypes.func.isRequired,
   code: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,
   setTests: PropTypes.func,
-  token: PropTypes.string,
   argumentValues: PropTypes.array.isRequired,
   functionName: PropTypes.string.isRequired,
   setLoadingFinished: PropTypes.func.isRequired,

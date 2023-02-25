@@ -5,18 +5,16 @@ import { Box, Button } from '@mui/material';
 import axios from 'axios';
 import { addPopup } from 'ducks/popups/actions';
 import { getSocket } from 'ducks/socket/selectors';
-import { getToken } from 'ducks/token/selectors';
 import { getUserByUsername } from 'ducks/user/selectors';
+import useToken from "helpers/useToken";
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import GetToken from 'ui/user/GetToken';
 const Buttons = ({
   socket,
   code,
   won,
-  token,
   setOutput,
   functionName,
   argumentValues,
@@ -27,6 +25,7 @@ const Buttons = ({
   const { t } = useTranslation();
   const { user } = useAuth0();
   const { roomId, id } = useParams();
+  const { token } = useToken();
   const foundUser = useSelector(getUserByUsername(user.nickname));
   const dispatch = useDispatch();
   const color = useMemo(
@@ -96,7 +95,6 @@ const Buttons = ({
 
   return (
     <>
-      <GetToken />
       <Box
         id='versus-run-buttons'
       >
@@ -123,7 +121,6 @@ const Buttons = ({
 
 const mapStateToProps = (state) => ({
   socket: getSocket(state),
-  token: getToken(state),
 });
 
 export default connect(mapStateToProps)(Buttons);
@@ -132,7 +129,6 @@ Buttons.propTypes = {
   socket: PropTypes.object,
   code: PropTypes.string.isRequired,
   won: PropTypes.bool.isRequired,
-  token: PropTypes.string,
   setOutput: PropTypes.func.isRequired,
   functionName: PropTypes.string.isRequired,
   argumentValues: PropTypes.array.isRequired,

@@ -21,9 +21,9 @@ import {
   getUnreadNotificationsQuantity,
 } from 'ducks/notifications/selectors';
 import { GetReviews } from 'ducks/reviews/operations';
-import { getToken } from 'ducks/token/selectors';
 import { AddUser, GetUsers } from 'ducks/user/operations';
 import { getUsers } from 'ducks/user/selectors';
+import useToken from "helpers/useToken";
 import * as _ from 'lodash';
 import logo from 'logo.png';
 import { PropTypes } from 'prop-types';
@@ -33,14 +33,12 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import NavbarMessages from 'ui/popups/NavbarMessages';
-import GetToken from 'ui/user/GetToken';
 
 const Navbar = ({
   GetUsers,
   AddUser,
   users,
   GetReviews,
-  token,
   unreadNotifications,
   notifications,
   GetNotifications,
@@ -54,6 +52,7 @@ const Navbar = ({
   const [theme, setTheme] = useState(0);
   const [avatarUri, setAvatarUri] = useState(null);
   const { t } = useTranslation();
+  const { token } = useToken();
 
   const foundUser = useMemo(
     () => users.find((usr) => usr.username === user.nickname),
@@ -149,7 +148,6 @@ const Navbar = ({
     <>
       {!isLoading && (
         <AppBar position='static' color={color}>
-          <GetToken />
           <Container maxWidth='xl'>
             <Toolbar disableGutters>
               <img
@@ -345,7 +343,6 @@ const Navbar = ({
 
 const mapStateToProps = (state) => ({
   users: getUsers(state),
-  token: getToken(state),
   notifications: getNotifications(state),
   unreadNotifications: getUnreadNotificationsQuantity(state),
 });
@@ -364,7 +361,6 @@ Navbar.propTypes = {
   GetReviews: PropTypes.func,
   AddUser: PropTypes.func,
   users: PropTypes.array,
-  token: PropTypes.string,
   unreadNotifications: PropTypes.number,
   notifications: PropTypes.array,
   GetNotifications: PropTypes.func.isRequired,

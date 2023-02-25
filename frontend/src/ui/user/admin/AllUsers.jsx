@@ -5,13 +5,12 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Card, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { DataGrid } from '@mui/x-data-grid';
-import { getToken } from 'ducks/token/selectors';
 import { GetUsers } from 'ducks/user/operations';
 import { getUserByUsername, getUsers } from 'ducks/user/selectors';
+import useToken from "helpers/useToken";
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
-import GetToken from 'ui/user/GetToken';
 
 const useStyles = makeStyles({
   root: {
@@ -21,9 +20,10 @@ const useStyles = makeStyles({
   },
 });
 
-function AllUsers({ users, GetUsers, token }) {
+function AllUsers({ users, GetUsers }) {
   const { t } = useTranslation();
   const { user } = useAuth0();
+  const { token } = useToken();
   const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
     theme: 0,
   };
@@ -76,7 +76,6 @@ function AllUsers({ users, GetUsers, token }) {
       className={`theme-${foundUser.theme}`}
       sx={{ height: '100%', margin: '10px', padding: '10px' }}
     >
-      <GetToken />
       <Typography
         sx={{ color }}
         fontWeight={'bolder'}
@@ -116,7 +115,6 @@ function AllUsers({ users, GetUsers, token }) {
 
 const mapStateToProps = (state) => ({
   users: getUsers(state),
-  token: getToken(state),
 });
 
 const mapDispatchToProps = {
@@ -128,5 +126,4 @@ export default connect(mapStateToProps, mapDispatchToProps)(AllUsers);
 AllUsers.propTypes = {
   users: PropTypes.array,
   GetUsers: PropTypes.func,
-  token: PropTypes.string,
 };

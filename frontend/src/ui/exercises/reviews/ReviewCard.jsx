@@ -12,17 +12,16 @@ import {
   isDownvotedByUserId,
   isUpvotedByUserId,
 } from 'ducks/reviews/selectors';
-import { getToken } from 'ducks/token/selectors';
 import { getUserByUsername } from 'ducks/user/selectors';
+import useToken from "helpers/useToken";
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { connect } from 'react-redux';
-import GetToken from 'ui/user/GetToken';
 
-const ReviewCard = ({ review, token }) => {
+const ReviewCard = ({ review }) => {
   const { t } = useTranslation();
   const { user } = useAuth0();
+  const { token } = useToken();
   const author = useSelector(getAuthorByReviewId(review._id));
   const localUser = useSelector(getUserByUsername(user.nickname));
   const upvoted = useSelector(isUpvotedByUserId(review._id, localUser._id));
@@ -62,7 +61,6 @@ const ReviewCard = ({ review, token }) => {
 
   return (
     <>
-      <GetToken />
       <Grid container spacing={2} className='review-card'>
         <Grid item xs={6}>
           <Typography variant='h5' className='author'>
@@ -108,13 +106,8 @@ const ReviewCard = ({ review, token }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  token: getToken(state),
-});
-
-export default connect(mapStateToProps)(ReviewCard);
+export default ReviewCard;
 
 ReviewCard.propTypes = {
   review: PropTypes.object.isRequired,
-  token: PropTypes.string,
 };
