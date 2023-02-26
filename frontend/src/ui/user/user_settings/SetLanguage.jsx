@@ -26,13 +26,8 @@ const SetLanguage = () => {
   );
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
-      <Box sx={{ display: 'flex' }}>
+    <Box id="set-language-container">
+      <Box>
         <Checkbox
           color={color}
           value='eng'
@@ -40,9 +35,8 @@ const SetLanguage = () => {
           onClick={changeLanguage}
         />
         <Typography
-          fontWeight='bolder'
+          className="set-language-typography"
           color={color}
-          sx={{ position: 'relative', top: '10px' }}
         >
           {t('English')}
         </Typography>
@@ -55,9 +49,8 @@ const SetLanguage = () => {
           onClick={changeLanguage}
         />
         <Typography
-          fontWeight='bolder'
+          className="set-language-typography"
           color={color}
-          sx={{ position: 'relative', top: '10px' }}
         >
           {t('Polish')}
         </Typography>

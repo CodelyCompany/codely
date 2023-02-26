@@ -68,29 +68,19 @@ function ExerciseToCheck({ uncheckedExercises, GetUncheckedExercises, token }) {
   return (
     <>
       <Card
+        id="exercises-to-check-table-container"
         className={`theme-${foundUser?.theme}`}
-        sx={{
-          height: '500px',
-          width: '50%',
-          margin: '10px',
-          padding: '10px',
-        }}
       >
         <Typography
+          id="exercises-to-check-typography"
           variant='h6'
-          sx={{ fontWeight: 'bolder', textAlign: 'center', color }}
+          sx={{ color }}
         >
           {t('Exercises to check')}
         </Typography>
         <DataGrid
-          className={classes.root}
-          sx={{
-            borderColor: color,
-            width: 'calc(100% - 20px)',
-            height: '400px',
-            margin: '10px',
-            color,
-          }}
+          className={`${classes.root} exercises-to-check-table`}
+          sx={{ borderColor: color, color }}
           getRowId={(row) => row._id}
           rows={rows.map((row) => ({
             ...row,

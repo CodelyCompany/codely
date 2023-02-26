@@ -82,6 +82,7 @@ function ExerciseDialog({
     <div>
       {!_.isEmpty(exercise) && (
         <Dialog
+          id="exercise-dialog"
           fullWidth
           open={open}
           onClose={handleClose}
@@ -89,13 +90,7 @@ function ExerciseDialog({
           aria-describedby='alert-dialog-description'
         >
           <DialogTitle
-            fontWeight={'bolder'}
-            sx={{
-              borderColor: color,
-              borderBottom: '3px solid',
-              margin: '0 10px 10px 10px',
-              color,
-            }}
+            sx={{ borderColor: color, color }}
             id='alert-dialog-title'
           >
             {t(`Checking exercise`)}
@@ -121,10 +116,7 @@ function ExerciseDialog({
             <DialogContentText sx={{ color }} id='alert-dialog-description'>
               <strong>{t('Difficulty')}:</strong> {exercise.difficulty} / 5
             </DialogContentText>
-            <div
-              id='alert-dialog-description'
-              style={{ color: 'rgb(25, 118, 210)' }}
-            >
+            <div id='alert-dialog-description'>
               <strong
                 style={{
                   color:
@@ -143,13 +135,8 @@ function ExerciseDialog({
               <strong>{t('Tests:')}</strong>
             </DialogContentText>
             <DataGrid
-              sx={{
-                width: '100%',
-                height: '300px',
-                borderColor: color,
-                border: '3px solid',
-                marginBottom: '5px',
-              }}
+              className="exercise-dialog-tests-table"
+              sx={{ borderColor: color }}
               rows={exercise.tests.map((el) => ({
                 ...el,
                 input: el.input.join(', '),
@@ -161,20 +148,10 @@ function ExerciseDialog({
               disableSelectionOnClick
               experimentalFeatures={{ newEditingApi: true }}
             />
-            <DialogContentText
-              sx={{ fontWeight: 'bolder', color }}
-              id='alert-dialog-description'
-            >
+            <DialogContentText sx={{  color }} id='alert-dialog-description'>
               {t('Example solution:')}
             </DialogContentText>
-            <Box
-              sx={{
-                width: '100%',
-                borderColor: color,
-                border: '3px solid',
-                borderRadius: '5px',
-              }}
-            >
+            <Box id="exercise-dialog-editor-container" sx={{ borderColor: color }}>
               <Editor
                 height='200px'
                 width='100%'
@@ -187,9 +164,7 @@ function ExerciseDialog({
               />
             </Box>
           </DialogContent>
-          <DialogActions
-            sx={{ display: 'flex', justifyContent: 'space-between' }}
-          >
+          <DialogActions id="alert-dialog-actions">
             <Button
               color={color.split('.')[0]}
               variant='contained'
@@ -201,7 +176,6 @@ function ExerciseDialog({
               <Button
                 color={color.split('.')[0]}
                 variant='contained'
-                sx={{ marginRight: '10px' }}
                 onClick={() => deleteExercise()}
               >
                 {t('Reject')}

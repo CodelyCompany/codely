@@ -7,7 +7,7 @@ const ConfettiAfterSolve = () => {
   const { width, height } = useWindowSize();
   return (
     <Confetti
-      style={{ position: 'fixed', top: '0px' }}
+      id="confetti-after-solve"
       width={width}
       height={height}
     />

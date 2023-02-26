@@ -8,7 +8,7 @@ import ExerciseToCheck from 'ui/user/admin/ExerciseToCheck';
 
 const AdminPanel = () => (
   <AdminPanelWrapper>
-    <Box sx={{ width: '100%', height: '100%' }}>
+    <Box id="admin-panel-wrapper">
       <Box id='admin-tables'>
         <ExerciseToCheck />
         <CheckedExercise />

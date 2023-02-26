@@ -73,26 +73,19 @@ function AllUsers({ users, GetUsers }) {
 
   return (
     <Card
+      id="all-users-table-container"
       className={`theme-${foundUser.theme}`}
-      sx={{ height: '100%', margin: '10px', padding: '10px' }}
     >
       <Typography
+        id="registered-users-typography"
         sx={{ color }}
-        fontWeight={'bolder'}
         variant='h6'
-        textAlign={'center'}
       >
         {t('Registered users')}
       </Typography>
       <DataGrid
-        className={classes.root}
-        sx={{
-          width: 'calc(100% - 20px)',
-          height: '300px',
-          margin: '10px',
-          borderColor: color,
-          color,
-        }}
+        className={`${classes.root} all-users-table`}
+        sx={{ borderColor: color, color }}
         getRowId={(row) => row._id}
         rows={rows.map((row) => ({
           ...row,

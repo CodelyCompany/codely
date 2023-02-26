@@ -53,28 +53,19 @@ function CheckedExercise({ checkedExercises, GetExercises }) {
 
   return (
     <Card
+      id="checked-exercises-table-container"
       className={`theme-${foundUser.theme}`}
-      sx={{
-        height: '500px',
-        width: '50%',
-        margin: '10px',
-        padding: '10px',
-      }}
     >
       <Typography
+        id="checked-exercises-typography"
         variant='h6'
-        sx={{ fontWeight: 'bolder', textAlign: 'center', color }}
+        sx={{ color }}
       >
         {t('Checked exercises')}
       </Typography>
       <DataGrid
-        sx={{
-          borderColor: color,
-          width: 'calc(100% - 20px)',
-          height: '400px',
-          margin: '10px',
-          color,
-        }}
+        className="checked-exercises-table"
+        sx={{ borderColor: color, color }}
         getRowId={(row) => row._id}
         rows={rows.map((row) => ({
           ...row,
