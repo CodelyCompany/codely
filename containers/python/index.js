@@ -13,8 +13,8 @@ app.listen(port, () => {
 
 app.post('/', async (req, res) => {
   try {
-    fs.writeFileSync('./execute.py', req.body.toExecute);
-    const output = execSync('python3 execute.py', {
+    fs.writeFileSync('./userdir/execute.py', req.body.toExecute);
+    const output = execSync('cd userdir && python3 ./execute.py', {
       encoding: 'utf-8',
       timeout,
     });

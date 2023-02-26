@@ -13,13 +13,13 @@ app.listen(port, () => {
 
 app.post('/', async (req, res) => {
   try {
-    fs.writeFileSync('./execute.c', req.body.toExecute);
+    fs.writeFileSync('./userdir/execute.c', req.body.toExecute);
     const execOptions = {
       encoding: 'utf-8',
       timeout,
     };
-    execSync('gcc execute.c -o program', execOptions);
-    const output = execSync('./program', execOptions);
+    execSync('gcc ./userdir/execute.c -o ./userdir/program', execOptions);
+    const output = execSync('cd userdir && ./program', execOptions);
     return res.status(200).send({ output });
   } catch (error) {
     if (error.code === 'ETIMEDOUT') {

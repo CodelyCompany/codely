@@ -13,8 +13,8 @@ app.listen(port, () => {
 
 app.post('/', async (req, res) => {
   try {
-    fs.writeFileSync('./execute.sh', req.body.toExecute);
-    const output = execSync('bash execute.sh', {
+    fs.writeFileSync('./userdir/execute.sh', req.body.toExecute);
+    const output = execSync('cd userdir && bash ./execute.sh', {
       encoding: 'utf-8',
       timeout,
     });

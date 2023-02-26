@@ -13,8 +13,8 @@ app.listen(port, () => {
 
 app.post('/', async (req, res) => {
   try {
-    fs.writeFileSync('./execute.R', req.body.toExecute);
-    const output = execSync('Rscript execute.R', {
+    fs.writeFileSync('./userdir/execute.R', req.body.toExecute);
+    const output = execSync('cd userdir && Rscript ./execute.R', {
       encoding: 'utf-8',
       timeout,
     });
