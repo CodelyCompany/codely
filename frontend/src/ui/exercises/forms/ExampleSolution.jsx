@@ -156,27 +156,10 @@ const ExampleSolution = ({
 
   return (
     <>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
+      <Box id="example-solution-container">
         <Box
-          id={`box-border-${foundUser.theme}`}
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            width: '100%',
-            maxWidth: 'calc(900px - 10px)',
-            height: '200px',
-            border: '3px solid',
-            borderRadius: '5px',
-            margin: '10px',
-          }}
-        >
+            className="example-solution-wrapper"
+          id={`box-border-${foundUser.theme}`}>
           <Editor
             theme={foundUser?.theme === 1 ? 'vs-dark' : 'vs'}
             loading={<CircularProgress />}
@@ -193,18 +176,9 @@ const ExampleSolution = ({
             width='100%'
           />
         </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            width: '100%',
-            maxWidth: '900px',
-          }}
-        >
+        <Box id="example-solution-button-wrapper">
           <Button
             color={color.split('.')[0]}
-            sx={{ marginBottom: '10px' }}
             variant='contained'
             onClick={prev}
           >

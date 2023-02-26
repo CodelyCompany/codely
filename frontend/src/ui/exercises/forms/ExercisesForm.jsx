@@ -79,25 +79,13 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
   });
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        textAlign: 'start',
-      }}
-    >
+    <Box id="exercise-form-wrapper">
       <form
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          width: '900px',
-          margin: '10px',
-        }}
         onSubmit={formik.handleSubmit}
       >
         <TextField
           color={color.split('.')[0]}
-          sx={{ input: { color }, marginBottom: '10px' }}
+          sx={{ input: { color } }}
           focused={true}
           id='title'
           name='title'
@@ -109,7 +97,7 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
         />
         <TextField
           color={color.split('.')[0]}
-          sx={{ input: { color }, marginBottom: '10px' }}
+          sx={{ input: { color } }}
           focused={true}
           id='description'
           name='description'
@@ -125,9 +113,6 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
           className={`dropdown-${foundUser.theme}`}
           color={color.split('.')[0]}
           focused={true}
-          sx={{
-            marginBottom: '10px',
-          }}
           id={`difficulty-${foundUser.theme}`}
           name='difficulty'
           label={t('Difficulty')}
@@ -145,7 +130,6 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
         </TextField>
         <TextField
           color={color.split('.')[0]}
-          sx={{ marginBottom: '10px' }}
           focused={true}
           id={`programmingLanguage-${foundUser.theme}`}
           name='programmingLanguage'

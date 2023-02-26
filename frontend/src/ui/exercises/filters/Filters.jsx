@@ -54,7 +54,7 @@ function Filters({ exercises, setFilters, setSort, sort }) {
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box id="filters-wrapper">
       <Box>
         <Autocomplete
           color={color}
