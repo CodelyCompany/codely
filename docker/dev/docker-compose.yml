@@ -11,6 +11,8 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=user
       - MONGO_INITDB_ROOT_PASSWORD=secr3t
+    networks:
+      - no-internet
   backend:
     restart: always
     build:
@@ -38,6 +40,9 @@ services:
     ports:
       - '5000:5000'
       - '5002:5002'
+    networks:
+      - no-internet
+      - internet
   backend_containers:
     restart: always
     build:
@@ -58,6 +63,9 @@ services:
     environment:
       - APP_AUDIENCE=http://localhost:5000
       - APP_DOMAIN=dev-v6t-co5x.us.auth0.com
+    networks:
+      - no-internet
+      - internet
   javascript:
     restart: always
     build:
@@ -68,6 +76,8 @@ services:
       - TIMEOUT=30000
     ports:
       - '6000:6000'
+    networks:
+      - no-internet
   python:
     restart: always
     build:
@@ -78,6 +88,8 @@ services:
       - TIMEOUT=30000
     ports:
       - '6001:6001'
+    networks:
+      - no-internet
   bash:
     restart: always
     build:
@@ -88,6 +100,8 @@ services:
       - TIMEOUT=30000
     ports:
       - '6002:6002'
+    networks:
+      - no-internet
   r:
     restart: always
     build:
@@ -98,6 +112,8 @@ services:
       - TIMEOUT=30000
     ports:
       - '6003:6003'
+    networks:
+      - no-internet
   java:
     restart: always
     build:
@@ -108,6 +124,8 @@ services:
       - TIMEOUT=30000
     ports:
       - '6004:6004'
+    networks:
+      - no-internet
   cpp:
     restart: always
     build:
@@ -118,6 +136,8 @@ services:
       - TIMEOUT=30000
     ports:
       - '6005:6005'
+    networks:
+      - no-internet
   c:
     restart: always
     build:
@@ -128,6 +148,8 @@ services:
       - TIMEOUT=30000
     ports:
       - '6006:6006'
+    networks:
+      - no-internet
   frontend:
     restart: always
     build:
@@ -151,8 +173,19 @@ services:
       - REACT_APP_REDIRECT_URI=http://localhost:3000
       - REACT_APP_WEBSOCKET_ADDRESS=http://localhost:5002/
       - REACT_APP_LOGOUT_URL=http://localhost:3000
+    networks:
+      - no-internet
+      - internet
   redis:
     image: redis:latest
     ports:
       - '6379:6379'
     command: redis-server --requirepass secr3t
+    networks:
+      - no-internet
+networks:
+  no-internet:
+    driver: bridge
+    internal: true
+  internet:
+    driver: bridge
