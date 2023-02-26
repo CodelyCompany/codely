@@ -15,16 +15,10 @@ function UncheckedExercises({ exercises }) {
   );
 
   return (
-    <Box
-      sx={{
-        borderColor: color,
-        borderBottom: '3px solid',
-        margin: '10px 0',
-        padding: '10px 0',
-        width: '100%',
-      }}
+    <Box className="user-section-wrapper"
+      sx={{ borderColor: color }}
     >
-      <Typography variant='h6' sx={{ fontWeight: 'bolder', color }}>
+      <Typography variant='h6' sx={{ color }}>
         {t('Exercises waiting for admin approval:')} {exercises.length}
       </Typography>
     </Box>

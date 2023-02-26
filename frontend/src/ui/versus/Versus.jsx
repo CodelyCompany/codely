@@ -83,7 +83,7 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
     [localStorage.getItem('theme')]
   );
   return (
-    <Container sx={{ display: 'flex', flexDirection: 'column' }}>
+    <Container id="versus-container">
       {!socket && <ChooseExerciseLang formik={formik} />}
       {socket && <PlayersCounter socket={socket} />}
       {socket && (
@@ -98,7 +98,6 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
         <>
           <Button
             color={color}
-            sx={{ marginTop: '20px' }}
             fullWidth
             onClick={() => connect()}
             variant='contained'
@@ -110,13 +109,7 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
       )}
       {socket && (
         <Box>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              margin: '5px',
-            }}
-          >
+          <Box id="seach-wrapper">
             <Typography color={color}>
               {t('Searching')}
               {[...Array(dots).keys()].map(() => '.')}{' '}
@@ -128,7 +121,6 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
           </Box>
           <Button
             color={color}
-            sx={{ marginTop: '20px' }}
             fullWidth
             onClick={() => disconnect()}
             variant='contained'

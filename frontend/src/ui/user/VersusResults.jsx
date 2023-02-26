@@ -30,11 +30,10 @@ const VersusResults = ({ won, lost }) => {
   );
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+    <Box id="versus-result-chart-container">
       <Typography
         variant='h6'
         sx={{
-          fontWeight: 'bolder',
           borderTop:
             parseInt(localStorage.getItem('theme') ?? 0) === 0
               ? '3px solid black'
@@ -45,7 +44,7 @@ const VersusResults = ({ won, lost }) => {
         {t('Your versus stats')}
       </Typography>
       <Doughnut
-        style={{ alignSelf: 'center' }}
+        className="user-chart"
         height={400}
         width={400}
         options={{

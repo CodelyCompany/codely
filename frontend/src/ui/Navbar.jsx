@@ -147,19 +147,18 @@ const Navbar = ({
   return (
     <>
       {!isLoading && (
-        <AppBar position='static' color={color}>
-          <Container maxWidth='xl'>
+        <AppBar id="app-bar" color={color}>
+          <Container id="app-bar-container" maxWidth='xl'>
             <Toolbar disableGutters>
               <img
                 id='logo'
-                style={{ height: '50px', cursor: 'pointer' }}
                 src={logo}
                 alt='codely logo'
                 onClick={() => navigate('/')}
               />
               <Box
+                id="user-container"
                 sx={{
-                  flexGrow: 1,
                   display: { xs: 'flex', md: 'none' },
                 }}
               >
@@ -202,45 +201,25 @@ const Navbar = ({
                 </Menu>
               </Box>
               <Typography
+                id="logo-typography"
                 variant='h5'
                 noWrap
                 component='a'
                 onClick={() => navigate('/')}
-                sx={{
-                  mr: 2,
-                  display: { xs: 'flex', md: 'none' },
-                  flexGrow: 1,
-                  fontFamily: 'monospace',
-                  fontWeight: 700,
-                  letterSpacing: '.3rem',
-                  color: 'inherit',
-                  textDecoration: 'none',
-                }}
+                sx={{ display: { xs: 'flex', md: 'none' } }}
               >
                 CODELY
               </Typography>
-              <Box
-                sx={{
-                  flexGrow: 1,
-                  display: { xs: 'none', md: 'flex' },
-                }}
+              <Box id="pages-container"
+                sx={{ display: { xs: 'none', md: 'flex' } }}
               >
                 {pages.map((page) => (
                   <Button
+                    className="page-button"
                     key={page}
-                    sx={{
-                      fontWeight: 'bolder',
-                      my: 2,
-                      color: 'white',
-                      display: 'block',
-                      ml: '40px',
-                    }}
                   >
                     <Link
-                      style={{
-                        textDecoration: 'none',
-                        color: 'white',
-                      }}
+                      className="page-link"
                       to={`/${page.toLowerCase()}`}
                     >
                       {t(page)}
@@ -250,36 +229,15 @@ const Navbar = ({
               </Box>
               {isAuthenticated && (
                 <>
-                  <Box sx={{ position: 'relative', marginRight: '35px' }}>
+                  <Box id="notifications-container">
                     {unreadNotifications !== 0 && (
-                      <div
-                        style={{
-                          backgroundColor: 'red',
-                          position: 'absolute',
-                          top: '0',
-                          right: '0',
-                          borderRadius: '10px',
-                          fontSize: '15px',
-                          width: '20px',
-                          height: '20px',
-                          textAlign: 'center',
-                          zIndex: '2',
-                        }}
-                      >
+                      <div>
                         {unreadNotifications}
                       </div>
                     )}
                     <IoIosMail
+                      id="mail-icon"
                       onClick={handleClick}
-                      style={{
-                        color: users.length && theme ? 'white' : 'primary.main',
-                        fontSize: '30px',
-                        cursor: 'pointer',
-                        position: 'relative',
-                        right: '10px',
-                        top: '5px',
-                        zIndex: '1',
-                      }}
                     />
                   </Box>
 
@@ -290,17 +248,17 @@ const Navbar = ({
                   />
                 </>
               )}
-              <Box sx={{ flexGrow: 0 }}>
+              <Box id="user-setting">
                 {isAuthenticated && (
                   <Tooltip title='Open settings'>
-                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <IconButton id="icon-button" onClick={handleOpenUserMenu}>
                       <Avatar src={avatarUri} />
                     </IconButton>
                   </Tooltip>
                 )}
                 {!isAuthenticated && (
                   <Typography
-                    sx={{ cursor: 'pointer', fontWeight: 'bolder' }}
+                    id="login-typography"
                     onClick={() => loginWithRedirect()}
                   >
                     {t('LOGIN')}

@@ -46,7 +46,7 @@ const FinishDialog = ({ open, setOpen, won, DisconnectSocket }) => {
   };
 
   return (
-    <div>
+    <div id="versus-finish-dialog">
       <Dialog
         open={open}
         TransitionComponent={Transition}
@@ -54,13 +54,10 @@ const FinishDialog = ({ open, setOpen, won, DisconnectSocket }) => {
         onClose={handleClose}
         aria-describedby='alert-dialog-slide-description'
       >
-        <DialogTitle
+        <DialogTitle id="dialog-title"
           sx={{
-            fontWeight: 'bolder',
             color: won ? 'green' : 'red',
-            fontSize: '30px',
             borderBottom: won ? '3px solid green' : '3px solid red',
-            margin: '10px 20px',
           }}
         >
           {won ? t('You win!') : t('You lose!')}
@@ -68,7 +65,6 @@ const FinishDialog = ({ open, setOpen, won, DisconnectSocket }) => {
         <DialogContent>
           <DialogContentText
             id='alert-dialog-slide-description'
-            sx={{ fontSize: '20px' }}
           >
             {won
               ? t(

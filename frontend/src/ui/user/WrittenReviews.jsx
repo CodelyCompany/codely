@@ -36,12 +36,10 @@ const WrittenReviews = () => {
   }, [dispatch]);
 
   return (
-    <Box>
+    <Box id="written-reviews">
       <Typography
-        marginBottom={3}
         variant='h6'
         color={color}
-        sx={{ fontWeight: 'bolder' }}
       >
         {t('Your reviews:')}
       </Typography>

@@ -26,16 +26,8 @@ const SectionWrapper = ({ children, mode, condition }) => {
   return condition ? (
     children
   ) : (
-    <Box
-      sx={{
-        borderColor: color,
-        borderBottom: '3px solid',
-        margin: '10px 0',
-        padding: '10px 0',
-        width: '100%',
-      }}
-    >
-      <Typography sx={{ fontWeight: 'bolder', color }} variant='h6'>
+    <Box className="user-section-wrapper" sx={{ borderColor: color }}>
+      <Typography sx={{ color }} variant='h6'>
         {info()}
       </Typography>
     </Box>

@@ -34,25 +34,15 @@ const UserDetails = ({ GetUsers }) => {
   const foundUser = useSelector(getUserByUsername(user.nickname));
 
   return (
-    <Container sx={{ height: '100%' }}>
+    <Container id="user-details-container">
       {foundUser && (
-        <Box sx={{ margin: '20px' }}>
+        <Box id="user-details-wrapper">
           <Box
             id='registered-since-info'
-            sx={{
-              borderColor: color,
-              borderBottom: '3px solid',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'end',
-            }}
-          >
+            sx={{ borderColor: color }}>
             <Typography
               variant='h2'
-              sx={{
-                fontWeight: 'bolder',
-                color,
-              }}
+              sx={{ color }}
             >
               {foundUser.username}
             </Typography>
