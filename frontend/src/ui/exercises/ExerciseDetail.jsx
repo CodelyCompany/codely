@@ -56,24 +56,18 @@ const ExerciseDetail = ({ GetExercises }) => {
   return (
     exercise && (
       <>
-        <Container sx={{ marginTop: '10px' }}>
+        <Container id="exercise-details-container">
           <Box id='exercise-wrapper'>
             <List
+              id="exercise-info-list"
               className={`theme-${foundUser.theme}`}
-              sx={{
-                width: '100%',
-                height: '100%',
-                bgcolor: 'background.paper',
-              }}
+              sx={{ bgcolor: 'background.paper' }}
             >
               <ListItem>
                 <Typography
+                  id="exercise-title"
                   variant='h3'
-                  sx={{
-                    borderColor: color,
-                    borderBottom: '3px solid',
-                    color,
-                  }}
+                  sx={{ borderColor: color, color }}
                 >
                   {exercise.title}
                 </Typography>
@@ -122,7 +116,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                   primary={t('Difficulty')}
                   secondary={[...Array(exercise.difficulty).keys()].map(
                     (el) => (
-                      <StarRateIcon sx={{ color: 'gold' }} key={el} />
+                      <StarRateIcon className="exercise-star-icon" key={el} />
                     )
                   )}
                 />
@@ -154,7 +148,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                     rating
                       ? [...Array(Math.round(rating)).keys()].map((num) => (
                           <StarRateIcon
-                            sx={{ color: 'gold' }}
+                            className="exercise-star-icon"
                             key={`rating-${num}`}
                           />
                         ))
@@ -165,13 +159,10 @@ const ExerciseDetail = ({ GetExercises }) => {
             </List>
 
             {user.nickname === exercise.author.username && (
-              <Box
-                id='manage-exercise'
-              >
+              <Box id='manage-exercise'>
                 <Button
                   color={color.split('.')[0]}
                   variant='contained'
-                  sx={{ height: '40px', marginTop: '50px', width: '100px' }}
                   onClick={() => {
                     setToDelete(true);
                   }}
@@ -181,7 +172,6 @@ const ExerciseDetail = ({ GetExercises }) => {
                 <Button
                   color={color.split('.')[0]}
                   variant='contained'
-                  sx={{ height: '40px', marginTop: '10px', width: '100px' }}
                   onClick={() => navigate(`/exercises/edit/${id}`)}
                 >
                   {t('Edit')}

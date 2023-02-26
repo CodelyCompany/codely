@@ -49,15 +49,8 @@ const PaginationExercises = ({
   );
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        flexDirection: 'column',
-        marginTop: '10px',
-      }}
-    >
-      <FormControl sx={{ m: 1, minWidth: 120 }} size='small'>
+    <Box id="pagination-container">
+      <FormControl id="pagination-controlled-form" size='small'>
         <InputLabel sx={{ color: `${color}.main` }} id='demo-select-small'>
           {t('Items per page')}
         </InputLabel>
@@ -77,8 +70,8 @@ const PaginationExercises = ({
         </Select>
       </FormControl>
       <Pagination
+        id="pagination-component"
         color={color}
-        sx={{ margin: '20px' }}
         page={page}
         onChange={handleChange}
         count={parseInt(Math.ceil(quantity / itemsPerPage))}

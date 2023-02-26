@@ -38,12 +38,11 @@ const Reviews = () => {
 
   return (
     reviews && (
-      <Box padding='20px'>
+      <Box id="review">
         <Typography
+          id="review-typography"
           variant='h4'
           color={color}
-          fontWeight={'bolder'}
-          marginBottom={3}
         >
           {t('Reviews')}
         </Typography>
@@ -51,7 +50,7 @@ const Reviews = () => {
           {reviewable ? (
             <ReviewForm review={usersReview} />
           ) : (
-            <Typography variant='h6' textAlign='center' marginBottom={3}>
+            <Typography id="review-no-access" variant='h6'>
               {t('You need to solve the exercise before reviewing it')}
             </Typography>
           )}

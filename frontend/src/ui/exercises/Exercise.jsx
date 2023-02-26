@@ -23,41 +23,34 @@ const StyledRating = styled(Rating)({
 });
 
 const Exercise = ({ exercise }) => {
-  const style = {
-    marginRight: '5px',
-    fontSize: '40px',
-    position: 'relative',
-    top: '15px',
-  };
-
   const languagesWithIcons = [
     {
       lang: 'JavaScript',
-      icon: <DiJsBadge style={style} />,
+      icon: <DiJsBadge className="language-icon" />,
     },
     {
       lang: 'Bash',
-      icon: <DiLinux style={style} />,
+      icon: <DiLinux className="language-icon" />,
     },
     {
       lang: 'C',
-      icon: <SiC style={style} />,
+      icon: <SiC className="language-icon" />,
     },
     {
       lang: 'C++',
-      icon: <SiCplusplus style={style} />,
+      icon: <SiCplusplus className="language-icon" />,
     },
     {
       lang: 'Java',
-      icon: <FaJava style={style} />,
+      icon: <FaJava className="language-icon" />,
     },
     {
       lang: 'Python',
-      icon: <FaPython style={style} />,
+      icon: <FaPython className="language-icon" />,
     },
     {
       lang: 'R',
-      icon: <SiR style={style} />,
+      icon: <SiR className="language-icon" />,
     },
   ];
 
@@ -72,44 +65,27 @@ const Exercise = ({ exercise }) => {
   return (
     <Card
       onClick={() => navigate(`/Exercise/${exercise._id}`)}
-      sx={{
-        backgroundColor: color,
-        width: '100%',
-        cursor: 'pointer',
-        marginTop: '10px',
-        '&:hover': { transform: 'scale(1.05)' },
-      }}
+      id="exercise-container"
+      sx={{ backgroundColor: color }}
     >
-      <CardContent sx={{ position: 'relative' }}>
+      <CardContent id="card-content-1">
         <StyledRating
-          sx={{ position: 'absolute' }}
+          id="rating"
           readOnly
           defaultValue={exercise.difficulty}
           precision={0.5}
           icon={<StarIcon fontSize='inherit' />}
           emptyIcon={<StarIcon fontSize='inherit' />}
         />
-        <Typography
-          sx={{
-            fontWeight: 'bolder',
-            textAlign: 'center',
-            borderBottom: '1px solid white',
-          }}
-          variant='h4'
-          color='white'
-        >
+        <Typography id="rating-typography" variant='h4'>
           {exercise.title}
         </Typography>
-        <Typography sx={{ fontWeight: 'bolder' }} variant='h6' color='white'>
+        <Typography id="author-typography" variant='h6'>
           {exercise.author.username}
         </Typography>
       </CardContent>
-      <CardContent>
-        <Typography
-          sx={{ fontWeight: 'bolder', position: 'relative', bottom: '20px' }}
-          variant='body2'
-          color='white'
-        >
+      <CardContent id="card-content-2">
+        <Typography id="languages-typography" variant='body2'>
           {
             languagesWithIcons.find(
               (el) => el.lang === exercise.programmingLanguage
@@ -118,15 +94,8 @@ const Exercise = ({ exercise }) => {
           {exercise.programmingLanguage}
         </Typography>
       </CardContent>
-      <CardContent>
-        <Typography
-          color='white'
-          sx={{
-            textOverflow: 'ellipsis',
-            overflow: 'hidden',
-            whiteSpace: 'nowrap',
-          }}
-        >
+      <CardContent id="card-content-3">
+        <Typography id="card-content-typography">
           {exercise.description}
         </Typography>
       </CardContent>
