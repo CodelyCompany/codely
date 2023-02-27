@@ -3,20 +3,12 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, MenuItem } from '@mui/material';
 import { Button, TextField } from '@mui/material';
+import { AddExercise, UpdateExercise } from 'ducks/exercises/operations';
+import { getUserByUsername } from 'ducks/user/selectors';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 import * as yup from 'yup';
-
-import {
-  AddExercise,
-  UpdateExercise,
-} from '../../../ducks/exercises/operations';
-import {
-  ChangeAddStatus,
-  ChangeUpdateStatus,
-} from '../../../ducks/popups/actions';
-import { getUserByUsername } from '../../../ducks/user/selectors';
 
 const HintsForms = ({ step, dataToEdit, setStep }) => {
   const { t } = useTranslation();
@@ -128,18 +120,24 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
       }}
     >
       <Box
-        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100%',
+        }}
       >
         <TextField
           color={color.split('.')[0]}
           focused
           sx={{
             marginBottom: '10px',
-            width: '900px',
+            width: '100%',
+            maxWidth: '900px',
           }}
           id={`hintsQuantity-${foundUser.theme}`}
           name='hintsQuantity'
-          label='Choose hints quantity'
+          label={t('Choose hints quantity')}
           value={hintsQuantity}
           onChange={(e) => setHintsQuantity(parseInt(e.target.value))}
           select
@@ -157,7 +155,8 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
           justifyContent: 'center',
           flexDirection: 'column',
           alignItems: 'center',
-          width: '900px',
+          width: '100%',
+          maxWidth: '900px',
           margin: '10px',
         }}
       >
@@ -214,8 +213,6 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
 const mapDispatchToProps = {
   AddExercise,
   UpdateExercise,
-  ChangeAddStatus,
-  ChangeUpdateStatus,
 };
 
 export default connect(null, mapDispatchToProps)(HintsForms);

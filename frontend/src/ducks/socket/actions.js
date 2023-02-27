@@ -1,4 +1,4 @@
-import { types } from './types';
+import { types } from 'ducks/socket/types';
 
 export const ConnectSocket = (payload) => ({
   type: types.CONNECT_SOCKET,

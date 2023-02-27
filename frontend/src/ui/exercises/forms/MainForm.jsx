@@ -6,23 +6,21 @@ import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
+import { GetExercise } from 'ducks/exercises/operations';
+import { getExerciseById } from 'ducks/exercises/selectors';
+import { StopRedirect } from 'ducks/redirects/actions';
+import { isRedirect } from 'ducks/redirects/selector';
+import { getToken } from 'ducks/token/selectors';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-
-import { GetExercise } from '../../../ducks/exercises/operations';
-import { getExerciseById } from '../../../ducks/exercises/selectors';
-import { StopRedirect } from '../../../ducks/redirects/actions';
-import { isRedirect } from '../../../ducks/redirects/selector';
-import { getToken } from '../../../ducks/token/selectors';
-
-import CustomizeExercise from './CustomizeExercise';
-import ExampleSolution from './ExampleSolution';
-import ExercisesForm from './ExercisesForm';
-import HintsForms from './HintsForms';
-import TestsForm from './TestsForm';
+import CustomizeExercise from 'ui/exercises/forms/CustomizeExercise';
+import ExampleSolution from 'ui/exercises/forms/ExampleSolution';
+import ExercisesForm from 'ui/exercises/forms/ExercisesForm';
+import HintsForms from 'ui/exercises/forms/HintsForms';
+import TestsForm from 'ui/exercises/forms/TestsForm';
 
 function MainForm({ GetExercise, redirect, StopRedirect, token }) {
   const color = useMemo(

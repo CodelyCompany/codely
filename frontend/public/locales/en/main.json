@@ -33,7 +33,7 @@
   "Output type": "Output type",
   "Previous": "Previous",
   "Next": "Next",
-  "Here you can add other type which wasn\"t mentioned in the list. Moreover you can add your own type fe. Fraction": "Here you can add other type which wasn\"t mentioned in the list. Moreover you can add your own type fe. Fraction",
+  "Here you can add other type which wasn't mentioned in the list. Moreover you can add your own type fe. Fraction": "Here you can add other type which wasn't mentioned in the list. Moreover you can add your own type fe. Fraction",
   "Type": "Type",
   "Cancel": "Cancel",
   "Add": "Add",
@@ -100,8 +100,8 @@
   "Error occured during deleting exercise": "Error occured during deleting exercise",
   "Updated passed for admin verification": "Updated passed for admin verification",
   "Error occured during updating exercise": "Error occured during updating exercise",
-  "Congratulation! Your code passed all tests": "Congratulation! Your code passed all tests",
-  "Unfortunately, your code didn't pass tests": "Unfortunately, your code didn't pass tests",
+  "Congratulation! Your code passed all tests": "Congratulations! Your code passed all the tests",
+  "Unfortunately, your code didn't pass tests": "Unfortunately, your code didn't pass the tests",
   "Username": "Username",
   "Written reviews": "Written reviews",
   "Registered users": "Registered users",
@@ -189,5 +189,7 @@
   "Choose file (.png)": "Choose file (.png)",
   "Done exercises:": "Done exercises:",
   "Your prepared exercises:": "Your prepared exercises:",
-  "Your reviews:": "Your reviews:"
+  "Your reviews:": "Your reviews:",
+  "Choose hints quantity": "Choose hints quantity",
+  "Other types / Custom types": "Other types / Custom types"
 }

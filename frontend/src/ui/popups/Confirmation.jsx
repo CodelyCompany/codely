@@ -6,26 +6,18 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { DeleteExercise } from 'ducks/exercises/operations';
+import useToken from 'helpers/useToken';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
-import { DeleteExercise } from '../../ducks/exercises/operations';
-import { ChangeDeleteStatus } from '../../ducks/popups/actions';
-import { getToken } from '../../ducks/token/selectors';
-import GetToken from '../user/GetToken';
-
-const Confirmation = ({
-  open,
-  setOpen,
-  DeleteExercise,
-  ChangeDeleteStatus,
-  token,
-}) => {
+const Confirmation = ({ open, setOpen, DeleteExercise }) => {
   const { id } = useParams();
   const { t } = useTranslation();
+  const { token } = useToken();
   const navigate = useNavigate();
 
   const handleClose = () => {
@@ -34,13 +26,11 @@ const Confirmation = ({
 
   const deleteExercise = () => {
     DeleteExercise(id, token);
-    ChangeDeleteStatus();
     navigate('/exercises');
   };
 
   return (
     <div>
-      <GetToken />
       <Dialog
         open={open}
         onClose={handleClose}
@@ -66,21 +56,14 @@ const Confirmation = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  token: getToken(state),
-});
-
 const mapDispatchToProps = {
   DeleteExercise,
-  ChangeDeleteStatus,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Confirmation);
+export default connect(null, mapDispatchToProps)(Confirmation);
 
 Confirmation.propTypes = {
   open: PropTypes.bool,
   setOpen: PropTypes.func,
   DeleteExercise: PropTypes.func,
-  ChangeDeleteStatus: PropTypes.func,
-  token: PropTypes.string,
 };

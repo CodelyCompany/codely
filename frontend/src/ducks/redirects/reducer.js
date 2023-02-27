@@ -1,4 +1,4 @@
-import { types } from './types';
+import { types } from 'ducks/redirects/types';
 
 export const redirectReducer = (state = { redirect: false }, action) => {
   switch (action.type) {

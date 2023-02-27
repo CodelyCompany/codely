@@ -1,4 +1,4 @@
-import { types } from './types';
+import { types } from 'ducks/token/types';
 
 export const tokenReducer = (state = { token: null }, action) => {
   switch (action.type) {

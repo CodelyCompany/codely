@@ -1,36 +1,33 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Button } from '@mui/material';
 import axios from 'axios';
+import { addPopup } from 'ducks/popups/actions';
+import { getSocket } from 'ducks/socket/selectors';
+import { getUserByUsername } from 'ducks/user/selectors';
+import useToken from 'helpers/useToken';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { connect, useSelector } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-
-import { getSocket } from '../../../ducks/socket/selectors';
-import { getToken } from '../../../ducks/token/selectors';
-import { getUserByUsername } from '../../../ducks/user/selectors';
-import SubmitAlert from '../../popups/SubmitAlert';
-import GetToken from '../../user/GetToken';
-
 const Buttons = ({
   socket,
   code,
   won,
-  token,
   setOutput,
   functionName,
   argumentValues,
   language,
   setLoadingFinished,
+  loadingFinished,
 }) => {
   const { t } = useTranslation();
   const { user } = useAuth0();
   const { roomId, id } = useParams();
-  const [triggered, setTriggered] = useState(false);
+  const { token } = useToken();
   const foundUser = useSelector(getUserByUsername(user.nickname));
-  const [passed, setPassed] = useState(false);
+  const dispatch = useDispatch();
   const color = useMemo(
     () =>
       parseInt(localStorage.getItem('theme') ?? 0) === 2
@@ -43,7 +40,8 @@ const Buttons = ({
     axios
       .post(
         `${
-          process.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
+          import.meta.env.REACT_APP_CONTAINERS_ADDRESS ||
+          'http://localhost:5001'
         }/${language.toLowerCase() === 'c++' ? 'cpp' : language.toLowerCase()}`,
         {
           toExecute: code,
@@ -64,9 +62,12 @@ const Buttons = ({
   };
 
   const finishEx = () => {
+    setLoadingFinished(false);
     axios
       .put(
-        `${process.env.REACT_APP_BACKEND}/exercises/checkVersus/${id}/room/${roomId}`,
+        `${
+          import.meta.env.REACT_APP_BACKEND
+        }/exercises/checkVersus/${id}/room/${roomId}`,
         {
           user: foundUser._id,
           won,
@@ -80,35 +81,36 @@ const Buttons = ({
       )
       .then((response) => {
         if (response.data.tests === response.data.correct) {
-          setPassed(true);
-          setTriggered(true);
+          dispatch(
+            addPopup('Congratulation! Your code passed all tests', 'success')
+          );
           socket.emit('game-finished', roomId);
           return;
         }
-        setPassed(false);
-        setTriggered(true);
-      });
+        dispatch(
+          addPopup("Unfortunately, your code didn't pass tests", 'error')
+        );
+      })
+      .finally(() => setLoadingFinished(true));
   };
 
   return (
     <>
-      <GetToken />
-      <SubmitAlert
-        triggered={triggered}
-        setTriggered={setTriggered}
-        passed={passed}
-      />
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          margin: '10px 0',
-        }}
-      >
-        <Button color={color} variant='contained' onClick={() => runCode(code)}>
+      <Box id='versus-run-buttons'>
+        <Button
+          disabled={!loadingFinished}
+          color={color}
+          variant='contained'
+          onClick={() => runCode(code)}
+        >
           {t('Run')}
         </Button>
-        <Button color={color} variant='contained' onClick={finishEx}>
+        <Button
+          disabled={!loadingFinished}
+          color={color}
+          variant='contained'
+          onClick={finishEx}
+        >
           {t('Submit')}
         </Button>
       </Box>
@@ -118,7 +120,6 @@ const Buttons = ({
 
 const mapStateToProps = (state) => ({
   socket: getSocket(state),
-  token: getToken(state),
 });
 
 export default connect(mapStateToProps)(Buttons);
@@ -127,10 +128,10 @@ Buttons.propTypes = {
   socket: PropTypes.object,
   code: PropTypes.string.isRequired,
   won: PropTypes.bool.isRequired,
-  token: PropTypes.string,
   setOutput: PropTypes.func.isRequired,
   functionName: PropTypes.string.isRequired,
   argumentValues: PropTypes.array.isRequired,
   language: PropTypes.string.isRequired,
   setLoadingFinished: PropTypes.func.isRequired,
+  loadingFinished: PropTypes.bool.isRequired,
 };

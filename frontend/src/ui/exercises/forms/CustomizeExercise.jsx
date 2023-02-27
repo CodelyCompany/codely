@@ -4,10 +4,9 @@ import { Box, Button, MenuItem, TextField } from '@mui/material';
 import { useFormik } from 'formik';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import CustomTypes from 'ui/exercises/forms/CustomTypes';
+import { getDataTypes } from 'ui/exercises/forms/utils/dataTypes';
 import * as yup from 'yup';
-
-import { getDataTypes } from './utils/dataTypes';
-import CustomTypes from './CustomTypes';
 
 const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
   const { t } = useTranslation();
@@ -17,7 +16,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
   const [types, setTypes] = useState([]);
   const [open, setOpen] = useState(false);
   const [customTypes, setCustomTypes] = useState([]);
-  const additionalOption = 'Other types / Custom types';
+  const additionalOption = t('Other types / Custom types');
   const languagesWithTypes = ['Java', 'C++', 'C'];
   const formWithTypes = useMemo(
     () => languagesWithTypes.includes(step.dataFromStep1?.programmingLanguage),
@@ -231,13 +230,13 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
         setOpen={setOpen}
         setCustomTypes={setCustomTypes}
       />
-      <Box>
+      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
         <form
           style={{
             display: 'flex',
             flexDirection: 'column',
-            width: '900px',
-            margin: '10px',
+            width: '100%',
+            maxWidth: '900px',
           }}
           onSubmit={formik.handleSubmit}
         >
@@ -245,6 +244,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
             color={color.split('.')[0]}
             focused
             sx={{
+              width: '100%',
               color,
               marginBottom: '10px',
               input: { color },

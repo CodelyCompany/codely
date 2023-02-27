@@ -1,11 +1,10 @@
+import { types } from 'ducks/user/types';
 import { createAction } from 'redux-api-middleware';
-
-import { types } from './types';
 
 export const GetUsers = (token) =>
   createAction({
     endpoint: `${
-      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+      import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'
     }/users/`,
     method: 'GET',
     headers: {
@@ -25,7 +24,7 @@ export const GetUsers = (token) =>
 export const AddUser = (body, token) =>
   createAction({
     endpoint: `${
-      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+      import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'
     }/users/addUser`,
     method: 'POST',
     body: JSON.stringify(body),
@@ -46,7 +45,7 @@ export const AddUser = (body, token) =>
 export const UpdateUser = (body, token) =>
   createAction({
     endpoint: `${
-      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+      import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'
     }/users/editUser`,
     method: 'PUT',
     body: JSON.stringify(body),
@@ -67,7 +66,7 @@ export const UpdateUser = (body, token) =>
 export const UploadAvatar = (userId, body, token) =>
   createAction({
     endpoint: `${
-      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+      import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'
     }/users/${userId}/avatar`,
     method: 'PATCH',
     body,

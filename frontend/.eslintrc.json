@@ -20,7 +20,7 @@
     "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies
     "semi": [2, "always"],
     "max-len": [
-      "warn",
+      "error",
       {
         "code": 100,
         "comments": 80

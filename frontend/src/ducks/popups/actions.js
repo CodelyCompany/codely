@@ -1,20 +1,15 @@
-import { types } from './types';
+import { types } from 'ducks/popups/types';
 
-export const ChangeAddStatus = () => ({
-  type: types.ADD_EXERCISE,
+export const addPopup = (messageKey, variant) => ({
+  type: types.ADD_POPUP,
+  payload: {
+    key: new Date().getTime() + Math.random(),
+    messageKey,
+    options: { variant },
+  },
 });
-export const ChangeUpdateStatus = () => ({
-  type: types.UPDATE_EXERCISE,
-});
-export const ChangeDeleteStatus = () => ({
-  type: types.DELETE_EXERCISE,
-});
-export const CloseAddPopup = () => ({
-  type: types.ADD_EXERCISE_CLOSE,
-});
-export const CloseUpdatePopup = () => ({
-  type: types.UPDATE_EXERCISE_CLOSE,
-});
-export const CloseDeletePopup = () => ({
-  type: types.DELETE_EXERCISE_CLOSE,
+
+export const removePopup = (key) => ({
+  type: types.REMOVE_POPUP,
+  payload: key,
 });

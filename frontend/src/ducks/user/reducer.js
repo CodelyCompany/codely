@@ -1,6 +1,5 @@
+import { types } from 'ducks/user/types';
 import * as _ from 'lodash';
-
-import { types } from './types';
 
 export const usersReducer = (state = { users: [] }, action) => {
   switch (action.type) {

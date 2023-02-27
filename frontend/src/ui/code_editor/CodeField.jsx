@@ -5,12 +5,10 @@ import { useAuth0 } from '@auth0/auth0-react';
 import Editor from '@monaco-editor/react';
 import { Box } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
+import { getUserByUsername } from 'ducks/user/selectors';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-
-import { getUserByUsername } from '../../ducks/user/selectors';
-
-import texts from './languages-properties/startText';
+import texts from 'ui/code_editor/languages-properties/startText';
 
 const CodeField = ({ code, setCode, language }) => {
   const handleCodeChange = (value) => {

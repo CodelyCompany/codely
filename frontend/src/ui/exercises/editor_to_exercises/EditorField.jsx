@@ -4,16 +4,14 @@ import { useAuth0 } from '@auth0/auth0-react';
 import Editor from '@monaco-editor/react';
 import { Box } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
+import { getUserByUsername } from 'ducks/user/selectors';
 import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
 import { useSelector } from 'react-redux';
-
-import { getUserByUsername } from '../../../ducks/user/selectors';
-import OutputField from '../../code_editor/OutputField';
-
-import Buttons from './Buttons';
-import CustomArgs from './CustomArgs';
-import Tests from './Tests';
+import OutputField from 'ui/code_editor/OutputField';
+import Buttons from 'ui/exercises/editor_to_exercises/Buttons';
+import CustomArgs from 'ui/exercises/editor_to_exercises/CustomArgs';
+import Tests from 'ui/exercises/editor_to_exercises/Tests';
 
 const EditorField = ({
   language,
@@ -50,6 +48,7 @@ const EditorField = ({
         />
         <Buttons
           setLoadingFinished={setLoadingFinished}
+          loadingFinished={loadingFinished}
           argumentValues={argumentValues}
           setOutput={setOutput}
           code={code}
@@ -78,7 +77,9 @@ const EditorField = ({
           width='100%'
         />
       </Box>
-      {output && <OutputField output={output} loadingFinished={loadingFinished} />}
+      {output && (
+        <OutputField output={output} loadingFinished={loadingFinished} />
+      )}
       {!_.isEmpty(tests) && <Tests tests={tests} />}
     </Box>
   );

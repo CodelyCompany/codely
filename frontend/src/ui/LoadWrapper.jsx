@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Container } from '@mui/system';
+import usePopups from 'helpers/usePopups';
 import PropTypes from 'prop-types';
 import { ProgressBar } from 'react-loader-spinner';
-
-import MainPage from './MainPage';
+import MainPage from 'ui/MainPage';
 
 const LoadWrapper = ({ children }) => {
   const { isLoading, isAuthenticated } = useAuth0();
@@ -19,6 +19,8 @@ const LoadWrapper = ({ children }) => {
   useEffect(() => {
     setTheme(parseInt(localStorage.getItem('theme')) ?? 0);
   }, []);
+
+  usePopups();
 
   return isLoading ? (
     <Container

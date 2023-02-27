@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Auth0Provider } from '@auth0/auth0-react';
 import ReactDOM from 'react-dom/client';
-import env from 'react-dotenv';
 import { Provider } from 'react-redux';
 
 import store from './ducks/store';
@@ -12,7 +11,7 @@ import reportWebVitals from './reportWebVitals';
 import './index.css';
 
 const redirectUri =
-  process.env.REACT_APP_REDIRECT_URI || 'http://localhost:3000';
+  import.meta.env.REACT_APP_REDIRECT_URI || 'http://localhost:3000';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -20,10 +19,10 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <Auth0Provider
-        domain={process.env.REACT_APP_DOMAIN}
-        clientId={process.env.REACT_APP_CLIENT_ID}
+        domain={import.meta.env.REACT_APP_DOMAIN}
+        clientId={import.meta.env.REACT_APP_CLIENT_ID}
         redirectUri={redirectUri + '/user'}
-        audience={process.env.REACT_APP_BACKEND}
+        audience={import.meta.env.REACT_APP_BACKEND}
       >
         <App />
       </Auth0Provider>

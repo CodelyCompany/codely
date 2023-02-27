@@ -1,22 +1,14 @@
-import { types } from './types';
+import { types } from 'ducks/popups/types';
 
-export const popupsReducer = (
-  state = { add: false, delete: false, update: false },
-  action
-) => {
+export const popupsReducer = (state = { popups: [] }, action) => {
   switch (action.type) {
-    case types.ADD_EXERCISE:
-      return { ...state, add: true };
-    case types.DELETE_EXERCISE:
-      return { ...state, delete: true };
-    case types.UPDATE_EXERCISE:
-      return { ...state, update: true };
-    case types.ADD_EXERCISE_CLOSE:
-      return { ...state, add: false };
-    case types.DELETE_EXERCISE_CLOSE:
-      return { ...state, delete: false };
-    case types.UPDATE_EXERCISE_CLOSE:
-      return { ...state, update: false };
+    case types.ADD_POPUP:
+      return { ...state, popups: [...state.popups, action.payload] };
+    case types.REMOVE_POPUP:
+      return {
+        ...state,
+        popups: state.popups.filter((popup) => popup.key !== action.payload),
+      };
     default:
       return state;
   }

@@ -5,41 +5,32 @@ import Editor from '@monaco-editor/react';
 import { Box, Button } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import axios from 'axios';
+import { AddExercise, UpdateExercise } from 'ducks/exercises/operations';
+import { addPopup } from 'ducks/popups/actions';
+import { getUserByUsername } from 'ducks/user/selectors';
+import useToken from 'helpers/useToken';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { connect, useSelector } from 'react-redux';
-
-import {
-  AddExercise,
-  UpdateExercise,
-} from '../../../ducks/exercises/operations';
-import {
-  ChangeAddStatus,
-  ChangeUpdateStatus,
-} from '../../../ducks/popups/actions';
-import { getToken } from '../../../ducks/token/selectors';
-import { getUserByUsername } from '../../../ducks/user/selectors';
-import SubmitAlert from '../../popups/SubmitAlert';
-import GetToken from '../../user/GetToken';
-
-import { getSignature } from './utils/functionSignatures';
-import TestsList from './TestsList';
+import { ThreeDots } from 'react-loader-spinner';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import TestsList from 'ui/exercises/forms/TestsList';
+import { getSignature } from 'ui/exercises/forms/utils/functionSignatures';
 
 const ExampleSolution = ({
   step,
   setStep,
   AddExercise,
-  ChangeAddStatus,
   dataToEdit,
   UpdateExercise,
-  ChangeUpdateStatus,
-  token,
 }) => {
   const { t } = useTranslation();
+  const { token } = useToken();
   const [code, setCode] = useState('');
   const [tests, setTests] = useState(null);
   const { user } = useAuth0();
-  const [triggered, setTriggered] = useState(false);
+  const [finishedLoading, setFinishedLoading] = useState(true);
+  const dispatch = useDispatch();
+
   const color = useMemo(
     () =>
       parseInt(localStorage.getItem('theme') ?? 0) === 2
@@ -63,7 +54,12 @@ const ExampleSolution = ({
   };
 
   useEffect(() => {
-    if (tests) setTriggered(true);
+    if (tests && tests.correct === tests.tests)
+      dispatch(
+        addPopup('Congratulation! Your code passed all tests', 'success')
+      );
+    if (tests && tests.correct !== tests.tests)
+      dispatch(addPopup("Unfortunately, your code didn't pass tests", 'error'));
   }, [tests]);
 
   useEffect(() => {
@@ -105,7 +101,6 @@ const ExampleSolution = ({
         },
         token
       );
-      ChangeAddStatus();
       return;
     }
     UpdateExercise(
@@ -121,14 +116,14 @@ const ExampleSolution = ({
       },
       token
     );
-    ChangeUpdateStatus();
   };
 
   const verifySolution = () => {
+    setFinishedLoading(false);
     axios
       .post(
         `${
-          process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+          import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'
         }/exercises/checkBeforeAddExercise`,
         {
           exampleSolution: code,
@@ -148,17 +143,12 @@ const ExampleSolution = ({
       )
       .then((response) => {
         setTests(response.data);
-      });
+      })
+      .finally(() => setFinishedLoading(true));
   };
 
   return (
     <>
-      <GetToken />
-      <SubmitAlert
-        triggered={triggered}
-        setTriggered={setTriggered}
-        passed={tests && tests.correct === tests.tests}
-      />
       <Box
         sx={{
           display: 'flex',
@@ -172,7 +162,8 @@ const ExampleSolution = ({
           sx={{
             display: 'flex',
             justifyContent: 'center',
-            width: 'calc(900px - 10px)',
+            width: '100%',
+            maxWidth: 'calc(900px - 10px)',
             height: '200px',
             border: '3px solid',
             borderRadius: '5px',
@@ -200,7 +191,8 @@ const ExampleSolution = ({
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            width: '900px',
+            width: '100%',
+            maxWidth: '900px',
           }}
         >
           <Button
@@ -214,6 +206,7 @@ const ExampleSolution = ({
           <Button
             color={color.split('.')[0]}
             variant='contained'
+            disabled={!finishedLoading}
             onClick={() =>
               tests
                 ? tests.correct !== tests.tests
@@ -222,15 +215,34 @@ const ExampleSolution = ({
                 : verifySolution()
             }
           >
-            {tests
-              ? tests.correct !== tests.tests
-                ? `${t('Check exercise again (Last run:')} ${tests.correct} / ${
+            {finishedLoading ? (
+              tests ? (
+                tests.correct !== tests.tests ? (
+                  `${t('Check exercise again (Last run:')} ${tests.correct} / ${
                     tests.tests
                   })`
-                : `${t(
+                ) : (
+                  `${t(
                     'Click again to pass your exercise for admin verification.'
                   )}`
-              : t('Check exercise')}
+                )
+              ) : (
+                t('Check exercise')
+              )
+            ) : (
+              <ThreeDots
+                height='20'
+                width='20'
+                radius='9'
+                color='gray'
+                ariaLabel='three-dots-loading'
+                wrapperStyle={{
+                  textAlign: 'center',
+                }}
+                wrapperClassName=''
+                visible={true}
+              />
+            )}
           </Button>
         </Box>
       </Box>
@@ -239,26 +251,17 @@ const ExampleSolution = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  token: getToken(state),
-});
-
 const mapDispatchToProps = {
   AddExercise,
-  ChangeAddStatus,
   UpdateExercise,
-  ChangeUpdateStatus,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ExampleSolution);
+export default connect(null, mapDispatchToProps)(ExampleSolution);
 
 ExampleSolution.propTypes = {
   step: PropTypes.object.isRequired,
   setStep: PropTypes.func.isRequired,
   AddExercise: PropTypes.func,
-  ChangeAddStatus: PropTypes.func,
   dataToEdit: PropTypes.object,
   UpdateExercise: PropTypes.func,
-  ChangeUpdateStatus: PropTypes.func,
-  token: PropTypes.string,
 };

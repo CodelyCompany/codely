@@ -3,20 +3,18 @@ import React, { useEffect, useMemo } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Card, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import * as _ from 'lodash';
+import { GetExercises } from 'ducks/exercises/operations';
+import { getExercisesFromState } from 'ducks/exercises/selectors';
+import { getUserByUsername } from 'ducks/user/selectors';
+import useToken from 'helpers/useToken';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { GetExercises } from '../../../ducks/exercises/operations';
-import { getExercisesFromState } from '../../../ducks/exercises/selectors';
-import { getToken } from '../../../ducks/token/selectors';
-import { getUserByUsername } from '../../../ducks/user/selectors';
-import GetToken from '../GetToken';
-
-function CheckedExercise({ checkedExercises, GetExercises, token }) {
+function CheckedExercise({ checkedExercises, GetExercises }) {
   const { t } = useTranslation();
+  const { token } = useToken();
   const rows = useMemo(
     () => (checkedExercises ? checkedExercises : []),
     [checkedExercises]
@@ -63,7 +61,6 @@ function CheckedExercise({ checkedExercises, GetExercises, token }) {
         padding: '10px',
       }}
     >
-      <GetToken />
       <Typography
         variant='h6'
         sx={{ fontWeight: 'bolder', textAlign: 'center', color }}
@@ -96,7 +93,6 @@ function CheckedExercise({ checkedExercises, GetExercises, token }) {
 
 const mapStateToProps = (state) => ({
   checkedExercises: getExercisesFromState(state),
-  token: getToken(state),
 });
 
 const mapDispatchToProps = {
@@ -108,5 +104,4 @@ export default connect(mapStateToProps, mapDispatchToProps)(CheckedExercise);
 CheckedExercise.propTypes = {
   checkedExercises: PropTypes.array,
   GetExercises: PropTypes.func,
-  token: PropTypes.string,
 };

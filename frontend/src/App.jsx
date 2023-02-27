@@ -1,9 +1,9 @@
 import React from 'react';
 
-import AppRoutes from './AppRoutes';
+import AppRoutes from 'AppRoutes';
 
-import './styles/css/styles.css';
-import './App.css';
+import 'styles/scss/styles.scss';
+import 'App.css';
 
 const App = () => (
   <div className='App'>

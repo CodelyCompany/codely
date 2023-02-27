@@ -9,12 +9,11 @@ import {
   Pagination,
   Select,
 } from '@mui/material';
+import { getExercisesQuantity } from 'ducks/exercises/selectors';
+import { getUserByUsername } from 'ducks/user/selectors';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
-
-import { getExercisesQuantity } from '../../ducks/exercises/selectors';
-import { getUserByUsername } from '../../ducks/user/selectors';
 
 const PaginationExercises = ({
   quantity,

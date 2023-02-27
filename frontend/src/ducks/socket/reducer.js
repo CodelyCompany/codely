@@ -1,4 +1,4 @@
-import { types } from './types';
+import { types } from 'ducks/socket/types';
 
 export const socketReducer = (state = { socket: null }, action) => {
   switch (action.type) {
