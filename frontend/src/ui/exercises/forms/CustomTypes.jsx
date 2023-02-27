@@ -32,8 +32,8 @@ const CustomTypes = ({ open, setOpen, setCustomTypes }) => {
         <DialogContent>
           <DialogContentText>
             {
-              // eslint-disable-next-line max-len
               t(
+                // eslint-disable-next-line max-len
                 `Here you can add other type which wasn't mentioned in the list. Moreover you can add your own type fe. Fraction`
               )
             }
