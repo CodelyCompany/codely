@@ -38,19 +38,15 @@ const Reviews = () => {
 
   return (
     reviews && (
-      <Box id="review">
-        <Typography
-          id="review-typography"
-          variant='h4'
-          color={color}
-        >
+      <Box id='review'>
+        <Typography id='review-typography' variant='h4' color={color}>
           {t('Reviews')}
         </Typography>
         <Box>
           {reviewable ? (
             <ReviewForm review={usersReview} />
           ) : (
-            <Typography id="review-no-access" variant='h6'>
+            <Typography id='review-no-access' variant='h6'>
               {t('You need to solve the exercise before reviewing it')}
             </Typography>
           )}

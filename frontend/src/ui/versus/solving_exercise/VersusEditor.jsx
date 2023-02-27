@@ -20,7 +20,8 @@ const VersusEditor = ({ code, setCode, language, functionSignature }) => {
   }, []);
 
   return (
-    <Box id='versus-editor-container'
+    <Box
+      id='versus-editor-container'
       sx={{
         borderColor: 'primary.main',
       }}

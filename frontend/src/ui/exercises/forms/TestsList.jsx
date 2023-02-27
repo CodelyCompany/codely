@@ -31,17 +31,15 @@ const TestsList = ({ step }) => {
   );
   return (
     <TableContainer
-      id="tests-container"
+      id='tests-container'
       className={`theme-${foundUser.theme}`}
       component={Paper}
       sx={{ borderColor: color }}
     >
-      <span>
-        {t('Created tests')}
-      </span>
+      <span>{t('Created tests')}</span>
       {step.dataFromStep2?.argumentsName && step.dataFromStep3 && (
         <Table
-          id="tests-table"
+          id='tests-table'
           className={`theme-${foundUser.theme}`}
           aria-label='simple table'
         >
@@ -53,12 +51,13 @@ const TestsList = ({ step }) => {
                   key={arg}
                   align='center'
                 >
-                  <span className={`theme-${foundUser.theme}`}>
-                    {arg}
-                  </span>
+                  <span className={`theme-${foundUser.theme}`}>{arg}</span>
                 </TableCell>
               ))}
-              <TableCell className={`theme-${foundUser.theme} tests-table-cell`} align='center'>
+              <TableCell
+                className={`theme-${foundUser.theme} tests-table-cell`}
+                align='center'
+              >
                 <span className={`theme-${foundUser.theme}`}>
                   {t('Output')}
                 </span>
@@ -74,9 +73,7 @@ const TestsList = ({ step }) => {
                     align='center'
                     key={_.uniqueId()}
                   >
-                    <span className={`theme-${foundUser.theme}`}>
-                      {row}
-                    </span>
+                    <span className={`theme-${foundUser.theme}`}>{row}</span>
                   </TableCell>
                 ))}
                 <TableCell

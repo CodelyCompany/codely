@@ -45,29 +45,26 @@ const ProgrammingQuotes = () => {
   return (
     data && (
       <Paper
-        id="programming-quotes"
+        id='programming-quotes'
         elevation={3}
         className={foundUser ? `theme-${foundUser.theme}` : `theme-0`}
       >
-        <ImQuotesLeft id="left-quotes"
+        <ImQuotesLeft
+          id='left-quotes'
           className={foundUser ? `theme-${foundUser.theme}` : `theme-0`}
         />
-        <Box id="content-container">
-          <Typography
-            color={{ color }}
-            variant='h6'
-          >
+        <Box id='content-container'>
+          <Typography color={{ color }} variant='h6'>
             {data.en}
           </Typography>
           <Box>
-            <ImQuotesRight id="right-qoutes"
+            <ImQuotesRight
+              id='right-qoutes'
               className={foundUser ? `theme-${foundUser.theme}` : `theme-0`}
             />
           </Box>
 
-          <Typography color={color}>
-            ~{data.author}
-          </Typography>
+          <Typography color={color}>~{data.author}</Typography>
         </Box>
       </Paper>
     )

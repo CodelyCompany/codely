@@ -6,7 +6,7 @@ import axios from 'axios';
 import { addPopup } from 'ducks/popups/actions';
 import { GetUsers } from 'ducks/user/operations';
 import { getUserByUsername } from 'ducks/user/selectors';
-import useToken from "helpers/useToken";
+import useToken from 'helpers/useToken';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -45,7 +45,8 @@ const Buttons = ({
     axios
       .post(
         `${
-          import.meta.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
+          import.meta.env.REACT_APP_CONTAINERS_ADDRESS ||
+          'http://localhost:5001'
         }/${language.toLowerCase() === 'c++' ? 'cpp' : language.toLowerCase()}`,
         {
           toExecute: code,
@@ -59,9 +60,14 @@ const Buttons = ({
         }
       )
       .then((response) => {
-        dispatch(addPopup(
-          response.status === 200 ? 'Your code ran successfully' : 'Your code ran with errors',
-          response.status === 200 ? 'success' : 'error'));
+        dispatch(
+          addPopup(
+            response.status === 200
+              ? 'Your code ran successfully'
+              : 'Your code ran with errors',
+            response.status === 200 ? 'success' : 'error'
+          )
+        );
         setOutput(response.data.output.toString());
       })
       .catch((err) => console.log(err))
@@ -80,12 +86,14 @@ const Buttons = ({
       )
       .then((response) => {
         setTests(response.data);
-        dispatch(addPopup(
-          response.data.tests === response.data.correct ?
-              'Congratulation! Your code passed all tests' :
-              "Unfortunately, your code didn't pass tests",
-          response.data.tests === response.data.correct ? 'success' : 'error'
-        ));
+        dispatch(
+          addPopup(
+            response.data.tests === response.data.correct
+              ? 'Congratulation! Your code passed all tests'
+              : "Unfortunately, your code didn't pass tests",
+            response.data.tests === response.data.correct ? 'success' : 'error'
+          )
+        );
         dispatch(GetUsers(token));
       })
       .finally(() => setLoadingFinished(true));

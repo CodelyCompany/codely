@@ -30,7 +30,7 @@ const VersusResults = ({ won, lost }) => {
   );
 
   return (
-    <Box id="versus-result-chart-container">
+    <Box id='versus-result-chart-container'>
       <Typography
         variant='h6'
         sx={{
@@ -44,7 +44,7 @@ const VersusResults = ({ won, lost }) => {
         {t('Your versus stats')}
       </Typography>
       <Doughnut
-        className="user-chart"
+        className='user-chart'
         height={400}
         width={400}
         options={{

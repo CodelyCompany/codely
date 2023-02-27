@@ -46,7 +46,7 @@ const FinishDialog = ({ open, setOpen, won, DisconnectSocket }) => {
   };
 
   return (
-    <div id="versus-finish-dialog">
+    <div id='versus-finish-dialog'>
       <Dialog
         open={open}
         TransitionComponent={Transition}
@@ -54,7 +54,8 @@ const FinishDialog = ({ open, setOpen, won, DisconnectSocket }) => {
         onClose={handleClose}
         aria-describedby='alert-dialog-slide-description'
       >
-        <DialogTitle id="dialog-title"
+        <DialogTitle
+          id='dialog-title'
           sx={{
             color: won ? 'green' : 'red',
             borderBottom: won ? '3px solid green' : '3px solid red',
@@ -63,9 +64,7 @@ const FinishDialog = ({ open, setOpen, won, DisconnectSocket }) => {
           {won ? t('You win!') : t('You lose!')}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText
-            id='alert-dialog-slide-description'
-          >
+          <DialogContentText id='alert-dialog-slide-description'>
             {won
               ? t(
                   'You solved this exercise faster than your opponent. Congrats!'

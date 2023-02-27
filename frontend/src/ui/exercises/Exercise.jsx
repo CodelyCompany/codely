@@ -26,31 +26,31 @@ const Exercise = ({ exercise }) => {
   const languagesWithIcons = [
     {
       lang: 'JavaScript',
-      icon: <DiJsBadge className="language-icon" />,
+      icon: <DiJsBadge className='language-icon' />,
     },
     {
       lang: 'Bash',
-      icon: <DiLinux className="language-icon" />,
+      icon: <DiLinux className='language-icon' />,
     },
     {
       lang: 'C',
-      icon: <SiC className="language-icon" />,
+      icon: <SiC className='language-icon' />,
     },
     {
       lang: 'C++',
-      icon: <SiCplusplus className="language-icon" />,
+      icon: <SiCplusplus className='language-icon' />,
     },
     {
       lang: 'Java',
-      icon: <FaJava className="language-icon" />,
+      icon: <FaJava className='language-icon' />,
     },
     {
       lang: 'Python',
-      icon: <FaPython className="language-icon" />,
+      icon: <FaPython className='language-icon' />,
     },
     {
       lang: 'R',
-      icon: <SiR className="language-icon" />,
+      icon: <SiR className='language-icon' />,
     },
   ];
 
@@ -65,27 +65,27 @@ const Exercise = ({ exercise }) => {
   return (
     <Card
       onClick={() => navigate(`/Exercise/${exercise._id}`)}
-      id="exercise-container"
+      id='exercise-container'
       sx={{ backgroundColor: color }}
     >
-      <CardContent id="card-content-1">
+      <CardContent id='card-content-1'>
         <StyledRating
-          id="rating"
+          id='rating'
           readOnly
           defaultValue={exercise.difficulty}
           precision={0.5}
           icon={<StarIcon fontSize='inherit' />}
           emptyIcon={<StarIcon fontSize='inherit' />}
         />
-        <Typography id="rating-typography" variant='h4'>
+        <Typography id='rating-typography' variant='h4'>
           {exercise.title}
         </Typography>
-        <Typography id="author-typography" variant='h6'>
+        <Typography id='author-typography' variant='h6'>
           {exercise.author.username}
         </Typography>
       </CardContent>
-      <CardContent id="card-content-2">
-        <Typography id="languages-typography" variant='body2'>
+      <CardContent id='card-content-2'>
+        <Typography id='languages-typography' variant='body2'>
           {
             languagesWithIcons.find(
               (el) => el.lang === exercise.programmingLanguage
@@ -94,8 +94,8 @@ const Exercise = ({ exercise }) => {
           {exercise.programmingLanguage}
         </Typography>
       </CardContent>
-      <CardContent id="card-content-3">
-        <Typography id="card-content-typography">
+      <CardContent id='card-content-3'>
+        <Typography id='card-content-typography'>
           {exercise.description}
         </Typography>
       </CardContent>

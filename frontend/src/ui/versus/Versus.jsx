@@ -83,7 +83,7 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
     [localStorage.getItem('theme')]
   );
   return (
-    <Container id="versus-container">
+    <Container id='versus-container'>
       {!socket && <ChooseExerciseLang formik={formik} />}
       {socket && <PlayersCounter socket={socket} />}
       {socket && (
@@ -109,7 +109,7 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
       )}
       {socket && (
         <Box>
-          <Box id="seach-wrapper">
+          <Box id='seach-wrapper'>
             <Typography color={color}>
               {t('Searching')}
               {[...Array(dots).keys()].map(() => '.')}{' '}

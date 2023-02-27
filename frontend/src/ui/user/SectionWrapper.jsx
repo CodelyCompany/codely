@@ -26,7 +26,7 @@ const SectionWrapper = ({ children, mode, condition }) => {
   return condition ? (
     children
   ) : (
-    <Box className="user-section-wrapper" sx={{ borderColor: color }}>
+    <Box className='user-section-wrapper' sx={{ borderColor: color }}>
       <Typography sx={{ color }} variant='h6'>
         {info()}
       </Typography>

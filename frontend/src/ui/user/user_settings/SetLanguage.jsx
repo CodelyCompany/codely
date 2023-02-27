@@ -26,7 +26,7 @@ const SetLanguage = () => {
   );
 
   return (
-    <Box id="set-language-container">
+    <Box id='set-language-container'>
       <Box>
         <Checkbox
           color={color}
@@ -34,10 +34,7 @@ const SetLanguage = () => {
           checked={language === 'eng'}
           onClick={changeLanguage}
         />
-        <Typography
-          className="set-language-typography"
-          color={color}
-        >
+        <Typography className='set-language-typography' color={color}>
           {t('English')}
         </Typography>
       </Box>
@@ -48,10 +45,7 @@ const SetLanguage = () => {
           checked={language === 'pl'}
           onClick={changeLanguage}
         />
-        <Typography
-          className="set-language-typography"
-          color={color}
-        >
+        <Typography className='set-language-typography' color={color}>
           {t('Polish')}
         </Typography>
       </Box>

@@ -25,14 +25,10 @@ const Editor = () => {
 
   return (
     <Container>
-      <Typography id='editor-tag'>
-        {t('Write your code here!')}
-      </Typography>
-      <Box id="editor-wrapper" borderColor={color}>
-        <Box id='editor' >
-          <Box
-            id='code-editor-buttons'
-          >
+      <Typography id='editor-tag'>{t('Write your code here!')}</Typography>
+      <Box id='editor-wrapper' borderColor={color}>
+        <Box id='editor'>
+          <Box id='code-editor-buttons'>
             <LanguageSelector language={language} setLanguage={setLanguage} />
             <RunButton
               code={code}

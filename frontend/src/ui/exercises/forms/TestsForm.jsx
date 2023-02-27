@@ -149,8 +149,8 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
   }, [testsQuantity]);
 
   return (
-    <Box id="tests-form-container">
-      <Box id="tests-quantity-wrapper">
+    <Box id='tests-form-container'>
+      <Box id='tests-quantity-wrapper'>
         <TextField
           color={color.split('.')[0]}
           focused

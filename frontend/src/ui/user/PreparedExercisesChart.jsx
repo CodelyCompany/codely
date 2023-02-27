@@ -38,7 +38,7 @@ const PreparedExercisesChart = ({ exercises, mode }) => {
 
   return (
     <Line
-      className="user-chart"
+      className='user-chart'
       width={1000}
       height={300}
       datasetIdKey='id'

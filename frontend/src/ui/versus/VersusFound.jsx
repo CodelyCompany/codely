@@ -48,7 +48,7 @@ const VersusFound = ({
   return (
     <Box id='found-versus-dialog'>
       <Dialog
-        className="red-text"
+        className='red-text'
         open={open}
         onClose={handleClose}
         aria-labelledby='alert-dialog-title'
@@ -61,7 +61,7 @@ const VersusFound = ({
               t('Waiting for your opponent.')
             ) : (
               <>
-                <span className="green-text">
+                <span className='green-text'>
                   {t('We found an opponent for you!')}{' '}
                 </span>{' '}
                 {t(

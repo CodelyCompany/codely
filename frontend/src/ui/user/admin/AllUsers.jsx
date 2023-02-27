@@ -7,7 +7,7 @@ import { makeStyles } from '@mui/styles';
 import { DataGrid } from '@mui/x-data-grid';
 import { GetUsers } from 'ducks/user/operations';
 import { getUserByUsername, getUsers } from 'ducks/user/selectors';
-import useToken from "helpers/useToken";
+import useToken from 'helpers/useToken';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
@@ -72,15 +72,8 @@ function AllUsers({ users, GetUsers }) {
   ];
 
   return (
-    <Card
-      id="all-users-table-container"
-      className={`theme-${foundUser.theme}`}
-    >
-      <Typography
-        id="registered-users-typography"
-        sx={{ color }}
-        variant='h6'
-      >
+    <Card id='all-users-table-container' className={`theme-${foundUser.theme}`}>
+      <Typography id='registered-users-typography' sx={{ color }} variant='h6'>
         {t('Registered users')}
       </Typography>
       <DataGrid

@@ -79,10 +79,8 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
   });
 
   return (
-    <Box id="exercise-form-wrapper">
-      <form
-        onSubmit={formik.handleSubmit}
-      >
+    <Box id='exercise-form-wrapper'>
+      <form onSubmit={formik.handleSubmit}>
         <TextField
           color={color.split('.')[0]}
           sx={{ input: { color } }}

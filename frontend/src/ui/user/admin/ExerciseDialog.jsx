@@ -19,7 +19,7 @@ import {
 } from 'ducks/exercises/operations';
 import { AddNotification } from 'ducks/notifications/operations';
 import { getUserByUsername, getUsers } from 'ducks/user/selectors';
-import useToken from "helpers/useToken";
+import useToken from 'helpers/useToken';
 import _ from 'lodash';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -82,7 +82,7 @@ function ExerciseDialog({
     <div>
       {!_.isEmpty(exercise) && (
         <Dialog
-          id="exercise-dialog"
+          id='exercise-dialog'
           fullWidth
           open={open}
           onClose={handleClose}
@@ -135,7 +135,7 @@ function ExerciseDialog({
               <strong>{t('Tests:')}</strong>
             </DialogContentText>
             <DataGrid
-              className="exercise-dialog-tests-table"
+              className='exercise-dialog-tests-table'
               sx={{ borderColor: color }}
               rows={exercise.tests.map((el) => ({
                 ...el,
@@ -148,10 +148,13 @@ function ExerciseDialog({
               disableSelectionOnClick
               experimentalFeatures={{ newEditingApi: true }}
             />
-            <DialogContentText sx={{  color }} id='alert-dialog-description'>
+            <DialogContentText sx={{ color }} id='alert-dialog-description'>
               {t('Example solution:')}
             </DialogContentText>
-            <Box id="exercise-dialog-editor-container" sx={{ borderColor: color }}>
+            <Box
+              id='exercise-dialog-editor-container'
+              sx={{ borderColor: color }}
+            >
               <Editor
                 height='200px'
                 width='100%'
@@ -164,7 +167,7 @@ function ExerciseDialog({
               />
             </Box>
           </DialogContent>
-          <DialogActions id="alert-dialog-actions">
+          <DialogActions id='alert-dialog-actions'>
             <Button
               color={color.split('.')[0]}
               variant='contained'

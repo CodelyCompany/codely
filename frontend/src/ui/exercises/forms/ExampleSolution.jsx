@@ -5,13 +5,10 @@ import Editor from '@monaco-editor/react';
 import { Box, Button } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import axios from 'axios';
-import {
-  AddExercise,
-  UpdateExercise,
-} from 'ducks/exercises/operations';
+import { AddExercise, UpdateExercise } from 'ducks/exercises/operations';
 import { addPopup } from 'ducks/popups/actions';
 import { getUserByUsername } from 'ducks/user/selectors';
-import useToken from "helpers/useToken";
+import useToken from 'helpers/useToken';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { ThreeDots } from 'react-loader-spinner';
@@ -58,15 +55,11 @@ const ExampleSolution = ({
 
   useEffect(() => {
     if (tests && tests.correct === tests.tests)
-      dispatch(addPopup(
-        'Congratulation! Your code passed all tests',
-        'success'
-      ));
+      dispatch(
+        addPopup('Congratulation! Your code passed all tests', 'success')
+      );
     if (tests && tests.correct !== tests.tests)
-      dispatch(addPopup(
-        "Unfortunately, your code didn't pass tests",
-        'error'
-      ));
+      dispatch(addPopup("Unfortunately, your code didn't pass tests", 'error'));
   }, [tests]);
 
   useEffect(() => {
@@ -156,10 +149,11 @@ const ExampleSolution = ({
 
   return (
     <>
-      <Box id="example-solution-container">
+      <Box id='example-solution-container'>
         <Box
-            className="example-solution-wrapper"
-          id={`box-border-${foundUser.theme}`}>
+          className='example-solution-wrapper'
+          id={`box-border-${foundUser.theme}`}
+        >
           <Editor
             theme={foundUser?.theme === 1 ? 'vs-dark' : 'vs'}
             loading={<CircularProgress />}
@@ -176,7 +170,7 @@ const ExampleSolution = ({
             width='100%'
           />
         </Box>
-        <Box id="example-solution-button-wrapper">
+        <Box id='example-solution-button-wrapper'>
           <Button
             color={color.split('.')[0]}
             variant='contained'

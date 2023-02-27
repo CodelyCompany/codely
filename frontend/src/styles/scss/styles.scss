@@ -2,7 +2,7 @@ $background-blue: rgb(25, 118, 210);
 $second-theme: #9a2150;
 
 #user-details-container {
-  height:  100%;
+  height: 100%;
 
   #user-details-wrapper {
     margin: 20px;
@@ -23,9 +23,7 @@ $second-theme: #9a2150;
       }
     }
   }
-
 }
-
 
 #admin-tables {
   width: 100%;
@@ -76,7 +74,7 @@ $second-theme: #9a2150;
         margin-top: 20px;
 
         &:first-of-type {
-          margin-top: 50px
+          margin-top: 50px;
         }
       }
     }
@@ -90,7 +88,6 @@ $second-theme: #9a2150;
     }
   }
 }
-
 
 #versus-run-buttons {
   display: flex;
@@ -122,14 +119,12 @@ $second-theme: #9a2150;
   }
 
   #run-buttons {
-
     button:first-of-type {
       margin: 5px;
     }
   }
 
   @media (max-width: 700px) {
-
     #run-buttons {
       display: flex;
       flex-direction: column;
@@ -169,7 +164,6 @@ $second-theme: #9a2150;
     flex-direction: column;
 
     @media (max-width: 1200px) {
-
       button {
         width: 100%;
 
@@ -313,7 +307,6 @@ html {
   height: 100vh;
 
   body {
-
     .theme-1 {
       background-color: #191919 !important;
       border-color: $second-theme !important;
@@ -350,13 +343,11 @@ html {
       align-items: center;
 
       @media (max-width: 900px) {
-
         img {
           width: 90%;
         }
 
         @media (max-width: 1500px) {
-
           img {
             display: none;
           }
@@ -368,7 +359,6 @@ html {
       }
 
       .main-page {
-
         @media (max-width: 900px) {
           margin-top: 0px;
         }
@@ -380,9 +370,7 @@ html {
           list-style-type: none;
 
           li {
-
             a {
-
               @media (max-width: 900px) {
                 font-size: 70px;
               }
@@ -398,7 +386,6 @@ html {
               animation: appear 1s linear 0s 1 normal;
 
               @-webkit-keyframes appear {
-
                 0% {
                   opacity: 0;
                   -webkit-transform: scale3d(0.3, 0.3, 0.3);
@@ -412,7 +399,6 @@ html {
                 }
               }
               @keyframes appear {
-
                 0% {
                   opacity: 0;
                   transform: scale3d(0.3, 0.3, 0.3);
@@ -439,7 +425,6 @@ html {
               -ms-animation: nav-line 1s linear 0s 1 normal;
 
               @keyframes nav-line {
-
                 0% {
                   transform: scaleX(0);
                   transform-origin: 0 50%;
@@ -584,7 +569,7 @@ html {
     #output-text-area {
       border-radius: 0 5px 5px 0;
       background-color: white;
-      font-family: "JetBrains Mono";
+      font-family: 'JetBrains Mono';
       border: 3px solid;
       font-size: 14px;
       width: calc(100% - 10px);
@@ -676,7 +661,6 @@ html {
           margin: 10px 0;
         }
       }
-
     }
   }
 }
@@ -705,7 +689,7 @@ html {
     width: 100%;
     max-width: 900px;
 
-    button:first-of-type{
+    button:first-of-type {
       margin-bottom: 10px;
     }
   }
@@ -778,7 +762,6 @@ html {
 }
 
 #main-form-container {
-
   .typography-header {
     color: white;
   }
@@ -854,7 +837,6 @@ html {
     min-width: 650px;
 
     .tests-table-cell {
-
       span {
         font-weight: bolder;
         font-size: 20px;
@@ -881,7 +863,7 @@ html {
   margin-right: 5px;
   font-size: 40px;
   position: relative;
-  top: 15px
+  top: 15px;
 }
 
 #exercise-container {
@@ -914,7 +896,6 @@ html {
   }
 
   #card-content-2 {
-
     #languages-typography {
       font-weight: bolder;
       position: relative;
@@ -924,7 +905,6 @@ html {
   }
 
   #card-content-3 {
-
     #card-content-typography {
       color: white;
       text-overflow: ellipsis;
@@ -1052,7 +1032,6 @@ html {
 }
 
 #exercise-dialog {
-
   #alert-dialog-title {
     border-bottom: 3px solid;
     margin: 0 10px 10px 10px;
@@ -1068,7 +1047,6 @@ html {
     justify-content: space-between;
 
     div {
-
       button:first-of-type {
         margin-right: 10px;
       }
@@ -1255,7 +1233,6 @@ html {
 }
 
 #written-reviews {
-
   h6:first-of-type {
     font-weight: bolder;
     margin-bottom: 24px;
@@ -1310,7 +1287,6 @@ html {
 }
 
 #versus-finish-dialog {
-
   #dialog-title {
     font-weight: bolder;
     font-size: 30px;
@@ -1342,7 +1318,6 @@ html {
   }
 
   form {
-
     div {
       color: white;
     }
@@ -1350,7 +1325,6 @@ html {
 }
 
 #players-counter {
-
   h3:first-of-type {
     font-weight: bolder;
     border-bottom: 3px solid;
@@ -1418,7 +1392,6 @@ html {
 }
 
 #found-versus-dialog {
-
   .red-text {
     color: red;
   }
@@ -1453,7 +1426,7 @@ html {
     flex-grow: 1;
     font-family: monospace;
     font-weight: 700;
-    letter-spacing: .3rem;
+    letter-spacing: 0.3rem;
     color: inherit;
     text-decoration: none;
   }

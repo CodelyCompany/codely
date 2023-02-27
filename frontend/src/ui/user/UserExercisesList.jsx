@@ -40,7 +40,7 @@ function UserExercisesList({ exercises, mode }) {
             sx={{ color }}
             primary={
               <div>
-                <LabelImportantIcon id="label-icon" />
+                <LabelImportantIcon id='label-icon' />
                 {exercises[index].title}
               </div>
             }

@@ -36,11 +36,8 @@ const WrittenReviews = () => {
   }, [dispatch]);
 
   return (
-    <Box id="written-reviews">
-      <Typography
-        variant='h6'
-        color={color}
-      >
+    <Box id='written-reviews'>
+      <Typography variant='h6' color={color}>
         {t('Your reviews:')}
       </Typography>
       {reviews && exercises && exercises.length > 0

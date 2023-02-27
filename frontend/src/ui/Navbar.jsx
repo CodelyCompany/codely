@@ -23,7 +23,7 @@ import {
 import { GetReviews } from 'ducks/reviews/operations';
 import { AddUser, GetUsers } from 'ducks/user/operations';
 import { getUsers } from 'ducks/user/selectors';
-import useToken from "helpers/useToken";
+import useToken from 'helpers/useToken';
 import * as _ from 'lodash';
 import logo from 'logo.png';
 import { PropTypes } from 'prop-types';
@@ -105,9 +105,9 @@ const Navbar = ({
       if (!_.isEmpty(foundUser)) {
         GetNotifications(foundUser._id, token);
         setAvatarUri(
-          `${import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'}/users/${
-            foundUser._id
-          }/avatar?${foundUser.avatarTimestamp}`
+          `${
+            import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'
+          }/users/${foundUser._id}/avatar?${foundUser.avatarTimestamp}`
         );
       }
     }
@@ -128,7 +128,8 @@ const Navbar = ({
   const handleCloseUserMenu = (setting) => {
     setting === 'Logout' &&
       logout({
-        returnTo: import.meta.env.REACT_APP_LOGOUT_URL || 'http://localhost:3000',
+        returnTo:
+          import.meta.env.REACT_APP_LOGOUT_URL || 'http://localhost:3000',
       });
     setting === 'Profile' && navigate('/user');
     setting === 'Admin Panel' && navigate('/admin');
@@ -147,8 +148,8 @@ const Navbar = ({
   return (
     <>
       {!isLoading && (
-        <AppBar id="app-bar" color={color}>
-          <Container id="app-bar-container" maxWidth='xl'>
+        <AppBar id='app-bar' color={color}>
+          <Container id='app-bar-container' maxWidth='xl'>
             <Toolbar disableGutters>
               <img
                 id='logo'
@@ -157,7 +158,7 @@ const Navbar = ({
                 onClick={() => navigate('/')}
               />
               <Box
-                id="user-container"
+                id='user-container'
                 sx={{
                   display: { xs: 'flex', md: 'none' },
                 }}
@@ -201,7 +202,7 @@ const Navbar = ({
                 </Menu>
               </Box>
               <Typography
-                id="logo-typography"
+                id='logo-typography'
                 variant='h5'
                 noWrap
                 component='a'
@@ -210,18 +211,13 @@ const Navbar = ({
               >
                 CODELY
               </Typography>
-              <Box id="pages-container"
+              <Box
+                id='pages-container'
                 sx={{ display: { xs: 'none', md: 'flex' } }}
               >
                 {pages.map((page) => (
-                  <Button
-                    className="page-button"
-                    key={page}
-                  >
-                    <Link
-                      className="page-link"
-                      to={`/${page.toLowerCase()}`}
-                    >
+                  <Button className='page-button' key={page}>
+                    <Link className='page-link' to={`/${page.toLowerCase()}`}>
                       {t(page)}
                     </Link>
                   </Button>
@@ -229,16 +225,11 @@ const Navbar = ({
               </Box>
               {isAuthenticated && (
                 <>
-                  <Box id="notifications-container">
+                  <Box id='notifications-container'>
                     {unreadNotifications !== 0 && (
-                      <div>
-                        {unreadNotifications}
-                      </div>
+                      <div>{unreadNotifications}</div>
                     )}
-                    <IoIosMail
-                      id="mail-icon"
-                      onClick={handleClick}
-                    />
+                    <IoIosMail id='mail-icon' onClick={handleClick} />
                   </Box>
 
                   <NavbarMessages
@@ -248,17 +239,17 @@ const Navbar = ({
                   />
                 </>
               )}
-              <Box id="user-setting">
+              <Box id='user-setting'>
                 {isAuthenticated && (
                   <Tooltip title='Open settings'>
-                    <IconButton id="icon-button" onClick={handleOpenUserMenu}>
+                    <IconButton id='icon-button' onClick={handleOpenUserMenu}>
                       <Avatar src={avatarUri} />
                     </IconButton>
                   </Tooltip>
                 )}
                 {!isAuthenticated && (
                   <Typography
-                    id="login-typography"
+                    id='login-typography'
                     onClick={() => loginWithRedirect()}
                   >
                     {t('LOGIN')}

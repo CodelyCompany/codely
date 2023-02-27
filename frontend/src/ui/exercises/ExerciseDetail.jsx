@@ -17,7 +17,7 @@ import { DeleteExercise, GetExercises } from 'ducks/exercises/operations';
 import { getExerciseById } from 'ducks/exercises/selectors';
 import { getRatingByExerciseId } from 'ducks/reviews/selectors';
 import { getUserByUsername } from 'ducks/user/selectors';
-import useToken from "helpers/useToken";
+import useToken from 'helpers/useToken';
 import * as _ from 'lodash';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -56,16 +56,16 @@ const ExerciseDetail = ({ GetExercises }) => {
   return (
     exercise && (
       <>
-        <Container id="exercise-details-container">
+        <Container id='exercise-details-container'>
           <Box id='exercise-wrapper'>
             <List
-              id="exercise-info-list"
+              id='exercise-info-list'
               className={`theme-${foundUser.theme}`}
               sx={{ bgcolor: 'background.paper' }}
             >
               <ListItem>
                 <Typography
-                  id="exercise-title"
+                  id='exercise-title'
                   variant='h3'
                   sx={{ borderColor: color, color }}
                 >
@@ -116,7 +116,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                   primary={t('Difficulty')}
                   secondary={[...Array(exercise.difficulty).keys()].map(
                     (el) => (
-                      <StarRateIcon className="exercise-star-icon" key={el} />
+                      <StarRateIcon className='exercise-star-icon' key={el} />
                     )
                   )}
                 />
@@ -148,7 +148,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                     rating
                       ? [...Array(Math.round(rating)).keys()].map((num) => (
                           <StarRateIcon
-                            className="exercise-star-icon"
+                            className='exercise-star-icon'
                             key={`rating-${num}`}
                           />
                         ))

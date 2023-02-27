@@ -6,7 +6,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { GetExercises } from 'ducks/exercises/operations';
 import { getExercisesFromState } from 'ducks/exercises/selectors';
 import { getUserByUsername } from 'ducks/user/selectors';
-import useToken from "helpers/useToken";
+import useToken from 'helpers/useToken';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
@@ -53,18 +53,14 @@ function CheckedExercise({ checkedExercises, GetExercises }) {
 
   return (
     <Card
-      id="checked-exercises-table-container"
+      id='checked-exercises-table-container'
       className={`theme-${foundUser.theme}`}
     >
-      <Typography
-        id="checked-exercises-typography"
-        variant='h6'
-        sx={{ color }}
-      >
+      <Typography id='checked-exercises-typography' variant='h6' sx={{ color }}>
         {t('Checked exercises')}
       </Typography>
       <DataGrid
-        className="checked-exercises-table"
+        className='checked-exercises-table'
         sx={{ borderColor: color, color }}
         getRowId={(row) => row._id}
         rows={rows.map((row) => ({

@@ -59,7 +59,7 @@ const EditorField = ({
         />
       </Box>
 
-      <Box id="editor-field-wrapper" sx={{ borderColor: color }}>
+      <Box id='editor-field-wrapper' sx={{ borderColor: color }}>
         <Editor
           theme={foundUser.theme === 1 ? 'vs-dark' : 'vs'}
           loading={<CircularProgress />}

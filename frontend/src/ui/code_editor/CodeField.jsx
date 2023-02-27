@@ -25,10 +25,10 @@ const CodeField = ({ code, setCode, language }) => {
   }, [language]);
 
   return (
-    <Box id="code-field-container">
+    <Box id='code-field-container'>
       <Box
-          id="code-field-wrapper"
-          borderColor={foundUser?.theme === 2 ? 'secondary.main' : 'primary.main'}
+        id='code-field-wrapper'
+        borderColor={foundUser?.theme === 2 ? 'secondary.main' : 'primary.main'}
       >
         <Editor
           loading={<CircularProgress />}

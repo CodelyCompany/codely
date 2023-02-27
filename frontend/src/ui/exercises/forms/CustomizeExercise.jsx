@@ -224,18 +224,16 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
   };
 
   return (
-    <Box id="customize-exercise-container">
+    <Box id='customize-exercise-container'>
       <CustomTypes
         open={open}
         setOpen={setOpen}
         setCustomTypes={setCustomTypes}
       />
-      <Box id="customize-exercise-wrapper">
-        <form id="customize-exercise-form"
-          onSubmit={formik.handleSubmit}
-        >
+      <Box id='customize-exercise-wrapper'>
+        <form id='customize-exercise-form' onSubmit={formik.handleSubmit}>
           <TextField
-            className="customize-exercise-field"
+            className='customize-exercise-field'
             color={color.split('.')[0]}
             focused
             sx={{ color, input: { color } }}
@@ -254,7 +252,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
           <TextField
             color={color.split('.')[0]}
             focused
-            className="customize-exercise-field"
+            className='customize-exercise-field'
             sx={{ input: { color } }}
             type='number'
             id='argumentsQuantity'
@@ -278,7 +276,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                 (argNumber) => (
                   <Box key={argNumber}>
                     <TextField
-                      className="customize-exercise-field-2"
+                      className='customize-exercise-field-2'
                       color={color.split('.')[0]}
                       focused
                       sx={{
@@ -305,7 +303,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                     />
                     {formWithTypes && (
                       <TextField
-                        className="customize-exercise-field-2"
+                        className='customize-exercise-field-2'
                         color={color.split('.')[0]}
                         select
                         sx={{
@@ -344,7 +342,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
             : ''}
           {formWithTypes && (
             <TextField
-              className="customize-exercise-field-2"
+              className='customize-exercise-field-2'
               color={color.split('.')[0]}
               select
               fullWidth
@@ -376,9 +374,9 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
               )}
             </TextField>
           )}
-          <Box id="buttons-wrapper">
+          <Box id='buttons-wrapper'>
             <Button
-              id="customize-exercise-button"
+              id='customize-exercise-button'
               color={color.split('.')[0]}
               variant='contained'
               onClick={prev}

@@ -18,7 +18,7 @@ import { GetExercises } from 'ducks/exercises/operations';
 import { getExerciseById } from 'ducks/exercises/selectors';
 import { getSocket } from 'ducks/socket/selectors';
 import { getUserByUsername } from 'ducks/user/selectors';
-import useToken from "helpers/useToken";
+import useToken from 'helpers/useToken';
 import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -114,9 +114,7 @@ const Exercise = ({ GetExercises, socket }) => {
     exercise && (
       <>
         <FinishDialog open={open} setOpen={setOpen} won={won} />
-        <Container
-          className={`theme-${foundUser.theme} versus-exercise`}
-        >
+        <Container className={`theme-${foundUser.theme} versus-exercise`}>
           <Paper
             className={`theme-${foundUser.theme} versus-exercise-wrapper`}
             elevation={3}
@@ -126,9 +124,7 @@ const Exercise = ({ GetExercises, socket }) => {
                 `You are in versus mode. Try to solve this exercise faster than your opponent.`
               )}
             </span>
-            <span
-              className={`theme-${foundUser.theme}`}
-            >
+            <span className={`theme-${foundUser.theme}`}>
               {t('Good luck & have fun!')}
             </span>
           </Paper>
@@ -136,31 +132,26 @@ const Exercise = ({ GetExercises, socket }) => {
             className={`theme-${foundUser.theme} versus-exercise-wrapper your-result`}
             elevation={3}
           >
-            <span className="result-line">
+            <span className='result-line'>
               <span>
                 {t('You-key')}
                 {won ? (
-                  <CheckIcon className="result-icons" color='success'/>
+                  <CheckIcon className='result-icons' color='success' />
                 ) : (
-                  <CloseIcon className="result-icons" color='error'/>
+                  <CloseIcon className='result-icons' color='error' />
                 )}
               </span>
               <span style={{ color: won ? 'green' : 'red' }}>
                 {getTime(yourTime)}
               </span>
             </span>
-            <span className="result-line"
-            >
+            <span className='result-line'>
               <span>
                 {t('Your opponent:')}
                 {opponentFinish ? (
-                  <CheckIcon className="result-icons"
-                    color='success'
-                  />
+                  <CheckIcon className='result-icons' color='success' />
                 ) : (
-                  <CloseIcon className="result-icons"
-                    color='error'
-                  />
+                  <CloseIcon className='result-icons' color='error' />
                 )}
               </span>
               <span style={{ color: opponentFinish ? 'green' : 'red' }}>
@@ -168,9 +159,7 @@ const Exercise = ({ GetExercises, socket }) => {
               </span>
             </span>
           </Paper>
-          <Box
-            className={`theme-${foundUser.theme} exercise-description`}
-          >
+          <Box className={`theme-${foundUser.theme} exercise-description`}>
             <List
               className={`theme-${foundUser.theme}`}
               sx={{ bgcolor: 'background.paper' }}
@@ -236,7 +225,7 @@ const Exercise = ({ GetExercises, socket }) => {
               </ListItem>
             </List>
           </Box>
-          <Box id="versus-editor-wrapper">
+          <Box id='versus-editor-wrapper'>
             <CustomArgs
               args={exercise.argumentsName}
               argumentValues={argumentValues}

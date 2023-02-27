@@ -68,11 +68,11 @@ function ExerciseToCheck({ uncheckedExercises, GetUncheckedExercises, token }) {
   return (
     <>
       <Card
-        id="exercises-to-check-table-container"
+        id='exercises-to-check-table-container'
         className={`theme-${foundUser?.theme}`}
       >
         <Typography
-          id="exercises-to-check-typography"
+          id='exercises-to-check-typography'
           variant='h6'
           sx={{ color }}
         >

@@ -4,7 +4,7 @@ import { Box, Container } from '@mui/material';
 import { Button } from '@mui/material';
 import { GetExercises } from 'ducks/exercises/operations';
 import { getExercisesFromState } from 'ducks/exercises/selectors';
-import useToken from "helpers/useToken";
+import useToken from 'helpers/useToken';
 import * as _ from 'lodash';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -48,7 +48,7 @@ const ExercisesList = ({ exercises, GetExercises }) => {
 
   return (
     <>
-      <Container id="exercises-list-container">
+      <Container id='exercises-list-container'>
         <Button
           onClick={goToExercisesForm}
           variant='contained'
@@ -62,7 +62,7 @@ const ExercisesList = ({ exercises, GetExercises }) => {
           setSort={setSort}
           sort={sort}
         />
-        <Box id="exercises-wrapper">
+        <Box id='exercises-wrapper'>
           {getReversed(
             sort === 2 || sort === 4,
             _.sortBy(

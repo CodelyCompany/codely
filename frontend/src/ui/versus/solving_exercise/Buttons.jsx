@@ -6,7 +6,7 @@ import axios from 'axios';
 import { addPopup } from 'ducks/popups/actions';
 import { getSocket } from 'ducks/socket/selectors';
 import { getUserByUsername } from 'ducks/user/selectors';
-import useToken from "helpers/useToken";
+import useToken from 'helpers/useToken';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useDispatch, useSelector } from 'react-redux';
@@ -40,7 +40,8 @@ const Buttons = ({
     axios
       .post(
         `${
-          import.meta.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
+          import.meta.env.REACT_APP_CONTAINERS_ADDRESS ||
+          'http://localhost:5001'
         }/${language.toLowerCase() === 'c++' ? 'cpp' : language.toLowerCase()}`,
         {
           toExecute: code,
@@ -64,7 +65,9 @@ const Buttons = ({
     setLoadingFinished(false);
     axios
       .put(
-        `${import.meta.env.REACT_APP_BACKEND}/exercises/checkVersus/${id}/room/${roomId}`,
+        `${
+          import.meta.env.REACT_APP_BACKEND
+        }/exercises/checkVersus/${id}/room/${roomId}`,
         {
           user: foundUser._id,
           won,
@@ -78,26 +81,22 @@ const Buttons = ({
       )
       .then((response) => {
         if (response.data.tests === response.data.correct) {
-          dispatch(addPopup(
-            'Congratulation! Your code passed all tests',
-            'success'
-          ));
+          dispatch(
+            addPopup('Congratulation! Your code passed all tests', 'success')
+          );
           socket.emit('game-finished', roomId);
           return;
         }
-        dispatch(addPopup(
-          "Unfortunately, your code didn't pass tests",
-          'error'
-        ));
+        dispatch(
+          addPopup("Unfortunately, your code didn't pass tests", 'error')
+        );
       })
       .finally(() => setLoadingFinished(true));
   };
 
   return (
     <>
-      <Box
-        id='versus-run-buttons'
-      >
+      <Box id='versus-run-buttons'>
         <Button
           disabled={!loadingFinished}
           color={color}

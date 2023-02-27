@@ -43,8 +43,9 @@ function ExerciseHints() {
   const [hintNumber, setHintNumber] = useState(0);
 
   return (
-    <div id="hints-container">
-      <HelpIcon id="help-icon"
+    <div id='hints-container'>
+      <HelpIcon
+        id='help-icon'
         sx={{ color }}
         fontSize='large'
         onClick={handleClickOpen}

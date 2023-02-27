@@ -25,7 +25,7 @@ const PlayersCounter = ({ socket }) => {
   }, []);
 
   return (
-    <Box id="players-counter">
+    <Box id='players-counter'>
       <Typography
         variant='h3'
         color={color}

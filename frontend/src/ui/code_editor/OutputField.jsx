@@ -38,10 +38,7 @@ const OutputField = ({ output, loadingFinished }) => {
 
   return (
     <ScrollSync>
-      <Box
-        className={`theme-${foundUser.theme}`}
-        id="output-field-wrapper"
-      >
+      <Box className={`theme-${foundUser.theme}`} id='output-field-wrapper'>
         {loadingFinished ? (
           <>
             <ScrollSyncPane>
@@ -60,11 +57,11 @@ const OutputField = ({ output, loadingFinished }) => {
             <ScrollSyncPane>
               <div
                 className={`theme-${foundUser.theme}`}
-                id="text-area-wrapper"
+                id='text-area-wrapper'
               >
                 <textarea
                   className={`theme-${foundUser.theme}`}
-                  id="output-text-area"
+                  id='output-text-area'
                   style={{
                     ...textAreaStyles,
                     borderColor: color,

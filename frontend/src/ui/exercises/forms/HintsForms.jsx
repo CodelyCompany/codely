@@ -3,10 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, MenuItem } from '@mui/material';
 import { Button, TextField } from '@mui/material';
-import {
-  AddExercise,
-  UpdateExercise,
-} from 'ducks/exercises/operations';
+import { AddExercise, UpdateExercise } from 'ducks/exercises/operations';
 import { getUserByUsername } from 'ducks/user/selectors';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -114,8 +111,8 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
   };
 
   return (
-    <Box id="hints-form-container">
-      <Box id="hints-quantity-wrapper">
+    <Box id='hints-form-container'>
+      <Box id='hints-quantity-wrapper'>
         <TextField
           color={color.split('.')[0]}
           focused
@@ -138,7 +135,7 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
           [...Array(hintsQuantity).keys()].map((number) => (
             <div key={number}>
               <TextField
-                className="hints-input"
+                className='hints-input'
                 color={color.split('.')[0]}
                 focused
                 sx={{ input: { color } }}

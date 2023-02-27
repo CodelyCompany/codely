@@ -59,14 +59,14 @@ const Settings = ({ UpdateUser, UploadAvatar, token }) => {
   };
 
   return (
-    <Container id="settings-container">
+    <Container id='settings-container'>
       <UploadDialog
         open={dialogOpen}
         handleAbort={handleUploadAbort}
         handleUpload={handleImageUpload}
       />
-      <Box id="upload-avatar">
-        <Typography id="upload-avatar-typography" color={colorOpt} variant='h5'>
+      <Box id='upload-avatar'>
+        <Typography id='upload-avatar-typography' color={colorOpt} variant='h5'>
           {t('Upload your avatar')}
         </Typography>
         <Button variant='contained' color={colorOpt} component='label'>
@@ -94,11 +94,11 @@ const Settings = ({ UpdateUser, UploadAvatar, token }) => {
           />
           <Typography>{t('White & Magenta')}</Typography>
           <div>
-            <Box className="magenta-option"/>
-            <Box className="white-option"/>
+            <Box className='magenta-option' />
+            <Box className='white-option' />
           </div>
         </Box>
-        <Box className="theme-option-picker">
+        <Box className='theme-option-picker'>
           <Checkbox
             color={colorOpt}
             value={1}
@@ -108,11 +108,11 @@ const Settings = ({ UpdateUser, UploadAvatar, token }) => {
           />
           <Typography>{t('Black & Magenta')}</Typography>
           <div>
-            <Box className="magenta-option"/>
-            <Box className="black-option"/>
+            <Box className='magenta-option' />
+            <Box className='black-option' />
           </div>
         </Box>
-        <Box className="theme-option-picker">
+        <Box className='theme-option-picker'>
           <Checkbox
             color={colorOpt}
             value={2}
@@ -122,8 +122,8 @@ const Settings = ({ UpdateUser, UploadAvatar, token }) => {
           />
           <Typography>{t('White & Blue')}</Typography>
           <div>
-            <Box className="blue-option"/>
-            <Box className="white-option"/>
+            <Box className='blue-option' />
+            <Box className='white-option' />
           </div>
         </Box>
       </Box>

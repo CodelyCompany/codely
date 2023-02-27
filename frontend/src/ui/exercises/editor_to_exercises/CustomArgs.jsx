@@ -35,8 +35,8 @@ const CustomArgs = ({ args, setArgumentValues, argumentValues }) => {
   };
 
   return (
-    <Box id="custom-args-container" sx={{ borderColor: color }}>
-      <Box id="custom-args-wrapper" sx={{ borderColor: color }}>
+    <Box id='custom-args-container' sx={{ borderColor: color }}>
+      <Box id='custom-args-wrapper' sx={{ borderColor: color }}>
         <Typography variant='h6' sx={{ color }} fontWeight='bolder'>
           {t(
             'Function in the code field will be run with values inputted below'

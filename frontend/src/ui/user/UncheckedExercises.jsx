@@ -15,9 +15,7 @@ function UncheckedExercises({ exercises }) {
   );
 
   return (
-    <Box className="user-section-wrapper"
-      sx={{ borderColor: color }}
-    >
+    <Box className='user-section-wrapper' sx={{ borderColor: color }}>
       <Typography variant='h6' sx={{ color }}>
         {t('Exercises waiting for admin approval:')} {exercises.length}
       </Typography>
