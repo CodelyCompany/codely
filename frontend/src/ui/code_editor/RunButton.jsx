@@ -2,16 +2,14 @@ import React, { useMemo } from 'react';
 
 import { Button } from '@mui/material';
 import axios from 'axios';
+import { addPopup } from 'ducks/popups/actions';
+import useToken from "helpers/useToken";
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { VscDebugStart } from 'react-icons/vsc';
-import { connect, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { addPopup } from '../../ducks/popups/actions';
-import { getToken } from '../../ducks/token/selectors';
-import GetToken from '../user/GetToken';
-
-const RunButton = ({ code, setOutput, language, token, loadingFinished, setLoadingFinished }) => {
+const RunButton = ({ code, setOutput, language, loadingFinished, setLoadingFinished }) => {
   const color = useMemo(
     () =>
       parseInt(localStorage.getItem('theme') ?? 0) === 2
@@ -32,13 +30,14 @@ const RunButton = ({ code, setOutput, language, token, loadingFinished, setLoadi
   };
 
   const { t } = useTranslation();
+  const { token } = useToken();
 
   const runCode = (code) => {
     setLoadingFinished(false);
     axios
       .post(
         `${
-          process.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
+          import.meta.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
         }/${language.toLowerCase() === 'c++' ? 'cpp' : language.toLowerCase()}`,
         {
           toExecute: code,
@@ -67,7 +66,6 @@ const RunButton = ({ code, setOutput, language, token, loadingFinished, setLoadi
 
   return (
     <>
-      <GetToken />
       <Button
         disabled={!loadingFinished}
         variant='outlined'
@@ -81,17 +79,12 @@ const RunButton = ({ code, setOutput, language, token, loadingFinished, setLoadi
   );
 };
 
-const mapStateToProps = (state) => ({
-  token: getToken(state),
-});
-
-export default connect(mapStateToProps)(RunButton);
+export default RunButton;
 
 RunButton.propTypes = {
   code: PropTypes.string.isRequired,
   setOutput: PropTypes.func.isRequired,
   language: PropTypes.string.isRequired,
-  token: PropTypes.string,
   loadingFinished: PropTypes.bool.isRequired,
   setLoadingFinished: PropTypes.func.isRequired,
 };

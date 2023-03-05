@@ -1,4 +1,4 @@
-import { addPopup } from "./actions";
+import { addPopup } from "ducks/popups/actions";
 
 const keymap = {
     'POST_EXERCISE_SUCCESS': 'Exercise passed for admin verification',

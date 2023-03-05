@@ -3,12 +3,11 @@ import React from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box } from '@mui/material';
+import { getUserByUsername } from 'ducks/user/selectors';
 import PropTypes from 'prop-types';
 import { ThreeDots } from 'react-loader-spinner';
 import { useSelector } from 'react-redux';
 import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync';
-
-import { getUserByUsername } from '../../ducks/user/selectors';
 
 const OutputField = ({ output, loadingFinished }) => {
   const { user } = useAuth0();

@@ -23,4 +23,4 @@ const texts = {
   }`,
 };
 
-module.exports = texts;
+export default texts;

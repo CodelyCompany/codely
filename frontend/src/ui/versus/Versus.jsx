@@ -1,20 +1,18 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { Box, Button, Container, Typography } from '@mui/material';
+import { ConnectSocket, DisconnectSocket } from 'ducks/socket/actions';
+import { getSocket } from 'ducks/socket/selectors';
 import { useFormik } from 'formik';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { io } from 'socket.io-client';
+import ChooseExerciseLang from 'ui/versus/ChooseExerciseLang';
+import PlayersCounter from 'ui/versus/PlayersCounter';
+import ProgrammingQuotes from 'ui/versus/ProgrammingQuotes';
+import SearchingGame from 'ui/versus/SearchingGame';
 import * as yup from 'yup';
-
-import { ConnectSocket, DisconnectSocket } from '../../ducks/socket/actions';
-import { getSocket } from '../../ducks/socket/selectors';
-
-import ChooseExerciseLang from './ChooseExerciseLang';
-import PlayersCounter from './PlayersCounter';
-import ProgrammingQuotes from './ProgrammingQuotes';
-import SearchingGame from './SearchingGame';
 
 const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
   const [dots, setDots] = useState(0);
@@ -36,7 +34,7 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
     validationSchema: validateVersusLanguages,
     onSubmit: (values) => {
       const socket = io(
-        `${process.env.REACT_APP_WEBSOCKET_ADDRESS}` ||
+        `${import.meta.env.REACT_APP_WEBSOCKET_ADDRESS}` ||
           'http://localhost:5002/',
         {
           reconnection: true,

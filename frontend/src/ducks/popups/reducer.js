@@ -1,4 +1,4 @@
-import { types } from './types';
+import { types } from 'ducks/popups/types';
 
 export const popupsReducer = (state = { popups: [] }, action) => {
   switch (action.type) {

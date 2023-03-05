@@ -1,4 +1,4 @@
-import { types } from './types';
+import { types } from 'ducks/notifications/types';
 
 export const notificationsReducer = (state = { notifications: [] }, action) => {
   switch (action.type) {

@@ -2,8 +2,7 @@ import React from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { PropTypes } from 'prop-types';
-
-import Forbidden from './Forbidden';
+import Forbidden from 'ui/user/admin/Forbidden';
 
 const AdminPanelWrapper = ({ children }) => {
   const { user, isAuthenticated } = useAuth0();

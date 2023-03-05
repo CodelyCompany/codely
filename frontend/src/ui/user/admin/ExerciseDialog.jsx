@@ -13,30 +13,29 @@ import {
   ListItemText,
 } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import { PropTypes } from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import { connect, useSelector } from 'react-redux';
-
 import {
   CheckExercise,
   DeleteUncheckedExercise,
-} from '../../../ducks/exercises/operations';
-import { AddNotification } from '../../../ducks/notifications/operations';
-import { getToken } from '../../../ducks/token/selectors';
-import { getUserByUsername, getUsers } from '../../../ducks/user/selectors';
-import GetToken from '../GetToken';
+} from 'ducks/exercises/operations';
+import { AddNotification } from 'ducks/notifications/operations';
+import { getUserByUsername, getUsers } from 'ducks/user/selectors';
+import useToken from "helpers/useToken";
+import _ from 'lodash';
+import { PropTypes } from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import { connect, useSelector } from 'react-redux';
 function ExerciseDialog({
   open,
   setOpen,
   exercise,
   CheckExercise,
-  token,
   DeleteUncheckedExercise,
   AddNotification,
   users,
 }) {
   const { t } = useTranslation();
   const { user } = useAuth0();
+  const { token } = useToken();
   const foundUser = useSelector(getUserByUsername(user.nickname));
   const checkExercise = () => {
     const userToNotify = users.find((usr) => usr.username === exercise.author);
@@ -81,7 +80,6 @@ function ExerciseDialog({
 
   return (
     <div>
-      <GetToken />
       {!_.isEmpty(exercise) && (
         <Dialog
           fullWidth
@@ -225,7 +223,6 @@ function ExerciseDialog({
 }
 
 const mapStateToProps = (state) => ({
-  token: getToken(state),
   users: getUsers(state),
 });
 
@@ -242,7 +239,6 @@ ExerciseDialog.propTypes = {
   setOpen: PropTypes.func,
   exercise: PropTypes.object,
   CheckExercise: PropTypes.func,
-  token: PropTypes.string,
   DeleteUncheckedExercise: PropTypes.func,
   AddNotification: PropTypes.func.isRequired,
   users: PropTypes.array,

@@ -1,11 +1,10 @@
 import { useEffect } from 'react';
 
+import { removePopup } from 'ducks/popups/actions';
+import { getPopups } from 'ducks/popups/selectors';
 import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { removePopup } from '../ducks/popups/actions';
-import { getPopups } from '../ducks/popups/selectors';
 
 let displayed = [];
 

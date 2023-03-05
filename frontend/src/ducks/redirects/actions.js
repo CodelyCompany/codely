@@ -1,4 +1,4 @@
-import { types } from './types';
+import { types } from 'ducks/redirects/types';
 
 export const StartRedirect = () => ({
   type: types.REDIRECT_START,

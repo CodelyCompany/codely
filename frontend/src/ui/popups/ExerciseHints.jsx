@@ -9,11 +9,10 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@mui/material';
+import { getExerciseById } from 'ducks/exercises/selectors';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-
-import { getExerciseById } from '../../ducks/exercises/selectors';
 
 function ExerciseHints() {
   const { t } = useTranslation();
