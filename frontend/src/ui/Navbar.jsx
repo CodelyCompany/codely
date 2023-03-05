@@ -145,6 +145,9 @@ const Navbar = ({
     [localStorage.getItem('theme')]
   );
 
+  console.log('META', import.meta.env);
+  // console.log('PROCESS', process.env);
+
   return (
     <>
       {!isLoading && (

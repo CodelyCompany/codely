@@ -1,60 +1,22 @@
-# apiVersion: networking.k8s.io/v1
-# kind: NetworkPolicy
-# metadata:
-# name: network-policy-containers
-# namespace: production
-# spec:
-# podSelector:
-#   matchLabels:
-#     network: closed
-#   policyTypes:
-#     - Egress
-#   egress:
-#     - to:
-#         - ipBlock:
-#             cidr: 0.0.0.0/0
-#             except:
-#               - 10.0.0.0/8
-#         - namespaceSelector:
-#             matchLabels:
-#               namespace: production
-#         - podSelector:
-#             matchLabels:
-#               network: closed
-#         - ipBlock:
-#             cidr: 192.168.0.0/16
-#         - ipBlock:
-#             cidr: 172.16.0.0/12
-#         - ipBlock:
-#             cidr: 100.64.0.0/10
-#         - ipBlock:
-#             cidr: fd00::/8
-#         - ipBlock:
-#             cidr: fe80::/10
-#         - ipBlock:
-#             cidr: 2001:db8::/32
-
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: network-policy-containers
+  name: blockinternet
   namespace: production
 spec:
   podSelector:
     matchLabels:
-      network: closed
+      internet: block
   policyTypes:
     - Egress
   egress:
     - to:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: kube-system
-          podSelector:
-            matchLabels:
-              k8s-app: kube-dns
+        - ipBlock:
+            cidr: 0.0.0.0/0
       ports:
-        - port: 53
-          protocol: UDP
-        - port: 53
-          protocol: TCP
+        - protocol: TCP
+          port: 80
+        - protocol: TCP
+          port: 443
+        - protocol: UDP
+          port: 53
