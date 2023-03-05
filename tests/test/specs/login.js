@@ -7,5 +7,6 @@ describe('Login Test', () => {
     await TitlePage.open();
     await TitlePage.clickLoginButton();
     await LoginPage.login('admin@example.com', 'AdminAdmin123');
+    expect(await MainPage.getUsernameInfo()).toBe('admin');
   });
 });
