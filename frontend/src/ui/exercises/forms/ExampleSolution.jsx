@@ -123,7 +123,7 @@ const ExampleSolution = ({
     axios
       .post(
         `${
-          import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'
+          process.env.REACT_APP_BACKEND || 'http://localhost:5000'
         }/exercises/checkBeforeAddExercise`,
         {
           exampleSolution: code,

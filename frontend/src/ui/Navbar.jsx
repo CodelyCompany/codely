@@ -106,7 +106,7 @@ const Navbar = ({
         GetNotifications(foundUser._id, token);
         setAvatarUri(
           `${
-            import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'
+            process.env.REACT_APP_BACKEND || 'http://localhost:5000'
           }/users/${foundUser._id}/avatar?${foundUser.avatarTimestamp}`
         );
       }
@@ -129,7 +129,7 @@ const Navbar = ({
     setting === 'Logout' &&
       logout({
         returnTo:
-          import.meta.env.REACT_APP_LOGOUT_URL || 'http://localhost:3000',
+          process.env.REACT_APP_LOGOUT_URL || 'http://localhost:3000',
       });
     setting === 'Profile' && navigate('/user');
     setting === 'Admin Panel' && navigate('/admin');
