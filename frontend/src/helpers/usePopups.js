@@ -9,39 +9,36 @@ import { useDispatch, useSelector } from 'react-redux';
 let displayed = [];
 
 const usePopups = () => {
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const popups = useSelector(getPopups);
 
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-    const { t } = useTranslation();
-    const dispatch = useDispatch();
-    const popups = useSelector(getPopups);
+  const storeDisplayed = (id) => {
+    displayed = [...displayed, id];
+  };
 
-    const storeDisplayed = (id) => {
-        displayed = [...displayed, id];
-    };
+  const removeDisplayed = (id) => {
+    displayed = [...displayed.filter((key) => id !== key)];
+  };
 
-    const removeDisplayed = (id) => {
-        displayed = [...displayed.filter((key) => id !== key)];
-    };
+  useEffect(() => {
+    popups.forEach(({ key, messageKey, options = {}, dismissed = false }) => {
+      if (dismissed) return closeSnackbar(key);
+      if (displayed.includes(key)) return;
 
-    useEffect(() => {
+      enqueueSnackbar(t(messageKey), {
+        key,
+        ...options,
+        onExited: (_, key) => {
+          dispatch(removePopup(key));
+          removeDisplayed(key);
+        },
+      });
 
-        popups.forEach(({ key, messageKey, options = {}, dismissed = false }) => {
-
-            if (dismissed) return closeSnackbar(key);
-            if (displayed.includes(key)) return;
-
-            enqueueSnackbar(t(messageKey), {
-                key,
-                ...options,
-                onExited: (_, key) => {
-                    dispatch(removePopup(key));
-                    removeDisplayed(key);
-                },
-            });
-
-            storeDisplayed(key);
-        });
-    }, [popups]);
+      storeDisplayed(key);
+    });
+  }, [popups]);
 };
 
 export default usePopups;

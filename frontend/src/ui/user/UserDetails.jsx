@@ -5,7 +5,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Container, Typography } from '@mui/material';
 import { GetUsers } from 'ducks/user/operations';
 import { getUserByUsername } from 'ducks/user/selectors';
-import useToken from "helpers/useToken";
+import useToken from 'helpers/useToken';
 import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -34,26 +34,11 @@ const UserDetails = ({ GetUsers }) => {
   const foundUser = useSelector(getUserByUsername(user.nickname));
 
   return (
-    <Container sx={{ height: '100%' }}>
+    <Container id='user-details-container'>
       {foundUser && (
-        <Box sx={{ margin: '20px' }}>
-          <Box
-            id='registered-since-info'
-            sx={{
-              borderColor: color,
-              borderBottom: '3px solid',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'end',
-            }}
-          >
-            <Typography
-              variant='h2'
-              sx={{
-                fontWeight: 'bolder',
-                color,
-              }}
-            >
+        <Box id='user-details-wrapper'>
+          <Box id='registered-since-info' sx={{ borderColor: color }}>
+            <Typography variant='h2' sx={{ color }}>
               {foundUser.username}
             </Typography>
             <Typography sx={{ color }} variant='h6'>

@@ -25,23 +25,13 @@ const ChooseExerciseLang = ({ formik }) => {
 
   return (
     <Paper
+      id='choose-versus-lang'
       elevation={3}
-      sx={{
-        padding: '10px',
-        margin: '10px 0',
-        backgroundColor: `${color}.main`,
-      }}
+      sx={{ backgroundColor: `${color}.main` }}
     >
-      <Typography variant='h6' color='white' fontWeight={'bolder'}>
-        {t('Pick your languages')}
-      </Typography>
+      <Typography variant='h6'>{t('Pick your languages')}</Typography>
       <form>
-        <Box
-          color={color}
-          role='group'
-          aria-labelledby='checkbox-group'
-          style={{ color: 'white' }}
-        >
+        <Box color={color} role='group' aria-labelledby='checkbox-group'>
           {languages.map((el) => (
             <FormControlLabel
               key={el}
@@ -61,7 +51,7 @@ const ChooseExerciseLang = ({ formik }) => {
             />
           ))}
         </Box>
-        <Typography fontWeight={'bolder'} color='error'>
+        <Typography color='error'>
           {formik.errors && formik.errors.checked}
         </Typography>
       </form>

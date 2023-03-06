@@ -68,9 +68,7 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
 
   const AccordionSummary = styled((props) => (
     <MuiAccordionSummary
-      expandIcon={
-        <ArrowForwardIosSharpIcon sx={{ fontSize: '0.9rem', color: 'white' }} />
-      }
+      expandIcon={<ArrowForwardIosSharpIcon id='arrow-forward-icon' />}
       {...props}
     />
   ))(({ theme }) => ({
@@ -93,7 +91,7 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
   }));
 
   return (
-    <div>
+    <div id='main-form-container'>
       <Accordion
         sx={{ backgroundColor: 'primary.background' }}
         disabled={step.currentStep !== 1}
@@ -104,10 +102,12 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
           aria-controls='panel1d-content'
           id='panel1d-header'
         >
-          <Typography sx={{ color: 'white' }}>{t('Main info')}</Typography>
+          <Typography className='typography-header'>
+            {t('Main info')}
+          </Typography>
         </AccordionSummary>
-        <AccordionDetails sx={{ textAlign: 'center' }}>
-          <Typography sx={{ margin: '10px', fontWeight: 'bolder', color }}>
+        <AccordionDetails className='main-form-accordion'>
+          <Typography className='accordion-text' sx={{ color }}>
             {t(
               // eslint-disable-next-line max-len
               `Here you can set title, description and difficulty of your exercise. Remember to set the most proper programming language!`
@@ -126,12 +126,12 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
           aria-controls='panel3d-content'
           id='panel3d-header'
         >
-          <Typography sx={{ color: 'white' }}>
+          <Typography className='typography-header'>
             {t('Customize exercise function')}
           </Typography>
         </AccordionSummary>
-        <AccordionDetails sx={{ textAlign: 'center' }}>
-          <Typography sx={{ margin: '10px', fontWeight: 'bolder', color }}>
+        <AccordionDetails className='main-form-accordion'>
+          <Typography className='accordion-text' sx={{ color }}>
             {t(
               // eslint-disable-next-line max-len
               `Here you can set amount of arguments for your function. You have to set the name for each argument.`
@@ -154,12 +154,12 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
           aria-controls='panel2d-content'
           id='panel2d-header'
         >
-          <Typography sx={{ color: 'white' }}>
+          <Typography className='typography-header'>
             {t('Inputs  Outputs')}
           </Typography>
         </AccordionSummary>
-        <AccordionDetails sx={{ textAlign: 'center' }}>
-          <Typography sx={{ margin: '10px', fontWeight: 'bolder', color }}>
+        <AccordionDetails className='main-form-accordion'>
+          <Typography className='accordion-text' sx={{ color }}>
             {t(
               `Choose quantity of your tests, then write expected outputs for each of your inputs.`
             )}
@@ -177,10 +177,10 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
           aria-controls='panel3d-content'
           id='panel3d-header'
         >
-          <Typography sx={{ color: 'white' }}>{t('Hints')}</Typography>
+          <Typography className='typography-header'>{t('Hints')}</Typography>
         </AccordionSummary>
-        <AccordionDetails sx={{ textAlign: 'center' }}>
-          <Typography sx={{ margin: '10px', fontWeight: 'bolder', color }}>
+        <AccordionDetails className='main-form-accordion'>
+          <Typography className='accordion-text' sx={{ color }}>
             {t(
               // eslint-disable-next-line max-len
               `Here you can choose quantity of your hints. Remember that not all users will be able to solve your exercise without some help.`
@@ -200,12 +200,12 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
           aria-controls='panel3d-content'
           id='panel3d-header'
         >
-          <Typography sx={{ color: 'white' }}>
+          <Typography className='typography-header'>
             {t('Example Solution')}
           </Typography>
         </AccordionSummary>
-        <AccordionDetails sx={{ textAlign: 'center' }}>
-          <Typography sx={{ margin: '10px', fontWeight: 'bolder', color }}>
+        <AccordionDetails className='main-form-accordion'>
+          <Typography className='accordion-text' sx={{ color }}>
             {t(
               // eslint-disable-next-line max-len
               `Here you have to write an example solution to guarantee that your exercise is solvable. After solving, your exercise will be send to the admin to get an agreement.`

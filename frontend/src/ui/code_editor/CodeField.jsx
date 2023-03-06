@@ -25,19 +25,10 @@ const CodeField = ({ code, setCode, language }) => {
   }, [language]);
 
   return (
-    <Box sx={{ display: 'flex', width: '100%', marginLeft: '7px' }}>
+    <Box id='code-field-container'>
       <Box
-        sx={{
-          height: '370px',
-          width: '100%',
-          overflow: 'auto',
-          border: '3px solid',
-          borderColor:
-            foundUser?.theme === 2 ? 'secondary.main' : 'primary.main',
-          borderRadius: '5px',
-          textAlign: 'start',
-          padding: '2px',
-        }}
+        id='code-field-wrapper'
+        borderColor={foundUser?.theme === 2 ? 'secondary.main' : 'primary.main'}
       >
         <Editor
           loading={<CircularProgress />}

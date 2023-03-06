@@ -3,10 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, MenuItem } from '@mui/material';
 import { Button, TextField } from '@mui/material';
-import {
-  AddExercise,
-  UpdateExercise,
-} from 'ducks/exercises/operations';
+import { AddExercise, UpdateExercise } from 'ducks/exercises/operations';
 import { getUserByUsername } from 'ducks/user/selectors';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -114,25 +111,11 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
   };
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        textAlign: 'start',
-      }}
-    >
-      <Box
-        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}
-      >
+    <Box id='hints-form-container'>
+      <Box id='hints-quantity-wrapper'>
         <TextField
           color={color.split('.')[0]}
           focused
-          sx={{
-            marginBottom: '10px',
-            width: '100%',
-            maxWidth: '900px',
-          }}
           id={`hintsQuantity-${foundUser.theme}`}
           name='hintsQuantity'
           label={t('Choose hints quantity')}
@@ -147,29 +130,15 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
           ))}
         </TextField>
       </Box>
-      <form
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          flexDirection: 'column',
-          alignItems: 'center',
-          width: '100%',
-          maxWidth: '900px',
-          margin: '10px',
-        }}
-      >
+      <form>
         {hintsQuantity !== '' &&
           [...Array(hintsQuantity).keys()].map((number) => (
-            <div key={number} style={{ width: '100%' }}>
+            <div key={number}>
               <TextField
+                className='hints-input'
                 color={color.split('.')[0]}
                 focused
-                sx={{
-                  marginBottom: '10px',
-                  marginRight: '10px',
-                  width: '100%',
-                  input: { color },
-                }}
+                sx={{ input: { color } }}
                 label={number === 0 ? t('Hints') : ''}
                 name='hint'
                 value={getValue(number)}
@@ -187,7 +156,6 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
         <Button
           color={color.split('.')[0]}
           fullWidth
-          sx={{ marginBottom: '10px' }}
           type='button'
           onClick={() => goToPreviousStage()}
           variant='contained'

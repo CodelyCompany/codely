@@ -23,7 +23,7 @@ import {
 import { GetReviews } from 'ducks/reviews/operations';
 import { AddUser, GetUsers } from 'ducks/user/operations';
 import { getUsers } from 'ducks/user/selectors';
-import useToken from "helpers/useToken";
+import useToken from 'helpers/useToken';
 import * as _ from 'lodash';
 import logo from 'logo.png';
 import { PropTypes } from 'prop-types';
@@ -105,9 +105,9 @@ const Navbar = ({
       if (!_.isEmpty(foundUser)) {
         GetNotifications(foundUser._id, token);
         setAvatarUri(
-          `${import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'}/users/${
-            foundUser._id
-          }/avatar?${foundUser.avatarTimestamp}`
+          `${
+            import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'
+          }/users/${foundUser._id}/avatar?${foundUser.avatarTimestamp}`
         );
       }
     }
@@ -128,7 +128,8 @@ const Navbar = ({
   const handleCloseUserMenu = (setting) => {
     setting === 'Logout' &&
       logout({
-        returnTo: import.meta.env.REACT_APP_LOGOUT_URL || 'http://localhost:3000',
+        returnTo:
+          import.meta.env.REACT_APP_LOGOUT_URL || 'http://localhost:3000',
       });
     setting === 'Profile' && navigate('/user');
     setting === 'Admin Panel' && navigate('/admin');
@@ -147,19 +148,18 @@ const Navbar = ({
   return (
     <>
       {!isLoading && (
-        <AppBar position='static' color={color}>
-          <Container maxWidth='xl'>
+        <AppBar id='app-bar' color={color}>
+          <Container id='app-bar-container' maxWidth='xl'>
             <Toolbar disableGutters>
               <img
                 id='logo'
-                style={{ height: '50px', cursor: 'pointer' }}
                 src={logo}
                 alt='codely logo'
                 onClick={() => navigate('/')}
               />
               <Box
+                id='user-container'
                 sx={{
-                  flexGrow: 1,
                   display: { xs: 'flex', md: 'none' },
                 }}
               >
@@ -202,47 +202,22 @@ const Navbar = ({
                 </Menu>
               </Box>
               <Typography
+                id='logo-typography'
                 variant='h5'
                 noWrap
                 component='a'
                 onClick={() => navigate('/')}
-                sx={{
-                  mr: 2,
-                  display: { xs: 'flex', md: 'none' },
-                  flexGrow: 1,
-                  fontFamily: 'monospace',
-                  fontWeight: 700,
-                  letterSpacing: '.3rem',
-                  color: 'inherit',
-                  textDecoration: 'none',
-                }}
+                sx={{ display: { xs: 'flex', md: 'none' } }}
               >
                 CODELY
               </Typography>
               <Box
-                sx={{
-                  flexGrow: 1,
-                  display: { xs: 'none', md: 'flex' },
-                }}
+                id='pages-container'
+                sx={{ display: { xs: 'none', md: 'flex' } }}
               >
                 {pages.map((page) => (
-                  <Button
-                    key={page}
-                    sx={{
-                      fontWeight: 'bolder',
-                      my: 2,
-                      color: 'white',
-                      display: 'block',
-                      ml: '40px',
-                    }}
-                  >
-                    <Link
-                      style={{
-                        textDecoration: 'none',
-                        color: 'white',
-                      }}
-                      to={`/${page.toLowerCase()}`}
-                    >
+                  <Button className='page-button' key={page}>
+                    <Link className='page-link' to={`/${page.toLowerCase()}`}>
                       {t(page)}
                     </Link>
                   </Button>
@@ -250,37 +225,11 @@ const Navbar = ({
               </Box>
               {isAuthenticated && (
                 <>
-                  <Box sx={{ position: 'relative', marginRight: '35px' }}>
+                  <Box id='notifications-container'>
                     {unreadNotifications !== 0 && (
-                      <div
-                        style={{
-                          backgroundColor: 'red',
-                          position: 'absolute',
-                          top: '0',
-                          right: '0',
-                          borderRadius: '10px',
-                          fontSize: '15px',
-                          width: '20px',
-                          height: '20px',
-                          textAlign: 'center',
-                          zIndex: '2',
-                        }}
-                      >
-                        {unreadNotifications}
-                      </div>
+                      <div>{unreadNotifications}</div>
                     )}
-                    <IoIosMail
-                      onClick={handleClick}
-                      style={{
-                        color: users.length && theme ? 'white' : 'primary.main',
-                        fontSize: '30px',
-                        cursor: 'pointer',
-                        position: 'relative',
-                        right: '10px',
-                        top: '5px',
-                        zIndex: '1',
-                      }}
-                    />
+                    <IoIosMail id='mail-icon' onClick={handleClick} />
                   </Box>
 
                   <NavbarMessages
@@ -290,17 +239,17 @@ const Navbar = ({
                   />
                 </>
               )}
-              <Box sx={{ flexGrow: 0 }}>
+              <Box id='user-setting'>
                 {isAuthenticated && (
                   <Tooltip title='Open settings'>
-                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <IconButton id='icon-button' onClick={handleOpenUserMenu}>
                       <Avatar src={avatarUri} />
                     </IconButton>
                   </Tooltip>
                 )}
                 {!isAuthenticated && (
                   <Typography
-                    sx={{ cursor: 'pointer', fontWeight: 'bolder' }}
+                    id='login-typography'
                     onClick={() => loginWithRedirect()}
                   >
                     {t('LOGIN')}

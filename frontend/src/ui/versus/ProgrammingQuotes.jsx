@@ -45,42 +45,26 @@ const ProgrammingQuotes = () => {
   return (
     data && (
       <Paper
+        id='programming-quotes'
         elevation={3}
         className={foundUser ? `theme-${foundUser.theme}` : `theme-0`}
-        style={{
-          padding: '10px',
-          display: 'flex',
-          justifyContent: 'center',
-          flexDirection: 'row',
-          marginTop: '50px',
-        }}
       >
         <ImQuotesLeft
+          id='left-quotes'
           className={foundUser ? `theme-${foundUser.theme}` : `theme-0`}
-          style={{ height: '40px', width: '40px' }}
         />
-        <Box sx={{ marginTop: '40px', width: '100%', textAlign: 'center' }}>
-          <Typography
-            color={{ color }}
-            variant='h6'
-            fontWeight='bolder'
-            style={{ alignSelf: 'center', width: 'calc(100% - 80px)' }}
-          >
+        <Box id='content-container'>
+          <Typography color={{ color }} variant='h6'>
             {data.en}
           </Typography>
-          <Box width='100%' textAlign='end'>
+          <Box>
             <ImQuotesRight
+              id='right-qoutes'
               className={foundUser ? `theme-${foundUser.theme}` : `theme-0`}
-              style={{
-                height: '40px',
-                width: '40px',
-              }}
             />
           </Box>
 
-          <Typography color={color} fontWeight='bolder' textAlign='end'>
-            ~{data.author}
-          </Typography>
+          <Typography color={color}>~{data.author}</Typography>
         </Box>
       </Paper>
     )

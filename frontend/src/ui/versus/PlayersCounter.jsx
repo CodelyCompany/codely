@@ -25,20 +25,15 @@ const PlayersCounter = ({ socket }) => {
   }, []);
 
   return (
-    <Box>
+    <Box id='players-counter'>
       <Typography
         variant='h3'
         color={color}
-        sx={{
-          fontWeight: 'bolder',
-          borderColor: 'primary.main',
-          borderBottom: '3px solid',
-          marginTop: '20px',
-        }}
+        sx={{ borderColor: 'primary.main' }}
       >
         {t('Waiting for opponent')}
       </Typography>
-      <Typography variant='h4' color={color} fontWeight={'bolder'}>
+      <Typography variant='h4' color={color}>
         {t('Active players:')} {players}
       </Typography>
     </Box>
