@@ -2,8 +2,12 @@ const TitlePage = require('../pageobjects/title.page');
 const LoginPage = require('../pageobjects/login.page');
 const MainPage = require('../pageobjects/main.page');
 const EditorPage = require('../pageobjects/editor.page.js');
-// const { Builder, By, Key, until } = require('selenium-webdriver')
-const { key } = require('webdriverio');
+
+const runCode = async (code, expectedResult) => {
+  await EditorPage.inputCode(code);
+  await EditorPage.clickLaunchCode();
+  expect(await EditorPage.getResult()).toBe(expectedResult);
+};
 
 describe('Editor Test', () => {
   it('Should login with valid credentials', async () => {
@@ -20,16 +24,11 @@ describe('Editor Test', () => {
 
   it('Should run code', async () => {
     await EditorPage.selectPythonLanguage();
-    // {
-    //   const element = await driver.findElement(By.css(".MuiButton-outlined"))
-    //   await driver.actions({ bridge: true }).moveToElement(element).perform()
-    // }
-    // await driver.moveToElement($('.MuiButton-outlined'))
-    // await $('.view-lines').click()
-    // await browser.execute('window.scrollTo(0,0)');
+    await runCode('print("LOL")', 'LOL');
+  });
 
-    await EditorPage.inputCode('print("LOL")');
-    await EditorPage.clickLaunchCode();
-    expect(await EditorPage.getResult()).toBe('LOL');
+  it('Should run code 2', async () => {
+    await EditorPage.selectJavascriptLanguage();
+    await runCode('console.log("TEST");\nconsole.log("LINE");', 'TEST\nLINE');
   });
 });

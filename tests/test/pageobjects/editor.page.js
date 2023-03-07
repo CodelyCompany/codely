@@ -1,3 +1,5 @@
+const { Key } = require('webdriverio');
+
 class EditorPage {
   get javascriptLanguage() {
     return $('//li[text()="JavaScript"]');
@@ -32,7 +34,7 @@ class EditorPage {
   }
 
   get inputCodeField() {
-    return $('.inputarea');
+    return $('[class="view-line"]');
   }
 
   get resultField() {
@@ -96,9 +98,10 @@ class EditorPage {
   }
 
   async inputCode(code) {
-    await this.inputCodeField.scrollIntoView();
-    await this.inputCodeField.clearValue();
-    await this.inputCodeField.setValue(code);
+    await this.inputCodeField.click();
+    const signsToDelete = (await this.inputCodeField.getText()).length;
+    await browser.keys(Array(signsToDelete).fill(Key.Backspace));
+    await browser.keys(code);
   }
 
   async getResult() {
