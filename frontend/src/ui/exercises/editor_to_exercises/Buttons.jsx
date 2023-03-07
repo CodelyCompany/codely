@@ -45,8 +45,7 @@ const Buttons = ({
     axios
       .post(
         `${
-          process.env.REACT_APP_CONTAINERS_ADDRESS ||
-          'http://localhost:5001'
+          process.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
         }/${language.toLowerCase() === 'c++' ? 'cpp' : language.toLowerCase()}`,
         {
           toExecute: code,

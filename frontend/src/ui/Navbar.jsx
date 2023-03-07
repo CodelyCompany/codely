@@ -105,9 +105,9 @@ const Navbar = ({
       if (!_.isEmpty(foundUser)) {
         GetNotifications(foundUser._id, token);
         setAvatarUri(
-          `${
-            process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-          }/users/${foundUser._id}/avatar?${foundUser.avatarTimestamp}`
+          `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}/users/${
+            foundUser._id
+          }/avatar?${foundUser.avatarTimestamp}`
         );
       }
     }
@@ -128,8 +128,7 @@ const Navbar = ({
   const handleCloseUserMenu = (setting) => {
     setting === 'Logout' &&
       logout({
-        returnTo:
-          process.env.REACT_APP_LOGOUT_URL || 'http://localhost:3000',
+        returnTo: process.env.REACT_APP_LOGOUT_URL || 'http://localhost:3000',
       });
     setting === 'Profile' && navigate('/user');
     setting === 'Admin Panel' && navigate('/admin');
