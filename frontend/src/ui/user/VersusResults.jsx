@@ -1,7 +1,8 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { Box, Typography } from '@mui/material';
 import Chart from 'chart.js/auto';
+import useTheme from 'helpers/useTheme';
 import { PropTypes } from 'prop-types';
 import { Doughnut } from 'react-chartjs-2';
 import { useTranslation } from 'react-i18next';
@@ -21,13 +22,7 @@ const VersusResults = ({ won, lost }) => {
     ],
   };
 
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { color } = useTheme();
 
   return (
     <Box id='versus-result-chart-container'>

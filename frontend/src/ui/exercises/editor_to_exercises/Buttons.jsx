@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Button } from '@mui/material';
@@ -6,6 +6,7 @@ import axios from 'axios';
 import { addPopup } from 'ducks/popups/actions';
 import { GetUsers } from 'ducks/user/operations';
 import { getUserByUsername } from 'ducks/user/selectors';
+import useTheme from 'helpers/useTheme';
 import useToken from 'helpers/useToken';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -30,16 +31,9 @@ const Buttons = ({
   const { token } = useToken();
   const foundUser = useSelector(getUserByUsername(user.nickname));
   const dispatch = useDispatch();
-
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary'
-        : 'primary',
-    [localStorage.getItem('theme')]
-  );
-
+  const { theme } = useTheme();
   const { t } = useTranslation();
+
   const runCode = (code) => {
     setLoadingFinished(false);
     axios
@@ -104,7 +98,7 @@ const Buttons = ({
         <Box id='run-buttons'>
           <Button
             disabled={!loadingFinished}
-            color={color}
+            color={theme}
             onClick={() => runCode(code)}
             variant='contained'
           >
@@ -112,7 +106,7 @@ const Buttons = ({
           </Button>
           <Button
             disabled={!loadingFinished}
-            color={color}
+            color={theme}
             onClick={() => submitExercise()}
             variant='contained'
           >
@@ -122,7 +116,7 @@ const Buttons = ({
         <Box id='tools-buttons'>
           <ExerciseHints />
           <Button
-            color={color}
+            color={theme}
             onClick={() => navigate(-1)}
             variant='contained'
           >

@@ -15,6 +15,8 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 
+import useTheme from '../../helpers/useTheme';
+
 const PaginationExercises = ({
   quantity,
   page,
@@ -40,22 +42,16 @@ const PaginationExercises = ({
     setItemsPerPage(e.target.value);
   };
 
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary'
-        : 'primary',
-    [localStorage.getItem('theme')]
-  );
+  const { color, theme } = useTheme();
 
   return (
     <Box id='pagination-container'>
       <FormControl id='pagination-controlled-form' size='small'>
-        <InputLabel sx={{ color: `${color}.main` }} id='demo-select-small'>
+        <InputLabel sx={{ color }} id='demo-select-small'>
           {t('Items per page')}
         </InputLabel>
         <Select
-          color={color}
+          color={theme}
           labelId='select-small'
           id={`select-small-${foundUser.theme}`}
           value={itemsPerPage}
@@ -71,7 +67,7 @@ const PaginationExercises = ({
       </FormControl>
       <Pagination
         id='pagination-component'
-        color={color}
+        color={theme}
         page={page}
         onChange={handleChange}
         count={parseInt(Math.ceil(quantity / itemsPerPage))}

@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { Box, Button, MenuItem, TextField } from '@mui/material';
 import { useFormik } from 'formik';
+import useTheme from 'helpers/useTheme';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import CustomTypes from 'ui/exercises/forms/CustomTypes';
@@ -16,21 +17,15 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
   const [types, setTypes] = useState([]);
   const [open, setOpen] = useState(false);
   const [customTypes, setCustomTypes] = useState([]);
+  const { color } = useTheme();
+
   const additionalOption = t('Other types / Custom types');
   const languagesWithTypes = ['Java', 'C++', 'C'];
+
   const formWithTypes = useMemo(
     () => languagesWithTypes.includes(step.dataFromStep1?.programmingLanguage),
     [step.dataFromStep1]
   );
-
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
-
   const dropdownOptions = useMemo(
     () => getDataTypes(step.dataFromStep1?.programmingLanguage || 'java'),
     [step.dataFromStep1]

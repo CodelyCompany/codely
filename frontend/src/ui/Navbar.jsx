@@ -23,6 +23,7 @@ import {
 import { GetReviews } from 'ducks/reviews/operations';
 import { AddUser, GetUsers } from 'ducks/user/operations';
 import { getUsers } from 'ducks/user/selectors';
+import useTheme from 'helpers/useTheme';
 import useToken from 'helpers/useToken';
 import * as _ from 'lodash';
 import logo from 'logo.png';
@@ -136,13 +137,7 @@ const Navbar = ({
     setAnchorElUser(null);
   };
 
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary'
-        : 'primary',
-    [localStorage.getItem('theme')]
-  );
+  const { theme: color } = useTheme();
 
   return (
     <>

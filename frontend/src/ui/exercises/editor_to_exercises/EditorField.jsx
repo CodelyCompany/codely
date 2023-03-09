@@ -1,10 +1,11 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import Editor from '@monaco-editor/react';
 import { Box } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import { getUserByUsername } from 'ducks/user/selectors';
+import useTheme from 'helpers/useTheme';
 import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
 import { useSelector } from 'react-redux';
@@ -27,13 +28,8 @@ const EditorField = ({
   const [loadingFinished, setLoadingFinished] = useState(true);
   const { user } = useAuth0();
   const foundUser = useSelector(getUserByUsername(user.nickname));
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { color } = useTheme();
+
   const handleCodeChange = (value) => {
     setCode(value);
   };

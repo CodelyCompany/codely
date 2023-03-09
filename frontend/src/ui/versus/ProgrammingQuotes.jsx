@@ -5,6 +5,7 @@ import { Box, Paper, Typography } from '@mui/material';
 import { getToken } from 'ducks/token/selectors';
 import { getUserByUsername } from 'ducks/user/selectors';
 import { EventSourcePolyfill } from 'event-source-polyfill';
+import useTheme from 'helpers/useTheme';
 import { ImQuotesLeft, ImQuotesRight } from 'react-icons/im';
 import { useSelector } from 'react-redux';
 
@@ -12,13 +13,7 @@ const ProgrammingQuotes = () => {
   const { user } = useAuth0();
   const foundUser = useSelector(getUserByUsername(user.nickname));
   const token = useSelector(getToken);
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary'
-        : 'primary',
-    [localStorage.getItem('theme')]
-  );
+  const { theme } = useTheme();
   const useEventSource = (url) => {
     const [data, setData] = useState(null);
 
@@ -54,7 +49,7 @@ const ProgrammingQuotes = () => {
           className={foundUser ? `theme-${foundUser.theme}` : `theme-0`}
         />
         <Box id='content-container'>
-          <Typography color={{ color }} variant='h6'>
+          <Typography color={{ theme }} variant='h6'>
             {data.en}
           </Typography>
           <Box>
@@ -64,7 +59,7 @@ const ProgrammingQuotes = () => {
             />
           </Box>
 
-          <Typography color={color}>~{data.author}</Typography>
+          <Typography color={theme}>~{data.author}</Typography>
         </Box>
       </Paper>
     )

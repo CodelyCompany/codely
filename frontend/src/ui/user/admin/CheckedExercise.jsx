@@ -6,6 +6,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { GetExercises } from 'ducks/exercises/operations';
 import { getExercisesFromState } from 'ducks/exercises/selectors';
 import { getUserByUsername } from 'ducks/user/selectors';
+import useTheme from 'helpers/useTheme';
 import useToken from 'helpers/useToken';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -33,13 +34,7 @@ function CheckedExercise({ checkedExercises, GetExercises }) {
     },
   ];
 
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { color } = useTheme();
   const { user } = useAuth0();
   const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
     theme: 0,

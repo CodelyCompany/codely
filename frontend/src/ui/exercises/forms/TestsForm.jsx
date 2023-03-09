@@ -1,9 +1,10 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, MenuItem } from '@mui/material';
 import { Button, TextField } from '@mui/material';
 import { getUserByUsername } from 'ducks/user/selectors';
+import useTheme from 'helpers/useTheme';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -11,13 +12,7 @@ import * as yup from 'yup';
 
 const TestsForm = ({ setStep, dataToEdit, step }) => {
   const { t } = useTranslation();
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { color } = useTheme();
   const [testsQuantity, setTestsQuantity] = useState('');
   const [tests, setTests] = useState([]);
   const [triggered, setTriggered] = useState(false);

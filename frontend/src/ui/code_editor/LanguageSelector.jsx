@@ -4,6 +4,7 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import useTheme from 'helpers/useTheme';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { DiJsBadge } from 'react-icons/di';
@@ -13,14 +14,8 @@ import { SiC, SiCplusplus, SiR } from 'react-icons/si';
 
 const LanguageSelector = ({ language, setLanguage }) => {
   const { t } = useTranslation();
+  const { color } = useTheme();
 
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
   const style = {
     marginRight: '5px',
   };

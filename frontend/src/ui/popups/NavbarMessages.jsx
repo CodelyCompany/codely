@@ -1,8 +1,9 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { Box, Popover, Typography } from '@mui/material';
 import { ReadNotification } from 'ducks/notifications/operations';
 import { getToken } from 'ducks/token/selectors';
+import useTheme from 'helpers/useTheme';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -19,14 +20,7 @@ const NavbarMessages = ({
   };
 
   const { t } = useTranslation();
-
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { color } = useTheme();
 
   const read = (id) => {
     ReadNotification(id, token);

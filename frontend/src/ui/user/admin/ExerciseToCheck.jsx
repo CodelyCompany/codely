@@ -13,6 +13,8 @@ import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 import ExerciseDialog from 'ui/user/admin/ExerciseDialog';
 
+import useTheme from '../../../helpers/useTheme';
+
 const useStyles = makeStyles({
   root: {
     '&.MuiDataGrid-root .MuiDataGrid-cell:focus': {
@@ -47,13 +49,7 @@ function ExerciseToCheck({ uncheckedExercises, GetUncheckedExercises, token }) {
 
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState({});
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { color } = useTheme();
   const handleClickOpen = (ex) => {
     setSelected(ex.row);
     setOpen(true);
