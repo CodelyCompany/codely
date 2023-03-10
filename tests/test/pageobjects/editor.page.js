@@ -45,6 +45,10 @@ class EditorPage {
     return $('#demo-select-small');
   }
 
+  get snackbar() {
+    return $('.SnackbarContent-root');
+  }
+
   async clickLanguageSelector() {
     await this.languageSelector.waitForDisplayed();
     await this.languageSelector.click();
@@ -98,15 +102,25 @@ class EditorPage {
   }
 
   async inputCode(code) {
+    await this.inputCodeField.waitForClickable();
     await this.inputCodeField.click();
-    const signsToDelete = (await this.inputCodeField.getText()).length;
-    await browser.keys(Array(signsToDelete).fill(Key.Backspace));
+    await browser.keys(['Control', 'a']);
+    await browser.keys(Key.Backspace);
     await browser.keys(code);
   }
 
   async getResult() {
-    await this.resultField.waitForDisplayed();
+    await this.resultField.waitForDisplayed({ timeout: 16 });
     return await this.resultField.getText();
+  }
+
+  async getSnackbarResult() {
+    await this.snackbar.waitForDisplayed({ timeout: 16 });
+    const result = (await this.snackbar.getAttribute('class')).includes(
+      'SnackbarItem-variantSuccess'
+    );
+    await this.snackbar.waitForDisplayed({ reverse: true });
+    return result;
   }
 }
 
