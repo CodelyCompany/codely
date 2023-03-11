@@ -40,7 +40,7 @@ function UserExercisesList({ exercises, mode }) {
             sx={{ color }}
             primary={
               <div>
-                <LabelImportantIcon sx={{ position: 'relative', top: '6px' }} />{' '}
+                <LabelImportantIcon id='label-icon' />
                 {exercises[index].title}
               </div>
             }
@@ -52,18 +52,10 @@ function UserExercisesList({ exercises, mode }) {
 
   return (
     <Box
-      className={`theme-${foundUser.theme}`}
-      sx={{
-        width: '100%',
-        height: '100%',
-        bgcolor: 'background.paper',
-        borderColor: color,
-        borderBottom: '3px solid',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
+      className={`theme-${foundUser.theme} user-exercises-list`}
+      sx={{ bgcolor: 'background.paper', borderColor: color }}
     >
-      <Typography variant='h6' sx={{ fontWeight: 'bolder', color }}>
+      <Typography variant='h6' sx={{ color }}>
         {mode === 'prepared'
           ? t('Your prepared exercises:')
           : t('Done exercises:')}

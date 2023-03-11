@@ -29,7 +29,13 @@ const combinedReducers = combineReducers({
 const store = createStore(
   combinedReducers,
   composeEnhancers(
-    applyMiddleware(thunk, createMiddleware(), startRedirect, popupMiddleware, logger)
+    applyMiddleware(
+      thunk,
+      createMiddleware(),
+      startRedirect,
+      popupMiddleware,
+      logger
+    )
   )
 );
 

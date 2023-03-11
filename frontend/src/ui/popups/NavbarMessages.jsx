@@ -46,41 +46,25 @@ const NavbarMessages = ({
       {notifications && notifications.length ? (
         notifications.map((not, index) => (
           <Box
+            id='navbar-messages-container'
             onClick={() => !not.read && read(not._id)}
             key={not._id}
             sx={{
               borderBottom:
                 index !== notifications.length - 1 && '2px solid grey',
-              padding: '0 5px',
-              position: 'relative',
               backgroundColor: not.read ? 'white' : 'rgb(227, 227, 227)',
             }}
           >
-            <Typography
-              sx={{
-                p: 2,
-                position: 'relative',
-                top: '4px',
-                color,
-                fontWeight: 'bolder',
-              }}
-            >
+            <Typography id='message-content' sx={{ color }}>
               {not.content}
             </Typography>
-            <Typography
-              sx={{
-                position: 'absolute',
-                top: '0',
-                right: '0',
-                color: 'gray',
-              }}
-            >
+            <Typography id='message-date'>
               {new Date(not.date).toLocaleDateString()}
             </Typography>
           </Box>
         ))
       ) : (
-        <Typography sx={{ color }} fontWeight='bolder' padding='10px'>
+        <Typography id='empty-mailbox' sx={{ color }}>
           {t('Your mailbox is empty')}
         </Typography>
       )}

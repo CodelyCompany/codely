@@ -36,13 +36,8 @@ const WrittenReviews = () => {
   }, [dispatch]);
 
   return (
-    <Box>
-      <Typography
-        marginBottom={3}
-        variant='h6'
-        color={color}
-        sx={{ fontWeight: 'bolder' }}
-      >
+    <Box id='written-reviews'>
+      <Typography variant='h6' color={color}>
         {t('Your reviews:')}
       </Typography>
       {reviews && exercises && exercises.length > 0

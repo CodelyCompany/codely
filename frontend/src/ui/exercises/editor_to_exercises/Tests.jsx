@@ -18,22 +18,8 @@ function Tests({ tests }) {
   return (
     <>
       {tests.correct === tests.tests && <ConfettiAfterSolve />}
-      <Box
-        sx={{
-          width: 'calc(100% - 6px)',
-          borderColor: color,
-          border: '3px solid',
-          marginTop: '10px',
-          padding: '10px 0',
-          borderRadius: '5px',
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
-        <Typography
-          variant='h6'
-          sx={{ marginRight: '3px', fontWeight: 'bolder', color }}
-        >
+      <Box id='tests-wrapper' sx={{ borderColor: color }}>
+        <Typography id='tests-text' variant='h6' sx={{ color }}>
           {t('Tests passed: ')}
         </Typography>
         <Typography

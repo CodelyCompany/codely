@@ -7,18 +7,14 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { DeleteExercise } from 'ducks/exercises/operations';
-import useToken from "helpers/useToken";
+import useToken from 'helpers/useToken';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
-const Confirmation = ({
-  open,
-  setOpen,
-  DeleteExercise,
-}) => {
+const Confirmation = ({ open, setOpen, DeleteExercise }) => {
   const { id } = useParams();
   const { t } = useTranslation();
   const { token } = useToken();

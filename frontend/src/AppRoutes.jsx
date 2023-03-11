@@ -49,9 +49,9 @@ const AppRoutes = () => {
     <BrowserRouter>
       <ThemeProvider theme={themeObj}>
         <SnackbarProvider
-            maxSnack={3}
-            autoHideDuration={3000}
-            anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
+          maxSnack={3}
+          autoHideDuration={3000}
+          anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
         >
           <Navbar />
           <LoadWrapper>

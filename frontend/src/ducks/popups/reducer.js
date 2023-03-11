@@ -7,10 +7,8 @@ export const popupsReducer = (state = { popups: [] }, action) => {
     case types.REMOVE_POPUP:
       return {
         ...state,
-        popups: state.popups.filter(
-            (popup) => popup.key !== action.payload
-        ),
-    };
+        popups: state.popups.filter((popup) => popup.key !== action.payload),
+      };
     default:
       return state;
   }

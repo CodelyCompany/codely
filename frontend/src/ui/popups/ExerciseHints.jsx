@@ -43,17 +43,10 @@ function ExerciseHints() {
   const [hintNumber, setHintNumber] = useState(0);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-      }}
-    >
+    <div id='hints-container'>
       <HelpIcon
-        sx={{
-          curosor: 'pointer',
-          color,
-        }}
+        id='help-icon'
+        sx={{ color }}
         fontSize='large'
         onClick={handleClickOpen}
       />
@@ -67,10 +60,7 @@ function ExerciseHints() {
           {`${t('Hint:')} ${hintNumber + 1} / ${exercise.hints.length}`}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText
-            id='alert-dialog-description'
-            sx={{ minWidth: '400px' }}
-          >
+          <DialogContentText id='alert-dialog-description'>
             {exercise.hints[hintNumber]}
           </DialogContentText>
         </DialogContent>

@@ -21,19 +21,15 @@ const Forbidden = () => {
   );
 
   return (
-    <Box
-      sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
-    >
-      <Typography
-        variant='h4'
-        style={{ fontWeight: 'bolder', marginTop: '30px', color }}
-      >
+    <Box id='forbidden-page-container'>
+      <Typography id='forbidden-page-typography' variant='h4' style={{ color }}>
         {t(`You don't have permissions to view this page!`)}
       </Typography>
       <Button
+        id='return-button'
         onClick={goToMainPage}
         variant='contained'
-        sx={{ marginTop: '20px', color }}
+        sx={{ color }}
       >
         {t('Back to the main page')}
       </Button>
