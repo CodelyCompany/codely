@@ -2,9 +2,7 @@ const Page = require('./page');
 
 class TitlePage extends Page {
   get loginButton() {
-    return $(
-      '//p[@class="MuiTypography-root MuiTypography-body1 css-bwf836-MuiTypography-root"]'
-    );
+    return $('#login-typography');
   }
 
   async clickLoginButton() {

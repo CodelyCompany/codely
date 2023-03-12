@@ -15,6 +15,7 @@
     "@wdio/mocha-framework": "^8.3.0",
     "@wdio/selenium-standalone-service": "^8.3.2",
     "@wdio/spec-reporter": "^8.3.0",
+    "dotenv": "^16.0.3",
     "webdriverio": "^8.5.6"
   }
 }

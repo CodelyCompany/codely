@@ -15,6 +15,16 @@ class MainPage {
     return $('//a[@href="/versus"]');
   }
 
+  get iconButton() {
+    return $('#icon-button');
+  }
+
+  get menuItems() {
+    return $$(
+      '//li[@class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root MuiMenuItem-gutters css-1snngmp-MuiButtonBase-root-MuiMenuItem-root"]'
+    );
+  }
+
   async getUsernameInfo() {
     await this.usernameInfo.waitForDisplayed();
     return await this.usernameInfo.getText();
@@ -33,6 +43,18 @@ class MainPage {
   async clickVersusButton() {
     await this.versusButton.waitForDisplayed();
     await this.versusButton.click();
+  }
+
+  async logout() {
+    await this.iconButton.waitForDisplayed();
+    await this.iconButton.click();
+    await this.menuItems[5].click();
+  }
+
+  async logoutAdmin() {
+    await this.iconButton.waitForDisplayed();
+    await this.iconButton.click();
+    await this.menuItems[6].click();
   }
 }
 
