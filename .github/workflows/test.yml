@@ -28,7 +28,6 @@ jobs:
         working-directory: ./tests
         run: npm run test:local
       - uses: actions/upload-artifact@v1
-        working-directory: ./tests
         if: failure()
         with:
           name: logs
