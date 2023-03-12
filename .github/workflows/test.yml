@@ -40,8 +40,7 @@ jobs:
         working-directory: ./backend_containers
         run: npm install
       - name: Start Docker Compose development
-        working-directory: ./bin
-        run: ./start-development.sh
+        run: docker compose -f ./docker/dev/docker-compose.yml -d up
       - name: Install test dependencies
         working-directory: ./tests
         run: npm install
