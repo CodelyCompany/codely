@@ -19,6 +19,9 @@ jobs:
         uses: actions/checkout@v2
       - name: Install Firefox
         uses: browser-actions/setup-firefox@v1
+      - name: Start Docker Compose development
+        working-directory: ./bin
+        run: ./start-development.sh
       - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
