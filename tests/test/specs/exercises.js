@@ -3,6 +3,7 @@ const LoginPage = require('../pageobjects/login.page');
 const MainPage = require('../pageobjects/main.page');
 const ExercisesPage = require('../pageobjects/exercises.page');
 const ExerciseFormPage = require('../pageobjects/exerciseForm.page.js');
+const exercisesData = require('../testdata/exercises.json').exercises;
 
 describe('Exercises Test', () => {
   it('Should login with valid credentials', async () => {
@@ -24,27 +25,24 @@ describe('Exercises Test', () => {
     expect(await ExerciseFormPage.inputTitle).toBeDisplayed();
   });
 
-  it('Should add exercise', async () => {
-    const exercise1 = {
-      title: 'test title',
-      description: 'test description',
-      difficult: '3',
-      language: 'JavaScript',
-      functionName: 'sum',
-      argumentsQuantity: '2',
-      argumentNames: ['a', 'b'],
-      testsQuantity: '3',
-      inputValues: [
-        ['1', '3'],
-        ['4', '6'],
-        ['2', '2'],
-      ],
-      outputValues: ['4', '10', '4'],
-      hintsQuantity: '2',
-      hints: ['hint 1', 'hint 2'],
-      exampleSolution: 'const sum=(a,b)=>{\nreturn a+b \n',
-    };
-    await ExerciseFormPage.addExercise(exercise1);
-    await ExercisesPage.searchExercise(exercise1.title);
-  });
+  /*
+  Pisząc te testy w pliku exercise.json, należy pamiętać, że przykładowe rozwiązanie trzeba wpisać tak
+  jakby się wpisywało je w edytor ręcznie np. klamry {} samę utworzą po wciśnięciu enter (tzn po
+  znaku \n). Przykładowo po wpisaniu w przykładowym rozwiązaniu:
+  {\n
+  Automatycznie w edytorze utworzy się takie coś:
+  {
+
+  }
+   */
+
+  for (const exercise of exercisesData) {
+    it(`Should add exercise - ${exercise.title} - ${exercise.language}`, async () => {
+      await ExerciseFormPage.addExercise(exercise);
+      // await ExercisesPage.searchExercise(exercise.title);
+      await ExercisesPage.clickCreateExerciseButton();
+      await ExerciseFormPage.inputTitle.waitForDisplayed();
+      expect(await ExerciseFormPage.inputTitle).toBeDisplayed();
+    });
+  }
 });

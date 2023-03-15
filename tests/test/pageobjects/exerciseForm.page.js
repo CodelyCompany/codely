@@ -64,12 +64,13 @@ class ExerciseFormPage {
   async addExercise(exercise) {
     // First stage - main info
     await this.inputTitle.waitForDisplayed();
-    await this.inputTitle.setValue(exercise.title);
+    await this.inputTitle.setValue(`${exercise.title} - ${exercise.language}`);
     await this.inputDescription.setValue(exercise.description);
     await this.inputDifficult.click();
     await $(`//li[@data-value="${exercise.difficult}"]`).click();
     await this.inputProgrammingLanguage.click();
     await $(`//li[@data-value="${exercise.language}"]`).click();
+    await this.submitButtonFirst.waitForClickable();
     await this.submitButtonFirst.click();
     // Second stage - function data
     await this.inputFunctionName.waitForDisplayed();
@@ -85,7 +86,6 @@ class ExerciseFormPage {
         await $(`#arg-${i}`).setValue(exercise.argumentNames[i]);
       }
     }
-    // TODO to fix - kazdy next button musi byc oddzielnie zaznaczony
     await this.submitButtonSecond.click();
     // Third stage - tests
     await this.inputTestsQuantity.waitForDisplayed();
@@ -113,14 +113,10 @@ class ExerciseFormPage {
     await browser.keys(['Control', 'a']);
     await browser.keys(Key.Backspace);
     await browser.keys(exercise.exampleSolution);
-    // TODO Add check snackbars
     await this.checkExerciseButton.click();
     await this.snackbar.waitForDisplayed({ timeout: 16000 });
     await this.snackbar.waitForDisplayed({ reverse: true });
     await this.checkExerciseButton.click();
-    // await this.checkExerciseButton.waitForClickable();
-    // await this.checkExerciseButton.click();
-    // await this.checkExerciseButton.click();
   }
 }
 
