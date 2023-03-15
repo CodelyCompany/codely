@@ -175,10 +175,12 @@ const ExampleSolution = ({
             color={color.split('.')[0]}
             variant='contained'
             onClick={prev}
+            id={'back'}
           >
             {t('Previous')}
           </Button>
           <Button
+            id={'submit'}
             color={color.split('.')[0]}
             variant='contained'
             disabled={!finishedLoading}

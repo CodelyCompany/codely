@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
-import { MenuItem } from '@mui/material';
-import { Button, TextField } from '@mui/material';
+import { Button, MenuItem, TextField } from '@mui/material';
 import { Box } from '@mui/system';
 import { getUserByUsername } from 'ducks/user/selectors';
 import { useFormik } from 'formik';
@@ -151,7 +150,12 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
           ))}
         </TextField>
 
-        <Button color={color.split('.')[0]} variant='contained' type='submit'>
+        <Button
+          id={'submit-1'}
+          color={color.split('.')[0]}
+          variant='contained'
+          type='submit'
+        >
           {t('Next')}
         </Button>
       </form>

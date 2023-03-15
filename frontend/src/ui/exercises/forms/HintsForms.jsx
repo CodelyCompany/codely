@@ -1,8 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
-import { Box, MenuItem } from '@mui/material';
-import { Button, TextField } from '@mui/material';
+import { Box, Button, MenuItem, TextField } from '@mui/material';
 import { AddExercise, UpdateExercise } from 'ducks/exercises/operations';
 import { getUserByUsername } from 'ducks/user/selectors';
 import PropTypes from 'prop-types';
@@ -138,6 +137,7 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
                 className='hints-input'
                 color={color.split('.')[0]}
                 focused
+                id={`hint-${number}`}
                 sx={{ input: { color } }}
                 label={number === 0 ? t('Hints') : ''}
                 name='hint'
@@ -168,6 +168,7 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
           type='button'
           onClick={() => goToNextStage()}
           variant='contained'
+          id={'submit-4'}
         >
           {t('Next')}
         </Button>

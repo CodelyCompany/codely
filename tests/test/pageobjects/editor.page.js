@@ -110,12 +110,12 @@ class EditorPage {
   }
 
   async getResult() {
-    await this.resultField.waitForDisplayed({ timeout: 16 });
+    await this.resultField.waitForDisplayed({ timeout: 16000 });
     return await this.resultField.getText();
   }
 
   async getSnackbarResult() {
-    await this.snackbar.waitForDisplayed({ timeout: 16 });
+    await this.snackbar.waitForDisplayed({ timeout: 16000 });
     const result = (await this.snackbar.getAttribute('class')).includes(
       'SnackbarItem-variantSuccess'
     );

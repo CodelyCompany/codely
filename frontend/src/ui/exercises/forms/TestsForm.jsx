@@ -1,8 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
-import { Box, MenuItem } from '@mui/material';
-import { Button, TextField } from '@mui/material';
+import { Box, Button, MenuItem, TextField } from '@mui/material';
 import { getUserByUsername } from 'ducks/user/selectors';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -200,6 +199,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
                           sx={{ input: { color } }}
                           {...label}
                           key={argNumber}
+                          id={`input-${index}-${argNumber}`}
                           value={tests[index]?.input[argNumber] || ''}
                           onChange={(e) => handleTests(index, argNumber, e)}
                           error={
@@ -224,6 +224,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
                   <TextField
                     color={color.split('.')[0]}
                     focused
+                    id={`output-${index}`}
                     sx={{ input: { color } }}
                     {...outputLabel}
                     value={tests[index]?.output || ''}
@@ -260,6 +261,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
           type='button'
           onClick={() => submitValues()}
           variant='contained'
+          id={'submit-3'}
         >
           {t('Next')}
         </Button>

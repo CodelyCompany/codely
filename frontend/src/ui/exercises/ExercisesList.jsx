@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { Box, Container } from '@mui/material';
-import { Button } from '@mui/material';
+import { Box, Button, Container } from '@mui/material';
 import { GetExercises } from 'ducks/exercises/operations';
 import { getExercisesFromState } from 'ducks/exercises/selectors';
 import useToken from 'helpers/useToken';
@@ -50,6 +49,7 @@ const ExercisesList = ({ exercises, GetExercises }) => {
     <>
       <Container id='exercises-list-container'>
         <Button
+          id={'createExercise'}
           onClick={goToExercisesForm}
           variant='contained'
           color={color.split('.')[0]}

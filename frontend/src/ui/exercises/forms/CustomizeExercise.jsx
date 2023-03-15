@@ -284,6 +284,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                         marginRight: `${formWithTypes ? '5px' : '0'}`,
                         input: { color },
                       }}
+                      id={`arg-${argNumber}`}
                       label={`${argNumber + 1}. ${t('Argument name')}`}
                       value={argumentsName[argNumber] || ''}
                       onChange={(e) => handleArgumentName(e, argNumber)}
@@ -313,6 +314,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                           marginLeft: `${formWithTypes ? '5px' : '0'}`,
                         }}
                         label={`${argNumber + 1}. ${t('Argument type')}`}
+                        id={`${argNumber}`}
                         value={types[argNumber] || ''}
                         onChange={(e) => setType(argNumber, e.target.value)}
                         error={
@@ -388,6 +390,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
               color={color.split('.')[0]}
               variant='contained'
               type='submit'
+              id={'submit-2'}
             >
               {t('Next')}
             </Button>
