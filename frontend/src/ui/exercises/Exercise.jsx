@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import StarIcon from '@mui/icons-material/Star';
 import Card from '@mui/material/Card';
