@@ -40,8 +40,7 @@ const Buttons = ({
     axios
       .post(
         `${
-          import.meta.env.REACT_APP_CONTAINERS_ADDRESS ||
-          'http://localhost:5001'
+          process.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
         }/${language.toLowerCase() === 'c++' ? 'cpp' : language.toLowerCase()}`,
         {
           toExecute: code,
@@ -65,9 +64,7 @@ const Buttons = ({
     setLoadingFinished(false);
     axios
       .put(
-        `${
-          import.meta.env.REACT_APP_BACKEND
-        }/exercises/checkVersus/${id}/room/${roomId}`,
+        `${process.env.REACT_APP_BACKEND}/exercises/checkVersus/${id}/room/${roomId}`,
         {
           user: foundUser._id,
           won,

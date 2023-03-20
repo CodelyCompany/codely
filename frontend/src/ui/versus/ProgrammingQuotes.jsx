@@ -39,7 +39,7 @@ const ProgrammingQuotes = () => {
   };
 
   const data = useEventSource(
-    `${import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'}/sse`
+    `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}/sse`
   );
 
   return (
