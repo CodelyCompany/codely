@@ -319,4 +319,25 @@ router.put('/checkVersus/:exerciseId/room/:roomId', async (req, res) => {
   }
 });
 
+router.delete('/deleteAllExercises', async (req, res) => {
+  try {
+    await Exercise.deleteMany({});
+    await User.updateMany(
+      {},
+      {
+        preparedExercises: [],
+        doneExercises: [],
+      }
+    );
+    await Test.deleteMany({});
+    await Review.deleteMany({});
+    return res
+      .status(200)
+      .send({ message: 'Exercises and all relationships have been removed' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
+
 module.exports = router;

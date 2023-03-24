@@ -4,7 +4,13 @@ const MainPage = require('../pageobjects/main.page');
 const ExercisesPage = require('../pageobjects/exercises.page');
 const ExerciseFormPage = require('../pageobjects/exerciseForm.page.js');
 const exercisesData = require('../testdata/exercises.json').exercises;
+const axios = require('axios');
 
+axios
+  .delete('http://localhost:5000/exercises/deleteAllExercises')
+  .then((response) => {
+    console.log(response.data.message);
+  });
 describe('Exercises Test', () => {
   it('Should login with valid credentials', async () => {
     await TitlePage.open();
