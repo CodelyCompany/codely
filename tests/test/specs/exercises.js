@@ -3,6 +3,7 @@ const LoginPage = require('../pageobjects/login.page');
 const MainPage = require('../pageobjects/main.page');
 const ExercisesPage = require('../pageobjects/exercises.page');
 const ExerciseFormPage = require('../pageobjects/exerciseForm.page.js');
+const AdminPage = require('../pageobjects/admin.page');
 const exercisesData = require('../testdata/exercises.json').exercises;
 const axios = require('axios');
 
@@ -45,10 +46,25 @@ describe('Exercises Test', () => {
   for (const exercise of exercisesData) {
     it(`Should add exercise - ${exercise.title} - ${exercise.language}`, async () => {
       await ExerciseFormPage.addExercise(exercise);
-      // await ExercisesPage.searchExercise(exercise.title);
       await ExercisesPage.clickCreateExerciseButton();
       await ExerciseFormPage.inputTitle.waitForDisplayed();
       expect(await ExerciseFormPage.inputTitle).toBeDisplayed();
+    });
+  }
+
+  it(`Should open administrator page`, async () => {
+    await MainPage.goToAdminPage();
+  });
+
+  for (const exercise of exercisesData) {
+    it(`Should accept exercise - ${exercise.title} - ${exercise.language}`, async () => {
+      await AdminPage.exercisesToCheckTable.waitForDisplayed();
+      await AdminPage.acceptExercise(exercise);
+      expect(
+        await $(
+          '//div[@id="checked-exercises-table-container"]//div[text()="${exercise.title} - ${exercise.language}"]'
+        )
+      ).toBeDisplayed();
     });
   }
 });

@@ -25,6 +25,10 @@ class MainPage {
     );
   }
 
+  get userIcon() {
+    return $('#icon-button');
+  }
+
   async getUsernameInfo() {
     await this.usernameInfo.waitForDisplayed();
     return await this.usernameInfo.getText();
@@ -55,6 +59,12 @@ class MainPage {
     await this.iconButton.waitForDisplayed();
     await this.iconButton.click();
     await this.menuItems[6].click();
+  }
+
+  async goToAdminPage() {
+    await this.iconButton.waitForDisplayed();
+    await this.iconButton.click();
+    await this.menuItems[4].click();
   }
 }
 

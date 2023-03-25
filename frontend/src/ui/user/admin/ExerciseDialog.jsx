@@ -168,6 +168,7 @@ function ExerciseDialog({
               color={theme}
               variant='contained'
               onClick={handleClose}
+              id={'undo'}
             >
               {t('Undo')}
             </Button>
@@ -176,6 +177,7 @@ function ExerciseDialog({
                 color={theme}
                 variant='contained'
                 onClick={() => deleteExercise()}
+                id={'reject'}
               >
                 {t('Reject')}
               </Button>
@@ -184,6 +186,7 @@ function ExerciseDialog({
                 variant='contained'
                 onClick={() => checkExercise()}
                 autoFocus
+                id={'accept'}
               >
                 {t('Accept')}
               </Button>
