@@ -7,6 +7,7 @@ import { makeStyles } from '@mui/styles';
 import { DataGrid } from '@mui/x-data-grid';
 import { GetUsers } from 'ducks/user/operations';
 import { getUserByUsername, getUsers } from 'ducks/user/selectors';
+import useTheme from 'helpers/useTheme';
 import useToken from 'helpers/useToken';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -27,13 +28,7 @@ function AllUsers({ users, GetUsers }) {
   const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
     theme: 0,
   };
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { color } = useTheme();
 
   const classes = useStyles();
 

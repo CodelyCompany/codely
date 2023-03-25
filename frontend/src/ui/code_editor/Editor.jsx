@@ -1,7 +1,8 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import React from 'react';
 
 import { Box, Container, Typography } from '@mui/material';
+import useTheme from 'helpers/useTheme';
 import { useTranslation } from 'react-i18next';
 import CodeField from 'ui/code_editor/CodeField';
 import LanguageSelector from 'ui/code_editor/LanguageSelector';
@@ -13,14 +14,7 @@ const Editor = () => {
   const [output, setOutput] = useState(null);
   const [language, setLanguage] = useState('JavaScript');
   const [loadingFinished, setLoadingFinished] = useState(true);
-
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { color } = useTheme();
   const { t } = useTranslation();
 
   return (

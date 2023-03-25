@@ -1,21 +1,16 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, TextField, Typography } from '@mui/material';
+import useTheme from 'helpers/useTheme';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 const CustomArgs = ({ args, setArgumentValues, argumentValues }) => {
   const { user } = useAuth0();
   const { t } = useTranslation();
+  const { color } = useTheme();
 
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
   useEffect(() => {
     setArgumentValues((prev) =>
       [...Array(args.length).keys()].map((el) => {

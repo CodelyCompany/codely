@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 
@@ -6,6 +6,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Typography } from '@mui/material';
 import { getReviewsByExerciseId } from 'ducks/reviews/selectors';
 import { getUserByUsername } from 'ducks/user/selectors';
+import useTheme from 'helpers/useTheme';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -20,14 +21,7 @@ const Reviews = () => {
   const foundUser = useSelector(getUserByUsername(user.nickname));
   const [usersReview, setUsersReview] = useState(null);
   const [reviewable, setReviewable] = useState(false);
-
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary'
-        : 'primary',
-    [localStorage.getItem('theme')]
-  );
+  const { theme } = useTheme();
 
   useEffect(() => {
     setUsersReview(reviews.find((review) => review.author === foundUser._id));
@@ -39,7 +33,7 @@ const Reviews = () => {
   return (
     reviews && (
       <Box id='review'>
-        <Typography id='review-typography' variant='h4' color={color}>
+        <Typography id='review-typography' variant='h4' color={theme}>
           {t('Reviews')}
         </Typography>
         <Box>

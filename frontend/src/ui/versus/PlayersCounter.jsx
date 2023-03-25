@@ -1,19 +1,15 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Box, Typography } from '@mui/material';
+import useTheme from 'helpers/useTheme';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 const PlayersCounter = ({ socket }) => {
   const { t } = useTranslation();
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary'
-        : 'primary',
-    [localStorage.getItem('theme')]
-  );
+  const { theme } = useTheme();
   const [players, setPlayers] = useState(0);
+
   useEffect(() => {
     socket.on('players', (mess) => {
       setPlayers(mess);
@@ -28,12 +24,12 @@ const PlayersCounter = ({ socket }) => {
     <Box id='players-counter'>
       <Typography
         variant='h3'
-        color={color}
+        color={theme}
         sx={{ borderColor: 'primary.main' }}
       >
         {t('Waiting for opponent')}
       </Typography>
-      <Typography variant='h4' color={color}>
+      <Typography variant='h4' color={theme}>
         {t('Active players:')} {players}
       </Typography>
     </Box>

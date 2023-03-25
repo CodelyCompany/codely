@@ -1,9 +1,10 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Box, Button, Container, Typography } from '@mui/material';
 import { ConnectSocket, DisconnectSocket } from 'ducks/socket/actions';
 import { getSocket } from 'ducks/socket/selectors';
 import { useFormik } from 'formik';
+import useTheme from 'helpers/useTheme';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -75,13 +76,8 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
     socket.disconnect();
     DisconnectSocket();
   };
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary'
-        : 'primary',
-    [localStorage.getItem('theme')]
-  );
+  const { theme } = useTheme();
+
   return (
     <Container id='versus-container'>
       {!socket && <ChooseExerciseLang formik={formik} />}
@@ -97,7 +93,7 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
       {!socket && (
         <>
           <Button
-            color={color}
+            color={theme}
             fullWidth
             onClick={() => connect()}
             variant='contained'
@@ -110,17 +106,17 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
       {socket && (
         <Box>
           <Box id='seach-wrapper'>
-            <Typography color={color}>
+            <Typography color={theme}>
               {t('Searching')}
               {[...Array(dots).keys()].map(() => '.')}{' '}
             </Typography>
-            <Typography color={color}>
+            <Typography color={theme}>
               {Math.floor(time / 60)}:
               {time % 60 < 10 ? '0' + (time % 60) : time % 60}
             </Typography>
           </Box>
           <Button
-            color={color}
+            color={theme}
             fullWidth
             onClick={() => disconnect()}
             variant='contained'

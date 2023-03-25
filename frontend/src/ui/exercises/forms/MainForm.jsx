@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion from '@mui/material/Accordion';
@@ -11,6 +11,7 @@ import { getExerciseById } from 'ducks/exercises/selectors';
 import { StopRedirect } from 'ducks/redirects/actions';
 import { isRedirect } from 'ducks/redirects/selector';
 import { getToken } from 'ducks/token/selectors';
+import useTheme from 'helpers/useTheme';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
@@ -23,13 +24,7 @@ import HintsForms from 'ui/exercises/forms/HintsForms';
 import TestsForm from 'ui/exercises/forms/TestsForm';
 
 function MainForm({ GetExercise, redirect, StopRedirect, token }) {
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { color } = useTheme();
   const [step, setStep] = useState({
     currentStep: 1,
     dataFromStep1: '',
