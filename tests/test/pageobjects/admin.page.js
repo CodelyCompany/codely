@@ -15,11 +15,11 @@ class AdminPage {
     return $('#undo');
   }
 
-  async acceptExercise(exercise) {
+  async acceptExercise(title) {
     await $(
-      `//div[@id="exercises-to-check-table-container"]//div[text()="${exercise.title} - ${exercise.language}"]`
+      `//div[@id="exercises-to-check-table-container"]//div[text()="${title}"]`
     ).waitForClickable();
-    await $(`//div[text()="${exercise.title} - ${exercise.language}"]`).click();
+    await $(`//div[text()="${title}"]`).click();
     await this.acceptExerciseButton.waitForClickable();
     await this.acceptExerciseButton.click();
   }

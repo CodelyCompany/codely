@@ -17,7 +17,14 @@ class ExercisesPage {
   async searchExercise(exerciseTitle) {
     await this.searchExerciseInput.waitForDisplayed();
     await this.searchExerciseInput.setValue(exerciseTitle);
+    await browser.keys(Key.ArrowDown);
+    await browser.keys(Key.ArrowDown);
     await browser.keys(Key.Enter);
+  }
+
+  async clickExercise(exerciseTitle) {
+    await $(`//h4[text()="${exerciseTitle}"]`).waitForClickable();
+    await $(`//h4[text()="${exerciseTitle}"]`).click();
   }
 }
 

@@ -4,8 +4,10 @@ const MainPage = require('../pageobjects/main.page');
 const ExercisesPage = require('../pageobjects/exercises.page');
 const ExerciseFormPage = require('../pageobjects/exerciseForm.page.js');
 const AdminPage = require('../pageobjects/admin.page');
+const ExercisePage = require('../pageobjects/exercise.page');
 const exercisesData = require('../testdata/exercises.json').exercises;
 const axios = require('axios');
+const { parse } = require('dotenv');
 
 axios
   .delete('http://localhost:5000/exercises/deleteAllExercises')
@@ -59,12 +61,43 @@ describe('Exercises Test', () => {
   for (const exercise of exercisesData) {
     it(`Should accept exercise - ${exercise.title} - ${exercise.language}`, async () => {
       await AdminPage.exercisesToCheckTable.waitForDisplayed();
-      await AdminPage.acceptExercise(exercise);
+      await AdminPage.acceptExercise(
+        `${exercise.title} - ${exercise.language}`
+      );
       expect(
         await $(
           '//div[@id="checked-exercises-table-container"]//div[text()="${exercise.title} - ${exercise.language}"]'
         )
       ).toBeDisplayed();
+    });
+  }
+
+  for (const exercise of exercisesData) {
+    it('Should open exercise tab', async () => {
+      await MainPage.clickExerciseButton();
+      await ExercisesPage.createExerciseButton.waitForDisplayed();
+      expect(await ExercisesPage.createExerciseButton).toBeDisplayed();
+    });
+    // TODO - z niewiadomego powodu strona nie dziala w przypadku zadan z jezykami C i C++
+    it(`Should go to exercise - ${exercise.title} - ${exercise.language}`, async () => {
+      await ExercisesPage.searchExercise(
+        `${exercise.title} - ${exercise.language}`
+      );
+      await ExercisesPage.clickExercise(
+        `${exercise.title} - ${exercise.language}`
+      );
+      await ExercisePage.exerciseTitle.waitForDisplayed();
+      expect(await ExercisePage.exerciseTitle.getText()).toBe(
+        `${exercise.title} - ${exercise.language}`
+      );
+    });
+    it(`Should solve exercise - ${exercise.title} - ${exercise.language}`, async () => {
+      await ExercisePage.solveExercise(exercise.exampleSolution);
+      await ExercisePage.testsResult;
+      expect(
+        parseInt((await ExercisePage.testsResult.getText()).split('/')[0]) ===
+          parseInt(exercise.testsQuantity)
+      ).toBe(true);
     });
   }
 });
