@@ -77,10 +77,16 @@ class ExerciseFormPage {
     await this.inputFunctionName.setValue(exercise.functionName);
     await this.inputArgumentsQuantity.setValue(exercise.argumentsQuantity);
     if (['Java', 'C', 'C++'].includes(exercise.language)) {
+      await $('#outputType').click();
+      await $(`#${exercise.outputType}`).waitForClickable();
+      await $(`#${exercise.outputType}`).click();
       for (let i = 0; i < exercise.argumentsQuantity; i++) {
         await $(`#arg-${i}`).setValue(exercise.argumentNames[i]);
-        await $(`#arg-${i}`).setValue(exercise.argumentTypes[i]);
+        await $(`#type-${i}`).click();
+        await $(`#${exercise.argumentTypes[i]}-${i}`).waitForClickable();
+        await $(`#${exercise.argumentTypes[i]}-${i}`).click();
       }
+      await this.submitButtonSecond.click({ x: 0, y: -200 });
     } else {
       for (let i = 0; i < exercise.argumentsQuantity; i++) {
         await $(`#arg-${i}`).setValue(exercise.argumentNames[i]);

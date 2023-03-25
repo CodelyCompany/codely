@@ -109,7 +109,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
 
   const argumentsNameSchema = yup.object({
     argumentsName: yup
-      .array(t('Eneter all arguments name'))
+      .array(t('Enter all arguments name'))
       .of(
         yup
           .string(t('Enter all arguments name'))
@@ -309,7 +309,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                           marginLeft: `${formWithTypes ? '5px' : '0'}`,
                         }}
                         label={`${argNumber + 1}. ${t('Argument type')}`}
-                        id={`${argNumber}`}
+                        id={`type-${argNumber}`}
                         value={types[argNumber] || ''}
                         onChange={(e) => setType(argNumber, e.target.value)}
                         error={
@@ -327,7 +327,11 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                           ...customTypes,
                           additionalOption,
                         ].map((opt) => (
-                          <MenuItem key={opt} value={opt}>
+                          <MenuItem
+                            key={opt}
+                            value={opt}
+                            id={`${opt}-${argNumber}`}
+                          >
                             {opt}
                           </MenuItem>
                         ))}
@@ -343,6 +347,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
               color={color.split('.')[0]}
               select
               fullWidth
+              id={'outputType'}
               label={t(`Output type`)}
               value={types[formik.values.argumentsQuantity] || ''}
               onChange={(e) =>
@@ -364,7 +369,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
             >
               {[...dropdownOptions, ...customTypes, additionalOption].map(
                 (opt) => (
-                  <MenuItem key={opt} value={opt}>
+                  <MenuItem key={opt} value={opt} id={opt}>
                     {opt}
                   </MenuItem>
                 )
