@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import FormatColorTextIcon from '@mui/icons-material/FormatColorText';
@@ -17,6 +17,7 @@ import { DeleteExercise, GetExercises } from 'ducks/exercises/operations';
 import { getExerciseById } from 'ducks/exercises/selectors';
 import { getRatingByExerciseId } from 'ducks/reviews/selectors';
 import { getUserByUsername } from 'ducks/user/selectors';
+import useTheme from 'helpers/useTheme';
 import useToken from 'helpers/useToken';
 import * as _ from 'lodash';
 import PropTypes from 'prop-types';
@@ -40,13 +41,8 @@ const ExerciseDetail = ({ GetExercises }) => {
   const navigate = useNavigate();
   const [toDelete, setToDelete] = useState(false);
   const [argumentValues, setArgumentValues] = useState([]);
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { color, theme } = useTheme();
+
   useEffect(() => {
     if (_.isEmpty(exercise)) {
       GetExercises(token);
@@ -161,7 +157,7 @@ const ExerciseDetail = ({ GetExercises }) => {
             {user.nickname === exercise.author.username && (
               <Box id='manage-exercise'>
                 <Button
-                  color={color.split('.')[0]}
+                  color={theme}
                   variant='contained'
                   onClick={() => {
                     setToDelete(true);
@@ -170,7 +166,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                   {t('Delete')}
                 </Button>
                 <Button
-                  color={color.split('.')[0]}
+                  color={theme}
                   variant='contained'
                   onClick={() => navigate(`/exercises/edit/${id}`)}
                 >

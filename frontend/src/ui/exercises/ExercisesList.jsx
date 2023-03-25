@@ -1,8 +1,9 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Box, Button, Container } from '@mui/material';
 import { GetExercises } from 'ducks/exercises/operations';
 import { getExercisesFromState } from 'ducks/exercises/selectors';
+import useTheme from 'helpers/useTheme';
 import useToken from 'helpers/useToken';
 import * as _ from 'lodash';
 import PropTypes from 'prop-types';
@@ -25,13 +26,7 @@ const ExercisesList = ({ exercises, GetExercises }) => {
   const [sort, setSort] = useState(0);
   const navigate = useNavigate();
   const [itemsPerPage, setItemsPerPage] = useState(3);
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { theme } = useTheme();
   const goToExercisesForm = () => {
     navigate('/Exercises/form');
   };
@@ -52,7 +47,7 @@ const ExercisesList = ({ exercises, GetExercises }) => {
           id={'createExercise'}
           onClick={goToExercisesForm}
           variant='contained'
-          color={color.split('.')[0]}
+          color={theme}
         >
           {t('Create your exercise!')}
         </Button>

@@ -31,12 +31,10 @@ const CustomTypes = ({ open, setOpen, setCustomTypes }) => {
         <DialogTitle>{t('Add other type / custom type')}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            {
-              t(
-                // eslint-disable-next-line max-len
-                `Here you can add other type which wasn't mentioned in the list. Moreover you can add your own type fe. Fraction`
-              )
-            }
+            {t(
+              // eslint-disable-next-line max-len
+              `Here you can add other type which wasn't mentioned in the list. Moreover you can add your own type fe. Fraction`
+            )}
           </DialogContentText>
           <TextField
             autoFocus

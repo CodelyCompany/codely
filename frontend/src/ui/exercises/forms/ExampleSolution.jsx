@@ -8,6 +8,7 @@ import axios from 'axios';
 import { AddExercise, UpdateExercise } from 'ducks/exercises/operations';
 import { addPopup } from 'ducks/popups/actions';
 import { getUserByUsername } from 'ducks/user/selectors';
+import useTheme from 'helpers/useTheme';
 import useToken from 'helpers/useToken';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -30,14 +31,7 @@ const ExampleSolution = ({
   const { user } = useAuth0();
   const [finishedLoading, setFinishedLoading] = useState(true);
   const dispatch = useDispatch();
-
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { color } = useTheme();
   const signature = useMemo(
     () =>
       getSignature(
@@ -123,7 +117,7 @@ const ExampleSolution = ({
     axios
       .post(
         `${
-          import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'
+          process.env.REACT_APP_BACKEND || 'http://localhost:5000'
         }/exercises/checkBeforeAddExercise`,
         {
           exampleSolution: code,

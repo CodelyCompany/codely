@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import Editor from '@monaco-editor/react';
@@ -19,11 +19,13 @@ import {
 } from 'ducks/exercises/operations';
 import { AddNotification } from 'ducks/notifications/operations';
 import { getUserByUsername, getUsers } from 'ducks/user/selectors';
+import useTheme from 'helpers/useTheme';
 import useToken from 'helpers/useToken';
 import _ from 'lodash';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
+
 function ExerciseDialog({
   open,
   setOpen,
@@ -45,13 +47,7 @@ function ExerciseDialog({
     CheckExercise(exercise._id, token);
     handleClose();
   };
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { color, theme } = useTheme();
   const handleClose = () => {
     setOpen(false);
   };
@@ -169,7 +165,7 @@ function ExerciseDialog({
           </DialogContent>
           <DialogActions id='alert-dialog-actions'>
             <Button
-              color={color.split('.')[0]}
+              color={theme}
               variant='contained'
               onClick={handleClose}
             >
@@ -177,14 +173,14 @@ function ExerciseDialog({
             </Button>
             <Box>
               <Button
-                color={color.split('.')[0]}
+                color={theme}
                 variant='contained'
                 onClick={() => deleteExercise()}
               >
                 {t('Reject')}
               </Button>
               <Button
-                color={color.split('.')[0]}
+                color={theme}
                 variant='contained'
                 onClick={() => checkExercise()}
                 autoFocus

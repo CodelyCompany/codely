@@ -1,8 +1,9 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { Button } from '@mui/material';
 import axios from 'axios';
 import { addPopup } from 'ducks/popups/actions';
+import useTheme from 'helpers/useTheme';
 import useToken from 'helpers/useToken';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -16,14 +17,7 @@ const RunButton = ({
   loadingFinished,
   setLoadingFinished,
 }) => {
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
-
+  const { color } = useTheme();
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { token } = useToken();
@@ -33,8 +27,7 @@ const RunButton = ({
     axios
       .post(
         `${
-          import.meta.env.REACT_APP_CONTAINERS_ADDRESS ||
-          'http://localhost:5001'
+          process.env.REACT_APP_CONTAINERS_ADDRESS || 'http://localhost:5001'
         }/${language.toLowerCase() === 'c++' ? 'cpp' : language.toLowerCase()}`,
         {
           toExecute: code,

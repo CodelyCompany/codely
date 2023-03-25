@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import CheckIcon from '@mui/icons-material/Check';
@@ -18,6 +18,7 @@ import { GetExercises } from 'ducks/exercises/operations';
 import { getExerciseById } from 'ducks/exercises/selectors';
 import { getSocket } from 'ducks/socket/selectors';
 import { getUserByUsername } from 'ducks/user/selectors';
+import useTheme from 'helpers/useTheme';
 import useToken from 'helpers/useToken';
 import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
@@ -49,13 +50,7 @@ const Exercise = ({ GetExercises, socket }) => {
 
   const { user } = useAuth0();
   const foundUser = useSelector(getUserByUsername(user.nickname));
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary'
-        : 'primary',
-    [localStorage.getItem('theme')]
-  );
+  const { theme, color } = useTheme();
   const getTime = (time) =>
     `${Math.floor(time / 60)}:${
       time % 60 < 10 ? '0' + (time % 60).toString() : time % 60
@@ -167,9 +162,9 @@ const Exercise = ({ GetExercises, socket }) => {
               <ListItem>
                 <Typography
                   variant='h3'
-                  color={color}
+                  color={theme}
                   sx={{
-                    borderColor: `${color}.main`,
+                    borderColor: color,
                   }}
                 >
                   {exercise.title}
@@ -177,7 +172,7 @@ const Exercise = ({ GetExercises, socket }) => {
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar sx={{ backgroundColor: `${color}.main` }}>
+                  <Avatar sx={{ backgroundColor: color }}>
                     <PersonIcon />
                   </Avatar>
                 </ListItemAvatar>
@@ -188,7 +183,7 @@ const Exercise = ({ GetExercises, socket }) => {
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar sx={{ backgroundColor: `${color}.main` }}>
+                  <Avatar sx={{ backgroundColor: color }}>
                     <GTranslateIcon />
                   </Avatar>
                 </ListItemAvatar>
@@ -199,7 +194,7 @@ const Exercise = ({ GetExercises, socket }) => {
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar sx={{ backgroundColor: `${color}.main` }}>
+                  <Avatar sx={{ backgroundColor: color }}>
                     <PsychologyIcon />
                   </Avatar>
                 </ListItemAvatar>
@@ -214,7 +209,7 @@ const Exercise = ({ GetExercises, socket }) => {
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar sx={{ backgroundColor: `${color}.main` }}>
+                  <Avatar sx={{ backgroundColor: color }}>
                     <FormatColorTextIcon />
                   </Avatar>
                 </ListItemAvatar>

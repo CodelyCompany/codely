@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import StarIcon from '@mui/icons-material/Star';
 import Card from '@mui/material/Card';
@@ -12,6 +12,8 @@ import { DiLinux } from 'react-icons/di';
 import { FaJava, FaPython } from 'react-icons/fa';
 import { SiC, SiCplusplus, SiR } from 'react-icons/si';
 import { useNavigate } from 'react-router-dom';
+
+import useTheme from '../../helpers/useTheme';
 
 const StyledRating = styled(Rating)({
   '& .MuiRating-iconFilled': {
@@ -55,13 +57,8 @@ const Exercise = ({ exercise }) => {
   ];
 
   const navigate = useNavigate();
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { color } = useTheme();
+
   return (
     <Card
       onClick={() => navigate(`/Exercise/${exercise._id}`)}

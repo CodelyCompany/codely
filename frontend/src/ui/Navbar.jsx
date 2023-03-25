@@ -23,6 +23,7 @@ import {
 import { GetReviews } from 'ducks/reviews/operations';
 import { AddUser, GetUsers } from 'ducks/user/operations';
 import { getUsers } from 'ducks/user/selectors';
+import useTheme from 'helpers/useTheme';
 import useToken from 'helpers/useToken';
 import * as _ from 'lodash';
 import logo from 'logo.png';
@@ -60,7 +61,6 @@ const Navbar = ({
   );
 
   useEffect(() => {
-    const theme = localStorage.getItem('theme');
     if (!theme) {
       localStorage.setItem('theme', 0);
       setTheme(0);
@@ -105,9 +105,9 @@ const Navbar = ({
       if (!_.isEmpty(foundUser)) {
         GetNotifications(foundUser._id, token);
         setAvatarUri(
-          `${
-            import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'
-          }/users/${foundUser._id}/avatar?${foundUser.avatarTimestamp}`
+          `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}/users/${
+            foundUser._id
+          }/avatar?${foundUser.avatarTimestamp}`
         );
       }
     }
@@ -128,8 +128,7 @@ const Navbar = ({
   const handleCloseUserMenu = (setting) => {
     setting === 'Logout' &&
       logout({
-        returnTo:
-          import.meta.env.REACT_APP_LOGOUT_URL || 'http://localhost:3000',
+        returnTo: process.env.REACT_APP_LOGOUT_URL || 'http://localhost:3000',
       });
     setting === 'Profile' && navigate('/user');
     setting === 'Admin Panel' && navigate('/admin');
@@ -137,13 +136,7 @@ const Navbar = ({
     setAnchorElUser(null);
   };
 
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary'
-        : 'primary',
-    [localStorage.getItem('theme')]
-  );
+  const { theme: color } = useTheme();
 
   return (
     <>

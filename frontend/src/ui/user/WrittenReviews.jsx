@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import ThumbUp from '@mui/icons-material/ThumbUp';
@@ -9,6 +9,7 @@ import { getExercisesFromState } from 'ducks/exercises/selectors';
 import { getReviewsByUserId } from 'ducks/reviews/selectors';
 import { getToken } from 'ducks/token/selectors';
 import { getUserByUsername } from 'ducks/user/selectors';
+import useTheme from 'helpers/useTheme';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -22,14 +23,7 @@ const WrittenReviews = () => {
   const exercises = useSelector(getExercisesFromState);
   const token = useSelector(getToken);
   const dispatch = useDispatch();
-
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { color } = useTheme();
 
   useEffect(() => {
     dispatch(GetExercises(token));

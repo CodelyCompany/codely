@@ -1,22 +1,16 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { getUserByUsername } from 'ducks/user/selectors';
+import useTheme from 'helpers/useTheme';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 function Sorting({ setSort, sort }) {
   const { t } = useTranslation();
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary'
-        : 'primary',
-    [localStorage.getItem('theme')]
-  );
-
+  const { theme, color } = useTheme();
   const { user } = useAuth0();
   const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
     theme: 0,
@@ -25,11 +19,11 @@ function Sorting({ setSort, sort }) {
   return (
     <Box>
       <FormControl fullWidth>
-        <InputLabel sx={{ color: `${color}.main` }} id='select-label'>
+        <InputLabel sx={{ color }} id='select-label'>
           {t('Sort by')}
         </InputLabel>
         <Select
-          color={color}
+          color={theme}
           labelId='select-label'
           id={`select-${foundUser.theme}`}
           value={sort}

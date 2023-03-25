@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { useEffect } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
@@ -7,6 +7,7 @@ import { getToken } from 'ducks/token/selectors';
 import { UpdateUser } from 'ducks/user/operations';
 import { UploadAvatar } from 'ducks/user/operations';
 import { getUserByUsername } from 'ducks/user/selectors';
+import useTheme from 'helpers/useTheme';
 import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -20,13 +21,7 @@ const Settings = ({ UpdateUser, UploadAvatar, token }) => {
   const [image, setImage] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const { user } = useAuth0();
-  const colorOpt = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary'
-        : 'primary',
-    [localStorage.getItem('theme')]
-  );
+  const { theme } = useTheme();
   const foundUser = useSelector(getUserByUsername(user.nickname));
 
   useEffect(() => {
@@ -66,27 +61,27 @@ const Settings = ({ UpdateUser, UploadAvatar, token }) => {
         handleUpload={handleImageUpload}
       />
       <Box id='upload-avatar'>
-        <Typography id='upload-avatar-typography' color={colorOpt} variant='h5'>
+        <Typography id='upload-avatar-typography' color={theme} variant='h5'>
           {t('Upload your avatar')}
         </Typography>
-        <Button variant='contained' color={colorOpt} component='label'>
+        <Button variant='contained' color={theme} component='label'>
           {t('Choose file (.png)')}
           <input type='file' hidden onChange={handleNewImage} />
         </Button>
       </Box>
-      <Box id='set-language' color={colorOpt}>
-        <Typography id='set-language-typography' color={colorOpt} variant='h5'>
+      <Box id='set-language' color={theme}>
+        <Typography id='set-language-typography' color={theme} variant='h5'>
           {t('Set your language')}
         </Typography>
         <SetLanguage />
       </Box>
-      <Box className='theme-container' color={colorOpt}>
-        <Typography id='set-theme' color={colorOpt} variant='h5'>
+      <Box className='theme-container' color={theme}>
+        <Typography id='set-theme' color={theme} variant='h5'>
           {t('Set your theme')}
         </Typography>
         <Box className='theme-option-picker'>
           <Checkbox
-            color={colorOpt}
+            color={theme}
             value={0}
             checked={color === 0}
             onChange={changeColor}
@@ -100,7 +95,7 @@ const Settings = ({ UpdateUser, UploadAvatar, token }) => {
         </Box>
         <Box className='theme-option-picker'>
           <Checkbox
-            color={colorOpt}
+            color={theme}
             value={1}
             name='color-1'
             checked={color === 1}
@@ -114,7 +109,7 @@ const Settings = ({ UpdateUser, UploadAvatar, token }) => {
         </Box>
         <Box className='theme-option-picker'>
           <Checkbox
-            color={colorOpt}
+            color={theme}
             value={2}
             name='color-2'
             checked={color === 2}

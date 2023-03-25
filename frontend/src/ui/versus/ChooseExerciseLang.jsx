@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import {
   Box,
@@ -7,27 +7,20 @@ import {
   Paper,
   Typography,
 } from '@mui/material';
+import useTheme from 'helpers/useTheme';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 const ChooseExerciseLang = ({ formik }) => {
   const languages = ['JavaScript', 'Bash', 'C', 'C++', 'Java', 'Python', 'R'];
-
   const { t } = useTranslation();
-
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary'
-        : 'primary',
-    [localStorage.getItem('theme')]
-  );
+  const { color } = useTheme();
 
   return (
     <Paper
       id='choose-versus-lang'
       elevation={3}
-      sx={{ backgroundColor: `${color}.main` }}
+      sx={{ backgroundColor: color }}
     >
       <Typography variant='h6'>{t('Pick your languages')}</Typography>
       <form>

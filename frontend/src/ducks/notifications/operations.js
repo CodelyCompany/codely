@@ -4,7 +4,7 @@ import { createAction } from 'redux-api-middleware';
 export const GetNotifications = (userId, token) =>
   createAction({
     endpoint: `${
-      import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'
+      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
     }/notifications/${userId}`,
     method: 'GET',
     headers: {
@@ -24,7 +24,7 @@ export const GetNotifications = (userId, token) =>
 export const AddNotification = (userId, notification, token) =>
   createAction({
     endpoint: `${
-      import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'
+      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
     }/notifications/${userId}`,
     method: 'POST',
     body: JSON.stringify(notification),
@@ -48,7 +48,7 @@ export const AddNotification = (userId, notification, token) =>
 export const ReadNotification = (notificationId, token) =>
   createAction({
     endpoint: `${
-      import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'
+      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
     }/notifications/${notificationId}`,
     method: 'PUT',
     headers: {

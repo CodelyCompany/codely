@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   Autocomplete,
@@ -9,6 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 import { getExercisesFromState } from 'ducks/exercises/selectors';
+import useTheme from 'helpers/useTheme';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -17,13 +18,7 @@ import Sorting from 'ui/exercises/filters/Sorting';
 function Filters({ exercises, setFilters, setSort, sort }) {
   const { t } = useTranslation();
   const getTitles = () => exercises.map((el) => el.title);
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary'
-        : 'primary',
-    [localStorage.getItem('theme')]
-  );
+  const { theme } = useTheme();
   const languages = ['JavaScript', 'Bash', 'C', 'C++', 'Java', 'Python', 'R'];
 
   const [autocompleteValue, setAutocompleteValue] = useState('');
@@ -57,7 +52,7 @@ function Filters({ exercises, setFilters, setSort, sort }) {
     <Box id='filters-wrapper'>
       <Box>
         <Autocomplete
-          color={color}
+          color={theme}
           disablePortal
           id='combo-box'
           options={getTitles()}
@@ -71,10 +66,10 @@ function Filters({ exercises, setFilters, setSort, sort }) {
           }}
           renderInput={(params) => (
             <TextField
-              color={color}
+              color={theme}
               {...params}
               label={
-                <Typography color={color}>{t('Search exercise')}</Typography>
+                <Typography color={theme}>{t('Search exercise')}</Typography>
               }
             />
           )}
@@ -87,7 +82,7 @@ function Filters({ exercises, setFilters, setSort, sort }) {
             key={language}
             control={
               <Checkbox
-                color={color}
+                color={theme}
                 value={language.toLowerCase()}
                 onClick={filterByLanguage}
               />
@@ -103,7 +98,7 @@ function Filters({ exercises, setFilters, setSort, sort }) {
             key={number + 1}
             control={
               <Checkbox
-                color={color}
+                color={theme}
                 value={number + 1}
                 onChange={filterByDifficultyLevel}
               />

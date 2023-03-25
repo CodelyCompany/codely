@@ -1,10 +1,11 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Button, MenuItem, TextField } from '@mui/material';
 import { Box } from '@mui/system';
 import { getUserByUsername } from 'ducks/user/selectors';
 import { useFormik } from 'formik';
+import useTheme from 'helpers/useTheme';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -26,14 +27,7 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
   const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
     theme: 0,
   };
-
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { color } = useTheme();
 
   const validationSchema = yup.object({
     title: yup
