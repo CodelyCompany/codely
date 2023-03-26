@@ -1,3 +1,3 @@
-// const runTestExercises = require('../testtemplates/exercisesTestTemplate');
-//
-// runTestExercises('Cpp');
+const runTestExercises = require('../testtemplates/exercisesTestTemplate');
+
+runTestExercises('Cpp');
