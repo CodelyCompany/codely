@@ -2,6 +2,7 @@ const TitlePage = require('../pageobjects/title.page');
 const LoginPage = require('../pageobjects/login.page');
 const MainPage = require('../pageobjects/main.page');
 const EditorPage = require('../pageobjects/editor.page.js');
+const editorData = require('../testdata/editor.json');
 
 const runCode = async (code, successful, expectedResult = null) => {
   await EditorPage.inputCode(code);
@@ -10,7 +11,9 @@ const runCode = async (code, successful, expectedResult = null) => {
   expect(await EditorPage.getSnackbarResult()).toBe(successful);
 };
 
-describe('Editor Test', () => {
+const languages = ['JavaScript', 'Python', 'Bash', 'C++', 'C', 'R', 'Java'];
+
+describe('Editor Test - open editor', () => {
   it('Should login with valid credentials', async () => {
     await TitlePage.open();
     await TitlePage.clickLoginButton();
@@ -22,26 +25,17 @@ describe('Editor Test', () => {
     await MainPage.clickEditorButton();
     expect((await driver.getUrl()).slice(-7)).toBe('/editor');
   });
-
-  it('Should run code successful python', async () => {
-    await EditorPage.selectPythonLanguage();
-    await runCode('print("LOL")', true, 'LOL');
-  });
-
-  it('Should run code successful javascript multiline', async () => {
-    await EditorPage.selectJavascriptLanguage();
-    await runCode(
-      'console.log("TEST");\nconsole.log("LINE");',
-      true,
-      'TEST\nLINE'
-    );
-  });
-
-  it('Should fail javascript', async () => {
-    await runCode('console.log())', false);
-  });
-
-  it('Should run code successful, without text to check', async () => {
-    await runCode('console.log("T")', true);
-  });
 });
+
+for (const language of languages) {
+  describe(`Editor Test - ${language}`, async () => {
+    for (const element of editorData[language]) {
+      it(`${element.title} - ${language}`, async () => {
+        if ((await EditorPage.languageSelector.getText()) !== language) {
+          await EditorPage.selectLanguage(language);
+        }
+        await runCode(element.code, element.successful, element.expectedResult);
+      });
+    }
+  });
+}

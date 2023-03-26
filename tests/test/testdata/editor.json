@@ -1,0 +1,124 @@
+{
+  "JavaScript": [
+    {
+      "title": "Should run code successful",
+      "code": "console.log(\"TEST\");",
+      "successful": true,
+      "expectedResult": "TEST"
+    },
+    {
+      "title": "Should run code multiline successful",
+      "code": "console.log(\"TEST\");\nconsole.log(\"LINE\");",
+      "successful": true,
+      "expectedResult": "TEST\nLINE"
+    },
+    {
+      "title": "Should run code fail",
+      "code": "console.log(\"T\"))",
+      "successful": false,
+      "expectedResult": null
+    }
+  ],
+  "Python": [
+    {
+      "title": "Should run code successful",
+      "code": "print(\"TEST\")",
+      "successful": true,
+      "expectedResult": "TEST"
+    },
+    {
+      "title": "Should run code multiline successful",
+      "code": "print(\"TEST\")\nprint(\"LINE\")",
+      "successful": true,
+      "expectedResult": "TEST\nLINE"
+    },
+    {
+      "title": "Should run code fail",
+      "code": "print(\"T\"))",
+      "successful": false,
+      "expectedResult": null
+    }
+  ],
+  "Bash": [
+    {
+      "title": "Should run code successful",
+      "code": "echo \"TEST\"",
+      "successful": true,
+      "expectedResult": "TEST"
+    },
+    {
+      "title": "Should run code multiline successful",
+      "code": "echo \"TEST\"\necho \"LINE\"",
+      "successful": true,
+      "expectedResult": "TEST\nLINE"
+    },
+    {
+      "title": "Should run code fail",
+      "code": "echo \"TEST",
+      "successful": false,
+      "expectedResult": null
+    }
+  ],
+  "R": [
+    {
+      "title": "Should run code successful",
+      "code": "cat(\"TEST\")",
+      "successful": true,
+      "expectedResult": "TEST"
+    },
+    {
+      "title": "Should run code multiline successful",
+      "code": "cat(\"TEST\\n\")\ncat(\"LINE\")",
+      "successful": true,
+      "expectedResult": "TEST\nLINE"
+    },
+    {
+      "title": "Should run code fail",
+      "code": "cat(\"TEST\"))",
+      "successful": false,
+      "expectedResult": null
+    }
+  ],
+  "C++": [
+    {
+      "title": "Should run code multiline successful",
+      "code": "#include <iostream>\n  using namespace std;\n    \n  int main() {\n      cout << \"TEST\\n\";\n      cout << \"LINE\";\n      return 0;\n  }",
+      "successful": true,
+      "expectedResult": "TEST\nLINE"
+    },
+    {
+      "title": "Should run code fail",
+      "code": "#include <iostream>\n  using namespace std;\n    \n  int main() {\n      cout << \"TEST >;\n      return 0;\n  }",
+      "successful": false,
+      "expectedResult": null
+    }
+  ],
+  "C": [
+    {
+      "title": "Should run code multiline successful",
+      "code": "#include <stdio.h>\n  \n  int main() {\n      printf(\"TEST\\n\");\n      printf(\"LINE\");\n      return 0;\n  }",
+      "successful": true,
+      "expectedResult": "TEST\nLINE"
+    },
+    {
+      "title": "Should run code fail",
+      "code": "#include <stdio.h>\n  \n  int main() {\n      printf(\"TEST);\n      return 0;\n  }",
+      "successful": false,
+      "expectedResult": null
+    }
+  ],
+  "Java": [
+    {
+      "title": "Should run code multiline successful",
+      "code": "public class Main {\n    public static void main(String[] args){\n      System.out.println(\"TEST\");\n      System.out.println(\"LINE\");\n    }\n",
+      "successful": true,
+      "expectedResult": "TEST\nLINE"
+    },
+    {
+      "title": "Should run code fail",
+      "code": "public class Main {\n    public static void main(String[] args){\n      System.out.println(\"TEST));\n      \n    }\n",
+      "successful": false,
+      "expectedResult": null
+    }
+  ]
+}

@@ -7,8 +7,8 @@ const AdminPage = require('../pageobjects/admin.page');
 const ExercisePage = require('../pageobjects/exercise.page');
 module.exports = (language) => {
   const exercisesData =
-    require(`../testdata/exercises${language}.json`).exercises;
-  describe('Exercises Test', () => {
+    require(`../testdata/exercises/exercises${language}.json`).exercises;
+  describe(`Exercises Test - ${language}`, () => {
     it('Should login with valid credentials', async () => {
       await TitlePage.open();
       await TitlePage.clickLoginButton();
@@ -48,7 +48,7 @@ module.exports = (language) => {
       });
     }
 
-    it(`Should open administrator page`, async () => {
+    it('Should open administrator page', async () => {
       await MainPage.goToAdminPage();
     });
 
