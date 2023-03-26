@@ -7,11 +7,10 @@ import Rating from '@mui/material/Rating';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
-import { DiJsBadge } from 'react-icons/di';
-import { DiLinux } from 'react-icons/di';
-import { FaJava, FaPython } from 'react-icons/fa';
-import { SiC, SiCplusplus, SiR } from 'react-icons/si';
 import { useNavigate } from 'react-router-dom';
+
+import languagesWithIcons from 'consts/languagesWithIcons';
+import ProgrammingLanguage from 'consts/programmingLanguage';
 
 import useTheme from '../../helpers/useTheme';
 
@@ -25,39 +24,10 @@ const StyledRating = styled(Rating)({
 });
 
 const Exercise = ({ exercise }) => {
-  const languagesWithIcons = [
-    {
-      lang: 'JavaScript',
-      icon: <DiJsBadge className='language-icon' />,
-    },
-    {
-      lang: 'Bash',
-      icon: <DiLinux className='language-icon' />,
-    },
-    {
-      lang: 'C',
-      icon: <SiC className='language-icon' />,
-    },
-    {
-      lang: 'C++',
-      icon: <SiCplusplus className='language-icon' />,
-    },
-    {
-      lang: 'Java',
-      icon: <FaJava className='language-icon' />,
-    },
-    {
-      lang: 'Python',
-      icon: <FaPython className='language-icon' />,
-    },
-    {
-      lang: 'R',
-      icon: <SiR className='language-icon' />,
-    },
-  ];
-
   const navigate = useNavigate();
   const { color } = useTheme();
+  const exerciseLanguage = ProgrammingLanguage[exercise?.programmingLanguage.toUpperCase()];
+  const exerciseIcon = languagesWithIcons[exerciseLanguage];
 
   return (
     <Card
@@ -83,12 +53,8 @@ const Exercise = ({ exercise }) => {
       </CardContent>
       <CardContent id='card-content-2'>
         <Typography id='languages-typography' variant='body2'>
-          {
-            languagesWithIcons.find(
-              (el) => el.lang === exercise.programmingLanguage
-            ).icon
-          }{' '}
-          {exercise.programmingLanguage}
+          {exerciseIcon}
+          {exerciseLanguage}
         </Typography>
       </CardContent>
       <CardContent id='card-content-3'>

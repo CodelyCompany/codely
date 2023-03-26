@@ -30,6 +30,8 @@ import EditorField from 'ui/exercises/editor_to_exercises/EditorField';
 import Reviews from 'ui/exercises/reviews/Reviews';
 import Confirmation from 'ui/popups/Confirmation';
 
+import ProgrammingLanguage from 'consts/programmingLanguage';
+
 const ExerciseDetail = ({ GetExercises }) => {
   const { t } = useTranslation();
   const { id } = useParams();
@@ -42,6 +44,7 @@ const ExerciseDetail = ({ GetExercises }) => {
   const [toDelete, setToDelete] = useState(false);
   const [argumentValues, setArgumentValues] = useState([]);
   const { color, theme } = useTheme();
+  const exerciseLanguage = ProgrammingLanguage[exercise?.programmingLanguage.toUpperCase()];
 
   useEffect(() => {
     if (_.isEmpty(exercise)) {
@@ -95,7 +98,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                 </ListItemAvatar>
                 <ListItemText
                   primary={t('Programming Language')}
-                  secondary={exercise.programmingLanguage}
+                  secondary={exerciseLanguage}
                 />
               </ListItem>
               <ListItem>
