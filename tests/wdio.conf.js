@@ -1,3 +1,4 @@
+const axios = require('axios');
 exports.config = {
   //
   // ====================
@@ -43,7 +44,7 @@ exports.config = {
   // and 30 processes will get spawned. The property handles how many capabilities
   // from the same test should run tests.
   //
-  maxInstances: 5,
+  maxInstances: 10,
   //
   // If you have trouble getting all important capabilities together, check out the
   // Sauce Labs platform configurator - a great tool to configure your capabilities:
@@ -54,7 +55,7 @@ exports.config = {
       // maxInstances can get overwritten per capability. So if you have an in-house Selenium
       // grid with only 5 firefox instances available you can make sure that not more than
       // 5 instances get started at a time.
-      maxInstances: 2,
+      maxInstances: 5,
       //
       browserName: 'firefox',
       acceptInsecureCerts: true,
@@ -155,8 +156,13 @@ exports.config = {
    * @param {Object} config wdio configuration object
    * @param {Array.<Object>} capabilities list of capabilities details
    */
-  // onPrepare: function (config, capabilities) {
-  // },
+  onPrepare: function (config, capabilities) {
+    axios
+      .delete('http://localhost:5000/exercises/deleteAllExercises')
+      .then((response) => {
+        console.log(response.data.message);
+      });
+  },
   /**
    * Gets executed before a worker process is spawned and can be used to initialise specific service
    * for that worker as well as modify runtime environments in an async fashion.

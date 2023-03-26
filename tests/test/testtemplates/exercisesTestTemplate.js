@@ -1,4 +1,3 @@
-const axios = require('axios');
 const TitlePage = require('../pageobjects/title.page');
 const LoginPage = require('../pageobjects/login.page');
 const MainPage = require('../pageobjects/main.page');
@@ -9,11 +8,6 @@ const ExercisePage = require('../pageobjects/exercise.page');
 module.exports = (language) => {
   const exercisesData =
     require(`../testdata/exercises${language}.json`).exercises;
-  axios
-    .delete('http://localhost:5000/exercises/deleteAllExercises')
-    .then((response) => {
-      console.log(response.data.message);
-    });
   describe('Exercises Test', () => {
     it('Should login with valid credentials', async () => {
       await TitlePage.open();
