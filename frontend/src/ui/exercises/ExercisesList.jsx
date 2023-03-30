@@ -40,6 +40,13 @@ const ExercisesList = ({ exercises, GetExercises }) => {
     }
   }, [token]);
 
+  useEffect(() => {
+    console.log(
+      exercises.filter((ex) =>
+        filters.title ? new RegExp(`.*${filters.title}.*`).test(ex.title) : true
+      )
+    );
+  }, []);
   return (
     <>
       <Container id='exercises-list-container'>
@@ -63,9 +70,7 @@ const ExercisesList = ({ exercises, GetExercises }) => {
             _.sortBy(
               exercises
                 .filter((ex) =>
-                  filters.title
-                    ? new RegExp(`.*${filters.title}.*`).test(ex.title)
-                    : true
+                  filters.title ? filters.title.includes(ex.title) : true
                 )
                 .filter((ex) =>
                   !_.isEmpty(filters.languages)
