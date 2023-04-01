@@ -118,7 +118,7 @@ const ExampleSolution = ({
       .post(
         `${
           process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-        }/exercises/checkBeforeAddExercise`,
+        }/exercises/verify`,
         {
           exampleSolution: code,
           tests: step.dataFromStep3,

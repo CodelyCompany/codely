@@ -82,7 +82,7 @@ const Buttons = ({
       .post(
         `${
           process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-        }/exercises/checkSolution/${id}`,
+        }/exercises/${id}/solution`,
         { solution: code, user: foundUser._id },
         { headers: { Authorization: `Bearer ${token}` } }
       )

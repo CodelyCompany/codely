@@ -25,18 +25,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.get('/exercise/:id', async (req, res) => {
-  try {
-    const id = req.params.id;
-    const data = await Exercise.findById(id).populate('reviews');
-    res.status(200).send(data.preparedExcercises);
-  } catch (error) {
-    console.log(error);
-    res.status(500).send(error);
-  }
-});
-
-router.post('/addReview', async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const data = req.body;
     const user = await User.findById(data.author);
@@ -64,7 +53,7 @@ router.post('/addReview', async (req, res) => {
   }
 });
 
-router.put('/editReview', async (req, res) => {
+router.put('/', async (req, res) => {
   try {
     const id = req.body._id;
     const inDb = await Review.findById(id);

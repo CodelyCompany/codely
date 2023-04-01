@@ -107,29 +107,40 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.get('/user/:id', async (req, res) => {
-  try {
-    const id = req.params.id;
-    const data = await User.findById(id).populate('preparedExercises');
-    res.status(200).send(data.preparedExercises);
-  } catch (error) {
-    console.log(error);
-    res.status(500).send(error);
-  }
-});
+// router.get('/user/:id', async (req, res) => {
+//   try {
+//     const id = req.params.id;
+//     const data = await User.findById(id).populate('preparedExercises');
+//     res.status(200).send(data.preparedExercises);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).send(error);
+//   }
+// });
 
-router.get('/withTest/:id', async (req, res) => {
-  try {
-    const id = req.params.id;
-    const data = await Exercise.findById(id).populate('tests');
-    res.status(200).send(data);
-  } catch (error) {
-    console.log(error);
-    res.status(500).send(error);
-  }
-});
+// router.get('/:id/reviews', async (req, res) => {
+//   try {
+//     const id = req.params.id;
+//     const data = await Exercise.findById(id).populate('reviews');
+//     res.status(200).send(data.preparedExcercises);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).send(error);
+//   }
+// });
 
-router.post('/addExercise', async (req, res) => {
+// router.get('/withTest/:id', async (req, res) => {
+//   try {
+//     const id = req.params.id;
+//     const data = await Exercise.findById(id).populate('tests');
+//     res.status(200).send(data);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).send(error);
+//   }
+// });
+
+router.post('/', async (req, res) => {
   try {
     const data = req.body;
     const counterCorrect = await runTests(data, data.exampleSolution);
@@ -167,7 +178,7 @@ router.post('/addExercise', async (req, res) => {
   }
 });
 
-router.post('/checkBeforeAddExercise', async (req, res) => {
+router.post('/verify', async (req, res) => {
   try {
     const data = req.body;
     const counterCorrect = await runTests(data, data.exampleSolution);
@@ -180,7 +191,7 @@ router.post('/checkBeforeAddExercise', async (req, res) => {
   }
 });
 
-router.post('/checkSolution/:id', async (req, res) => {
+router.post('/:id/solution', async (req, res) => {
   try {
     const id = req.params.id;
     const data = req.body;
@@ -206,7 +217,7 @@ router.post('/checkSolution/:id', async (req, res) => {
   }
 });
 
-router.put('/editExercise', async (req, res) => {
+router.put('/', async (req, res) => {
   try {
     const { id, tests } = req.body;
     let testsToAdd = [];
@@ -231,7 +242,7 @@ router.put('/editExercise', async (req, res) => {
   }
 });
 
-router.put('/checkExercise/:id', async (req, res) => {
+router.put('/:id/check', async (req, res) => {
   try {
     const id = req.params.id;
     const exercise = await Exercise.findById(id).populate(['author', 'tests']);
@@ -248,7 +259,7 @@ router.put('/checkExercise/:id', async (req, res) => {
   }
 });
 
-router.delete('/deleteExercise/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
     const id = req.params.id;
     const exercise = await Exercise.findById(id);
