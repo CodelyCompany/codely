@@ -61,8 +61,7 @@ class ExerciseFormPage {
     return $('#notistack-snackbar');
   }
 
-  async addExercise(exercise) {
-    // First stage - main info
+  async completeFirstExerciseForm(exercise, submit = false) {
     await this.inputTitle.waitForDisplayed();
     await this.inputTitle.setValue(`${exercise.title} - ${exercise.language}`);
     await this.inputDescription.setValue(exercise.description);
@@ -70,9 +69,14 @@ class ExerciseFormPage {
     await $(`//li[@data-value="${exercise.difficult}"]`).click();
     await this.inputProgrammingLanguage.click();
     await $(`//li[@data-value="${exercise.language}"]`).click();
-    await this.submitButtonFirst.waitForClickable();
-    await this.submitButtonFirst.click();
-    // Second stage - function data
+    submit &&
+      (await (async () => {
+        await this.submitButtonFirst.waitForClickable();
+        await this.submitButtonFirst.click();
+      })());
+  }
+
+  async completeSecondExerciseForm(exercise, submit = false) {
     await this.inputFunctionName.waitForDisplayed();
     await this.inputFunctionName.setValue(exercise.functionName);
     await this.inputArgumentsQuantity.setValue(exercise.argumentsQuantity);
@@ -92,8 +96,13 @@ class ExerciseFormPage {
         await $(`#arg-${i}`).setValue(exercise.argumentNames[i]);
       }
     }
-    await this.submitButtonSecond.click();
-    // Third stage - tests
+    submit &&
+      (await (async () => {
+        await this.submitButtonSecond.click();
+      })());
+  }
+
+  async completeThirdExerciseForm(exercise, submit = false) {
     await this.inputTestsQuantity.waitForDisplayed();
     await this.inputTestsQuantity.click();
     await $(`//li[@data-value="${exercise.testsQuantity}"]`).click();
@@ -103,26 +112,53 @@ class ExerciseFormPage {
       }
       await $(`#output-${i}`).setValue(exercise.outputValues[i]);
     }
-    await this.submitButtonThird.click();
-    // Fourth stage - hints
+    submit &&
+      (await (async () => {
+        await this.submitButtonThird.click();
+      })());
+  }
+
+  async completeFourthExerciseForm(exercise, submit = false) {
     await this.inputHintsQuantity.waitForDisplayed();
     await this.inputHintsQuantity.click();
     await $(`//li[@data-value="${exercise.hintsQuantity}"]`).click();
     for (let i = 0; i < exercise.hintsQuantity; i++) {
       await $(`#hint-${i}`).setValue(exercise.hints[i]);
     }
-    await this.submitButtonFourth.click();
-    // Fifth stage - example solution
+
+    submit &&
+      (await (async () => {
+        await this.submitButtonFourth.click();
+      })());
+  }
+
+  async completeFifthExerciseForm(exercise, submit = false) {
     await this.inputCodeField.waitForDisplayed();
     await this.inputCodeField.waitForClickable();
     await this.inputCodeField.click();
     await browser.keys(['Control', 'a']);
     await browser.keys(Key.Backspace);
     await browser.keys(exercise.exampleSolution);
-    await this.checkExerciseButton.click();
-    await this.snackbar.waitForDisplayed({ timeout: 16000 });
-    await this.snackbar.waitForDisplayed({ reverse: true });
-    await this.checkExerciseButton.click();
+    submit &&
+      (await (async () => {
+        await this.checkExerciseButton.click();
+        await this.snackbar.waitForDisplayed({ timeout: 16000 });
+        await this.snackbar.waitForDisplayed({ reverse: true });
+        await this.checkExerciseButton.click();
+      })());
+  }
+
+  async addExercise(exercise) {
+    // First stage - main info
+    await this.completeFirstExerciseForm(exercise, true);
+    // Second stage - function data
+    await this.completeSecondExerciseForm(exercise, true);
+    // Third stage - tests
+    await this.completeThirdExerciseForm(exercise, true);
+    // Fourth stage - hints
+    await this.completeFourthExerciseForm(exercise, true);
+    // Fifth stage - example solution
+    await this.completeFifthExerciseForm(exercise, true);
   }
 }
 
