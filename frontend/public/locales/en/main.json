@@ -191,5 +191,6 @@
   "Your prepared exercises:": "Your prepared exercises:",
   "Your reviews:": "Your reviews:",
   "Choose hints quantity": "Choose hints quantity",
-  "Other types / Custom types": "Other types / Custom types"
+  "Other types / Custom types": "Other types / Custom types",
+  "Arguments cannot be undefined": "Arguments cannot be undefined"
 }

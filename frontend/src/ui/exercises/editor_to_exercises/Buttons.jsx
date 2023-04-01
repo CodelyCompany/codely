@@ -35,6 +35,15 @@ const Buttons = ({
   const { t } = useTranslation();
 
   const runCode = (code) => {
+    if (argumentValues.includes('')) {
+      dispatch(
+        addPopup(
+          'Arguments cannot be undefined',
+          'error'
+        )
+      );
+      return;
+    }
     setLoadingFinished(false);
     axios
       .post(

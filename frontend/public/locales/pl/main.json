@@ -191,5 +191,6 @@
   "Your prepared exercises:": "Stworzone zadania:",
   "Your reviews:": "Recenzje:",
   "Choose hints quantity": "Wybierz ilość podpowiedzi",
-  "Other types / Custom types": "Inny typ / Własny typ"
+  "Other types / Custom types": "Inny typ / Własny typ",
+  "Arguments cannot be undefined": "Wszystkie argumenty muszą być podane"
 }
