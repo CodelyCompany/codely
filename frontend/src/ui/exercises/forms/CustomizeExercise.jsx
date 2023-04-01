@@ -382,6 +382,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
               color={color.split('.')[0]}
               variant='contained'
               onClick={prev}
+              className={'cancel-2'}
             >
               {t('Previous')}
             </Button>

@@ -170,6 +170,7 @@ const ExampleSolution = ({
             variant='contained'
             onClick={prev}
             id={'back'}
+            className={'cancel'}
           >
             {t('Previous')}
           </Button>

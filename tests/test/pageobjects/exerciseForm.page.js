@@ -57,8 +57,37 @@ class ExerciseFormPage {
     return $('#submit-4');
   }
 
+  get cancelButtonSecond() {
+    return $('.cancel-2');
+  }
+
+  get cancelButtonThird() {
+    return $('.cancel-3');
+  }
+
+  get cancelButtonFourth() {
+    return $('.cancel-4');
+  }
+
+  get cancelButtonFifth() {
+    return $('.cancel');
+  }
+
   get snackbar() {
     return $('#notistack-snackbar');
+  }
+
+  get inputCodeAllLines() {
+    return $('//div[@class="view-lines monaco-mouse-cursor-text"]');
+  }
+
+  async inputCode(exercise) {
+    await this.inputCodeField.waitForDisplayed();
+    await this.inputCodeField.waitForClickable();
+    await this.inputCodeField.click();
+    await browser.keys(['Control', 'a']);
+    await browser.keys(Key.Backspace);
+    await browser.keys(exercise.exampleSolution);
   }
 
   async completeFirstExerciseForm(exercise, submit = false) {
@@ -133,12 +162,7 @@ class ExerciseFormPage {
   }
 
   async completeFifthExerciseForm(exercise, submit = false) {
-    await this.inputCodeField.waitForDisplayed();
-    await this.inputCodeField.waitForClickable();
-    await this.inputCodeField.click();
-    await browser.keys(['Control', 'a']);
-    await browser.keys(Key.Backspace);
-    await browser.keys(exercise.exampleSolution);
+    await this.inputCode(exercise);
     submit &&
       (await (async () => {
         await this.checkExerciseButton.click();
@@ -159,6 +183,26 @@ class ExerciseFormPage {
     await this.completeFourthExerciseForm(exercise, true);
     // Fifth stage - example solution
     await this.completeFifthExerciseForm(exercise, true);
+  }
+
+  async clickCancelButtonSecond() {
+    await this.cancelButtonSecond.waitForDisplayed();
+    await this.cancelButtonSecond.click();
+  }
+
+  async clickCancelButtonThird() {
+    await this.cancelButtonThird.waitForDisplayed();
+    await this.cancelButtonThird.click();
+  }
+
+  async clickCancelButtonFourth() {
+    await this.cancelButtonFourth.waitForDisplayed();
+    await this.cancelButtonFourth.click();
+  }
+
+  async clickCancelButtonFifth() {
+    await this.cancelButtonFifth.waitForDisplayed();
+    await this.cancelButtonFifth.click();
   }
 }
 

@@ -154,6 +154,7 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
           type='button'
           onClick={() => goToPreviousStage()}
           variant='contained'
+          className={'cancel-4'}
         >
           {t('Previous')}
         </Button>

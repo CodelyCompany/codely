@@ -247,6 +247,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
           type='button'
           onClick={() => goToPreviousStage()}
           variant='contained'
+          className={'cancel-3'}
         >
           {t('Previous')}
         </Button>
