@@ -155,6 +155,18 @@ exports.config = {
   mochaOpts: {
     ui: 'bdd',
     timeout: 60000,
+    queue: [
+      './test/specs/login.js',
+      './test/specs/editor.js',
+      './test/specs/exercisesBash.js',
+      './test/specs/exercisesC.js',
+      './test/specs/exercisesCpp.js',
+      './test/specs/exercisesJava.js',
+      './test/specs/exercisesJavascript.js',
+      './test/specs/exercisesPython.js',
+      './test/specs/exercisesR.js',
+      './test/specs/exercisesForm.js',
+    ],
   },
   //
   // =====

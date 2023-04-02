@@ -5,8 +5,28 @@ const ExercisesPage = require('../pageobjects/exercises.page');
 const ExerciseFormPage = require('../pageobjects/exerciseForm.page');
 const javaScriptExerciseData =
   require('../testdata/exercises/exercisesJavascript.json').exercises[0];
-const javaExerciseData = require('../testdata/exercises/exercisesJava.json')
-  .exercises[0];
+const javaExerciseData = {
+  title: 'Multiply two numbers',
+  description: 'test description',
+  difficult: '4',
+  language: 'Java',
+  functionName: 'multiply',
+  argumentsQuantity: '2',
+  argumentNames: ['x', 'y'],
+  argumentTypes: ['int', 'int'],
+  outputType: 'int',
+  testsQuantity: '3',
+  inputValues: [
+    ['2', '3'],
+    ['1', '1'],
+    ['3', '3'],
+  ],
+  outputValues: ['6', '1', '9'],
+  hintsQuantity: '2',
+  hints: ['hint 1 - new', 'hint 2 - new'],
+  exampleSolution:
+    'public class Main {\n  public static int multiply(int x, int y){\n    return x*y;\n}',
+};
 
 const checkFirstForm = async (exercise) => {
   expect(await ExerciseFormPage.inputTitle.getValue()).toBe(
