@@ -125,23 +125,22 @@ describe('Exercises Form Test', () => {
     }
   });
 
-  // it('Should complete fifth exercise form', async () => {
-  //   await ExerciseFormPage.submitButtonFourth.click();
-  //   expect(await ExerciseFormPage.inputCodeAllLines.getText()).toBe(
-  //     'const sum = (a, b) => {\n' + '    //write your code here\n' + '}'
-  //   );
-  //   await ExerciseFormPage.completeFifthExerciseForm(
-  //     javaScriptExerciseData,
-  //     false
-  //   );
-  // });
-  //
-  // it('Should be completed fifth exercise form', async () => {
-  //   await ExerciseFormPage.clickCancelButtonFifth();
-  //   await ExerciseFormPage.submitButtonFourth.click();
-  //   await ExerciseFormPage.inputCodeAllLines.waitForDisplayed();
-  //   expect(await ExerciseFormPage.inputCodeAllLines.getText()).toBe(
-  //     javaScriptExerciseData.exampleSolution
-  //   );
-  // });
+  it('Should complete fifth exercise form', async () => {
+    await ExerciseFormPage.submitButtonFourth.click();
+    expect(await ExerciseFormPage.getFirstLineCodeField()).toBe(
+      'const sum = (a, b) => {'
+    );
+    await ExerciseFormPage.completeFifthExerciseForm(
+      javaScriptExerciseData,
+      false
+    );
+  });
+
+  it('Should be completed fifth exercise form', async () => {
+    await ExerciseFormPage.clickCancelButtonFifth();
+    await ExerciseFormPage.submitButtonFourth.click();
+    expect(await ExerciseFormPage.getFirstLineCodeField()).toBe(
+      'const sum=(a,b)=>{'
+    );
+  });
 });

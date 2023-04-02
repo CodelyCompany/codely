@@ -77,10 +77,6 @@ class ExerciseFormPage {
     return $('#notistack-snackbar');
   }
 
-  get inputCodeAllLines() {
-    return $('//div[@class="view-lines monaco-mouse-cursor-text"]');
-  }
-
   async inputCode(exercise) {
     await this.inputCodeField.waitForDisplayed();
     await this.inputCodeField.waitForClickable();
@@ -154,7 +150,6 @@ class ExerciseFormPage {
     for (let i = 0; i < exercise.hintsQuantity; i++) {
       await $(`#hint-${i}`).setValue(exercise.hints[i]);
     }
-
     submit &&
       (await (async () => {
         await this.submitButtonFourth.click();
@@ -203,6 +198,11 @@ class ExerciseFormPage {
   async clickCancelButtonFifth() {
     await this.cancelButtonFifth.waitForDisplayed();
     await this.cancelButtonFifth.click();
+  }
+
+  async getFirstLineCodeField() {
+    await this.inputCodeField.waitForDisplayed();
+    return await this.inputCodeField.getText();
   }
 }
 
