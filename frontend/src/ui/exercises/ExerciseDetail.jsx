@@ -44,7 +44,8 @@ const ExerciseDetail = ({ GetExercises }) => {
   const [toDelete, setToDelete] = useState(false);
   const [argumentValues, setArgumentValues] = useState([]);
   const { color, theme } = useTheme();
-  const exerciseLanguage = ProgrammingLanguage[exercise?.programmingLanguage.toUpperCase()];
+  const exerciseLanguage =
+    ProgrammingLanguage[exercise?.programmingLanguage.toUpperCase()];
 
   useEffect(() => {
     if (_.isEmpty(exercise)) {
@@ -82,6 +83,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
+                  id={'author'}
                   primary={t('Author')}
                   secondary={exercise.author.username}
                 />
@@ -97,6 +99,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
+                  id={'language'}
                   primary={t('Programming Language')}
                   secondary={exerciseLanguage}
                 />
@@ -112,6 +115,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
+                  id={'difficulty'}
                   primary={t('Difficulty')}
                   secondary={[...Array(exercise.difficulty).keys()].map(
                     (el) => (
@@ -131,6 +135,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
+                  id={'description'}
                   primary={t('Description')}
                   secondary={exercise.description}
                 />
@@ -143,6 +148,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                 </ListItemAvatar>
                 <ListItemText
                   primary={t('Rating')}
+                  id={'rating'}
                   secondary={
                     rating
                       ? [...Array(Math.round(rating)).keys()].map((num) => (

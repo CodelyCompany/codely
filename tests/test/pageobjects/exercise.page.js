@@ -39,6 +39,26 @@ class ExercisePage {
     )[1];
   }
 
+  get authorInfo() {
+    return $('//div[@id="author"]/p');
+  }
+
+  get languageInfo() {
+    return $('//div[@id="language"]/p');
+  }
+
+  get difficultyInfo() {
+    return $$('//div[@id="difficulty"]/p/*[local-name() = \'svg\']');
+  }
+
+  get descriptionInfo() {
+    return $('//div[@id="description"]/p');
+  }
+
+  get ratingInfo() {
+    return $$('//div[@id="rating"]/p/*[local-name() = \'svg\']');
+  }
+
   async solveExercise(solution) {
     await this.inputCodeField.waitForClickable();
     await this.inputCodeField.click();
