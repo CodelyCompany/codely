@@ -3,8 +3,25 @@ const LoginPage = require('../pageobjects/login.page');
 const MainPage = require('../pageobjects/main.page');
 const ExercisesPage = require('../pageobjects/exercises.page');
 const ExerciseFormPage = require('../pageobjects/exerciseForm.page');
-const javaScriptExerciseData =
-  require('../testdata/exercises/exercisesJavascript.json').exercises[0];
+const javaScriptExerciseData = {
+  title: 'Substraction two numbers',
+  description: 'test description',
+  difficult: '3',
+  language: 'JavaScript',
+  functionName: 'sub',
+  argumentsQuantity: '2',
+  argumentNames: ['a', 'b'],
+  testsQuantity: '3',
+  inputValues: [
+    ['3', '1'],
+    ['6', '3'],
+    ['2', '2'],
+  ],
+  outputValues: ['2', '3', '0'],
+  hintsQuantity: '2',
+  hints: ['hint 1', 'hint 2'],
+  exampleSolution: 'const sub=(a,b)=>{\nreturn a-b',
+};
 const javaExerciseData = {
   title: 'Multiply two numbers',
   description: 'test description',
@@ -171,7 +188,7 @@ describe('Exercises Form Test', () => {
   it('Should complete fifth exercise form', async () => {
     await ExerciseFormPage.submitButtonFourth.click();
     expect(await ExerciseFormPage.getFirstLineCodeField()).toBe(
-      'const sum = (a, b) => {'
+      'const sub = (a, b) => {'
     );
     await ExerciseFormPage.completeFifthExerciseForm(javaScriptExerciseData);
   });

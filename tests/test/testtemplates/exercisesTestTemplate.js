@@ -28,17 +28,6 @@ module.exports = (language) => {
       expect(await ExerciseFormPage.inputTitle).toBeDisplayed();
     });
 
-    /*
-      Pisząc te testy w pliku exercise.json, należy pamiętać, że przykładowe rozwiązanie trzeba wpisać tak
-      jakby się wpisywało je w edytor ręcznie np. klamry {} samę utworzą po wciśnięciu enter (tzn po
-      znaku \n). Przykładowo po wpisaniu w przykładowym rozwiązaniu:
-      {\n
-      Automatycznie w edytorze utworzy się takie coś:
-      {
-  
-      }
-       */
-
     for (const exercise of exercisesData) {
       it(`Should add exercise - ${exercise.title} - ${exercise.language}`, async () => {
         await ExerciseFormPage.addExercise(exercise);
@@ -72,7 +61,6 @@ module.exports = (language) => {
         await ExercisesPage.createExerciseButton.waitForDisplayed();
         expect(await ExercisesPage.createExerciseButton).toBeDisplayed();
       });
-      // TODO - z niewiadomego powodu strona nie dziala w przypadku zadan z jezykami C i C++
       it(`Should go to exercise - ${exercise.title} - ${exercise.language}`, async () => {
         await ExercisesPage.searchExercise(
           `${exercise.title} - ${exercise.language}`

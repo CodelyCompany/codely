@@ -25,6 +25,20 @@ class ExercisePage {
     return $$('//div[@id="tests-wrapper"]//h6')[1];
   }
 
+  get deleteButton() {
+    return $$('//div[@id="manage-exercise"]/button')[0];
+  }
+
+  get editButton() {
+    return $$('//div[@id="manage-exercise"]/button')[1];
+  }
+
+  get confirmDeleteButton() {
+    return $$(
+      '//div[@class="MuiDialogActions-root MuiDialogActions-spacing css-hlj6pa-MuiDialogActions-root"]/button'
+    )[1];
+  }
+
   async solveExercise(solution) {
     await this.inputCodeField.waitForClickable();
     await this.inputCodeField.click();

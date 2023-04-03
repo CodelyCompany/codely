@@ -37,6 +37,8 @@ exports.config = {
       './test/specs/exercisesPython.js',
       './test/specs/exercisesR.js',
     ],
+    Exercise: ['./test/specs/exercisesForm.js'],
+    AdminPage: ['./test/specs/adminPage.js'],
   },
   exclude: [
     // 'path/to/excluded/files'
@@ -158,6 +160,7 @@ exports.config = {
     queue: [
       './test/specs/login.js',
       './test/specs/editor.js',
+      './test/specs/exercisesForm.js',
       './test/specs/exercisesBash.js',
       './test/specs/exercisesC.js',
       './test/specs/exercisesCpp.js',
@@ -165,7 +168,7 @@ exports.config = {
       './test/specs/exercisesJavascript.js',
       './test/specs/exercisesPython.js',
       './test/specs/exercisesR.js',
-      './test/specs/exercisesForm.js',
+      './test/specs/adminPage.j',
     ],
   },
   //
@@ -310,8 +313,14 @@ exports.config = {
    * @param {Array.<Object>} capabilities list of capabilities details
    * @param {<Object>} results object containing test results
    */
-  // onComplete: function(exitCode, config, capabilities, results) {
-  // },
+  onComplete: function (exitCode, config, capabilities, results) {
+    // Optional clean up
+    // axios
+    //   .delete('http://localhost:5000/exercises/deleteAllExercises')
+    //   .then((response) => {
+    //     console.log(response.data.message);
+    //   });
+  },
   /**
    * Gets executed when a refresh happens.
    * @param {String} oldSessionId session ID of the old session
