@@ -97,7 +97,22 @@ describe('Admin Page Test', () => {
     expect(await ExercisePage.ratingInfo.length).toBe(0);
   });
 
+  it('Should exercise have valid hints', async () => {
+    await ExercisePage.helpIcon.click();
+    await ExercisePage.hintText.waitForDisplayed();
+    expect(await ExercisePage.hintText.getText()).toBe(
+      bashExerciseData.hints[0]
+    );
+    await ExercisePage.nextHintButton.click();
+    await ExercisePage.hintText.waitForDisplayed();
+    expect(await ExercisePage.hintText.getText()).toBe(
+      bashExerciseData.hints[1]
+    );
+    await ExercisePage.nextHintButton.click();
+  });
+
   it('Should edit exercise data', async () => {
+    await ExercisePage.editButton.waitForDisplayed();
     await ExercisePage.editButton.click();
     await ExerciseFormPage.addExercise(rExerciseData);
   });
@@ -129,4 +144,55 @@ describe('Admin Page Test', () => {
     );
     expect(await ExercisePage.ratingInfo.length).toBe(0);
   });
+
+  it('Should run code without args - fail', async () => {
+    await ExercisePage.runCode([], 'multiply <- function(x,y){\nreturn(x*y)');
+    expect(await ExercisePage.getResultCodeField()).toBe(
+      'Error in multiply(, ) : argument "x" is missing, with no default\n' +
+        'Calls: cat -> multiply\n' +
+        'Execution halted'
+    );
+    expect(await ExercisePage.getSnackbarResult()).toBe(false);
+  });
+
+  it('Should run code - fail', async () => {
+    await ExercisePage.runCode([2, 7], 'multiply <- function(x,y){\nren(x*y)');
+    expect(await ExercisePage.getResultCodeField()).toBe(
+      'Error in ren(x * y) : could not find function "ren"\n' +
+        'Calls: cat -> multiply\n' +
+        'Execution halted'
+    );
+    expect(await ExercisePage.getSnackbarResult()).toBe(false);
+  });
+
+  it('Should run code - success', async () => {
+    await ExercisePage.runCode([2, 7], rExerciseData.exampleSolution);
+    expect(await ExercisePage.getResultCodeField()).toBe('14');
+    expect(await ExercisePage.getSnackbarResult()).toBe(true);
+  });
+
+  it('Should not be allowed to add comment', async () => {
+    expect(await ExercisePage.reviewInfo).toBeDisplayed();
+  });
+
+  it('Should solve exercise', async () => {
+    await ExercisePage.solveExercise(rExerciseData.exampleSolution);
+    expect(await ExercisePage.getSnackbarResult()).toBe(true);
+    expect(
+      parseInt((await ExercisePage.testsResult.getText()).split('/')[0]) ===
+        parseInt(rExerciseData.testsQuantity)
+    ).toBe(true);
+  });
+
+  // it('Should add comment ', async () => {
+  //   await ExercisePage.addComment('New test comment', 4);
+  //   expect(await ExercisePage.commentField).toBeDisplayed();
+  //   expect(await ExercisePage.userCommentAuthor.getText()).toBe('admin');
+  //   expect(await ExercisePage.userCommentText.getText()).toBe(
+  //     'New test comment'
+  //   );
+  //   expect(await ExercisePage.userCommentRating.length).toBe(4);
+  // });
+
+  // TODO - dodaj id do komentarzy i kontynuuj testowanie, testnij hintsy
 });

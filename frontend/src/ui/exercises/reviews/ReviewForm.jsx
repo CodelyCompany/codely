@@ -78,12 +78,13 @@ const ReviewForm = ({ review, token }) => {
   return (
     <Grid container spacing={2} className='review-card'>
       <Grid item xs={6}>
-        <Typography variant='h5' className='author'>
+        <Typography variant='h5' className='author' id={'comment-author'}>
           {user.nickname}
         </Typography>
       </Grid>
       <Grid item xs={6} className='rating'>
         <Rating
+          id={'comment-rating'}
           value={rating}
           onChange={(_, newRating) => {
             setRating(newRating);
@@ -106,7 +107,7 @@ const ReviewForm = ({ review, token }) => {
             }}
           />
         ) : (
-          <Typography>{comment}</Typography>
+          <Typography id={'comment-text'}>{comment}</Typography>
         )}
       </Grid>
       <Grid item xs={5}>
@@ -119,6 +120,7 @@ const ReviewForm = ({ review, token }) => {
       </Grid>
       <Grid item xs={2}>
         <Button
+          id={'edit-button'}
           color={theme}
           variant='contained'
           onClick={editing ? handleSubmit : () => setEditing(true)}
