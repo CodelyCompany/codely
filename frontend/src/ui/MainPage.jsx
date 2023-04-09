@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
+import usePageTitle from 'helpers/usePageTitle';
 import codeGif from 'styles/6iE3BC564u.gif';
 import codeGifDarkTheme from 'styles/0082BUw8UC.gif';
 import codeGifPinkTheme from 'styles/MKteEKMiiu.gif';
 
+import Pages from 'consts/pages';
+
 const MainPage = () => {
   const [theme, setTheme] = useState(0);
+  usePageTitle(Pages.MAIN_PAGE);
 
   useEffect(() => {
     setTheme(parseInt(localStorage.getItem('theme')) ?? 0);
