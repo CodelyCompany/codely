@@ -9,6 +9,10 @@ class ExercisesPage {
     return $('#combo-box');
   }
 
+  get snackbar() {
+    return $('#notistack-snackbar');
+  }
+
   async clickCreateExerciseButton() {
     await this.createExerciseButton.waitForDisplayed();
     await this.createExerciseButton.click();

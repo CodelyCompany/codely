@@ -18,7 +18,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-const ReviewCard = ({ review }) => {
+const ReviewCard = ({ review, index }) => {
   const { t } = useTranslation();
   const { user } = useAuth0();
   const { token } = useToken();
@@ -61,7 +61,7 @@ const ReviewCard = ({ review }) => {
 
   return (
     <>
-      <Grid container spacing={2} className='review-card'>
+      <Grid container spacing={2} className='review-card' id={`rev-${index}`}>
         <Grid item xs={6}>
           <Typography variant='h5' className='author'>
             {author.username}
@@ -71,17 +71,21 @@ const ReviewCard = ({ review }) => {
           <Rating value={review.rating} size='large' readOnly />
         </Grid>
         <Grid item xs={12}>
-          <Typography>{review.comment}</Typography>
+          <Typography id={'content'}>{review.comment}</Typography>
         </Grid>
         <Grid item xs={6}>
           <Box className='likes'>
             <ThumbUpIcon
+              id={'up'}
               color={upvoted ? 'success' : 'disabled'}
               onClick={() => handleVote(true)}
               className='up'
             />
-            <Typography color='primary'>{rating}</Typography>
+            <Typography id={'votes'} color='primary'>
+              {rating}
+            </Typography>
             <ThumbDownIcon
+              id={'down'}
               color={downvoted ? 'error' : 'disabled'}
               onClick={() => handleVote(false)}
               className='down'
@@ -110,4 +114,5 @@ export default ReviewCard;
 
 ReviewCard.propTypes = {
   review: PropTypes.object.isRequired,
+  index: PropTypes.object.isRequired,
 };

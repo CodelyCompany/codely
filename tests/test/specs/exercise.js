@@ -5,6 +5,8 @@ const AdminPage = require('../pageobjects/admin.page');
 const ExercisePage = require('../pageobjects/exercise.page');
 const ExercisesPage = require('../pageobjects/exercises.page');
 const ExerciseFormPage = require('../pageobjects/exerciseForm.page');
+require('dotenv').config();
+
 const bashExerciseData = {
   title: 'Substraction two numbers',
   description: 'test description',
@@ -45,9 +47,13 @@ const rExerciseData = {
   hints: ['hint 1 - new', 'hint 2 - new'],
   exampleSolution: 'multiply <- function(x,y){\nreturn(x*y)',
 };
+const randomLogin =
+  'testusercodelycomment' + new Date().toLocaleString().replace(/[/:\s,]/g, '');
+const randomEmail = randomLogin + '@gmail.example.com';
+const data = process.env;
 
 describe('Admin Page Test', () => {
-  it('Should login with valid credentials', async () => {
+  it('Should login with valid credentials - admin', async () => {
     await TitlePage.open();
     await TitlePage.clickLoginButton();
     await LoginPage.login('admin@example.com', 'AdminAdmin123');
@@ -184,15 +190,138 @@ describe('Admin Page Test', () => {
     ).toBe(true);
   });
 
-  // it('Should add comment ', async () => {
-  //   await ExercisePage.addComment('New test comment', 4);
-  //   expect(await ExercisePage.commentField).toBeDisplayed();
-  //   expect(await ExercisePage.userCommentAuthor.getText()).toBe('admin');
-  //   expect(await ExercisePage.userCommentText.getText()).toBe(
-  //     'New test comment'
-  //   );
-  //   expect(await ExercisePage.userCommentRating.length).toBe(4);
-  // });
+  it('Should add comment ', async () => {
+    await ExercisePage.addComment('New test comment', 2);
+    expect(await ExercisePage.commentField).toBeDisplayed();
+    expect(await ExercisePage.userCommentAuthor.getText()).toBe('admin');
+    expect(await ExercisePage.userCommentText.getText()).toBe(
+      'New test comment'
+    );
+    expect(await ExercisePage.userCommentRating.length).toBe(3);
+  });
 
-  // TODO - dodaj id do komentarzy i kontynuuj testowanie, testnij hintsy
+  it('Should logout admin', async () => {
+    await MainPage.logoutAdmin();
+    expect(await TitlePage.loginButton).toBeDisplayed();
+  });
+
+  it('Should register and login new user', async () => {
+    await TitlePage.clickLoginButton();
+    await LoginPage.clickRegister();
+    await LoginPage.register(randomEmail, data.USER_PASSWORD);
+    await LoginPage.clickAcceptRegister();
+    expect(await MainPage.getUsernameInfo()).toBe(randomLogin);
+  });
+
+  it('Should open exercise', async () => {
+    await MainPage.clickExerciseButton();
+    await ExercisesPage.searchExercise('Multiply two numbers - R');
+    await ExercisesPage.clickExercise('Multiply two numbers - R');
+    expect(await ExercisePage.exerciseTitle.getText()).toBe(
+      'Multiply two numbers - R'
+    );
+    expect(await ExercisePage.authorInfo.getText()).toBe('admin');
+    expect(await ExercisePage.languageInfo.getText()).toBe('R');
+    expect(await ExercisePage.difficultyInfo.length).toBe(4);
+    expect(await ExercisePage.descriptionInfo.getText()).toBe(
+      rExerciseData.description
+    );
+    expect(await ExercisePage.ratingInfo.length).toBe(3);
+  });
+
+  it('Should solve exercise', async () => {
+    await ExercisePage.solveExercise(rExerciseData.exampleSolution);
+    expect(await ExercisePage.getSnackbarResult()).toBe(true);
+    expect(
+      parseInt((await ExercisePage.testsResult.getText()).split('/')[0]) ===
+        parseInt(rExerciseData.testsQuantity)
+    ).toBe(true);
+  });
+
+  it('Should has admin comment', async () => {
+    const commentData = await ExercisePage.getCommentDataByIndex('0');
+    expect(commentData.author).toBe('admin');
+    expect(commentData.content).toBe('New test comment');
+    expect(commentData.rating).toBe(3);
+    expect(commentData.votes).toBe(0);
+  });
+
+  it('Should change like amount', async () => {
+    const commentId = '0';
+    await ExercisePage.likeComment(commentId);
+    expect(await ExercisePage.getCommentLikes(commentId)).toBe(1);
+    await ExercisePage.dislikeComment(commentId);
+    expect(await ExercisePage.getCommentLikes(commentId)).toBe(-1);
+    await ExercisePage.dislikeComment(commentId);
+    expect(await ExercisePage.getCommentLikes(commentId)).toBe(0);
+    await ExercisePage.dislikeComment(commentId);
+    expect(await ExercisePage.getCommentLikes(commentId)).toBe(-1);
+  });
+
+  it('Should add comment user', async () => {
+    await ExercisePage.addComment('Normal user comment', 1);
+    expect(await ExercisePage.commentField).toBeDisplayed();
+    expect(await ExercisePage.userCommentAuthor.getText()).toBe(randomLogin);
+    expect(await ExercisePage.userCommentText.getText()).toBe(
+      'Normal user comment'
+    );
+    expect(await ExercisePage.userCommentRating.length).toBe(2);
+  });
+
+  it('Should logout normal user', async () => {
+    await MainPage.logout();
+    expect(await TitlePage.loginButton).toBeDisplayed();
+  });
+
+  it('Should login admin', async () => {
+    await TitlePage.open();
+    await TitlePage.clickLoginButton();
+    await LoginPage.login('admin@example.com', 'AdminAdmin123');
+    expect(await MainPage.getUsernameInfo()).toBe('admin');
+  });
+
+  it('Should open exercise', async () => {
+    await MainPage.clickExerciseButton();
+    await ExercisesPage.searchExercise('Multiply two numbers - R');
+    await ExercisesPage.clickExercise('Multiply two numbers - R');
+    expect(await ExercisePage.exerciseTitle.getText()).toBe(
+      'Multiply two numbers - R'
+    );
+    expect(await ExercisePage.authorInfo.getText()).toBe('admin');
+    expect(await ExercisePage.languageInfo.getText()).toBe('R');
+    expect(await ExercisePage.difficultyInfo.length).toBe(4);
+    expect(await ExercisePage.descriptionInfo.getText()).toBe(
+      rExerciseData.description
+    );
+    expect(await ExercisePage.ratingInfo.length).toBe(3);
+  });
+
+  it('Should has valid votes number', async () => {
+    expect(parseInt(await ExercisePage.userCommentVotes.getText())).toBe(-1);
+  });
+
+  it('Should has normal comment', async () => {
+    const commentData = await ExercisePage.getCommentDataByIndex('0');
+    expect(commentData.author).toBe(randomLogin);
+    expect(commentData.content).toBe('Normal user comment');
+    expect(commentData.rating).toBe(2);
+    expect(commentData.votes).toBe(0);
+  });
+
+  it('Should edit comment', async () => {
+    await ExercisePage.editCommentButton.click();
+    await ExercisePage.editComment('Edited comment', 4);
+    expect(await ExercisePage.userCommentAuthor.getText()).toBe('admin');
+    expect(await ExercisePage.userCommentText.getText()).toBe('Edited comment');
+    expect(await ExercisePage.userCommentRating.length).toBe(5);
+  });
+
+  it('Should delete exercise', async () => {
+    await ExercisePage.deleteExercise();
+    await ExercisesPage.snackbar.waitForDisplayed();
+    await ExercisesPage.searchExercise('Multiply two numbers - R');
+    expect(
+      await $('//h4[text()="Multiply two numbers - R"]')
+    ).not.toBeDisplayed();
+  });
 });

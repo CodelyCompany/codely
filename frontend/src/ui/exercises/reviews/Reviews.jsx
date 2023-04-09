@@ -51,8 +51,8 @@ const Reviews = () => {
               (review) =>
                 review.author !== foundUser._id && review.comment !== ''
             )
-            .map((review) => (
-              <ReviewCard key={review._id} review={review} />
+            .map((review, index) => (
+              <ReviewCard key={review._id} review={review} index={index} />
             ))}
         </Box>
       </Box>

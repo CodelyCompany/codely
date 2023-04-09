@@ -68,7 +68,7 @@ class ExercisePage {
   }
 
   get commentInput() {
-    return $('//div[@id="review"]//textarea');
+    return $('#comment-input');
   }
 
   get addCommentButton() {
@@ -91,6 +91,10 @@ class ExercisePage {
 
   get userCommentText() {
     return $('#comment-text');
+  }
+
+  get userCommentVotes() {
+    return $('#comment-votes');
   }
 
   get editCommentButton() {
@@ -156,8 +160,51 @@ class ExercisePage {
   async addComment(comment, rate) {
     await this.commentInput.waitForDisplayed();
     await this.commentInput.setValue(comment);
-    await $$('//div[@id="review"]//span//input')[rate].click();
+    await $$('//span[@id="comment-rating"]//label')[rate].click();
     await this.addCommentButton.click();
+  }
+
+  async editComment(comment, rate) {
+    await this.commentInput.waitForDisplayed();
+    await this.commentInput.setValue(comment);
+    await $$('//span[@id="comment-rating"]//label')[rate].click();
+    await this.editCommentButton.click();
+  }
+
+  async getCommentDataByIndex(index) {
+    const baseXpath = `//div[@id="rev-${index}"]`;
+    return {
+      author: await $(`${baseXpath}//h5`).getText(),
+      content: await $(`${baseXpath}//p[@id="content"]`).getText(),
+      rating: await $$(
+        `${baseXpath}//div[@class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 rating css-1osj8n2-MuiGrid-root"]/span//span[@class="MuiRating-icon MuiRating-iconFilled css-7qmtgc-MuiRating-icon"]`
+      ).length,
+      votes: await this.getCommentLikes(index),
+    };
+  }
+
+  async getCommentLikes(index) {
+    return parseInt(
+      await $(`//div[@id="rev-${index}"]//p[@id="votes"]`).getText()
+    );
+  }
+
+  async likeComment(index) {
+    const xpath = `//div[@id="rev-${index}"]//*[local-name() = 'svg'][@id="up"]`;
+    await $(xpath).waitForDisplayed();
+    await $(xpath).click();
+  }
+
+  async dislikeComment(index) {
+    const xpath = `//div[@id="rev-${index}"]//*[local-name() = 'svg'][@id="down"]`;
+    await $(xpath).waitForDisplayed();
+    await $(xpath).click();
+  }
+
+  async deleteExercise() {
+    await this.deleteButton.waitForDisplayed();
+    await this.deleteButton.click();
+    await this.confirmDeleteButton.click();
   }
 }
 

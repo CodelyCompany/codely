@@ -96,6 +96,7 @@ const ReviewForm = ({ review, token }) => {
       <Grid item xs={12}>
         {editing ? (
           <TextField
+            id={'comment-input'}
             color={theme}
             label={t('Comment')}
             variant='outlined'
@@ -113,7 +114,7 @@ const ReviewForm = ({ review, token }) => {
       <Grid item xs={5}>
         <Box display={upvotes ? 'flex' : 'none'}>
           <ThumbUp color={theme} />
-          <Typography color={theme} marginLeft={1}>
+          <Typography id={'comment-votes'} color={theme} marginLeft={1}>
             {upvotes}
           </Typography>
         </Box>
