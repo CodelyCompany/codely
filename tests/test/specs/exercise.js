@@ -52,7 +52,26 @@ const randomLogin =
 const randomEmail = randomLogin + '@gmail.example.com';
 const data = process.env;
 
-describe('Admin Page Test', () => {
+const checkExerciseData = async (exercise) => {
+  expect(await ExercisePage.exerciseTitle.getText()).toBe(exercise.title);
+  expect(await ExercisePage.authorInfo.getText()).toBe(exercise.author);
+  expect(await ExercisePage.languageInfo.getText()).toBe(exercise.language);
+  expect(await ExercisePage.difficultyInfo.length).toBe(exercise.difficulty);
+  expect(await ExercisePage.descriptionInfo.getText()).toBe(
+    exercise.description
+  );
+  expect(await ExercisePage.ratingInfo.length).toBe(exercise.rating);
+};
+
+const solveAndCheckExercise = async (exercise) => {
+  await ExercisePage.solveExercise(exercise.exampleSolution);
+  expect(await ExercisePage.getSnackbarResult()).toBe(true);
+  expect(
+    parseInt((await ExercisePage.testsResult.getText()).split('/')[0]) ===
+      parseInt(exercise.testsQuantity)
+  ).toBe(true);
+};
+describe('Exercise Test', () => {
   it('Should login with valid credentials - admin', async () => {
     await TitlePage.open();
     await TitlePage.clickLoginButton();
@@ -90,7 +109,7 @@ describe('Admin Page Test', () => {
     expect(await ExercisePage.exerciseTitle).toBeDisplayed();
   });
 
-  it('Should exercise have valid data', async () => {
+  it('Should exercise has valid data', async () => {
     expect(await ExercisePage.exerciseTitle.getText()).toBe(
       'Substraction two numbers - Bash'
     );
@@ -103,7 +122,7 @@ describe('Admin Page Test', () => {
     expect(await ExercisePage.ratingInfo.length).toBe(0);
   });
 
-  it('Should exercise have valid hints', async () => {
+  it('Should exercise has valid hints', async () => {
     await ExercisePage.helpIcon.click();
     await ExercisePage.hintText.waitForDisplayed();
     expect(await ExercisePage.hintText.getText()).toBe(
@@ -137,18 +156,16 @@ describe('Admin Page Test', () => {
     ).toBeDisplayed();
   });
 
-  it('Should exercise have edited data', async () => {
+  it('Should exercise has edited data', async () => {
     await AdminPage.clickExercise('Multiply two numbers - R');
-    expect(await ExercisePage.exerciseTitle.getText()).toBe(
-      'Multiply two numbers - R'
-    );
-    expect(await ExercisePage.authorInfo.getText()).toBe('admin');
-    expect(await ExercisePage.languageInfo.getText()).toBe('R');
-    expect(await ExercisePage.difficultyInfo.length).toBe(4);
-    expect(await ExercisePage.descriptionInfo.getText()).toBe(
-      rExerciseData.description
-    );
-    expect(await ExercisePage.ratingInfo.length).toBe(0);
+    await checkExerciseData({
+      title: 'Multiply two numbers - R',
+      author: 'admin',
+      language: rExerciseData.language,
+      difficulty: 4,
+      description: rExerciseData.description,
+      rating: 0,
+    });
   });
 
   it('Should run code without args - fail', async () => {
@@ -182,15 +199,10 @@ describe('Admin Page Test', () => {
   });
 
   it('Should solve exercise', async () => {
-    await ExercisePage.solveExercise(rExerciseData.exampleSolution);
-    expect(await ExercisePage.getSnackbarResult()).toBe(true);
-    expect(
-      parseInt((await ExercisePage.testsResult.getText()).split('/')[0]) ===
-        parseInt(rExerciseData.testsQuantity)
-    ).toBe(true);
+    await solveAndCheckExercise(rExerciseData);
   });
 
-  it('Should add comment ', async () => {
+  it('Should add comment', async () => {
     await ExercisePage.addComment('New test comment', 2);
     expect(await ExercisePage.commentField).toBeDisplayed();
     expect(await ExercisePage.userCommentAuthor.getText()).toBe('admin');
@@ -213,32 +225,25 @@ describe('Admin Page Test', () => {
     expect(await MainPage.getUsernameInfo()).toBe(randomLogin);
   });
 
-  it('Should open exercise', async () => {
+  it('Should open exercise Multiply two numbers - R', async () => {
     await MainPage.clickExerciseButton();
     await ExercisesPage.searchExercise('Multiply two numbers - R');
     await ExercisesPage.clickExercise('Multiply two numbers - R');
-    expect(await ExercisePage.exerciseTitle.getText()).toBe(
-      'Multiply two numbers - R'
-    );
-    expect(await ExercisePage.authorInfo.getText()).toBe('admin');
-    expect(await ExercisePage.languageInfo.getText()).toBe('R');
-    expect(await ExercisePage.difficultyInfo.length).toBe(4);
-    expect(await ExercisePage.descriptionInfo.getText()).toBe(
-      rExerciseData.description
-    );
-    expect(await ExercisePage.ratingInfo.length).toBe(3);
+    await checkExerciseData({
+      title: 'Multiply two numbers - R',
+      author: 'admin',
+      language: rExerciseData.language,
+      difficulty: 4,
+      description: rExerciseData.description,
+      rating: 3,
+    });
   });
 
-  it('Should solve exercise', async () => {
-    await ExercisePage.solveExercise(rExerciseData.exampleSolution);
-    expect(await ExercisePage.getSnackbarResult()).toBe(true);
-    expect(
-      parseInt((await ExercisePage.testsResult.getText()).split('/')[0]) ===
-        parseInt(rExerciseData.testsQuantity)
-    ).toBe(true);
+  it('Should solve exercise Multiply two numbers - R', async () => {
+    await solveAndCheckExercise(rExerciseData);
   });
 
-  it('Should has admin comment', async () => {
+  it('Should exercise has admin comment', async () => {
     const commentData = await ExercisePage.getCommentDataByIndex('0');
     expect(commentData.author).toBe('admin');
     expect(commentData.content).toBe('New test comment');
@@ -258,7 +263,7 @@ describe('Admin Page Test', () => {
     expect(await ExercisePage.getCommentLikes(commentId)).toBe(-1);
   });
 
-  it('Should add comment user', async () => {
+  it('Should add normal user comment', async () => {
     await ExercisePage.addComment('Normal user comment', 1);
     expect(await ExercisePage.commentField).toBeDisplayed();
     expect(await ExercisePage.userCommentAuthor.getText()).toBe(randomLogin);
@@ -280,27 +285,25 @@ describe('Admin Page Test', () => {
     expect(await MainPage.getUsernameInfo()).toBe('admin');
   });
 
-  it('Should open exercise', async () => {
+  it('Should open exercise Multiply two numbers - R', async () => {
     await MainPage.clickExerciseButton();
     await ExercisesPage.searchExercise('Multiply two numbers - R');
     await ExercisesPage.clickExercise('Multiply two numbers - R');
-    expect(await ExercisePage.exerciseTitle.getText()).toBe(
-      'Multiply two numbers - R'
-    );
-    expect(await ExercisePage.authorInfo.getText()).toBe('admin');
-    expect(await ExercisePage.languageInfo.getText()).toBe('R');
-    expect(await ExercisePage.difficultyInfo.length).toBe(4);
-    expect(await ExercisePage.descriptionInfo.getText()).toBe(
-      rExerciseData.description
-    );
-    expect(await ExercisePage.ratingInfo.length).toBe(3);
+    await checkExerciseData({
+      title: 'Multiply two numbers - R',
+      author: 'admin',
+      language: rExerciseData.language,
+      difficulty: 4,
+      description: rExerciseData.description,
+      rating: 3,
+    });
   });
 
-  it('Should has valid votes number', async () => {
+  it('Should comment has valid votes number', async () => {
     expect(parseInt(await ExercisePage.userCommentVotes.getText())).toBe(-1);
   });
 
-  it('Should has normal comment', async () => {
+  it('Should exercise has normal user comment', async () => {
     const commentData = await ExercisePage.getCommentDataByIndex('0');
     expect(commentData.author).toBe(randomLogin);
     expect(commentData.content).toBe('Normal user comment');
@@ -316,7 +319,7 @@ describe('Admin Page Test', () => {
     expect(await ExercisePage.userCommentRating.length).toBe(5);
   });
 
-  it('Should delete exercise', async () => {
+  it('Should delete exercise Multiply two numbers - R', async () => {
     await ExercisePage.deleteExercise();
     await ExercisesPage.snackbar.waitForDisplayed();
     await ExercisesPage.searchExercise('Multiply two numbers - R');
