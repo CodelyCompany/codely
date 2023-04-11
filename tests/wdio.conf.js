@@ -39,6 +39,7 @@ exports.config = {
     ],
     Exercise: ['./test/specs/exercisesForm.js'],
     AdminPage: ['./test/specs/adminPage.js'],
+    Personalization: ['./test/specs/personalization.js'],
   },
   exclude: [
     // 'path/to/excluded/files'
@@ -160,6 +161,8 @@ exports.config = {
     queue: [
       './test/specs/login.js',
       './test/specs/editor.js',
+      './test/specs/personalization.js',
+      './test/specs/adminPage.js',
       './test/specs/exercisesForm.js',
       './test/specs/exercisesBash.js',
       './test/specs/exercisesC.js',
@@ -167,8 +170,7 @@ exports.config = {
       './test/specs/exercisesJava.js',
       './test/specs/exercisesJavascript.js',
       './test/specs/exercisesPython.js',
-      './test/specs/exercisesR.js',
-      './test/specs/adminPage.j',
+      './test/specs/exercis',
     ],
   },
   //

@@ -1,8 +1,6 @@
 const TitlePage = require('../pageobjects/title.page');
 const LoginPage = require('../pageobjects/login.page');
 const MainPage = require('../pageobjects/main.page');
-const ExercisesPage = require('../pageobjects/exercises.page');
-const ExerciseFormPage = require('../pageobjects/exerciseForm.page');
 const PersonalizationPage = require('../pageobjects/personalization.page.js');
 
 describe('Exercises Form Test', () => {
@@ -46,5 +44,33 @@ describe('Exercises Form Test', () => {
     expect(await pageColours.setLanguageHeader).toBe('rgb(154,33,80)');
     expect(await pageColours.pickPhotoButtonFont).toBe('rgb(255,255,255)');
     expect(await pageColours.pagesContainerColor).toBe('rgb(255,255,255)');
+  });
+
+  it('Should change language to Polish', async () => {
+    await PersonalizationPage.selectPolishLanguage.click();
+    const pageTexts = await PersonalizationPage.getPageTexts();
+    const navTexts = await MainPage.getNavTexts();
+    expect(await pageTexts.setLanguageHeader).toBe('Ustaw język');
+    expect(await pageTexts.uploadPhotoButton).toBe('WYBIERZ PLIK (.PNG)');
+    expect(await pageTexts.whiteMagentaThemeText).toBe('Biały & Magenta');
+    expect(await pageTexts.blackMagentaThemeText).toBe('Czarny & Magenta');
+    expect(await pageTexts.whiteBlueThemeText).toBe('Biały & Niebieski');
+    expect(await navTexts.editorButton).toBe('EDYTOR');
+    expect(await navTexts.exerciseButton).toBe('ZADANIA');
+    expect(await navTexts.versusButton).toBe('VERSUS');
+  });
+
+  it('Should change language to English', async () => {
+    await PersonalizationPage.selectEnglishLanguage.click();
+    const pageTexts = await PersonalizationPage.getPageTexts();
+    const navTexts = await MainPage.getNavTexts();
+    expect(await pageTexts.setLanguageHeader).toBe('Set your language');
+    expect(await pageTexts.uploadPhotoButton).toBe('CHOOSE FILE (.PNG)');
+    expect(await pageTexts.whiteMagentaThemeText).toBe('White & Magenta');
+    expect(await pageTexts.blackMagentaThemeText).toBe('Black & Magenta');
+    expect(await pageTexts.whiteBlueThemeText).toBe('White & Blue');
+    expect(await navTexts.editorButton).toBe('EDITOR');
+    expect(await navTexts.exerciseButton).toBe('EXERCISES');
+    expect(await navTexts.versusButton).toBe('VERSUS');
   });
 });

@@ -72,6 +72,14 @@ class MainPage {
     await this.iconButton.click();
     await this.menuItems[5].click();
   }
+
+  async getNavTexts() {
+    return {
+      editorButton: await this.editorButton.getText(),
+      exerciseButton: await this.exerciseButton.getText(),
+      versusButton: await this.versusButton.getText(),
+    };
+  }
 }
 
 module.exports = new MainPage();

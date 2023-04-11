@@ -35,12 +35,19 @@ class PersonalizationPage {
     return $('#pages-container');
   }
 
-  // TODO fix to, zwraca JSON ale w string niewiadomo czm
+  get whiteMagentaThemeText() {
+    return $$('//div[@id="theme-container"]//p')[0];
+  }
+
+  get blackMagentaThemeText() {
+    return $$('//div[@id="theme-container"]//p')[1];
+  }
+
+  get whiteBlueThemeText() {
+    return $$('//div[@id="theme-container"]//p')[2];
+  }
+
   async getPageColours() {
-    // const data = await this.pageBody.getCSSProperty('color');
-    // console.log(data);
-    // console.log(data.value);
-    // console.log(JSON.parse(data.toString()).value);
     return {
       bodyColor: (await this.pageBody.getCSSProperty('color')).value,
       bodyBackground: (await this.pageBody.getCSSProperty('background-color'))
@@ -52,6 +59,16 @@ class PersonalizationPage {
       ).value,
       pagesContainerColor: (await this.pagesContainer.getCSSProperty('color'))
         .value,
+    };
+  }
+
+  async getPageTexts() {
+    return {
+      setLanguageHeader: await this.setLanguageHeader.getText(),
+      uploadPhotoButton: await this.uploadPhotoButton.getText(),
+      whiteMagentaThemeText: await this.whiteMagentaThemeText.getText(),
+      blackMagentaThemeText: await this.blackMagentaThemeText.getText(),
+      whiteBlueThemeText: await this.whiteBlueThemeText.getText(),
     };
   }
 }
