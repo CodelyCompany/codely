@@ -66,6 +66,12 @@ class MainPage {
     await this.iconButton.click();
     await this.menuItems[4].click();
   }
+
+  async goToPersonalizationPage() {
+    await this.iconButton.waitForDisplayed();
+    await this.iconButton.click();
+    await this.menuItems[5].click();
+  }
 }
 
 module.exports = new MainPage();
