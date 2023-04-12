@@ -17,6 +17,7 @@ import { DeleteExercise, GetExercises } from 'ducks/exercises/operations';
 import { getExerciseById } from 'ducks/exercises/selectors';
 import { getRatingByExerciseId } from 'ducks/reviews/selectors';
 import { getUserByUsername } from 'ducks/user/selectors';
+import usePageTitle from 'helpers/usePageTitle';
 import useTheme from 'helpers/useTheme';
 import useToken from 'helpers/useToken';
 import * as _ from 'lodash';
@@ -30,6 +31,7 @@ import EditorField from 'ui/exercises/editor_to_exercises/EditorField';
 import Reviews from 'ui/exercises/reviews/Reviews';
 import Confirmation from 'ui/popups/Confirmation';
 
+import Pages from 'consts/pages';
 import ProgrammingLanguage from 'consts/programmingLanguage';
 
 const ExerciseDetail = ({ GetExercises }) => {
@@ -45,6 +47,7 @@ const ExerciseDetail = ({ GetExercises }) => {
   const [argumentValues, setArgumentValues] = useState([]);
   const { color, theme } = useTheme();
   const exerciseLanguage = ProgrammingLanguage[exercise?.programmingLanguage.toUpperCase()];
+  usePageTitle(Pages.EXERCISE);
 
   useEffect(() => {
     if (_.isEmpty(exercise)) {

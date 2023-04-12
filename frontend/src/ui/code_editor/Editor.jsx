@@ -2,12 +2,15 @@ import { useState } from 'react';
 import React from 'react';
 
 import { Box, Container, Typography } from '@mui/material';
+import usePageTitle from 'helpers/usePageTitle';
 import useTheme from 'helpers/useTheme';
 import { useTranslation } from 'react-i18next';
 import CodeField from 'ui/code_editor/CodeField';
 import LanguageSelector from 'ui/code_editor/LanguageSelector';
 import OutputField from 'ui/code_editor/OutputField';
 import RunButton from 'ui/code_editor/RunButton';
+
+import Pages from 'consts/pages';
 
 const Editor = () => {
   const [code, setCode] = useState('');
@@ -16,6 +19,7 @@ const Editor = () => {
   const [loadingFinished, setLoadingFinished] = useState(true);
   const { color } = useTheme();
   const { t } = useTranslation();
+  usePageTitle(Pages.EDITOR);
 
   return (
     <Container>
