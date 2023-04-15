@@ -56,9 +56,7 @@ describe('Admin Page Test', () => {
 
   it('Should add two exercises', async () => {
     await MainPage.clickExerciseButton();
-    await ExercisesPage.createExerciseButton.waitForDisplayed();
     await ExercisesPage.clickCreateExerciseButton();
-    await ExerciseFormPage.inputTitle.waitForDisplayed();
     await ExerciseFormPage.addExercise(pythonExerciseData);
     await ExercisesPage.clickCreateExerciseButton();
     await ExerciseFormPage.addExercise(cppExerciseData);

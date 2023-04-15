@@ -40,6 +40,7 @@ exports.config = {
     Exercise: ['./test/specs/exercisesForm.js'],
     AdminPage: ['./test/specs/adminPage.js'],
     Personalization: ['./test/specs/personalization.js'],
+    Statistics: ['./test/specs/statistics.js'],
   },
   exclude: [
     // 'path/to/excluded/files'
@@ -74,7 +75,11 @@ exports.config = {
       maxInstances: 5,
       //
       browserName: 'firefox',
-      acceptInsecureCerts: true,
+      // No GUI Option
+      // 'moz:firefoxOptions': {
+      //   args: ['-headless'],
+      // },
+      acceptInsecureCerts: e,
       // If outputDir is provided WebdriverIO can capture driver session logs
       // it is possible to configure which logTypes to include/exclude.
       // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
@@ -163,6 +168,7 @@ exports.config = {
       './test/specs/editor.js',
       './test/specs/personalization.js',
       './test/specs/adminPage.js',
+      './test/specs/statistics.js',
       './test/specs/exercisesForm.js',
       './test/specs/exercisesBash.js',
       './test/specs/exercisesC.js',
@@ -170,7 +176,7 @@ exports.config = {
       './test/specs/exercisesJava.js',
       './test/specs/exercisesJavascript.js',
       './test/specs/exercisesPython.js',
-      './test/specs/exercis',
+      './test/specs/exercisesR.js',
     ],
   },
   //

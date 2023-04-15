@@ -81,9 +81,7 @@ describe('Exercise Test', () => {
 
   it('Should add exercise Substraction two numbers - Bash', async () => {
     await MainPage.clickExerciseButton();
-    await ExercisesPage.createExerciseButton.waitForDisplayed();
     await ExercisesPage.clickCreateExerciseButton();
-    await ExerciseFormPage.inputTitle.waitForDisplayed();
     await ExerciseFormPage.addExercise(bashExerciseData);
   });
 

@@ -116,7 +116,6 @@ describe('Exercises Form Test', () => {
 
   it('Should open exercise tab', async () => {
     await MainPage.clickExerciseButton();
-    await ExercisesPage.createExerciseButton.waitForDisplayed();
     expect(await ExercisesPage.createExerciseButton).toBeDisplayed();
   });
 
@@ -239,7 +238,6 @@ describe('Exercises Form Test', () => {
 
   it('Should submit java exercise', async () => {
     await ExerciseFormPage.completeFifthExerciseForm(javaExerciseData, true);
-    await ExercisesPage.createExerciseButton.waitForDisplayed();
     expect(await ExercisesPage.createExerciseButton).toBeDisplayed();
   });
 });

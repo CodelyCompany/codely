@@ -27,7 +27,13 @@ function UserExercisesList({ exercises, mode }) {
     const { index, style } = props;
 
     return (
-      <ListItem style={style} key={index} component='div' disablePadding>
+      <ListItem
+        id={mode}
+        style={style}
+        key={index}
+        component='div'
+        disablePadding
+      >
         <ListItemButton
           onClick={() => navigate(`/exercise/${exercises[index]._id}`)}
         >

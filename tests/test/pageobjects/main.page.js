@@ -73,7 +73,14 @@ class MainPage {
     await this.menuItems[5].click();
   }
 
+  async goToStatisticsPage() {
+    await this.iconButton.waitForDisplayed();
+    await this.iconButton.click();
+    await this.menuItems[3].click();
+  }
+
   async getNavTexts() {
+    await this.editorButton.waitForDisplayed();
     return {
       editorButton: await this.editorButton.getText(),
       exerciseButton: await this.exerciseButton.getText(),

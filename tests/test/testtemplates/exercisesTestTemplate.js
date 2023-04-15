@@ -18,7 +18,6 @@ module.exports = (language) => {
 
     it('Should open exercise tab', async () => {
       await MainPage.clickExerciseButton();
-      await ExercisesPage.createExerciseButton.waitForDisplayed();
       expect(await ExercisesPage.createExerciseButton).toBeDisplayed();
     });
 
@@ -58,7 +57,6 @@ module.exports = (language) => {
     for (const exercise of exercisesData) {
       it('Should open exercise tab', async () => {
         await MainPage.clickExerciseButton();
-        await ExercisesPage.createExerciseButton.waitForDisplayed();
         expect(await ExercisesPage.createExerciseButton).toBeDisplayed();
       });
       it(`Should go to exercise - ${exercise.title} - ${exercise.language}`, async () => {
