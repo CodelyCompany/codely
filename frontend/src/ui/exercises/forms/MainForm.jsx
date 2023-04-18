@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion from '@mui/material/Accordion';
@@ -40,7 +40,12 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
   const { id } = useParams();
   const exercise = useSelector(getExerciseById(id));
   const { t } = useTranslation();
+  const previousFormState = useRef(step);
   usePageTitle(Pages.EXERCISE_FORM);
+
+  useEffect(() => {
+    previousFormState.current = step;
+  }, [step]);
 
   useEffect(() => {
     if (redirect) {
@@ -214,6 +219,7 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
             step={step}
             setStep={setStep}
             dataToEdit={exercise}
+            previousFormState={previousFormState}
           />
         </AccordionDetails>
       </Accordion>
