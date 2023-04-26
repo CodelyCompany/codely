@@ -330,7 +330,14 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                           <MenuItem
                             key={opt}
                             value={opt}
-                            id={`${opt}-${argNumber}`}
+                            id={
+                              [
+                                'Inny typ / Własny typ',
+                                'Other types / Custom types',
+                              ].includes(opt)
+                                ? `other-type-${argNumber}`
+                                : `${opt}-${argNumber}`
+                            }
                           >
                             {opt}
                           </MenuItem>
@@ -369,7 +376,11 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
             >
               {[...dropdownOptions, ...customTypes, additionalOption].map(
                 (opt) => (
-                  <MenuItem key={opt} value={opt} id={opt}>
+                  <MenuItem
+                    key={opt}
+                    value={opt}
+                    id={opt.length > 12 ? 'other-type' : opt}
+                  >
                     {opt}
                   </MenuItem>
                 )

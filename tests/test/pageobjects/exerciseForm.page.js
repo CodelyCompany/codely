@@ -77,6 +77,16 @@ class ExerciseFormPage {
     return $('#notistack-snackbar');
   }
 
+  get newTypeInput() {
+    return $(`#type`);
+  }
+
+  get confirmAddNewTypeButton() {
+    return $$(
+      '//button[@class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-x0zn3y-MuiButtonBase-root-MuiButton-root"]'
+    )[1];
+  }
+
   async inputCode(exercise) {
     await this.inputCodeField.waitForDisplayed();
     await this.inputCodeField.waitForClickable();
@@ -107,13 +117,27 @@ class ExerciseFormPage {
     await this.inputArgumentsQuantity.setValue(exercise.argumentsQuantity);
     if (['Java', 'C', 'C++'].includes(exercise.language)) {
       await $('#outputType').click();
-      await $(`#${exercise.outputType}`).waitForClickable();
-      await $(`#${exercise.outputType}`).click();
+      try {
+        await $(`#${exercise.outputType}`).isDisplayed();
+        await $(`#${exercise.outputType}`).click();
+      } catch (err) {
+        await $('#other-type').click();
+        await this.newTypeInput.waitForDisplayed();
+        await this.newTypeInput.setValue(exercise.outputType);
+        await this.confirmAddNewTypeButton.click();
+      }
       for (let i = 0; i < exercise.argumentsQuantity; i++) {
         await $(`#arg-${i}`).setValue(exercise.argumentNames[i]);
         await $(`#type-${i}`).click();
-        await $(`#${exercise.argumentTypes[i]}-${i}`).waitForClickable();
-        await $(`#${exercise.argumentTypes[i]}-${i}`).click();
+        try {
+          await $(`#${exercise.argumentTypes[i]}-${i}`).isDisplayed();
+          await $(`#${exercise.argumentTypes[i]}-${i}`).click();
+        } catch (error) {
+          await $(`#other-type-${i}`).click();
+          await this.newTypeInput.waitForDisplayed();
+          await this.newTypeInput.setValue(exercise.argumentTypes[i]);
+          await this.confirmAddNewTypeButton.click();
+        }
       }
       await this.submitButtonSecond.click({ x: 0, y: -200 });
     } else {

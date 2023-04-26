@@ -29,13 +29,13 @@ exports.config = {
     Login: ['./test/specs/login.js'],
     Editor: ['./test/specs/editor.js'],
     Exercises: [
-      './test/specs/exercisesBash.js',
-      './test/specs/exercisesC.js',
-      './test/specs/exercisesCpp.js',
-      './test/specs/exercisesJava.js',
-      './test/specs/exercisesJavascript.js',
-      './test/specs/exercisesPython.js',
-      './test/specs/exercisesR.js',
+      './test/specs/exercises/exercisesBash.js',
+      './test/specs/exercises/exercisesC.js',
+      './test/specs/exercises/exercisesCpp.js',
+      './test/specs/exercises/exercisesJava.js',
+      './test/specs/exercises/exercisesJavascript.js',
+      './test/specs/exercises/exercisesPython.js',
+      './test/specs/exercises/exercisesR.js',
     ],
     Exercise: ['./test/specs/exercisesForm.js'],
     AdminPage: ['./test/specs/adminPage.js'],
@@ -79,7 +79,7 @@ exports.config = {
       // 'moz:firefoxOptions': {
       //   args: ['-headless'],
       // },
-      acceptInsecureCerts: e,
+      acceptInsecureCerts: tru,
       // If outputDir is provided WebdriverIO can capture driver session logs
       // it is possible to configure which logTypes to include/exclude.
       // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
@@ -111,7 +111,7 @@ exports.config = {
   //
   // If you only want to run your tests until a specific amount of tests have failed use
   // bail (default is 0 - don't bail, run all tests).
-  bail: 3,
+  bail: 0,
   //
   // Set a base URL in order to shorten url command calls. If your `url` parameter starts
   // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
