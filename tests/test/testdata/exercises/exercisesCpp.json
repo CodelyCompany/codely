@@ -48,6 +48,29 @@
         "Sed eiusmod tempor incidunt ut labore et dolore magna aliqua"
       ],
       "exampleSolution": "#include <iostream>\n#include <string> \n\nusing namespace std;\nstring ordinal(int n) {\nstring o[] = { \"th\", \"st\", \"nd\", \"rd\" };\nint x = n % 100;\nint value = x - 20 % 10;\n\nif (value < 4) {\nreturn o[value];\n}\n\nif (x < 4) {\nreturn o[x];\n}\n\nreturn o[0];\n}\n\nstring format(int number) {\nstring colors[] = { \"Blue\", \"Green\", \"Red\", \"Orange\", \"Violet\", \"Indigo\", \"Yellow\" };\nstring ordinalNum = ordinal(number);\nreturn to_string(number) + ordinalNum + \" choice is \" + colors[number - 1];\n}"
+    },
+    {
+      "title": "Calculate area of circle",
+      "description": "Lorem ipsum",
+      "difficult": "4",
+      "language": "C++",
+      "functionName": "calculateAreaOfCircle",
+      "argumentsQuantity": "1",
+      "argumentNames": ["r"],
+      "argumentTypes": ["int"],
+      "outputType": "float",
+      "testsQuantity": "3",
+      "inputValues": [
+        ["1"], ["5"], ["100000"]
+      ],
+      "outputValues": [
+        "3.14",
+        "78.5",
+        "3.14e+10"
+      ],
+      "hintsQuantity": "2",
+      "hints": ["Lorem ipsum dolor sit amet, consectetur adipisci elit", "Sed eiusmod tempor incidunt ut labore et dolore magna aliqua"],
+      "exampleSolution": "#include<iostream>\n#define PI 3.14\n\nusing namespace std;\n\nfloat calculateAreaOfCircle(int r) {\nreturn PI * r * r;\n}"
     }
   ]
 }
