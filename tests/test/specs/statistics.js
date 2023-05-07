@@ -6,6 +6,17 @@ const ExercisePage = require('../pageobjects/exercise.page');
 const ExercisesPage = require('../pageobjects/exercises.page');
 const ExerciseFormPage = require('../pageobjects/exerciseForm.page');
 const StatisticsPage = require('../pageobjects/statistics.page');
+const {
+  registerAndLoginUser,
+  generateRandomUserData,
+  createExercise,
+  logoutUser,
+  loginAdmin,
+  acceptExercise,
+  logoutAdmin,
+  openExercise,
+  solveAndCheckExercise,
+} = require('../testtemplates/helpFunctions');
 require('dotenv').config();
 
 const cExerciseData = {
@@ -51,29 +62,11 @@ const javascriptExerciseData = {
   exampleSolution: 'const multiply=(x,y)=>{\nreturn x*y',
 };
 
-const randomLogin =
-  'testusercodelycomment' + new Date().toLocaleString().replace(/[/:\s,]/g, '');
-const randomEmail = randomLogin + '@gmail.example.com';
+const { login: randomLogin, email: randomEmail } = generateRandomUserData();
 const data = process.env;
 
-const solveAndCheckExercise = async (exercise) => {
-  await ExercisePage.solveExercise(exercise.exampleSolution);
-  expect(await ExercisePage.getSnackbarResult()).toBe(true);
-  expect(
-    parseInt((await ExercisePage.testsResult.getText()).split('/')[0]) ===
-      parseInt(exercise.testsQuantity)
-  ).toBe(true);
-};
-
 describe('Statisitcs Test', () => {
-  it('Should register and login new user', async () => {
-    await TitlePage.open();
-    await TitlePage.clickLoginButton();
-    await LoginPage.clickRegister();
-    await LoginPage.register(randomEmail, data.USER_PASSWORD);
-    await LoginPage.clickAcceptRegister();
-    expect(await MainPage.getUsernameInfo()).toBe(randomLogin);
-  });
+  registerAndLoginUser(randomLogin, randomEmail, data.USER_PASSWORD);
 
   it('Should not have any stats', async () => {
     const statsData = await StatisticsPage.getStatisticsInfo();
@@ -100,46 +93,22 @@ describe('Statisitcs Test', () => {
     expect(statsData.playedVersus).toBe(expectedTexts.versus);
   });
 
-  it('Should add exercise Substraction two numbers - C', async () => {
-    await MainPage.clickExerciseButton();
-    await ExercisesPage.clickCreateExerciseButton();
-    await ExerciseFormPage.addExercise(cExerciseData);
-  });
+  createExercise(cExerciseData);
 
-  it('Should add exercise Multiply two numbers - JavaScript', async () => {
-    await ExercisesPage.clickCreateExerciseButton();
-    await ExerciseFormPage.addExercise(javascriptExerciseData);
-  });
+  createExercise(javascriptExerciseData);
 
-  it('Should logout user', async () => {
-    await MainPage.logout();
-    expect(await TitlePage.loginButton).toBeDisplayed();
-  });
+  logoutUser();
 
-  it('Should login with valid credentials - admin', async () => {
-    await TitlePage.clickLoginButton();
-    await LoginPage.login('admin@example.com', 'AdminAdmin123');
-    expect(await MainPage.getUsernameInfo()).toBe('admin');
-  });
+  loginAdmin();
 
   it('Should open admin page', async () => {
     await MainPage.goToAdminPage();
     expect(await AdminPage.exercisesToCheckTable).toBeDisplayed();
   });
 
-  it('Should accept exercise Substraction two numbers - C', async () => {
-    await AdminPage.acceptExercise('Substraction two numbers - C');
-    expect(
-      await $(
-        '//div[@id="checked-exercises-table-container"]//div[text()="Substraction two numbers - C"]'
-      )
-    ).toBeDisplayed();
-  });
+  acceptExercise(cExerciseData);
 
-  it('Should logout admin', async () => {
-    await MainPage.logoutAdmin();
-    expect(await TitlePage.loginButton).toBeDisplayed();
-  });
+  logoutAdmin();
 
   it('Should login user', async () => {
     await TitlePage.clickLoginButton();
@@ -147,16 +116,9 @@ describe('Statisitcs Test', () => {
     expect(await MainPage.getUsernameInfo()).toBe(randomLogin);
   });
 
-  it('Should open created exercise', async () => {
-    await MainPage.clickExerciseButton();
-    await ExercisesPage.searchExercise('Substraction two numbers - C');
-    await ExercisesPage.clickExercise('Substraction two numbers - C');
-    expect(await ExercisePage.exerciseTitle).toBeDisplayed();
-  });
+  openExercise(cExerciseData);
 
-  it('Should solve exercise Substraction two numbers - C', async () => {
-    await solveAndCheckExercise(cExerciseData);
-  });
+  solveAndCheckExercise(cExerciseData);
 
   it('Should add comment', async () => {
     await ExercisePage.addComment('Test comment stats', 2);

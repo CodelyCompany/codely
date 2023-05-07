@@ -5,6 +5,12 @@ const AdminPage = require('../pageobjects/admin.page');
 const ExercisePage = require('../pageobjects/exercise.page');
 const ExercisesPage = require('../pageobjects/exercises.page');
 const ExerciseFormPage = require('../pageobjects/exerciseForm.page');
+const {
+  loginAdmin,
+  createExercise,
+  acceptExercise,
+  openExercise,
+} = require('../testtemplates/helpFunctions');
 const pythonExerciseData = {
   title: 'Substraction two numbers',
   description: 'test description',
@@ -47,42 +53,20 @@ const cppExerciseData = {
     '#include <iostream>\nusing namespace std;\n          \nint multiply(int x, int y) {\n    return x*y;\n}',
 };
 describe('Admin Page Test', () => {
-  it('Should login with valid credentials', async () => {
-    await TitlePage.open();
-    await TitlePage.clickLoginButton();
-    await LoginPage.login('admin@example.com', 'AdminAdmin123');
-    expect(await MainPage.getUsernameInfo()).toBe('admin');
-  });
+  loginAdmin();
 
-  it('Should add two exercises', async () => {
-    await MainPage.clickExerciseButton();
-    await ExercisesPage.clickCreateExerciseButton();
-    await ExerciseFormPage.addExercise(pythonExerciseData);
-    await ExercisesPage.clickCreateExerciseButton();
-    await ExerciseFormPage.addExercise(cppExerciseData);
-  });
+  createExercise(pythonExerciseData);
+
+  createExercise(cppExerciseData);
 
   it('Should open admin page', async () => {
     await MainPage.goToAdminPage();
     expect(await AdminPage.exercisesToCheckTable).toBeDisplayed();
   });
 
-  it('Should accept exercise Substraction two numbers - Python', async () => {
-    await AdminPage.acceptExercise('Substraction two numbers - Python');
-    expect(
-      await $(
-        '//div[@id="checked-exercises-table-container"]//div[text()="Substraction two numbers - Python"]'
-      )
-    ).toBeDisplayed();
-  });
+  acceptExercise(pythonExerciseData);
 
-  it('Should open exercise Substraction two numbers - Python', async () => {
-    await AdminPage.clickExercise('Substraction two numbers - Python');
-    expect(await ExercisePage.exerciseTitle).toBeDisplayed();
-    expect(await ExercisePage.exerciseTitle.getText()).toBe(
-      'Substraction two numbers - Python'
-    );
-  });
+  openExercise(pythonExerciseData);
 
   it('Should delete exercise Substraction two numbers - Python', async () => {
     await ExercisePage.deleteButton.waitForDisplayed();

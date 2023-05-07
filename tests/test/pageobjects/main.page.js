@@ -25,10 +25,6 @@ class MainPage {
     );
   }
 
-  get userIcon() {
-    return $('#icon-button');
-  }
-
   async getUsernameInfo() {
     await this.usernameInfo.waitForDisplayed();
     return await this.usernameInfo.getText();

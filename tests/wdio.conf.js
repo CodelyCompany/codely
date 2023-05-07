@@ -37,7 +37,8 @@ exports.config = {
       './test/specs/exercises/exercisesPython.js',
       './test/specs/exercises/exercisesR.js',
     ],
-    Exercise: ['./test/specs/exercisesForm.js'],
+    Exercise: ['./test/specs/exercise.js'],
+    ExercisesForm: ['./test/specs/exercisesForm.js'],
     AdminPage: ['./test/specs/adminPage.js'],
     Personalization: ['./test/specs/personalization.js'],
     Statistics: ['./test/specs/statistics.js'],
@@ -72,14 +73,14 @@ exports.config = {
       // maxInstances can get overwritten per capability. So if you have an in-house Selenium
       // grid with only 5 firefox instances available you can make sure that not more than
       // 5 instances get started at a time.
-      maxInstances: 5,
+      maxInstances: 3,
       //
       browserName: 'firefox',
       // No GUI Option
       // 'moz:firefoxOptions': {
       //   args: ['-headless'],
       // },
-      acceptInsecureCerts: tru,
+      acceptInsecureCerts: e,
       // If outputDir is provided WebdriverIO can capture driver session logs
       // it is possible to configure which logTypes to include/exclude.
       // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs

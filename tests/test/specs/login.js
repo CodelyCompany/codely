@@ -1,6 +1,7 @@
 const TitlePage = require('../pageobjects/title.page');
 const LoginPage = require('../pageobjects/login.page');
 const MainPage = require('../pageobjects/main.page');
+const { logoutUser, logoutAdmin } = require('../testtemplates/helpFunctions');
 require('dotenv').config();
 
 const randomLogin =
@@ -33,10 +34,7 @@ describe('Login Test', () => {
     expect(await TitlePage.loginButton).toBeDisplayed();
   });
 
-  it('Should logout admin', async () => {
-    await MainPage.logoutAdmin();
-    expect(await TitlePage.loginButton).toBeDisplayed();
-  });
+  logoutAdmin();
 
   it('Should not register without credentials', async () => {
     await TitlePage.clickLoginButton();
@@ -61,10 +59,7 @@ describe('Login Test', () => {
     expect(await MainPage.getUsernameInfo()).toBe(randomLogin);
   });
 
-  it('Should logout user', async () => {
-    await MainPage.logout();
-    expect(await TitlePage.loginButton).toBeDisplayed();
-  });
+  logoutUser();
 
   it('Should login with valid credentials - created user', async () => {
     await TitlePage.clickLoginButton();
@@ -72,10 +67,7 @@ describe('Login Test', () => {
     expect(await MainPage.getUsernameInfo()).toBe(randomLogin);
   });
 
-  it('Should logout user', async () => {
-    await MainPage.logout();
-    expect(await TitlePage.loginButton).toBeDisplayed();
-  });
+  logoutUser();
 
   // Testy z logowaniem Google są niemożliwe, ponieważ strona Google wykrywa logowanie za pomocą Selenium i blokuje dostęp
 });

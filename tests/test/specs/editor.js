@@ -3,6 +3,7 @@ const LoginPage = require('../pageobjects/login.page');
 const MainPage = require('../pageobjects/main.page');
 const EditorPage = require('../pageobjects/editor.page.js');
 const editorData = require('../testdata/editor.json');
+const { loginAdmin } = require('../testtemplates/helpFunctions');
 
 const runCode = async (code, successful, expectedResult = null) => {
   await EditorPage.inputCode(code);
@@ -14,12 +15,7 @@ const runCode = async (code, successful, expectedResult = null) => {
 const languages = ['JavaScript', 'Python', 'Bash', 'C++', 'C', 'R', 'Java'];
 
 describe('Editor Test - open editor', () => {
-  it('Should login with valid credentials', async () => {
-    await TitlePage.open();
-    await TitlePage.clickLoginButton();
-    await LoginPage.login('admin@example.com', 'AdminAdmin123');
-    expect(await MainPage.getUsernameInfo()).toBe('admin');
-  });
+  loginAdmin();
 
   it('Should open editor', async () => {
     await MainPage.clickEditorButton();

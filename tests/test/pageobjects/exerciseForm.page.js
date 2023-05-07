@@ -101,8 +101,10 @@ class ExerciseFormPage {
     await this.inputTitle.setValue(`${exercise.title} - ${exercise.language}`);
     await this.inputDescription.setValue(exercise.description);
     await this.inputDifficult.click();
+    await $(`//li[@data-value="${exercise.difficult}"]`).waitForDisplayed();
     await $(`//li[@data-value="${exercise.difficult}"]`).click();
     await this.inputProgrammingLanguage.click();
+    await $(`//li[@data-value="${exercise.language}"]`).waitForDisplayed();
     await $(`//li[@data-value="${exercise.language}"]`).click();
     submit &&
       (await (async () => {

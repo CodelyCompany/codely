@@ -3,6 +3,7 @@ const LoginPage = require('../pageobjects/login.page');
 const MainPage = require('../pageobjects/main.page');
 const ExercisesPage = require('../pageobjects/exercises.page');
 const ExerciseFormPage = require('../pageobjects/exerciseForm.page');
+const { loginAdmin } = require('../testtemplates/helpFunctions');
 const javaScriptExerciseData = {
   title: 'Substraction two numbers',
   description: 'test description',
@@ -107,12 +108,7 @@ const checkFourthForm = async (exercise) => {
 };
 
 describe('Exercises Form Test', () => {
-  it('Should login with valid credentials', async () => {
-    await TitlePage.open();
-    await TitlePage.clickLoginButton();
-    await LoginPage.login('admin@example.com', 'AdminAdmin123');
-    expect(await MainPage.getUsernameInfo()).toBe('admin');
-  });
+  loginAdmin();
 
   it('Should open exercise tab', async () => {
     await MainPage.clickExerciseButton();
@@ -236,7 +232,7 @@ describe('Exercises Form Test', () => {
     await ExerciseFormPage.completeFifthExerciseForm(javaExerciseData);
   });
 
-  it('Should submit java exercise', async () => {
+  it('Should submit Java exercise', async () => {
     await ExerciseFormPage.completeFifthExerciseForm(javaExerciseData, true);
     expect(await ExercisesPage.createExerciseButton).toBeDisplayed();
   });
