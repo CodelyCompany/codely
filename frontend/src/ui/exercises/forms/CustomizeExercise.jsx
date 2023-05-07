@@ -100,7 +100,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
   const argumentSchema = yup
     .string()
     .required()
-    .matches(/^[a-zA-Z0-9]*[a-z][a-zA-Z0-9]*$/)
+    .matches(/^[a-zA-Z0-9]*[a-z]\[*\]*[a-zA-Z0-9]*$/)
     .uniqueIn(argumentsName);
 
   const typesSchema = yup
@@ -115,7 +115,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
           .string(t('Enter all arguments name'))
           .required(t('All arguments are required'))
           .matches(
-            /^[a-zA-Z0-9]*[a-z][a-zA-Z0-9]*$/,
+            /^[a-zA-Z0-9]*[a-z]\[*\]*[a-zA-Z0-9]*$/,
             t('Arguments name should consist only of letters and numbers')
           )
       )
