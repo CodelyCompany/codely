@@ -1,6 +1,12 @@
 {
   "JavaScript": [
     {
+      "title": "Should fail - maximum call stack exceeded",
+      "code": "(function infiniteRecursion() {return infiniteRecursion()})()",
+      "successful": false,
+      "expectedResult": null
+    },
+    {
       "title": "Should run code successful",
       "code": "console.log(\"TEST\");",
       "successful": true,
@@ -17,6 +23,18 @@
       "code": "console.log(\"T\"))",
       "successful": false,
       "expectedResult": null
+    },
+    {
+      "title": "Should fail - timeout",
+      "code": "setTimeout(() => console.log(\"test timeout\"), 6000)",
+      "successful": false,
+      "expectedResult": "Timeout!"
+    },
+    {
+      "title": "Should fail - fetch data",
+      "code": "fetch('https://fakestoreapi.com/products/1').then(response => response.json()).then(data => console.log(data));",
+      "successful": false,
+      "expectedResult": "Timeout!"
     }
   ],
   "Python": [
