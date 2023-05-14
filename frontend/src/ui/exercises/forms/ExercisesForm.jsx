@@ -10,7 +10,8 @@ import useTheme from 'helpers/useTheme';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import * as yup from 'yup';
+import { exerciseFormValidation }
+  from 'ui/exercises/forms/validationSchemes/exerciseFormValidation';
 
 const ExercisesForm = ({ setStep, dataToEdit, step }) => {
   const { t } = useTranslation();
@@ -29,26 +30,8 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
     theme: 0,
   };
   const { color } = useTheme();
-
-  const validationSchema = yup.object({
-    title: yup
-      .string(t('Enter a title'))
-      .min(3, t('Title should be of minimum 3 characters length'))
-      .max(50, t('Title should be of maximum 50 characters length'))
-      .required(t('Title is required')),
-    description: yup
-      .string(t('Enter a description'))
-      .max(5000, t('Description should be of maximum 5000 characters length'))
-      .required(t('Description is required')),
-    difficulty: yup
-      .number(t('Enter a difficulty level'))
-      .min(1, t('The minimum difficulty level is 1'))
-      .max(5, t('The maximum difficulty level is 5'))
-      .required(t('Difficulty level is required')),
-    programmingLanguage: yup
-      .string(t('Enter a programming language'))
-      .required(t('Programming language is required')),
-  });
+  const elementsColor = color.split('.')[0];
+  const validation = exerciseFormValidation(t);
 
   const formik = useFormik({
     initialValues: {
@@ -62,7 +45,7 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
         dataToEdit?.programmingLanguage ||
         '',
     },
-    validationSchema,
+    validationSchema: validation.exerciseValidationSchema,
     onSubmit: (values) => {
       setStep((prev) => ({
         ...prev,
@@ -76,7 +59,7 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
     <Box id='exercise-form-wrapper'>
       <form onSubmit={formik.handleSubmit}>
         <TextField
-          color={color.split('.')[0]}
+          color={elementsColor}
           sx={{ input: { color } }}
           focused={true}
           id='title'
@@ -88,7 +71,7 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
           helperText={formik.touched.title && formik.errors.title}
         />
         <TextField
-          color={color.split('.')[0]}
+          color={elementsColor}
           sx={{ input: { color } }}
           focused={true}
           id='description'
@@ -103,7 +86,7 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
         />
         <TextField
           className={`dropdown-${foundUser.theme}`}
-          color={color.split('.')[0]}
+          color={elementsColor}
           focused={true}
           id={`difficulty-${foundUser.theme}`}
           name='difficulty'
@@ -121,7 +104,7 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
           ))}
         </TextField>
         <TextField
-          color={color.split('.')[0]}
+          color={elementsColor}
           focused={true}
           id={`programmingLanguage-${foundUser.theme}`}
           name='programmingLanguage'
@@ -139,13 +122,13 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
           }
         >
           {programmingLanguages.map((option) => (
-            <MenuItem color={color.split('.')[0]} key={option} value={option}>
+            <MenuItem color={elementsColor} key={option} value={option}>
               {option}
             </MenuItem>
           ))}
         </TextField>
 
-        <Button color={color.split('.')[0]} variant='contained' type='submit'>
+        <Button color={elementsColor} variant='contained' type='submit'>
           {t('Next')}
         </Button>
       </form>
