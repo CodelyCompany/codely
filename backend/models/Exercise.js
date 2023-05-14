@@ -3,7 +3,6 @@ const { Schema, model } = require('mongoose');
 const exerciseSchema = new Schema({
   title: {
     type: String,
-    required: true,
     minlength: 3,
     maxlength: 50,
     unique: true,
@@ -15,7 +14,6 @@ const exerciseSchema = new Schema({
   author: { type: Schema.Types.ObjectId, ref: 'User' },
   programmingLanguage: {
     type: String,
-    required: true,
     maxlength: 50,
   },
   doneCounter: { type: Number, default: 0 },
@@ -26,7 +24,8 @@ const exerciseSchema = new Schema({
   checked: { type: Boolean, default: false },
   argumentsName: [{ type: String }],
   types: [{ type: String }],
-  functionSignature: { type: String, required: true },
+  functionSignature: { type: String },
+  step: [{ type: Number, default: 1 }], // steps: [1, 2, 3, 4, 5, 6], 6 means that exercise is created
 });
 
 module.exports = model('Exercise', exerciseSchema);

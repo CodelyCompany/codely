@@ -168,6 +168,16 @@ router.post('/addExercise', async (req, res) => {
   }
 });
 
+router.post('/empty', async (req, res) => {
+  try {
+    const emptyExercise = new Exercise();
+    const savedExercise = await emptyExercise.save();
+    return res.status(201).send(savedExercise);
+  } catch (err) {
+    return res.status(500).send(err);
+  }
+});
+
 router.post('/checkBeforeAddExercise', async (req, res) => {
   try {
     const data = req.body;
