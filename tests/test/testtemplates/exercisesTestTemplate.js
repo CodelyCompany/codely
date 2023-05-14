@@ -29,7 +29,7 @@ module.exports = (language) => {
 
     for (const exercise of exercisesData) {
       it(`Should add exercise - ${exercise.title} - ${exercise.language}`, async () => {
-        await ExerciseFormPage.addExercise(exercise);
+        await ExerciseFormPage.completeExerciseForm(exercise);
         await ExercisesPage.clickCreateExerciseButton();
         await ExerciseFormPage.inputTitle.waitForDisplayed();
         expect(await ExerciseFormPage.inputTitle).toBeDisplayed();

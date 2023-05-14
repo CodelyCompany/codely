@@ -103,6 +103,7 @@ class ExerciseFormPage {
     await this.inputDifficult.click();
     await $(`//li[@data-value="${exercise.difficult}"]`).waitForDisplayed();
     await $(`//li[@data-value="${exercise.difficult}"]`).click();
+    await this.inputProgrammingLanguage.waitForClickable();
     await this.inputProgrammingLanguage.click();
     await $(`//li[@data-value="${exercise.language}"]`).waitForDisplayed();
     await $(`//li[@data-value="${exercise.language}"]`).click();
@@ -191,9 +192,11 @@ class ExerciseFormPage {
         await this.snackbar.waitForDisplayed({ reverse: true });
         await this.checkExerciseButton.click();
       })());
+    await this.snackbar.waitForDisplayed();
+    await this.snackbar.waitForDisplayed({ reverse: true });
   }
 
-  async addExercise(exercise) {
+  async completeExerciseForm(exercise) {
     // First stage - main info
     await this.completeFirstExerciseForm(exercise, true);
     // Second stage - function data
@@ -207,22 +210,22 @@ class ExerciseFormPage {
   }
 
   async clickCancelButtonSecond() {
-    await this.cancelButtonSecond.waitForDisplayed();
+    await this.cancelButtonSecond.waitForClickable();
     await this.cancelButtonSecond.click();
   }
 
   async clickCancelButtonThird() {
-    await this.cancelButtonThird.waitForDisplayed();
+    await this.cancelButtonThird.waitForClickable();
     await this.cancelButtonThird.click();
   }
 
   async clickCancelButtonFourth() {
-    await this.cancelButtonFourth.waitForDisplayed();
+    await this.cancelButtonFourth.waitForClickable();
     await this.cancelButtonFourth.click();
   }
 
   async clickCancelButtonFifth() {
-    await this.cancelButtonFifth.waitForDisplayed();
+    await this.cancelButtonFifth.waitForClickable();
     await this.cancelButtonFifth.click();
   }
 

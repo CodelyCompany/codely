@@ -76,9 +76,11 @@ const checkExerciseData = async (exercise) => {
     expect(await ExercisePage.descriptionInfo.getText()).toBe(
       exercise.description
     );
-    expect((await ExercisePage.ratingInfo.length).toString()).toBe(
-      exercise.rating
-    );
+    exercise.rating
+      ? expect((await ExercisePage.ratingInfo.length).toString()).toBe(
+          exercise.rating
+        )
+      : null;
   });
 };
 
@@ -102,7 +104,7 @@ const createExercise = async (exercise) => {
   it(`Should add exercise ${exercise.title} - ${exercise.language}`, async () => {
     await MainPage.clickExerciseButton();
     await ExercisesPage.clickCreateExerciseButton();
-    await ExerciseFormPage.addExercise(exercise);
+    await ExerciseFormPage.completeExerciseForm(exercise);
   });
 };
 

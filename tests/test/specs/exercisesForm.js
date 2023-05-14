@@ -21,7 +21,7 @@ const javaScriptExerciseData = {
   outputValues: ['2', '3', '0'],
   hintsQuantity: '2',
   hints: ['hint 1', 'hint 2'],
-  exampleSolution: 'const sub=(a,b)=>{\nreturn a-b',
+  exampleSolution: 'const sub=(a,b)=>{\nreturn a-b;',
 };
 const javaExerciseData = {
   title: 'Multiply two numbers',
@@ -193,7 +193,6 @@ describe('Exercises Form Test', () => {
     await ExerciseFormPage.clickCancelButtonFourth();
     await ExerciseFormPage.clickCancelButtonThird();
     await ExerciseFormPage.clickCancelButtonSecond();
-    await ExerciseFormPage.inputTitle.waitForDisplayed();
     expect(await ExerciseFormPage.inputTitle).toBeDisplayed();
   });
 

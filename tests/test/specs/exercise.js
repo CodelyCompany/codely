@@ -61,7 +61,7 @@ const rExerciseData = {
   outputValues: ['6', '1', '9'],
   hintsQuantity: '2',
   hints: ['hint 1 - new', 'hint 2 - new'],
-  exampleSolution: 'multiply <- function(x,y){\nreturn(x*',
+  exampleSolution: 'multiply <- function(x,y){\nreturn(x*y)',
 };
 const { login: randomLogin, email: randomEmail } = generateRandomUserData();
 const data = process.env;
@@ -99,7 +99,7 @@ describe('Exercise Test', () => {
   it('Should edit exercise data', async () => {
     await ExercisePage.editButton.waitForDisplayed();
     await ExercisePage.editButton.click();
-    await ExerciseFormPage.addExercise(rExerciseData);
+    await ExerciseFormPage.completeExerciseForm(rExerciseData);
   });
 
   it('Should open admin page', async () => {
