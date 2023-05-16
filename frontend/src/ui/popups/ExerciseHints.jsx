@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 
 import HelpIcon from '@mui/icons-material/Help';
 import {
@@ -10,6 +10,7 @@ import {
   DialogTitle,
 } from '@mui/material';
 import { getExerciseById } from 'ducks/exercises/selectors';
+import useTheme from 'helpers/useTheme';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -17,13 +18,7 @@ import { useParams } from 'react-router-dom';
 function ExerciseHints() {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { color } = useTheme();
   const { id } = useParams();
 
   const exercise = useSelector(getExerciseById(id));
@@ -43,17 +38,10 @@ function ExerciseHints() {
   const [hintNumber, setHintNumber] = useState(0);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-      }}
-    >
+    <div id='hints-container'>
       <HelpIcon
-        sx={{
-          curosor: 'pointer',
-          color,
-        }}
+        id='help-icon'
+        sx={{ color }}
         fontSize='large'
         onClick={handleClickOpen}
       />
@@ -67,10 +55,7 @@ function ExerciseHints() {
           {`${t('Hint:')} ${hintNumber + 1} / ${exercise.hints.length}`}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText
-            id='alert-dialog-description'
-            sx={{ minWidth: '400px' }}
-          >
+          <DialogContentText id='alert-dialog-description'>
             {exercise.hints[hintNumber]}
           </DialogContentText>
         </DialogContent>

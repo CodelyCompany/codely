@@ -1,10 +1,12 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useEffect } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Container, Typography } from '@mui/material';
 import { GetUsers } from 'ducks/user/operations';
 import { getUserByUsername } from 'ducks/user/selectors';
+import usePageTitle from 'helpers/usePageTitle';
+import useTheme from 'helpers/useTheme';
 import useToken from 'helpers/useToken';
 import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
@@ -16,17 +18,15 @@ import UserExercisesList from 'ui/user/UserExercisesList';
 import VersusResults from 'ui/user/VersusResults';
 import WrittenReviews from 'ui/user/WrittenReviews';
 
+import Pages from 'consts/pages';
+
 const UserDetails = ({ GetUsers }) => {
   const { t } = useTranslation();
   const { user } = useAuth0();
   const { token } = useToken();
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { color } = useTheme();
+  usePageTitle(Pages.USER_PANEL);
+
   useEffect(() => {
     GetUsers(token);
   }, [token]);
@@ -34,26 +34,11 @@ const UserDetails = ({ GetUsers }) => {
   const foundUser = useSelector(getUserByUsername(user.nickname));
 
   return (
-    <Container sx={{ height: '100%' }}>
+    <Container id='user-details-container'>
       {foundUser && (
-        <Box sx={{ margin: '20px' }}>
-          <Box
-            id='registered-since-info'
-            sx={{
-              borderColor: color,
-              borderBottom: '3px solid',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'end',
-            }}
-          >
-            <Typography
-              variant='h2'
-              sx={{
-                fontWeight: 'bolder',
-                color,
-              }}
-            >
+        <Box id='user-details-wrapper'>
+          <Box id='registered-since-info' sx={{ borderColor: color }}>
+            <Typography variant='h2' sx={{ color }}>
               {foundUser.username}
             </Typography>
             <Typography sx={{ color }} variant='h6'>

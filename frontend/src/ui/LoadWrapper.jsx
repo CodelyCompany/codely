@@ -23,15 +23,7 @@ const LoadWrapper = ({ children }) => {
   usePopups();
 
   return isLoading ? (
-    <Container
-      sx={{
-        textAlign: 'center',
-        justifyContent: 'center',
-        height: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-      }}
-    >
+    <Container id='loading-wrapper'>
       <ProgressBar
         height='200px'
         width='200px'

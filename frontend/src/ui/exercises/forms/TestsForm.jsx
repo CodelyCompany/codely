@@ -1,9 +1,10 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, MenuItem } from '@mui/material';
 import { Button, TextField } from '@mui/material';
 import { getUserByUsername } from 'ducks/user/selectors';
+import useTheme from 'helpers/useTheme';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -11,13 +12,7 @@ import * as yup from 'yup';
 
 const TestsForm = ({ setStep, dataToEdit, step }) => {
   const { t } = useTranslation();
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { color } = useTheme();
   const [testsQuantity, setTestsQuantity] = useState('');
   const [tests, setTests] = useState([]);
   const [triggered, setTriggered] = useState(false);
@@ -149,30 +144,12 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
   }, [testsQuantity]);
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        textAlign: 'start',
-      }}
-    >
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: '100%',
-        }}
-      >
+    <Box id='tests-form-container'>
+      <Box id='tests-quantity-wrapper'>
         <TextField
           color={color.split('.')[0]}
           focused
-          sx={{
-            marginBottom: '10px',
-            width: '900px',
-            color,
-          }}
+          sx={{ color }}
           id={`testsQuantity-${foundUser.theme}`}
           name='testsQuantity'
           label={t('Choose tests quantity')}
@@ -187,17 +164,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
           ))}
         </TextField>
       </Box>
-      <form
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          flexDirection: 'column',
-          alignItems: 'center',
-          width: '100%',
-          maxWidth: '900px',
-          margin: '10px',
-        }}
-      >
+      <form>
         {testsQuantity !== '' &&
           [...Array(testsQuantity).keys()].map((number, index) => {
             const outputLabel =
@@ -207,16 +174,8 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
                   }
                 : {};
             return (
-              <Box
-                key={number}
-                style={{
-                  width: '100%',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  marginBottom: '10px',
-                }}
-              >
-                <Box sx={{ display: 'flex', marginRight: '10px' }}>
+              <Box key={number}>
+                <Box>
                   {[...Array(step.dataFromStep2.argumentsQuantity).keys()].map(
                     (argNumber) => {
                       const label =
@@ -284,7 +243,6 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
         <Button
           color={color.split('.')[0]}
           fullWidth
-          sx={{ marginBottom: '10px' }}
           type='button'
           onClick={() => goToPreviousStage()}
           variant='contained'

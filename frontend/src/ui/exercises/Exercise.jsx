@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import StarIcon from '@mui/icons-material/Star';
 import Card from '@mui/material/Card';
@@ -6,12 +6,12 @@ import CardContent from '@mui/material/CardContent';
 import Rating from '@mui/material/Rating';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
+import useTheme from 'helpers/useTheme';
 import PropTypes from 'prop-types';
-import { DiJsBadge } from 'react-icons/di';
-import { DiLinux } from 'react-icons/di';
-import { FaJava, FaPython } from 'react-icons/fa';
-import { SiC, SiCplusplus, SiR } from 'react-icons/si';
 import { useNavigate } from 'react-router-dom';
+
+import languagesWithIcons from 'consts/languagesWithIcons';
+import ProgrammingLanguage from 'consts/programmingLanguage';
 
 const StyledRating = styled(Rating)({
   '& .MuiRating-iconFilled': {
@@ -23,110 +23,42 @@ const StyledRating = styled(Rating)({
 });
 
 const Exercise = ({ exercise }) => {
-  const style = {
-    marginRight: '5px',
-    fontSize: '40px',
-    position: 'relative',
-    top: '15px',
-  };
-
-  const languagesWithIcons = [
-    {
-      lang: 'JavaScript',
-      icon: <DiJsBadge style={style} />,
-    },
-    {
-      lang: 'Bash',
-      icon: <DiLinux style={style} />,
-    },
-    {
-      lang: 'C',
-      icon: <SiC style={style} />,
-    },
-    {
-      lang: 'C++',
-      icon: <SiCplusplus style={style} />,
-    },
-    {
-      lang: 'Java',
-      icon: <FaJava style={style} />,
-    },
-    {
-      lang: 'Python',
-      icon: <FaPython style={style} />,
-    },
-    {
-      lang: 'R',
-      icon: <SiR style={style} />,
-    },
-  ];
-
   const navigate = useNavigate();
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { color } = useTheme();
+  const exerciseLanguage =
+    ProgrammingLanguage[exercise?.programmingLanguage.toUpperCase()];
+  const exerciseIcon = languagesWithIcons[exerciseLanguage];
+
   return (
     <Card
       onClick={() => navigate(`/Exercise/${exercise._id}`)}
-      sx={{
-        backgroundColor: color,
-        width: '100%',
-        cursor: 'pointer',
-        marginTop: '10px',
-        '&:hover': { transform: 'scale(1.05)' },
-      }}
+      id='exercise-container'
+      sx={{ backgroundColor: color }}
     >
-      <CardContent sx={{ position: 'relative' }}>
+      <CardContent id='card-content-1'>
         <StyledRating
-          sx={{ position: 'absolute' }}
+          id='rating'
           readOnly
           defaultValue={exercise.difficulty}
           precision={0.5}
           icon={<StarIcon fontSize='inherit' />}
           emptyIcon={<StarIcon fontSize='inherit' />}
         />
-        <Typography
-          sx={{
-            fontWeight: 'bolder',
-            textAlign: 'center',
-            borderBottom: '1px solid white',
-          }}
-          variant='h4'
-          color='white'
-        >
+        <Typography id='rating-typography' variant='h4'>
           {exercise.title}
         </Typography>
-        <Typography sx={{ fontWeight: 'bolder' }} variant='h6' color='white'>
+        <Typography id='author-typography' variant='h6'>
           {exercise.author.username}
         </Typography>
       </CardContent>
-      <CardContent>
-        <Typography
-          sx={{ fontWeight: 'bolder', position: 'relative', bottom: '20px' }}
-          variant='body2'
-          color='white'
-        >
-          {
-            languagesWithIcons.find(
-              (el) => el.lang === exercise.programmingLanguage
-            ).icon
-          }{' '}
-          {exercise.programmingLanguage}
+      <CardContent id='card-content-2'>
+        <Typography id='languages-typography' variant='body2'>
+          {exerciseIcon}
+          {exerciseLanguage}
         </Typography>
       </CardContent>
-      <CardContent>
-        <Typography
-          color='white'
-          sx={{
-            textOverflow: 'ellipsis',
-            overflow: 'hidden',
-            whiteSpace: 'nowrap',
-          }}
-        >
+      <CardContent id='card-content-3'>
+        <Typography id='card-content-typography'>
           {exercise.description}
         </Typography>
       </CardContent>

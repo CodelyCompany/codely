@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { useEffect } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
@@ -7,6 +7,8 @@ import { getToken } from 'ducks/token/selectors';
 import { UpdateUser } from 'ducks/user/operations';
 import { UploadAvatar } from 'ducks/user/operations';
 import { getUserByUsername } from 'ducks/user/selectors';
+import usePageTitle from 'helpers/usePageTitle';
+import useTheme from 'helpers/useTheme';
 import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -14,20 +16,17 @@ import { connect, useSelector } from 'react-redux';
 import SetLanguage from 'ui/user/user_settings/SetLanguage';
 import UploadDialog from 'ui/user/user_settings/UploadDialog';
 
+import Pages from 'consts/pages';
+
 const Settings = ({ UpdateUser, UploadAvatar, token }) => {
   const { t } = useTranslation();
   const [color, setColor] = useState(0);
   const [image, setImage] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const { user } = useAuth0();
-  const colorOpt = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary'
-        : 'primary',
-    [localStorage.getItem('theme')]
-  );
+  const { theme } = useTheme();
   const foundUser = useSelector(getUserByUsername(user.nickname));
+  usePageTitle(Pages.SETTINGS);
 
   useEffect(() => {
     if (!_.isEmpty(user)) {
@@ -59,110 +58,71 @@ const Settings = ({ UpdateUser, UploadAvatar, token }) => {
   };
 
   return (
-    <Container sx={{ marginTop: '20px' }}>
+    <Container id='settings-container'>
       <UploadDialog
         open={dialogOpen}
         handleAbort={handleUploadAbort}
         handleUpload={handleImageUpload}
       />
-      <Box padding='20px'>
-        <Typography color={colorOpt} variant='h5' fontWeight='bolder'>
+      <Box id='upload-avatar'>
+        <Typography id='upload-avatar-typography' color={theme} variant='h5'>
           {t('Upload your avatar')}
         </Typography>
-        <Button variant='contained' color={colorOpt} component='label'>
+        <Button variant='contained' color={theme} component='label'>
           {t('Choose file (.png)')}
           <input type='file' hidden onChange={handleNewImage} />
         </Button>
       </Box>
-      <Box padding='20px' color={colorOpt} borderTop='3px solid'>
-        <Typography color={colorOpt} variant='h5' fontWeight='bolder'>
+      <Box id='set-language' color={theme}>
+        <Typography id='set-language-typography' color={theme} variant='h5'>
           {t('Set your language')}
         </Typography>
         <SetLanguage />
       </Box>
-      <Box padding='20px' color={colorOpt} borderTop='3px solid'>
-        <Typography color={colorOpt} variant='h5' fontWeight='bolder'>
+      <Box className='theme-container' color={theme}>
+        <Typography id='set-theme' color={theme} variant='h5'>
           {t('Set your theme')}
         </Typography>
-        <Box sx={{ display: 'flex' }}>
+        <Box className='theme-option-picker'>
           <Checkbox
-            color={colorOpt}
+            color={theme}
             value={0}
             checked={color === 0}
             onChange={changeColor}
             name='color-0'
-            sx={{ position: 'relative', bottom: '9px' }}
           />
-          <Typography fontWeight='bolder'>{t('White & Magenta')}</Typography>
-          <div style={{ height: '20px', width: '20px', marginLeft: '10px' }}>
-            <Box
-              sx={{
-                height: '50%',
-                backgroundColor: '#9a2150',
-                borderRadius: '5px 5px 0 0',
-              }}
-            ></Box>
-            <Box
-              sx={{
-                height: '50%',
-                backgroundColor: 'white',
-                borderRadius: '0 0 5px 5px',
-              }}
-            ></Box>
+          <Typography>{t('White & Magenta')}</Typography>
+          <div>
+            <Box className='magenta-option' />
+            <Box className='white-option' />
           </div>
         </Box>
-        <Box sx={{ display: 'flex' }}>
+        <Box className='theme-option-picker'>
           <Checkbox
-            color={colorOpt}
+            color={theme}
             value={1}
             name='color-1'
             checked={color === 1}
             onChange={changeColor}
-            sx={{ position: 'relative', bottom: '9px' }}
           />
-          <Typography fontWeight='bolder'>{t('Black & Magenta')}</Typography>
-          <div style={{ height: '20px', width: '20px', marginLeft: '10px' }}>
-            <Box
-              sx={{
-                height: '50%',
-                backgroundColor: '#9a2150',
-                borderRadius: '5px 5px 0 0',
-              }}
-            ></Box>
-            <Box
-              sx={{
-                height: '50%',
-                backgroundColor: 'rgb(89, 89, 88)',
-                borderRadius: '0 0 5px 5px',
-              }}
-            ></Box>{' '}
+          <Typography>{t('Black & Magenta')}</Typography>
+          <div>
+            <Box className='magenta-option' />
+            <Box className='black-option' />
           </div>
         </Box>
-        <Box sx={{ display: 'flex' }}>
+        <Box className='theme-option-picker'>
           <Checkbox
-            color={colorOpt}
+            color={theme}
             value={2}
             name='color-2'
             checked={color === 2}
             onChange={changeColor}
-            sx={{ position: 'relative', bottom: '9px' }}
           />
-          <Typography fontWeight='bolder'>{t('White & Blue')}</Typography>
-          <div style={{ height: '20px', width: '20px', marginLeft: '10px' }}>
-            <Box
-              sx={{
-                height: '50%',
-                backgroundColor: 'rgb(25, 118, 210)',
-                borderRadius: '5px 5px 0 0',
-              }}
-            ></Box>
-            <Box
-              sx={{
-                height: '50%',
-                backgroundColor: 'white',
-                borderRadius: '0 0 5px 5px',
-              }}
-            ></Box>
+          <Typography>{t('White & Blue')}</Typography>
+          <div>
+            <Box className='blue-option' />
+            <Box className='white-option' />
           </div>
         </Box>
       </Box>

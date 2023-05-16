@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import LabelImportantIcon from '@mui/icons-material/LabelImportant';
@@ -8,6 +8,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { getUserByUsername } from 'ducks/user/selectors';
+import useTheme from 'helpers/useTheme';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -17,13 +18,7 @@ import PreparedExercisesChart from 'ui/user/PreparedExercisesChart';
 
 function UserExercisesList({ exercises, mode }) {
   const { t } = useTranslation();
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { color } = useTheme();
   const navigate = useNavigate();
   const { user } = useAuth0();
   const foundUser = useSelector(getUserByUsername(user.nickname));
@@ -40,7 +35,7 @@ function UserExercisesList({ exercises, mode }) {
             sx={{ color }}
             primary={
               <div>
-                <LabelImportantIcon sx={{ position: 'relative', top: '6px' }} />{' '}
+                <LabelImportantIcon id='label-icon' />
                 {exercises[index].title}
               </div>
             }
@@ -52,18 +47,10 @@ function UserExercisesList({ exercises, mode }) {
 
   return (
     <Box
-      className={`theme-${foundUser.theme}`}
-      sx={{
-        width: '100%',
-        height: '100%',
-        bgcolor: 'background.paper',
-        borderColor: color,
-        borderBottom: '3px solid',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
+      className={`theme-${foundUser.theme} user-exercises-list`}
+      sx={{ bgcolor: 'background.paper', borderColor: color }}
     >
-      <Typography variant='h6' sx={{ fontWeight: 'bolder', color }}>
+      <Typography variant='h6' sx={{ color }}>
         {mode === 'prepared'
           ? t('Your prepared exercises:')
           : t('Done exercises:')}

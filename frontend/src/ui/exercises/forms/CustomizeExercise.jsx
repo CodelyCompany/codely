@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { Box, Button, MenuItem, TextField } from '@mui/material';
 import { useFormik } from 'formik';
+import useTheme from 'helpers/useTheme';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import CustomTypes from 'ui/exercises/forms/CustomTypes';
@@ -16,21 +17,15 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
   const [types, setTypes] = useState([]);
   const [open, setOpen] = useState(false);
   const [customTypes, setCustomTypes] = useState([]);
+  const { color } = useTheme();
+
   const additionalOption = t('Other types / Custom types');
   const languagesWithTypes = ['Java', 'C++', 'C'];
+
   const formWithTypes = useMemo(
     () => languagesWithTypes.includes(step.dataFromStep1?.programmingLanguage),
     [step.dataFromStep1]
   );
-
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
-
   const dropdownOptions = useMemo(
     () => getDataTypes(step.dataFromStep1?.programmingLanguage || 'java'),
     [step.dataFromStep1]
@@ -224,31 +219,19 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
   };
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+    <Box id='customize-exercise-container'>
       <CustomTypes
         open={open}
         setOpen={setOpen}
         setCustomTypes={setCustomTypes}
       />
-      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-        <form
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            maxWidth: '900px',
-          }}
-          onSubmit={formik.handleSubmit}
-        >
+      <Box id='customize-exercise-wrapper'>
+        <form id='customize-exercise-form' onSubmit={formik.handleSubmit}>
           <TextField
+            className='customize-exercise-field'
             color={color.split('.')[0]}
             focused
-            sx={{
-              width: '100%',
-              color,
-              marginBottom: '10px',
-              input: { color },
-            }}
+            sx={{ color, input: { color } }}
             id='functionName'
             name='functionName'
             label={t('Function name')}
@@ -264,7 +247,8 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
           <TextField
             color={color.split('.')[0]}
             focused
-            sx={{ marginBottom: '10px', input: { color } }}
+            className='customize-exercise-field'
+            sx={{ input: { color } }}
             type='number'
             id='argumentsQuantity'
             name='argumentsQuantity'
@@ -287,10 +271,10 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                 (argNumber) => (
                   <Box key={argNumber}>
                     <TextField
+                      className='customize-exercise-field-2'
                       color={color.split('.')[0]}
                       focused
                       sx={{
-                        marginTop: '10px',
                         width: `${formWithTypes ? 'calc(50% - 5px)' : '100%'}`,
                         marginRight: `${formWithTypes ? '5px' : '0'}`,
                         input: { color },
@@ -314,10 +298,10 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                     />
                     {formWithTypes && (
                       <TextField
+                        className='customize-exercise-field-2'
                         color={color.split('.')[0]}
                         select
                         sx={{
-                          marginTop: '10px',
                           width: `${
                             formWithTypes ? 'calc(50% - 5px)' : '100%'
                           }`,
@@ -353,12 +337,12 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
             : ''}
           {formWithTypes && (
             <TextField
+              className='customize-exercise-field-2'
               color={color.split('.')[0]}
               select
               fullWidth
               label={t(`Output type`)}
               value={types[formik.values.argumentsQuantity] || ''}
-              sx={{ marginTop: '10px' }}
               onChange={(e) =>
                 setType(formik.values.argumentsQuantity, e.target.value)
               }
@@ -385,12 +369,12 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
               )}
             </TextField>
           )}
-          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Box id='buttons-wrapper'>
             <Button
+              id='customize-exercise-button'
               color={color.split('.')[0]}
               variant='contained'
               onClick={prev}
-              sx={{ margin: '10px 0' }}
             >
               {t('Previous')}
             </Button>

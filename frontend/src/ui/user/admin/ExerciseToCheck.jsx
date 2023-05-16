@@ -13,6 +13,8 @@ import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 import ExerciseDialog from 'ui/user/admin/ExerciseDialog';
 
+import useTheme from '../../../helpers/useTheme';
+
 const useStyles = makeStyles({
   root: {
     '&.MuiDataGrid-root .MuiDataGrid-cell:focus': {
@@ -47,13 +49,7 @@ function ExerciseToCheck({ uncheckedExercises, GetUncheckedExercises, token }) {
 
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState({});
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { color } = useTheme();
   const handleClickOpen = (ex) => {
     setSelected(ex.row);
     setOpen(true);
@@ -68,29 +64,19 @@ function ExerciseToCheck({ uncheckedExercises, GetUncheckedExercises, token }) {
   return (
     <>
       <Card
+        id='exercises-to-check-table-container'
         className={`theme-${foundUser?.theme}`}
-        sx={{
-          height: '500px',
-          width: '50%',
-          margin: '10px',
-          padding: '10px',
-        }}
       >
         <Typography
+          id='exercises-to-check-typography'
           variant='h6'
-          sx={{ fontWeight: 'bolder', textAlign: 'center', color }}
+          sx={{ color }}
         >
           {t('Exercises to check')}
         </Typography>
         <DataGrid
-          className={classes.root}
-          sx={{
-            borderColor: color,
-            width: 'calc(100% - 20px)',
-            height: '400px',
-            margin: '10px',
-            color,
-          }}
+          className={`${classes.root} exercises-to-check-table`}
+          sx={{ borderColor: color, color }}
           getRowId={(row) => row._id}
           rows={rows.map((row) => ({
             ...row,

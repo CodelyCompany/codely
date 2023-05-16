@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import {
   Box,
@@ -7,41 +7,24 @@ import {
   Paper,
   Typography,
 } from '@mui/material';
+import useTheme from 'helpers/useTheme';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 const ChooseExerciseLang = ({ formik }) => {
   const languages = ['JavaScript', 'Bash', 'C', 'C++', 'Java', 'Python', 'R'];
-
   const { t } = useTranslation();
-
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary'
-        : 'primary',
-    [localStorage.getItem('theme')]
-  );
+  const { color } = useTheme();
 
   return (
     <Paper
+      id='choose-versus-lang'
       elevation={3}
-      sx={{
-        padding: '10px',
-        margin: '10px 0',
-        backgroundColor: `${color}.main`,
-      }}
+      sx={{ backgroundColor: color }}
     >
-      <Typography variant='h6' color='white' fontWeight={'bolder'}>
-        {t('Pick your languages')}
-      </Typography>
+      <Typography variant='h6'>{t('Pick your languages')}</Typography>
       <form>
-        <Box
-          color={color}
-          role='group'
-          aria-labelledby='checkbox-group'
-          style={{ color: 'white' }}
-        >
+        <Box color={color} role='group' aria-labelledby='checkbox-group'>
           {languages.map((el) => (
             <FormControlLabel
               key={el}
@@ -61,7 +44,7 @@ const ChooseExerciseLang = ({ formik }) => {
             />
           ))}
         </Box>
-        <Typography fontWeight={'bolder'} color='error'>
+        <Typography color='error'>
           {formik.errors && formik.errors.checked}
         </Typography>
       </form>

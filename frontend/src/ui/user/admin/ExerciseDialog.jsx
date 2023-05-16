@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import Editor from '@monaco-editor/react';
@@ -19,11 +19,13 @@ import {
 } from 'ducks/exercises/operations';
 import { AddNotification } from 'ducks/notifications/operations';
 import { getUserByUsername, getUsers } from 'ducks/user/selectors';
+import useTheme from 'helpers/useTheme';
 import useToken from 'helpers/useToken';
 import _ from 'lodash';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
+
 function ExerciseDialog({
   open,
   setOpen,
@@ -45,13 +47,7 @@ function ExerciseDialog({
     CheckExercise(exercise._id, token);
     handleClose();
   };
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { color, theme } = useTheme();
   const handleClose = () => {
     setOpen(false);
   };
@@ -82,6 +78,7 @@ function ExerciseDialog({
     <div>
       {!_.isEmpty(exercise) && (
         <Dialog
+          id='exercise-dialog'
           fullWidth
           open={open}
           onClose={handleClose}
@@ -89,13 +86,7 @@ function ExerciseDialog({
           aria-describedby='alert-dialog-description'
         >
           <DialogTitle
-            fontWeight={'bolder'}
-            sx={{
-              borderColor: color,
-              borderBottom: '3px solid',
-              margin: '0 10px 10px 10px',
-              color,
-            }}
+            sx={{ borderColor: color, color }}
             id='alert-dialog-title'
           >
             {t(`Checking exercise`)}
@@ -121,10 +112,7 @@ function ExerciseDialog({
             <DialogContentText sx={{ color }} id='alert-dialog-description'>
               <strong>{t('Difficulty')}:</strong> {exercise.difficulty} / 5
             </DialogContentText>
-            <div
-              id='alert-dialog-description'
-              style={{ color: 'rgb(25, 118, 210)' }}
-            >
+            <div id='alert-dialog-description'>
               <strong
                 style={{
                   color:
@@ -143,13 +131,8 @@ function ExerciseDialog({
               <strong>{t('Tests:')}</strong>
             </DialogContentText>
             <DataGrid
-              sx={{
-                width: '100%',
-                height: '300px',
-                borderColor: color,
-                border: '3px solid',
-                marginBottom: '5px',
-              }}
+              className='exercise-dialog-tests-table'
+              sx={{ borderColor: color }}
               rows={exercise.tests.map((el) => ({
                 ...el,
                 input: el.input.join(', '),
@@ -161,19 +144,12 @@ function ExerciseDialog({
               disableSelectionOnClick
               experimentalFeatures={{ newEditingApi: true }}
             />
-            <DialogContentText
-              sx={{ fontWeight: 'bolder', color }}
-              id='alert-dialog-description'
-            >
+            <DialogContentText sx={{ color }} id='alert-dialog-description'>
               {t('Example solution:')}
             </DialogContentText>
             <Box
-              sx={{
-                width: '100%',
-                borderColor: color,
-                border: '3px solid',
-                borderRadius: '5px',
-              }}
+              id='exercise-dialog-editor-container'
+              sx={{ borderColor: color }}
             >
               <Editor
                 height='200px'
@@ -187,27 +163,20 @@ function ExerciseDialog({
               />
             </Box>
           </DialogContent>
-          <DialogActions
-            sx={{ display: 'flex', justifyContent: 'space-between' }}
-          >
-            <Button
-              color={color.split('.')[0]}
-              variant='contained'
-              onClick={handleClose}
-            >
+          <DialogActions id='alert-dialog-actions'>
+            <Button color={theme} variant='contained' onClick={handleClose}>
               {t('Undo')}
             </Button>
             <Box>
               <Button
-                color={color.split('.')[0]}
+                color={theme}
                 variant='contained'
-                sx={{ marginRight: '10px' }}
                 onClick={() => deleteExercise()}
               >
                 {t('Reject')}
               </Button>
               <Button
-                color={color.split('.')[0]}
+                color={theme}
                 variant='contained'
                 onClick={() => checkExercise()}
                 autoFocus

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion from '@mui/material/Accordion';
@@ -11,6 +11,8 @@ import { getExerciseById } from 'ducks/exercises/selectors';
 import { StopRedirect } from 'ducks/redirects/actions';
 import { isRedirect } from 'ducks/redirects/selector';
 import { getToken } from 'ducks/token/selectors';
+import usePageTitle from 'helpers/usePageTitle';
+import useTheme from 'helpers/useTheme';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
@@ -22,14 +24,10 @@ import ExercisesForm from 'ui/exercises/forms/ExercisesForm';
 import HintsForms from 'ui/exercises/forms/HintsForms';
 import TestsForm from 'ui/exercises/forms/TestsForm';
 
+import Pages from 'consts/pages';
+
 function MainForm({ GetExercise, redirect, StopRedirect, token }) {
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { color } = useTheme();
   const [step, setStep] = useState({
     currentStep: 1,
     dataFromStep1: '',
@@ -42,6 +40,12 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
   const { id } = useParams();
   const exercise = useSelector(getExerciseById(id));
   const { t } = useTranslation();
+  const previousFormState = useRef(step);
+  usePageTitle(Pages.EXERCISE_FORM);
+
+  useEffect(() => {
+    previousFormState.current = step;
+  }, [step]);
 
   useEffect(() => {
     if (redirect) {
@@ -68,9 +72,7 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
 
   const AccordionSummary = styled((props) => (
     <MuiAccordionSummary
-      expandIcon={
-        <ArrowForwardIosSharpIcon sx={{ fontSize: '0.9rem', color: 'white' }} />
-      }
+      expandIcon={<ArrowForwardIosSharpIcon id='arrow-forward-icon' />}
       {...props}
     />
   ))(({ theme }) => ({
@@ -93,7 +95,7 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
   }));
 
   return (
-    <div>
+    <div id='main-form-container'>
       <Accordion
         sx={{ backgroundColor: 'primary.background' }}
         disabled={step.currentStep !== 1}
@@ -104,10 +106,12 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
           aria-controls='panel1d-content'
           id='panel1d-header'
         >
-          <Typography sx={{ color: 'white' }}>{t('Main info')}</Typography>
+          <Typography className='typography-header'>
+            {t('Main info')}
+          </Typography>
         </AccordionSummary>
-        <AccordionDetails sx={{ textAlign: 'center' }}>
-          <Typography sx={{ margin: '10px', fontWeight: 'bolder', color }}>
+        <AccordionDetails className='main-form-accordion'>
+          <Typography className='accordion-text' sx={{ color }}>
             {t(
               // eslint-disable-next-line max-len
               `Here you can set title, description and difficulty of your exercise. Remember to set the most proper programming language!`
@@ -126,12 +130,12 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
           aria-controls='panel3d-content'
           id='panel3d-header'
         >
-          <Typography sx={{ color: 'white' }}>
+          <Typography className='typography-header'>
             {t('Customize exercise function')}
           </Typography>
         </AccordionSummary>
-        <AccordionDetails sx={{ textAlign: 'center' }}>
-          <Typography sx={{ margin: '10px', fontWeight: 'bolder', color }}>
+        <AccordionDetails className='main-form-accordion'>
+          <Typography className='accordion-text' sx={{ color }}>
             {t(
               // eslint-disable-next-line max-len
               `Here you can set amount of arguments for your function. You have to set the name for each argument.`
@@ -154,12 +158,12 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
           aria-controls='panel2d-content'
           id='panel2d-header'
         >
-          <Typography sx={{ color: 'white' }}>
+          <Typography className='typography-header'>
             {t('Inputs  Outputs')}
           </Typography>
         </AccordionSummary>
-        <AccordionDetails sx={{ textAlign: 'center' }}>
-          <Typography sx={{ margin: '10px', fontWeight: 'bolder', color }}>
+        <AccordionDetails className='main-form-accordion'>
+          <Typography className='accordion-text' sx={{ color }}>
             {t(
               `Choose quantity of your tests, then write expected outputs for each of your inputs.`
             )}
@@ -177,10 +181,10 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
           aria-controls='panel3d-content'
           id='panel3d-header'
         >
-          <Typography sx={{ color: 'white' }}>{t('Hints')}</Typography>
+          <Typography className='typography-header'>{t('Hints')}</Typography>
         </AccordionSummary>
-        <AccordionDetails sx={{ textAlign: 'center' }}>
-          <Typography sx={{ margin: '10px', fontWeight: 'bolder', color }}>
+        <AccordionDetails className='main-form-accordion'>
+          <Typography className='accordion-text' sx={{ color }}>
             {t(
               // eslint-disable-next-line max-len
               `Here you can choose quantity of your hints. Remember that not all users will be able to solve your exercise without some help.`
@@ -200,12 +204,12 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
           aria-controls='panel3d-content'
           id='panel3d-header'
         >
-          <Typography sx={{ color: 'white' }}>
+          <Typography className='typography-header'>
             {t('Example Solution')}
           </Typography>
         </AccordionSummary>
-        <AccordionDetails sx={{ textAlign: 'center' }}>
-          <Typography sx={{ margin: '10px', fontWeight: 'bolder', color }}>
+        <AccordionDetails className='main-form-accordion'>
+          <Typography className='accordion-text' sx={{ color }}>
             {t(
               // eslint-disable-next-line max-len
               `Here you have to write an example solution to guarantee that your exercise is solvable. After solving, your exercise will be send to the admin to get an agreement.`
@@ -215,6 +219,7 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
             step={step}
             setStep={setStep}
             dataToEdit={exercise}
+            previousFormState={previousFormState}
           />
         </AccordionDetails>
       </Accordion>

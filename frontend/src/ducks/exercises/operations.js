@@ -4,7 +4,7 @@ import { createAction } from 'redux-api-middleware';
 export const GetExercises = (token) =>
   createAction({
     endpoint: `${
-      import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'
+      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
     }/exercises/checked`,
     method: 'GET',
     headers: {
@@ -24,7 +24,7 @@ export const GetExercises = (token) =>
 export const GetUncheckedExercises = (token) =>
   createAction({
     endpoint: `${
-      import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'
+      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
     }/exercises/unchecked`,
     method: 'GET',
     headers: {
@@ -47,7 +47,7 @@ export const GetUncheckedExercises = (token) =>
 export const AddExercise = (body, token) =>
   createAction({
     endpoint: `${
-      import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'
+      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
     }/exercises/addExercise`,
     method: 'POST',
     body: JSON.stringify(body),
@@ -71,7 +71,7 @@ export const AddExercise = (body, token) =>
 export const DeleteExercise = (id, token) =>
   createAction({
     endpoint: `${
-      import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'
+      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
     }/exercises/deleteExercise/${id}`,
     method: 'DELETE',
     headers: {
@@ -94,7 +94,7 @@ export const DeleteExercise = (id, token) =>
 export const DeleteUncheckedExercise = (id, token) =>
   createAction({
     endpoint: `${
-      import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'
+      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
     }/exercises/deleteExercise/${id}`,
     method: 'DELETE',
     headers: {
@@ -117,7 +117,7 @@ export const DeleteUncheckedExercise = (id, token) =>
 export const UpdateExercise = (body, token) =>
   createAction({
     endpoint: `${
-      import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'
+      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
     }/exercises/editExercise/`,
     method: 'PUT',
     body: JSON.stringify({ ...body, checked: false }),
@@ -141,7 +141,7 @@ export const UpdateExercise = (body, token) =>
 export const GetExercise = (id, token) =>
   createAction({
     endpoint: `${
-      import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'
+      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
     }/exercises/${id}`,
     method: 'GET',
     headers: {
@@ -164,7 +164,7 @@ export const GetExercise = (id, token) =>
 export const CheckExercise = (id, token) =>
   createAction({
     endpoint: `${
-      import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'
+      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
     }/exercises/checkExercise/${id}`,
     method: 'PUT',
     headers: {

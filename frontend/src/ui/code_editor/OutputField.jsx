@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import React from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box } from '@mui/material';
 import { getUserByUsername } from 'ducks/user/selectors';
+import useTheme from 'helpers/useTheme';
 import PropTypes from 'prop-types';
 import { ThreeDots } from 'react-loader-spinner';
 import { useSelector } from 'react-redux';
@@ -13,13 +14,8 @@ const OutputField = ({ output, loadingFinished }) => {
   const { user } = useAuth0();
   const foundUser = useSelector(getUserByUsername(user.nickname));
   const [lineNumbering, setLineNumbering] = useState('');
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { color } = useTheme();
+
   const textAreaStyles = {
     resize: 'none',
   };
@@ -38,17 +34,7 @@ const OutputField = ({ output, loadingFinished }) => {
 
   return (
     <ScrollSync>
-      <Box
-        className={`theme-${foundUser.theme}`}
-        sx={{
-          display: 'flex',
-          width: '100%',
-          marginRigth: '5px',
-          justifyContent: 'center',
-          marginTop: '10px',
-          maxHeight: '200px',
-        }}
-      >
+      <Box className={`theme-${foundUser.theme}`} id='output-field-wrapper'>
         {loadingFinished ? (
           <>
             <ScrollSyncPane>
@@ -57,12 +43,6 @@ const OutputField = ({ output, loadingFinished }) => {
                 id='line-numbering'
                 style={{
                   ...textAreaStyles,
-                  borderRadius: '5px 0 0 5px',
-                  overflow: 'auto',
-                  border: '3px solid',
-                  borderColor: color,
-                  borderRight: 0,
-                  paddingTop: '2px',
                 }}
                 name='line-numbering'
                 disabled={true}
@@ -73,23 +53,14 @@ const OutputField = ({ output, loadingFinished }) => {
             <ScrollSyncPane>
               <div
                 className={`theme-${foundUser.theme}`}
-                style={{
-                  width: '100%',
-                  overflow: 'auto',
-                  height: '100%',
-                }}
+                id='text-area-wrapper'
               >
                 <textarea
                   className={`theme-${foundUser.theme}`}
+                  id='output-text-area'
                   style={{
                     ...textAreaStyles,
-                    borderRadius: '0 5px 5px 0',
-                    backgroundColor: 'white',
-                    fontFamily: 'JetBrains Mono',
                     borderColor: color,
-                    border: '3px solid',
-                    fontSize: '14px',
-                    width: 'calc(100% - 10px)',
                   }}
                   disabled={true}
                   name='code'

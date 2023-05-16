@@ -1,9 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Box, Container } from '@mui/material';
 import { Button } from '@mui/material';
 import { GetExercises } from 'ducks/exercises/operations';
 import { getExercisesFromState } from 'ducks/exercises/selectors';
+import usePageTitle from 'helpers/usePageTitle';
+import useTheme from 'helpers/useTheme';
 import useToken from 'helpers/useToken';
 import * as _ from 'lodash';
 import PropTypes from 'prop-types';
@@ -13,6 +15,8 @@ import { useNavigate } from 'react-router-dom';
 import Exercise from 'ui/exercises/Exercise';
 import Filters from 'ui/exercises/filters/Filters';
 import PaginationExercises from 'ui/exercises/PaginationExercises';
+
+import Pages from 'consts/pages';
 
 const ExercisesList = ({ exercises, GetExercises }) => {
   const { t } = useTranslation();
@@ -26,13 +30,9 @@ const ExercisesList = ({ exercises, GetExercises }) => {
   const [sort, setSort] = useState(0);
   const navigate = useNavigate();
   const [itemsPerPage, setItemsPerPage] = useState(3);
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { theme } = useTheme();
+  usePageTitle(Pages.EXERCISES);
+
   const goToExercisesForm = () => {
     navigate('/Exercises/form');
   };
@@ -48,19 +48,8 @@ const ExercisesList = ({ exercises, GetExercises }) => {
 
   return (
     <>
-      <Container
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
-        <Button
-          onClick={goToExercisesForm}
-          variant='contained'
-          color={color.split('.')[0]}
-          sx={{ margin: '10px', width: '100%' }}
-        >
+      <Container id='exercises-list-container'>
+        <Button onClick={goToExercisesForm} variant='contained' color={theme}>
           {t('Create your exercise!')}
         </Button>
         <Filters
@@ -69,16 +58,7 @@ const ExercisesList = ({ exercises, GetExercises }) => {
           setSort={setSort}
           sort={sort}
         />
-        <Box
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            height: '100%',
-            width: '100%',
-            flexDirection: 'row',
-            alignItems: 'space-between',
-          }}
-        >
+        <Box id='exercises-wrapper'>
           {getReversed(
             sort === 2 || sort === 4,
             _.sortBy(

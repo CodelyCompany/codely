@@ -1,18 +1,13 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { Box, Typography } from '@mui/material';
+import useTheme from 'helpers/useTheme';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 const SectionWrapper = ({ children, mode, condition }) => {
   const { t } = useTranslation();
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { color } = useTheme();
 
   const info = () => {
     if (mode === 'reviews') return t("You didn't write any reviews");
@@ -26,16 +21,8 @@ const SectionWrapper = ({ children, mode, condition }) => {
   return condition ? (
     children
   ) : (
-    <Box
-      sx={{
-        borderColor: color,
-        borderBottom: '3px solid',
-        margin: '10px 0',
-        padding: '10px 0',
-        width: '100%',
-      }}
-    >
-      <Typography sx={{ fontWeight: 'bolder', color }} variant='h6'>
+    <Box className='user-section-wrapper' sx={{ borderColor: color }}>
+      <Typography sx={{ color }} variant='h6'>
         {info()}
       </Typography>
     </Box>

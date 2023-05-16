@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Box, Checkbox, Typography } from '@mui/material';
+import useTheme from 'helpers/useTheme';
 import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
 
@@ -17,48 +18,29 @@ const SetLanguage = () => {
     setLanguage(e.target.value);
   };
 
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary'
-        : 'primary',
-    [localStorage.getItem('theme')]
-  );
+  const { theme } = useTheme();
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
-      <Box sx={{ display: 'flex' }}>
+    <Box id='set-language-container'>
+      <Box>
         <Checkbox
-          color={color}
+          color={theme}
           value='eng'
           checked={language === 'eng'}
           onClick={changeLanguage}
         />
-        <Typography
-          fontWeight='bolder'
-          color={color}
-          sx={{ position: 'relative', top: '10px' }}
-        >
+        <Typography className='set-language-typography' color={theme}>
           {t('English')}
         </Typography>
       </Box>
       <Box sx={{ display: 'flex' }}>
         <Checkbox
-          color={color}
+          color={theme}
           value='pl'
           checked={language === 'pl'}
           onClick={changeLanguage}
         />
-        <Typography
-          fontWeight='bolder'
-          color={color}
-          sx={{ position: 'relative', top: '10px' }}
-        >
+        <Typography className='set-language-typography' color={theme}>
           {t('Polish')}
         </Typography>
       </Box>

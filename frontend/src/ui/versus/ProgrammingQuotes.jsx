@@ -1,10 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Paper, Typography } from '@mui/material';
 import { getToken } from 'ducks/token/selectors';
 import { getUserByUsername } from 'ducks/user/selectors';
 import { EventSourcePolyfill } from 'event-source-polyfill';
+import useTheme from 'helpers/useTheme';
 import { ImQuotesLeft, ImQuotesRight } from 'react-icons/im';
 import { useSelector } from 'react-redux';
 
@@ -12,13 +13,7 @@ const ProgrammingQuotes = () => {
   const { user } = useAuth0();
   const foundUser = useSelector(getUserByUsername(user.nickname));
   const token = useSelector(getToken);
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary'
-        : 'primary',
-    [localStorage.getItem('theme')]
-  );
+  const { theme } = useTheme();
   const useEventSource = (url) => {
     const [data, setData] = useState(null);
 
@@ -39,48 +34,32 @@ const ProgrammingQuotes = () => {
   };
 
   const data = useEventSource(
-    `${import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'}/sse`
+    `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}/sse`
   );
 
   return (
     data && (
       <Paper
+        id='programming-quotes'
         elevation={3}
         className={foundUser ? `theme-${foundUser.theme}` : `theme-0`}
-        style={{
-          padding: '10px',
-          display: 'flex',
-          justifyContent: 'center',
-          flexDirection: 'row',
-          marginTop: '50px',
-        }}
       >
         <ImQuotesLeft
+          id='left-quotes'
           className={foundUser ? `theme-${foundUser.theme}` : `theme-0`}
-          style={{ height: '40px', width: '40px' }}
         />
-        <Box sx={{ marginTop: '40px', width: '100%', textAlign: 'center' }}>
-          <Typography
-            color={{ color }}
-            variant='h6'
-            fontWeight='bolder'
-            style={{ alignSelf: 'center', width: 'calc(100% - 80px)' }}
-          >
+        <Box id='content-container'>
+          <Typography color={{ theme }} variant='h6'>
             {data.en}
           </Typography>
-          <Box width='100%' textAlign='end'>
+          <Box>
             <ImQuotesRight
+              id='right-qoutes'
               className={foundUser ? `theme-${foundUser.theme}` : `theme-0`}
-              style={{
-                height: '40px',
-                width: '40px',
-              }}
             />
           </Box>
 
-          <Typography color={color} fontWeight='bolder' textAlign='end'>
-            ~{data.author}
-          </Typography>
+          <Typography color={theme}>~{data.author}</Typography>
         </Box>
       </Paper>
     )

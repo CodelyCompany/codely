@@ -1,9 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Box, Button, Container, Typography } from '@mui/material';
 import { ConnectSocket, DisconnectSocket } from 'ducks/socket/actions';
 import { getSocket } from 'ducks/socket/selectors';
 import { useFormik } from 'formik';
+import usePageTitle from 'helpers/usePageTitle';
+import useTheme from 'helpers/useTheme';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -14,11 +16,14 @@ import ProgrammingQuotes from 'ui/versus/ProgrammingQuotes';
 import SearchingGame from 'ui/versus/SearchingGame';
 import * as yup from 'yup';
 
+import Pages from 'consts/pages';
+
 const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
   const [dots, setDots] = useState(0);
   const [time, setTime] = useState(0);
   const [found, setFound] = useState(null);
   const { t } = useTranslation();
+  usePageTitle(Pages.VERSUS);
 
   const validateVersusLanguages = yup.object({
     checked: yup
@@ -34,7 +39,7 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
     validationSchema: validateVersusLanguages,
     onSubmit: (values) => {
       const socket = io(
-        `${import.meta.env.REACT_APP_WEBSOCKET_ADDRESS}` ||
+        `${process.env.REACT_APP_WEBSOCKET_ADDRESS}` ||
           'http://localhost:5002/',
         {
           reconnection: true,
@@ -75,15 +80,10 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
     socket.disconnect();
     DisconnectSocket();
   };
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary'
-        : 'primary',
-    [localStorage.getItem('theme')]
-  );
+  const { theme } = useTheme();
+
   return (
-    <Container sx={{ display: 'flex', flexDirection: 'column' }}>
+    <Container id='versus-container'>
       {!socket && <ChooseExerciseLang formik={formik} />}
       {socket && <PlayersCounter socket={socket} />}
       {socket && (
@@ -97,8 +97,7 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
       {!socket && (
         <>
           <Button
-            color={color}
-            sx={{ marginTop: '20px' }}
+            color={theme}
             fullWidth
             onClick={() => connect()}
             variant='contained'
@@ -110,25 +109,18 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
       )}
       {socket && (
         <Box>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              margin: '5px',
-            }}
-          >
-            <Typography color={color}>
+          <Box id='seach-wrapper'>
+            <Typography color={theme}>
               {t('Searching')}
               {[...Array(dots).keys()].map(() => '.')}{' '}
             </Typography>
-            <Typography color={color}>
+            <Typography color={theme}>
               {Math.floor(time / 60)}:
               {time % 60 < 10 ? '0' + (time % 60) : time % 60}
             </Typography>
           </Box>
           <Button
-            color={color}
-            sx={{ marginTop: '20px' }}
+            color={theme}
             fullWidth
             onClick={() => disconnect()}
             variant='contained'

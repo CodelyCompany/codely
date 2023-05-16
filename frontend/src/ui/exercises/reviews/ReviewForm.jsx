@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 
@@ -11,6 +11,7 @@ import Box from '@mui/material/Box';
 import { AddReview, EditReview } from 'ducks/reviews/operations';
 import { getToken } from 'ducks/token/selectors';
 import { getUserByUsername } from 'ducks/user/selectors';
+import useTheme from 'helpers/useTheme';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,13 +29,7 @@ const ReviewForm = ({ review, token }) => {
   const localUser = useSelector(getUserByUsername(user.nickname));
   const dispatch = useDispatch();
 
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary'
-        : 'primary',
-    [localStorage.getItem('theme')]
-  );
+  const { theme } = useTheme();
 
   useEffect(() => {
     if (review) {
@@ -100,7 +95,7 @@ const ReviewForm = ({ review, token }) => {
       <Grid item xs={12}>
         {editing ? (
           <TextField
-            color={color}
+            color={theme}
             label={t('Comment')}
             variant='outlined'
             multiline
@@ -116,15 +111,15 @@ const ReviewForm = ({ review, token }) => {
       </Grid>
       <Grid item xs={5}>
         <Box display={upvotes ? 'flex' : 'none'}>
-          <ThumbUp color={color} />
-          <Typography color={color} marginLeft={1}>
+          <ThumbUp color={theme} />
+          <Typography color={theme} marginLeft={1}>
             {upvotes}
           </Typography>
         </Box>
       </Grid>
       <Grid item xs={2}>
         <Button
-          color={color}
+          color={theme}
           variant='contained'
           onClick={editing ? handleSubmit : () => setEditing(true)}
         >

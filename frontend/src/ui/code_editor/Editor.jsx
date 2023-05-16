@@ -1,54 +1,30 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import React from 'react';
 
 import { Box, Container, Typography } from '@mui/material';
+import usePageTitle from 'helpers/usePageTitle';
+import useTheme from 'helpers/useTheme';
 import { useTranslation } from 'react-i18next';
 import CodeField from 'ui/code_editor/CodeField';
 import LanguageSelector from 'ui/code_editor/LanguageSelector';
 import OutputField from 'ui/code_editor/OutputField';
 import RunButton from 'ui/code_editor/RunButton';
 
+import Pages from 'consts/pages';
+
 const Editor = () => {
   const [code, setCode] = useState('');
   const [output, setOutput] = useState(null);
   const [language, setLanguage] = useState('JavaScript');
   const [loadingFinished, setLoadingFinished] = useState(true);
-
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { color } = useTheme();
   const { t } = useTranslation();
+  usePageTitle(Pages.EDITOR);
 
   return (
     <Container>
-      <Typography
-        className='editor-tag'
-        sx={{
-          color,
-          fontWeight: 'bolder',
-          fontSize: '50px',
-          position: 'relative',
-          top: '20px',
-        }}
-      >
-        {t('Write your code here!')}
-      </Typography>
-      <Box
-        sx={{
-          borderColor: color,
-          border: '3px solid',
-          marginTop: '20px',
-          padding: '50px',
-          borderRadius: '5px',
-          display: 'flex',
-          flexDirection: 'column',
-          height: '100%',
-        }}
-      >
+      <Typography id='editor-tag'>{t('Write your code here!')}</Typography>
+      <Box id='editor-wrapper' borderColor={color}>
         <Box id='editor'>
           <Box id='code-editor-buttons'>
             <LanguageSelector language={language} setLanguage={setLanguage} />

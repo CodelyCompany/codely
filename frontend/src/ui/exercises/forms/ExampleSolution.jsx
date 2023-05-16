@@ -8,8 +8,11 @@ import axios from 'axios';
 import { AddExercise, UpdateExercise } from 'ducks/exercises/operations';
 import { addPopup } from 'ducks/popups/actions';
 import { getUserByUsername } from 'ducks/user/selectors';
+import useTheme from 'helpers/useTheme';
 import useToken from 'helpers/useToken';
+import _ from 'lodash';
 import { PropTypes } from 'prop-types';
+import isEqual from 'react-fast-compare';
 import { useTranslation } from 'react-i18next';
 import { ThreeDots } from 'react-loader-spinner';
 import { connect, useDispatch, useSelector } from 'react-redux';
@@ -22,6 +25,7 @@ const ExampleSolution = ({
   AddExercise,
   dataToEdit,
   UpdateExercise,
+  previousFormState,
 }) => {
   const { t } = useTranslation();
   const { token } = useToken();
@@ -30,14 +34,7 @@ const ExampleSolution = ({
   const { user } = useAuth0();
   const [finishedLoading, setFinishedLoading] = useState(true);
   const dispatch = useDispatch();
-
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { color } = useTheme();
   const signature = useMemo(
     () =>
       getSignature(
@@ -53,6 +50,20 @@ const ExampleSolution = ({
     theme: 0,
   };
 
+  const detectFunctionSignatureChange = (prevSignature, currSignature) => {
+    const fieldsToOmit = [
+      'currentStep',
+      'dataFromStep5',
+      'dataFromStep4',
+      'dataFromStep3',
+      'code',
+    ];
+    const omittedPrevSignature = _.omit(prevSignature.current, fieldsToOmit);
+    const omittedCurrentSignature = _.omit(currSignature, fieldsToOmit);
+
+    return !isEqual(omittedPrevSignature, omittedCurrentSignature);
+  };
+
   useEffect(() => {
     if (tests && tests.correct === tests.tests)
       dispatch(
@@ -63,16 +74,23 @@ const ExampleSolution = ({
   }, [tests]);
 
   useEffect(() => {
-    step.dataFromStep1.programmingLanguage &&
+    const isFunctionSignatureChanged = detectFunctionSignatureChange(
+      previousFormState,
+      step
+    );
+    const isFormFilled =
+      step.dataFromStep1.programmingLanguage &&
       step.dataFromStep2.functionName &&
-      step.dataFromStep2.argumentsName &&
-      setCode(
-        step.code
-          ? step.code
-          : dataToEdit
-          ? dataToEdit.exampleSolution
-          : signature
-      );
+      step.dataFromStep2.argumentsName;
+    const editorContent = step.code
+      ? step.code
+      : dataToEdit
+      ? dataToEdit.exampleSolution
+      : signature;
+    if (!isFormFilled) return;
+    if (isFunctionSignatureChanged)
+      setStep((prev) => ({ ...prev, code: signature }));
+    setCode(isFunctionSignatureChanged ? signature : editorContent);
   }, []);
 
   const prev = () => {
@@ -123,7 +141,7 @@ const ExampleSolution = ({
     axios
       .post(
         `${
-          import.meta.env.REACT_APP_BACKEND || 'http://localhost:5000'
+          process.env.REACT_APP_BACKEND || 'http://localhost:5000'
         }/exercises/checkBeforeAddExercise`,
         {
           exampleSolution: code,
@@ -149,26 +167,10 @@ const ExampleSolution = ({
 
   return (
     <>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
+      <Box id='example-solution-container'>
         <Box
+          className='example-solution-wrapper'
           id={`box-border-${foundUser.theme}`}
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            width: '100%',
-            maxWidth: 'calc(900px - 10px)',
-            height: '200px',
-            border: '3px solid',
-            borderRadius: '5px',
-            margin: '10px',
-          }}
         >
           <Editor
             theme={foundUser?.theme === 1 ? 'vs-dark' : 'vs'}
@@ -186,18 +188,9 @@ const ExampleSolution = ({
             width='100%'
           />
         </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            width: '100%',
-            maxWidth: '900px',
-          }}
-        >
+        <Box id='example-solution-button-wrapper'>
           <Button
             color={color.split('.')[0]}
-            sx={{ marginBottom: '10px' }}
             variant='contained'
             onClick={prev}
           >
@@ -264,4 +257,5 @@ ExampleSolution.propTypes = {
   AddExercise: PropTypes.func,
   dataToEdit: PropTypes.object,
   UpdateExercise: PropTypes.func,
+  previousFormState: PropTypes.object,
 };

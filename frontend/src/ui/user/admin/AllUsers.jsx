@@ -7,6 +7,7 @@ import { makeStyles } from '@mui/styles';
 import { DataGrid } from '@mui/x-data-grid';
 import { GetUsers } from 'ducks/user/operations';
 import { getUserByUsername, getUsers } from 'ducks/user/selectors';
+import useTheme from 'helpers/useTheme';
 import useToken from 'helpers/useToken';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -27,13 +28,7 @@ function AllUsers({ users, GetUsers }) {
   const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
     theme: 0,
   };
-  const color = useMemo(
-    () =>
-      parseInt(localStorage.getItem('theme') ?? 0) === 2
-        ? 'secondary.main'
-        : 'primary.main',
-    [localStorage.getItem('theme')]
-  );
+  const { color } = useTheme();
 
   const classes = useStyles();
 
@@ -72,27 +67,13 @@ function AllUsers({ users, GetUsers }) {
   ];
 
   return (
-    <Card
-      className={`theme-${foundUser.theme}`}
-      sx={{ height: '100%', margin: '10px', padding: '10px' }}
-    >
-      <Typography
-        sx={{ color }}
-        fontWeight={'bolder'}
-        variant='h6'
-        textAlign={'center'}
-      >
+    <Card id='all-users-table-container' className={`theme-${foundUser.theme}`}>
+      <Typography id='registered-users-typography' sx={{ color }} variant='h6'>
         {t('Registered users')}
       </Typography>
       <DataGrid
-        className={classes.root}
-        sx={{
-          width: 'calc(100% - 20px)',
-          height: '300px',
-          margin: '10px',
-          borderColor: color,
-          color,
-        }}
+        className={`${classes.root} all-users-table`}
+        sx={{ borderColor: color, color }}
         getRowId={(row) => row._id}
         rows={rows.map((row) => ({
           ...row,
