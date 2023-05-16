@@ -1,5 +1,3 @@
-const TitlePage = require('../pageobjects/title.page');
-const LoginPage = require('../pageobjects/login.page');
 const MainPage = require('../pageobjects/main.page');
 const ExercisesPage = require('../pageobjects/exercises.page');
 const ExerciseFormPage = require('../pageobjects/exerciseForm.page');

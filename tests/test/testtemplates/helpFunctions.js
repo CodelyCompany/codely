@@ -29,7 +29,7 @@ const solveAndCheckExercise = async (exercise) => {
   });
 };
 
-const loginAdmin = () => {
+const loginAdmin = async () => {
   it('Should login with valid credentials - Admin', async () => {
     await TitlePage.open();
     await TitlePage.clickLoginButton();
@@ -102,14 +102,19 @@ const openExercise = async (exercise) => {
 
 const createExercise = async (exercise) => {
   it(`Should add exercise ${exercise.title} - ${exercise.language}`, async () => {
-    await MainPage.clickExerciseButton();
+    if (!(await ExercisesPage.createExerciseButton.isDisplayed())) {
+      await MainPage.clickExerciseButton();
+    }
+    expect(await ExercisesPage.createExerciseButton).toBeDisplayed();
     await ExercisesPage.clickCreateExerciseButton();
     await ExerciseFormPage.completeExerciseForm(exercise);
+    await MainPage.exerciseButton.waitForDisplayed();
   });
 };
 
 const acceptExercise = async (exercise) => {
   it(`Should accept exercise ${exercise.title} - ${exercise.language}`, async () => {
+    await AdminPage.exercisesToCheckTable.waitForDisplayed();
     await AdminPage.acceptExercise(`${exercise.title} - ${exercise.language}`);
     expect(
       await $(

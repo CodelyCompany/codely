@@ -175,7 +175,7 @@ const ExampleSolution = ({
             {t('Previous')}
           </Button>
           <Button
-            id={'submit'}
+            id={tests && tests.correct === tests.tests ? 'send' : 'submit'}
             color={color.split('.')[0]}
             variant='contained'
             disabled={!finishedLoading}

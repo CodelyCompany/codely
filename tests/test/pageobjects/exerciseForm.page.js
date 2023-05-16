@@ -41,6 +41,10 @@ class ExerciseFormPage {
     return $('#submit');
   }
 
+  get sendExerciseButton() {
+    return $('#send');
+  }
+
   get submitButtonFirst() {
     return $('#submit-1');
   }
@@ -78,7 +82,7 @@ class ExerciseFormPage {
   }
 
   get newTypeInput() {
-    return $(`#type`);
+    return $('#type');
   }
 
   get confirmAddNewTypeButton() {
@@ -99,6 +103,7 @@ class ExerciseFormPage {
   async completeFirstExerciseForm(exercise, submit = false) {
     await this.inputTitle.waitForDisplayed();
     await this.inputTitle.setValue(`${exercise.title} - ${exercise.language}`);
+    await this.inputDescription.waitForDisplayed();
     await this.inputDescription.setValue(exercise.description);
     await this.inputDifficult.click();
     await $(`//li[@data-value="${exercise.difficult}"]`).waitForDisplayed();
@@ -190,10 +195,10 @@ class ExerciseFormPage {
         await this.checkExerciseButton.click();
         await this.snackbar.waitForDisplayed({ timeout: 16000 });
         await this.snackbar.waitForDisplayed({ reverse: true });
-        await this.checkExerciseButton.click();
+        await this.sendExerciseButton.click();
+        await this.snackbar.waitForDisplayed();
+        await this.snackbar.waitForDisplayed({ reverse: true });
       })());
-    await this.snackbar.waitForDisplayed();
-    await this.snackbar.waitForDisplayed({ reverse: true });
   }
 
   async completeExerciseForm(exercise) {
