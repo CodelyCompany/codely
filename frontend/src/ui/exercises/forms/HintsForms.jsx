@@ -9,7 +9,7 @@ import useTheme from 'helpers/useTheme';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
-import * as yup from 'yup';
+import { hintValidation } from 'ui/exercises/forms/validationSchemes/hintFormValidation';
 
 const HintsForms = ({ step, dataToEdit, setStep }) => {
   const { t } = useTranslation();
@@ -24,6 +24,8 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
   const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
     theme: 0,
   };
+  const validation = hintValidation(t);
+  const elementsColor = color.split('.')[0];
 
   useEffect(() => {
     if (step.dataFromStep4) {
@@ -83,14 +85,8 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
     );
   };
 
-  const hintSchema = yup.string().required();
-
-  const hintsSchema = yup
-    .array(t('Enter all hints'))
-    .of(yup.string(t('Enter the hint')).required(t('This hint is required')));
-
   const goToNextStage = () => {
-    hintsSchema
+    validation.hintsSchema
       .validate(hints.map((el) => el[1]))
       .then((valid) => {
         if (valid) {
@@ -109,7 +105,7 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
     <Box id='hints-form-container'>
       <Box id='hints-quantity-wrapper'>
         <TextField
-          color={color.split('.')[0]}
+          color={elementsColor}
           focused
           id={`hintsQuantity-${foundUser.theme}`}
           name='hintsQuantity'
@@ -131,16 +127,16 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
             <div key={number}>
               <TextField
                 className='hints-input'
-                color={color.split('.')[0]}
+                color={elementsColor}
                 focused
                 sx={{ input: { color } }}
                 label={number === 0 ? t('Hints') : ''}
                 name='hint'
                 value={getValue(number)}
-                error={error.error && !hintSchema.isValidSync(getValue(number))}
+                error={error.error && !validation.hintSchema.isValidSync(getValue(number))}
                 helperText={
                   error &&
-                  !hintSchema.isValidSync(getValue(number)) &&
+                  !validation.hintSchema.isValidSync(getValue(number)) &&
                   error.error
                 }
                 onChange={(e) => handleValue(e, number)}
@@ -149,7 +145,7 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
           ))}
 
         <Button
-          color={color.split('.')[0]}
+          color={elementsColor}
           fullWidth
           type='button'
           onClick={() => goToPreviousStage()}
@@ -158,7 +154,7 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
           {t('Previous')}
         </Button>
         <Button
-          color={color.split('.')[0]}
+          color={elementsColor}
           fullWidth
           type='button'
           onClick={() => goToNextStage()}
