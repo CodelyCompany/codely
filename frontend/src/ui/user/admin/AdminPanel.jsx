@@ -12,15 +12,17 @@ import Pages from 'consts/pages';
 const AdminPanel = () => {
   usePageTitle(Pages.ADMIN_PANEL);
 
-  return <AdminPanelWrapper>
-    <Box id='admin-panel-wrapper'>
-      <Box id='admin-tables'>
-        <ExerciseToCheck />
-        <CheckedExercise />
+  return (
+    <AdminPanelWrapper>
+      <Box id='admin-panel-wrapper'>
+        <Box id='admin-tables'>
+          <ExerciseToCheck />
+          <CheckedExercise />
+        </Box>
+        <AllUsers />
       </Box>
-      <AllUsers />
-    </Box>
-  </AdminPanelWrapper>;
+    </AdminPanelWrapper>
+  );
 };
 
 export default AdminPanel;

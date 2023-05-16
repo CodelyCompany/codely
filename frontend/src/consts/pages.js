@@ -1,4 +1,4 @@
-const Pages  = {
+const Pages = {
   MAIN_PAGE: 'Main page',
   USER_PANEL: 'User panel',
   ADMIN_PANEL: 'Admin panel',

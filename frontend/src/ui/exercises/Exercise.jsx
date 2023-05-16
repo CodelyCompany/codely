@@ -25,7 +25,8 @@ const StyledRating = styled(Rating)({
 const Exercise = ({ exercise }) => {
   const navigate = useNavigate();
   const { color } = useTheme();
-  const exerciseLanguage = ProgrammingLanguage[exercise?.programmingLanguage.toUpperCase()];
+  const exerciseLanguage =
+    ProgrammingLanguage[exercise?.programmingLanguage.toUpperCase()];
   const exerciseIcon = languagesWithIcons[exerciseLanguage];
 
   return (

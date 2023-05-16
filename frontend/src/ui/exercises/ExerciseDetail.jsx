@@ -46,7 +46,8 @@ const ExerciseDetail = ({ GetExercises }) => {
   const [toDelete, setToDelete] = useState(false);
   const [argumentValues, setArgumentValues] = useState([]);
   const { color, theme } = useTheme();
-  const exerciseLanguage = ProgrammingLanguage[exercise?.programmingLanguage.toUpperCase()];
+  const exerciseLanguage =
+    ProgrammingLanguage[exercise?.programmingLanguage.toUpperCase()];
   usePageTitle(Pages.EXERCISE);
 
   useEffect(() => {

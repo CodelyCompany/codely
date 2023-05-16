@@ -13,13 +13,16 @@ app.listen(port, () => {
 
 app.post('/', async (req, res) => {
   try {
-    fs.writeFileSync('./execute.cpp', req.body.toExecute);
+    fs.writeFileSync('./userdir/execute.cpp', req.body.toExecute);
     const execOptions = {
       encoding: 'utf-8',
       timeout,
     };
-    execSync('g++ -o program execute.cpp', execOptions);
-    const output = execSync('./program', execOptions);
+    execSync('g++ -o ./userdir/program ./userdir/execute.cpp', execOptions);
+    const output = execSync(
+      'cd userdir && unshare -r -n ./program',
+      execOptions
+    );
     return res.status(200).send({ output });
   } catch (error) {
     if (error.code === 'ETIMEDOUT') {

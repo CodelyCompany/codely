@@ -164,11 +164,7 @@ function ExerciseDialog({
             </Box>
           </DialogContent>
           <DialogActions id='alert-dialog-actions'>
-            <Button
-              color={theme}
-              variant='contained'
-              onClick={handleClose}
-            >
+            <Button color={theme} variant='contained' onClick={handleClose}>
               {t('Undo')}
             </Button>
             <Box>

@@ -12,7 +12,7 @@ import useTheme from 'helpers/useTheme';
 import useToken from 'helpers/useToken';
 import _ from 'lodash';
 import { PropTypes } from 'prop-types';
-import isEqual from "react-fast-compare";
+import isEqual from 'react-fast-compare';
 import { useTranslation } from 'react-i18next';
 import { ThreeDots } from 'react-loader-spinner';
 import { connect, useDispatch, useSelector } from 'react-redux';
@@ -51,7 +51,13 @@ const ExampleSolution = ({
   };
 
   const detectFunctionSignatureChange = (prevSignature, currSignature) => {
-    const fieldsToOmit = ['currentStep', 'dataFromStep5', 'dataFromStep4', 'dataFromStep3', 'code'];
+    const fieldsToOmit = [
+      'currentStep',
+      'dataFromStep5',
+      'dataFromStep4',
+      'dataFromStep3',
+      'code',
+    ];
     const omittedPrevSignature = _.omit(prevSignature.current, fieldsToOmit);
     const omittedCurrentSignature = _.omit(currSignature, fieldsToOmit);
 
@@ -68,15 +74,22 @@ const ExampleSolution = ({
   }, [tests]);
 
   useEffect(() => {
-    const isFunctionSignatureChanged = detectFunctionSignatureChange(previousFormState, step);
-    const isFormFilled = step.dataFromStep1.programmingLanguage &&
-                         step.dataFromStep2.functionName &&
-                         step.dataFromStep2.argumentsName;
-    const editorContent = step.code ?
-                          step.code : dataToEdit ?
-                          dataToEdit.exampleSolution : signature;
+    const isFunctionSignatureChanged = detectFunctionSignatureChange(
+      previousFormState,
+      step
+    );
+    const isFormFilled =
+      step.dataFromStep1.programmingLanguage &&
+      step.dataFromStep2.functionName &&
+      step.dataFromStep2.argumentsName;
+    const editorContent = step.code
+      ? step.code
+      : dataToEdit
+      ? dataToEdit.exampleSolution
+      : signature;
     if (!isFormFilled) return;
-    if (isFunctionSignatureChanged) setStep((prev) => ({ ...prev, code: signature }));
+    if (isFunctionSignatureChanged)
+      setStep((prev) => ({ ...prev, code: signature }));
     setCode(isFunctionSignatureChanged ? signature : editorContent);
   }, []);
 

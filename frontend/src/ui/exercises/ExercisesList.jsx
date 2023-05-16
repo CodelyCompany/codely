@@ -49,11 +49,7 @@ const ExercisesList = ({ exercises, GetExercises }) => {
   return (
     <>
       <Container id='exercises-list-container'>
-        <Button
-          onClick={goToExercisesForm}
-          variant='contained'
-          color={theme}
-        >
+        <Button onClick={goToExercisesForm} variant='contained' color={theme}>
           {t('Create your exercise!')}
         </Button>
         <Filters
