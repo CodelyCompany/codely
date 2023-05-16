@@ -6,7 +6,6 @@ metadata:
   labels:
     app: codely
     type: c-container
-    network: closed
 spec:
   selector:
     matchLabels:

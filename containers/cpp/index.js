@@ -19,7 +19,10 @@ app.post('/', async (req, res) => {
       timeout,
     };
     execSync('g++ -o ./userdir/program ./userdir/execute.cpp', execOptions);
-    const output = execSync('cd userdir && ./program', execOptions);
+    const output = execSync(
+      'cd userdir && unshare -r -n ./program',
+      execOptions
+    );
     return res.status(200).send({ output });
   } catch (error) {
     if (error.code === 'ETIMEDOUT') {

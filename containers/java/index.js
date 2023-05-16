@@ -19,7 +19,10 @@ app.post('/', async (req, res) => {
       timeout,
     };
     execSync('cd userdir && javac ./Main.java', execOptions);
-    const output = execSync('cd userdir && java Main', execOptions);
+    const output = execSync(
+      'cd userdir && unshare -r -n java Main',
+      execOptions
+    );
     return res.status(200).send({ output });
   } catch (error) {
     if (error.code === 'ETIMEDOUT') {

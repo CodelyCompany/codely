@@ -14,7 +14,7 @@ app.listen(port, () => {
 app.post('/', async (req, res) => {
   try {
     fs.writeFileSync('./userdir/execute.R', req.body.toExecute);
-    const output = execSync('cd userdir && Rscript ./execute.R', {
+    const output = execSync('cd userdir && unshare -r -n Rscript ./execute.R', {
       encoding: 'utf-8',
       timeout,
     });
