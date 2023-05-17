@@ -53,15 +53,6 @@ export const exercisesReducer = (
       };
     case types.UPDATE_EXERCISE_FAILURE:
       return { ...state, error: false };
-    case types.GET_EXERCISE_SUCCESS:
-      return {
-        ...state,
-        exercises: [
-          ...state.exercises.filter((ex) => ex._id !== action.payload._id),
-          action.payload,
-        ],
-        error: false,
-      };
     default:
       return state;
   }

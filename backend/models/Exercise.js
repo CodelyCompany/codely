@@ -25,7 +25,7 @@ const exerciseSchema = new Schema({
   argumentsName: [{ type: String }],
   types: [{ type: String }],
   functionSignature: { type: String },
-  step: [{ type: Number, default: 1 }], // steps: [1, 2, 3, 4, 5, 6], 6 means that exercise is created
+  step: { type: Number, default: 2 }, // steps: [2, 3, 4, 5, 6], 6 means that exercise is created
 });
 
 module.exports = model('Exercise', exerciseSchema);

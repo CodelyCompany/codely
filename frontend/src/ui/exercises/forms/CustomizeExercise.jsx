@@ -1,19 +1,22 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { Box, Button, MenuItem, TextField } from '@mui/material';
+import { GetExercise, UpdateExercise } from 'ducks/exercises/operations';
 import { useFormik } from 'formik';
+import useExerciseData from 'helpers/useExerciseData';
 import useTheme from 'helpers/useTheme';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
 import CustomTypes from 'ui/exercises/forms/CustomTypes';
 import { getDataTypes } from 'ui/exercises/forms/utils/dataTypes';
 // eslint-disable-next-line max-len
 import { customizeExerciseValidation } from 'ui/exercises/forms/validationSchemes/customizeExerciseValidation';
 
-const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
+// Second step of creating exercise
+const CustomizeExercise = ({ setStep, UpdateExercise }) => {
   const { t } = useTranslation();
   const [argumentsName, setArgumentsName] = useState([]);
-  const [checked, setChecked] = useState(false);
   const [error, setError] = useState({});
   const [types, setTypes] = useState([]);
   const [open, setOpen] = useState(false);
@@ -24,15 +27,22 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
 
   const additionalOption = t('Other types / Custom types');
   const languagesWithTypes = ['Java', 'C++', 'C'];
+  const { id, exercise } = useExerciseData();
 
   const formWithTypes = useMemo(
-    () => languagesWithTypes.includes(step.dataFromStep1?.programmingLanguage),
-    [step.dataFromStep1]
+    () => false, //languagesWithTypes.includes(step.dataFromStep1?.programmingLanguage),
+    [] //step.dataFromStep1]
   );
   const dropdownOptions = useMemo(
-    () => getDataTypes(step.dataFromStep1?.programmingLanguage || 'java'),
-    [step.dataFromStep1]
+    () => 'javascript', // getDataTypes(step.dataFromStep1?.programmingLanguage || 'java'),
+    [] //step.dataFromStep1]
   );
+
+  useEffect(() => {
+    if (exercise.argumentsName) {
+      setArgumentsName(exercise.argumentsName);
+    }
+  }, [exercise]);
 
   useEffect(() => {
     if (types.includes(additionalOption)) setOpen(true);
@@ -66,17 +76,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
   }, [open]);
 
   const prev = () => {
-    setStep((prev) => ({
-      ...prev,
-      currentStep: 1,
-      dataFromStep2: {
-        functionName: formik.values.functionName,
-        argumentsQuantity: formik.values.argumentsQuantity,
-        argumentsName,
-        types,
-        customTypes,
-      },
-    }));
+    setStep(1);
   };
 
   const setType = (index, value) => {
@@ -88,52 +88,32 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
     );
   };
 
+  const onSubmit = (values) => {
+    argumentsNameSchema
+      .validate({ argumentsName, types: formWithTypes ? types : [] })
+      .then((valid) => {
+        if (valid) {
+          setError({});
+          UpdateExercise({ id, ...values, argumentsName, step: 3 });
+          setStep(3);
+        }
+      })
+      .catch((err) => {
+        setError({ error: err.errors });
+      });
+  };
+
   const formik = useFormik({
     initialValues: {
-      functionName:
-        step.dataFromStep2?.functionName || dataToEdit?.functionName || '',
-      argumentsQuantity:
-        step.dataFromStep2?.argumentsQuantity ||
-        dataToEdit?.argumentsName.length ||
-        '',
+      functionName: exercise.functionName || '',
+      argumentsQuantity: exercise.argumentsName?.length || '',
     },
-    validationSchema: validation.customizeExerciseValidationSchema,
-    onSubmit: (values) => {
-      validation.argumentsNameSchema
-        .validate({ argumentsName, types: formWithTypes ? types : [] })
-        .then((valid) => {
-          if (valid) {
-            setError({});
-            setStep((prev) => ({
-              ...prev,
-              currentStep: 3,
-              dataFromStep2: { ...values, argumentsName, types, customTypes },
-            }));
-          }
-        })
-        .catch((err) => {
-          setError({ error: err.errors });
-        });
-    },
+    enableReinitialize: true,
+    validationSchema,
+    onSubmit,
   });
 
   useEffect(() => {
-    if (step.dataFromStep2?.argumentsName && !checked) {
-      setArgumentsName(step.dataFromStep2.argumentsName);
-      setCustomTypes(step.dataFromStep2.customTypes);
-      setTypes(step.dataFromStep2.types);
-      setChecked(true);
-      return;
-    }
-    if (dataToEdit && !checked) {
-      setArgumentsName(dataToEdit.argumentsName);
-      setCustomTypes(
-        dataToEdit.types.filter((type) => !dropdownOptions.includes(type))
-      );
-      setTypes(dataToEdit.types);
-      setChecked(true);
-      return;
-    }
     setArgumentsName((prev) =>
       [...Array(formik.values.argumentsQuantity).keys()].map((el) => {
         if (prev[el]) return prev[el];
@@ -364,10 +344,15 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
   );
 };
 
-export default CustomizeExercise;
+const mapDispatchToProps = {
+  GetExercise,
+  UpdateExercise,
+};
+
+export default connect(null, mapDispatchToProps)(CustomizeExercise);
 
 CustomizeExercise.propTypes = {
-  step: PropTypes.object.isRequired,
   setStep: PropTypes.func.isRequired,
-  dataToEdit: PropTypes.object,
+  GetExercise: PropTypes.func.isRequired,
+  UpdateExercise: PropTypes.func.isRequired,
 };

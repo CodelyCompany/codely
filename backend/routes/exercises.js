@@ -133,48 +133,16 @@ router.get('/withTest/:id', async (req, res) => {
 router.post('/addExercise', async (req, res) => {
   try {
     const data = req.body;
-    const counterCorrect = await runTests(data, data.exampleSolution);
-    if (counterCorrect === data.tests.length) {
-      const user = await User.findById(data.author);
-      const newExercise = new Exercise({
-        ...data,
-        author: user._id,
-        tests: [],
-      });
-      await newExercise.save();
-      let tests = [];
-      for (let i = 0; i < data.tests.length; i++) {
-        const element = data.tests[i];
-        const newTest = new Test({
-          input: element.input,
-          output: element.output,
-          exercise: newExercise._id,
-        });
-        await newTest.save();
-        tests.push(newTest._id);
-      }
-      await Exercise.findByIdAndUpdate(newExercise._id, {
-        tests,
-      });
-      await User.findByIdAndUpdate(user._id, {
-        preparedExercises: [...user.preparedExercises, newExercise._id],
-      });
-      return res.status(200).send(newExercise);
-    }
-    return res.status(400).send('Wrong example solution');
+    const user = await User.findById(data.author);
+    const newExercise = await new Exercise({
+      ...data,
+      author: user._id,
+      tests: [],
+    }).save();
+    return res.status(201).send(newExercise);
   } catch (error) {
     console.log(error);
     res.status(500).send(error);
-  }
-});
-
-router.post('/empty', async (req, res) => {
-  try {
-    const emptyExercise = new Exercise();
-    const savedExercise = await emptyExercise.save();
-    return res.status(201).send(savedExercise);
-  } catch (err) {
-    return res.status(500).send(err);
   }
 });
 
@@ -217,21 +185,23 @@ router.post('/checkSolution/:id', async (req, res) => {
   }
 });
 
-router.put('/editExercise', async (req, res) => {
+router.patch('/editExercise', async (req, res) => {
   try {
-    const { id, tests } = req.body;
+    const { id, tests, ...rest } = req.body;
     let testsToAdd = [];
-    for (let i = 0; i < tests.length; i++) {
-      const element = tests[i];
-      const newTest = await Test({
-        input: element.input,
-        output: element.output,
-        exercise: id,
-      }).save();
-      testsToAdd.push(newTest._id);
+    if (tests) {
+      for (let i = 0; i < tests.length; i++) {
+        const element = tests[i];
+        const newTest = await Test({
+          input: element.input,
+          output: element.output,
+          exercise: id,
+        }).save();
+        testsToAdd.push(newTest._id);
+      }
     }
     await Exercise.findByIdAndUpdate(id, {
-      ...req.body,
+      ...rest,
       tests: testsToAdd,
     });
     const data = await Exercise.findById(id).populate(['author', 'tests']);

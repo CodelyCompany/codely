@@ -16,7 +16,7 @@ import useTheme from 'helpers/useTheme';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import CustomizeExercise from 'ui/exercises/forms/CustomizeExercise';
 import ExampleSolution from 'ui/exercises/forms/ExampleSolution';
@@ -26,26 +26,24 @@ import TestsForm from 'ui/exercises/forms/TestsForm';
 
 import Pages from 'consts/pages';
 
-function MainForm({ GetExercise, redirect, StopRedirect, token }) {
+import useToken from '../../../helpers/useToken';
+
+function MainForm({ GetExercise, redirect, StopRedirect }) {
   const { color } = useTheme();
-  const [step, setStep] = useState({
-    currentStep: 1,
-    dataFromStep1: '',
-    dataFromStep2: '',
-    dataFromStep3: '',
-    dataFromStep4: '',
-    dataFromStep5: '',
-  });
+  const [step, setStep] = useState(1);
   const navigate = useNavigate();
   const { id } = useParams();
-  const exercise = useSelector(getExerciseById(id));
   const { t } = useTranslation();
-  const previousFormState = useRef(step);
+  const [searchParams] = useSearchParams();
+  const { token } = useToken();
   usePageTitle(Pages.EXERCISE_FORM);
 
   useEffect(() => {
-    previousFormState.current = step;
-  }, [step]);
+    const exerciseId = searchParams.get('id');
+    if (exerciseId) {
+      GetExercise(exerciseId, token);
+    }
+  }, []);
 
   useEffect(() => {
     if (redirect) {
@@ -98,8 +96,8 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
     <div id='main-form-container'>
       <Accordion
         sx={{ backgroundColor: 'primary.background' }}
-        disabled={step.currentStep !== 1}
-        expanded={step.currentStep === 1}
+        disabled={step !== 1}
+        expanded={step === 1}
       >
         <AccordionSummary
           sx={{ backgroundColor: color }}
@@ -117,13 +115,13 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
               `Here you can set title, description and difficulty of your exercise. Remember to set the most proper programming language!`
             )}
           </Typography>
-          <ExercisesForm setStep={setStep} dataToEdit={exercise} step={step} />
+          {step === 1 && <ExercisesForm setStep={setStep} />}
         </AccordionDetails>
       </Accordion>
       <Accordion
         sx={{ backgroundColor: 'primary.background' }}
-        disabled={step.currentStep !== 2}
-        expanded={step.currentStep === 2}
+        disabled={step !== 2}
+        expanded={step === 2}
       >
         <AccordionSummary
           sx={{ backgroundColor: color }}
@@ -141,17 +139,13 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
               `Here you can set amount of arguments for your function. You have to set the name for each argument.`
             )}
           </Typography>
-          <CustomizeExercise
-            step={step}
-            setStep={setStep}
-            dataToEdit={exercise}
-          />
+          {step === 2 && <CustomizeExercise setStep={setStep} />}
         </AccordionDetails>
       </Accordion>
       <Accordion
         sx={{ backgroundColor: 'primary.background' }}
-        disabled={step.currentStep !== 3}
-        expanded={step.currentStep === 3}
+        disabled={step !== 3}
+        expanded={step === 3}
       >
         <AccordionSummary
           sx={{ backgroundColor: color }}
@@ -168,13 +162,13 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
               `Choose quantity of your tests, then write expected outputs for each of your inputs.`
             )}
           </Typography>
-          <TestsForm setStep={setStep} dataToEdit={exercise} step={step} />
+          {step === 3 && <TestsForm setStep={setStep} />}
         </AccordionDetails>
       </Accordion>
       <Accordion
         sx={{ backgroundColor: 'primary.background' }}
-        disabled={step.currentStep !== 4}
-        expanded={step.currentStep === 4}
+        disabled={step !== 4}
+        expanded={step === 4}
       >
         <AccordionSummary
           sx={{ backgroundColor: color }}
@@ -190,14 +184,14 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
               `Here you can choose quantity of your hints. Remember that not all users will be able to solve your exercise without some help.`
             )}
           </Typography>
-          <HintsForms step={step} setStep={setStep} dataToEdit={exercise} />
+          {step === 4 && <HintsForms setStep={setStep} />}
         </AccordionDetails>
       </Accordion>
 
       <Accordion
         sx={{ backgroundColor: 'primary.background' }}
-        disabled={step.currentStep !== 5}
-        expanded={step.currentStep === 5}
+        disabled={step !== 5}
+        expanded={step === 5}
       >
         <AccordionSummary
           sx={{ backgroundColor: color }}
@@ -215,12 +209,7 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
               `Here you have to write an example solution to guarantee that your exercise is solvable. After solving, your exercise will be send to the admin to get an agreement.`
             )}
           </Typography>
-          <ExampleSolution
-            step={step}
-            setStep={setStep}
-            dataToEdit={exercise}
-            previousFormState={previousFormState}
-          />
+          {step === 5 && <ExampleSolution setStep={setStep} />}
         </AccordionDetails>
       </Accordion>
     </div>
@@ -229,7 +218,6 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
 
 const mapStateToProps = (state) => ({
   redirect: isRedirect(state),
-  token: getToken(state),
 });
 
 const mapDispatchToProps = {
