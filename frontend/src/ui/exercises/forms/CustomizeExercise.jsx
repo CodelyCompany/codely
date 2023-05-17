@@ -10,8 +10,9 @@ import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import CustomTypes from 'ui/exercises/forms/CustomTypes';
 import { getDataTypes } from 'ui/exercises/forms/utils/dataTypes';
-// eslint-disable-next-line max-len
-import { customizeExerciseValidation } from 'ui/exercises/forms/validationSchemes/customizeExerciseValidation';
+import { customizeExerciseValidation }
+  from 'ui/exercises/forms/validationSchemes/customizeExerciseValidation';
+import useToken from 'helpers/useToken';
 
 // Second step of creating exercise
 const CustomizeExercise = ({ setStep, UpdateExercise }) => {
@@ -24,7 +25,7 @@ const CustomizeExercise = ({ setStep, UpdateExercise }) => {
   const { color } = useTheme();
   const elementsColor = color.split('.')[0];
   const validation = customizeExerciseValidation(t, argumentsName);
-
+  const { token } = useToken();
   const additionalOption = t('Other types / Custom types');
   const languagesWithTypes = ['Java', 'C++', 'C'];
   const { id, exercise } = useExerciseData();
@@ -89,12 +90,12 @@ const CustomizeExercise = ({ setStep, UpdateExercise }) => {
   };
 
   const onSubmit = (values) => {
-    argumentsNameSchema
+    validation.argumentsNameSchema
       .validate({ argumentsName, types: formWithTypes ? types : [] })
       .then((valid) => {
         if (valid) {
           setError({});
-          UpdateExercise({ id, ...values, argumentsName, step: 3 });
+          UpdateExercise({ id, ...values, argumentsName, step: 3 }, token);
           setStep(3);
         }
       })
@@ -109,7 +110,7 @@ const CustomizeExercise = ({ setStep, UpdateExercise }) => {
       argumentsQuantity: exercise.argumentsName?.length || '',
     },
     enableReinitialize: true,
-    validationSchema,
+    validationSchema: validation.customizeExerciseValidationSchema,
     onSubmit,
   });
 

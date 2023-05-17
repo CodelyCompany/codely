@@ -13,10 +13,8 @@ import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import * as yup from 'yup';
-import { useSelector } from 'react-redux';
-// eslint-disable-next-line max-len
-import { exerciseFormValidation } from 'ui/exercises/forms/validationSchemes/exerciseFormValidation';
+import { exerciseFormValidation }
+  from 'ui/exercises/forms/validationSchemes/exerciseFormValidation';
 
 // First step of creating exercise
 const ExercisesForm = ({ setStep, AddExercise, UpdateExercise }) => {
@@ -38,6 +36,8 @@ const ExercisesForm = ({ setStep, AddExercise, UpdateExercise }) => {
   const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
     theme: 0,
   };
+  const elementsColor = color.split('.')[0];
+  const validation = exerciseFormValidation(t);
 
   const onSubmit = (values) => {
     setStep(2);
@@ -48,9 +48,6 @@ const ExercisesForm = ({ setStep, AddExercise, UpdateExercise }) => {
     AddExercise({ ...values, author: foundUser._id }, token, navigate);
   };
 
-  const { color } = useTheme();
-  const elementsColor = color.split('.')[0];
-  const validation = exerciseFormValidation(t);
 
   const formik = useFormik({
     initialValues: {

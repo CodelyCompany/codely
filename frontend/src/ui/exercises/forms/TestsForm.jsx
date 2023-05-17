@@ -10,9 +10,8 @@ import useToken from 'helpers/useToken';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
-import * as yup from 'yup';
-import { useSelector } from 'react-redux';
-import { testFormValidation } from 'ui/exercises/forms/validationSchemes/testFormValidation';
+import { testFormValidation }
+  from 'ui/exercises/forms/validationSchemes/testFormValidation';
 
 // Third step of creating exercise
 const TestsForm = ({ setStep, UpdateExercise }) => {
