@@ -9,6 +9,7 @@ import useTheme from 'helpers/useTheme';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
+// eslint-disable-next-line max-len
 import { exerciseFormValidation } from 'ui/exercises/forms/validationSchemes/exerciseFormValidation';
 
 const ExercisesForm = ({ setStep, dataToEdit, step }) => {

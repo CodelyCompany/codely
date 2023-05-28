@@ -7,6 +7,7 @@ import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import CustomTypes from 'ui/exercises/forms/CustomTypes';
 import { getDataTypes } from 'ui/exercises/forms/utils/dataTypes';
+// eslint-disable-next-line max-len
 import { customizeExerciseValidation } from 'ui/exercises/forms/validationSchemes/customizeExerciseValidation';
 
 const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
@@ -322,7 +323,14 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                   <MenuItem
                     key={opt}
                     value={opt}
-                    id={opt.length > 12 ? 'other-type' : opt}
+                    id={
+                      [
+                        'Inny typ / Własny typ',
+                        'Other types / Custom types',
+                      ].includes(opt)
+                        ? 'other-type'
+                        : opt
+                    }
                   >
                     {opt}
                   </MenuItem>
