@@ -76,7 +76,7 @@ const ExampleSolution = ({
   };
 
   const submit = () => {
-    UpdateExercise({ id, exampleSolution: code, step: 6 }, token, navigate('/exercises'));
+    UpdateExercise({ id, exampleSolution: code, step: 6 }, token, navigate('/exercises'), true);
   };
 
   const verifySolution = () => {

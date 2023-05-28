@@ -23,11 +23,11 @@ const TestsForm = ({ setStep, UpdateExercise }) => {
   const { token } = useToken();
   const { user } = useAuth0();
   const { id, exercise } = useExerciseData();
+  const validation = testFormValidation(t);
+  const elementsColor = color.split('.')[0];
   const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
     theme: 0,
   };
-  const validation = testFormValidation(t);
-  const elementsColor = color.split('.')[0];
 
   useEffect(() => {
     if (exercise.tests) {
@@ -89,17 +89,18 @@ const TestsForm = ({ setStep, UpdateExercise }) => {
   useEffect(() => {
     setTests((prev) =>
       [...Array(testsQuantity).keys()].map((el, index) => {
-        if (!prev[index])
+        if (!prev[index]) {
           return {
-            input: [...Array(testsQuantity).keys()].map(
+            input: [...Array(exercise.argumentsName?.length).keys()].map(
               () => ''
             ),
             output: '',
           };
-        if (prev[index].input.length !== testsQuantity) {
+        }
+        if (prev[index].input.length !== exercise.argumentsName?.length) {
           return {
             ...prev[index],
-            input: [...Array(testsQuantity).keys()].map(
+            input: [...Array(exercise.argumentsName?.length).keys()].map(
               (missingInput, missingInputIndex) => {
                 if (prev[index].input[missingInputIndex])
                   return prev[index].input[missingInputIndex];
@@ -111,7 +112,7 @@ const TestsForm = ({ setStep, UpdateExercise }) => {
         return prev[index];
       })
     );
-  }, [testsQuantity]);
+  }, [testsQuantity, exercise]);
 
   return (
     <Box id='tests-form-container'>

@@ -127,7 +127,7 @@ export const DeleteUncheckedExercise = (id, token) =>
     ],
   });
 
-export const UpdateExercise = (body, token, callback) =>
+export const UpdateExercise = (body, token, callback, isFormFinished) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
@@ -139,16 +139,16 @@ export const UpdateExercise = (body, token, callback) =>
       Authorization: `Bearer ${token}`,
     },
     types: [
-      types.UPDATE_EXERCISE_REQUEST,
+      isFormFinished ? types.UPDATE_ENTIRE_EXERCISE_REQUEST : types.UPDATE_EXERCISE_REQUEST,
       {
-        type: types.UPDATE_EXERCISE_SUCCESS,
+        type: isFormFinished ? types.UPDATE_ENTIRE_EXERCISE_SUCCESS : types.UPDATE_EXERCISE_SUCCESS,
         payload: async (action, state, res) => {
           const response = await res.json();
           callback?.();
           return response;
         },
       },
-      types.UPDATE_EXERCISE_FAILURE,
+      isFormFinished ? types.UPDATE_ENTIRE_EXERCISE_FAILURE : types.UPDATE_EXERCISE_FAILURE,
     ],
   });
 
