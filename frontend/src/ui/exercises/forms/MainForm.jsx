@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion from '@mui/material/Accordion';
@@ -6,18 +6,16 @@ import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import { GetAllExercises, GetExercise, GetExercises } from 'ducks/exercises/operations';
-import { getExerciseById } from 'ducks/exercises/selectors';
+import { GetAllExercises, GetExercise } from 'ducks/exercises/operations';
 import { StopRedirect } from 'ducks/redirects/actions';
 import { isRedirect } from 'ducks/redirects/selector';
-import { getToken } from 'ducks/token/selectors';
 import usePageTitle from 'helpers/usePageTitle';
 import useTheme from 'helpers/useTheme';
 import useToken from 'helpers/useToken';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { connect, useSelector } from 'react-redux';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import CustomizeExercise from 'ui/exercises/forms/CustomizeExercise';
 import ExampleSolution from 'ui/exercises/forms/ExampleSolution';
@@ -33,7 +31,6 @@ function MainForm({ GetExercise, redirect, StopRedirect, GetAllExercises }) {
   const navigate = useNavigate();
   const { id } = useParams();
   const { t } = useTranslation();
-  const [searchParams] = useSearchParams();
   const { token } = useToken();
   usePageTitle(Pages.EXERCISE_FORM);
 

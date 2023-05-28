@@ -76,7 +76,17 @@ const ExampleSolution = ({
   };
 
   const submit = () => {
-    UpdateExercise({ id, exampleSolution: code, step: 6 }, token, navigate('/exercises'), true);
+    const signature = getSignature(
+      exercise.programmingLanguage.toLowerCase(),
+      exercise.functionName,
+      exercise.argumentsName,
+      exercise.types
+    );
+    UpdateExercise(
+      { id, exampleSolution: code, step: 6, functionSignature: signature },
+      token,
+      navigate('/exercises'),
+      true);
   };
 
   const verifySolution = () => {
