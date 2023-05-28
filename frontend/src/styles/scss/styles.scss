@@ -546,20 +546,15 @@ html {
 }
 
 #output-field-wrapper {
+  border: 3px solid;
   display: flex;
   width: 100%;
   margin-right: 5px;
   justify-content: center;
   margin-top: 10px;
-  max-height: 200px;
-
-  #line-numbering {
-    border-radius: 5px 0 0 5px;
-    overflow: auto;
-    border: 3px solid;
-    border-right: 0;
-    padding-top: 2px;
-  }
+  height: 200px;
+  overflow: hidden;
+  border-radius: 5px;
 
   #text-area-wrapper {
     width: 100%;
@@ -567,12 +562,12 @@ html {
     height: 100%;
 
     #output-text-area {
-      border-radius: 0 5px 5px 0;
       background-color: white;
+      border: none;
       font-family: 'JetBrains Mono';
-      border: 3px solid;
       font-size: 14px;
       width: calc(100% - 10px);
+      height: calc(100% - 10px);
     }
   }
 }
