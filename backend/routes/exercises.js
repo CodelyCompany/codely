@@ -63,7 +63,7 @@ async function runTests(exercise, solution) {
 
 router.get('/', async (req, res) => {
   try {
-    const data = await Exercise.find({}).populate(['author', 'tests']);
+    const data = await Exercise.find({ step: 6 }).populate(['author', 'tests']);
     res.status(200).send(data);
   } catch (error) {
     console.log(error);
@@ -73,7 +73,7 @@ router.get('/', async (req, res) => {
 
 router.get('/checked', async (req, res) => {
   try {
-    const data = await Exercise.find({ checked: true }).populate([
+    const data = await Exercise.find({ checked: true, step: 6 }).populate([
       'author',
       'tests',
     ]);
@@ -86,7 +86,7 @@ router.get('/checked', async (req, res) => {
 
 router.get('/unchecked', async (req, res) => {
   try {
-    const data = await Exercise.find({ checked: false }).populate([
+    const data = await Exercise.find({ checked: false, step: 6 }).populate([
       'author',
       'tests',
     ]);
@@ -188,8 +188,9 @@ router.post('/checkSolution/:id', async (req, res) => {
 router.patch('/editExercise', async (req, res) => {
   try {
     const { id, tests, ...rest } = req.body;
-    let testsToAdd = [];
+    let testsToAdd = {};
     if (tests) {
+      testsToAdd = { tests: [] };
       for (let i = 0; i < tests.length; i++) {
         const element = tests[i];
         const newTest = await Test({
@@ -197,12 +198,12 @@ router.patch('/editExercise', async (req, res) => {
           output: element.output,
           exercise: id,
         }).save();
-        testsToAdd.push(newTest._id);
+        testsToAdd.tests.push(newTest._id);
       }
     }
     await Exercise.findByIdAndUpdate(id, {
       ...rest,
-      tests: testsToAdd,
+      ...testsToAdd,
     });
     const data = await Exercise.findById(id).populate(['author', 'tests']);
     return res.status(200).send(data);

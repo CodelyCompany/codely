@@ -58,7 +58,7 @@ export const AddExercise = (body, token, callback) =>
         type: types.POST_EXERCISE_SUCCESS,
         payload: async (action, state, res) => {
           const json = await res.json();
-          callback(`/Exercises/form?id=${json._id}`);
+          callback?.(`/Exercises/form?id=${json._id}`);
           return json;
         },
       },
@@ -106,7 +106,7 @@ export const DeleteUncheckedExercise = (id, token) =>
     ],
   });
 
-export const UpdateExercise = (body, token) =>
+export const UpdateExercise = (body, token, callback) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
@@ -121,7 +121,11 @@ export const UpdateExercise = (body, token) =>
       types.UPDATE_EXERCISE_REQUEST,
       {
         type: types.UPDATE_EXERCISE_SUCCESS,
-        payload: async (action, state, res) => await res.json(),
+        payload: async (action, state, res) => {
+          const response = await res.json();
+          callback?.();
+          return response;
+        },
       },
       types.UPDATE_EXERCISE_FAILURE,
     ],
@@ -143,7 +147,7 @@ export const GetExercise = (id, token, callback) =>
         type: types.GET_EXERCISE_SUCCESS,
         payload: async (action, state, res) => {
           const response = await res.json();
-          callback(response);
+          callback?.(response);
           return response;
         },
       },
@@ -168,5 +172,31 @@ export const CheckExercise = (id, token) =>
         payload: async (action, state, res) => await res.json(),
       },
       types.PUT_CHECK_EXERCISE_FAILURE,
+    ],
+  });
+
+export const VerifyExercise = (body, callback, token, callbackAfterResponse) =>
+  createAction({
+    endpoint: `${
+      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+    }/exercises/checkBeforeAddExercise`,
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    types: [
+      types.POST_VERIFY_SOLUTION_REQUEST,
+      {
+        type: types.POST_VERIFY_SOLUTION_SUCCESS,
+        payload: async (action, state, res) => {
+          const response = await res.json();
+          callback?.(response);
+          callbackAfterResponse?.(true);
+          return response;
+        },
+      },
+      types.POST_VERIFY_SOLUTION_FAILURE,
     ],
   });

@@ -4,7 +4,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import Editor from '@monaco-editor/react';
 import { Box, Button } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
-import { AddExercise, UpdateExercise } from 'ducks/exercises/operations';
+import { AddExercise, UpdateExercise, VerifyExercise } from 'ducks/exercises/operations';
 import { addPopup } from 'ducks/popups/actions';
 import { getUserByUsername } from 'ducks/user/selectors';
 import useExerciseData from 'helpers/useExerciseData';
@@ -15,6 +15,7 @@ import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { ThreeDots } from 'react-loader-spinner';
 import { connect, useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import TestsList from 'ui/exercises/forms/TestsList';
 import { getSignature } from 'ui/exercises/forms/utils/functionSignatures';
 
@@ -22,6 +23,7 @@ import { getSignature } from 'ui/exercises/forms/utils/functionSignatures';
 const ExampleSolution = ({
   setStep,
   UpdateExercise,
+  VerifyExercise,
 }) => {
   const { t } = useTranslation();
   const { token } = useToken();
@@ -32,6 +34,11 @@ const ExampleSolution = ({
   const dispatch = useDispatch();
   const { color } = useTheme();
   const { id, exercise } = useExerciseData();
+  const elementsColor = color.split('.')[0];
+  const navigate = useNavigate();
+  const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
+    theme: 0,
+  };
 
   useEffect(() => {
     if (exercise.exampleSolution) {
@@ -49,10 +56,6 @@ const ExampleSolution = ({
       setCode(signature);
     }
   }, [exercise]);
-
-  const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
-    theme: 0,
-  };
 
   useEffect(() => {
     if (tests && tests.correct === tests.tests)
@@ -72,12 +75,18 @@ const ExampleSolution = ({
   };
 
   const submit = () => {
-    UpdateExercise({ id, exampleSolution: code }, token);
+    UpdateExercise({ id, exampleSolution: code, step: 6 }, token, navigate('/exercises'));
   };
 
   const verifySolution = () => {
     setFinishedLoading(false);
-    setFinishedLoading(true);
+    const { tests, programmingLanguage, functionName } = exercise;
+    VerifyExercise({
+      exampleSolution: code,
+      tests,
+      programmingLanguage,
+      functionName,
+    }, setTests, token, setFinishedLoading);
   };
 
   return (
@@ -99,7 +108,7 @@ const ExampleSolution = ({
         </Box>
         <Box id='example-solution-button-wrapper'>
           <Button
-            color={color.split('.')[0]}
+            color={elementsColor}
             variant='contained'
             onClick={prev}
             id={'back'}
@@ -108,8 +117,8 @@ const ExampleSolution = ({
             {t('Previous')}
           </Button>
           <Button
+            color={elementsColor}
             id={tests && tests.correct === tests.tests ? 'send' : 'submit'}
-            color={color.split('.')[0]}
             variant='contained'
             disabled={!finishedLoading}
             onClick={() =>
@@ -151,13 +160,14 @@ const ExampleSolution = ({
           </Button>
         </Box>
       </Box>
-      {/*<TestsList step={step} />*/}
+      <TestsList />
     </>
   );
 };
 
 const mapDispatchToProps = {
   AddExercise,
+  VerifyExercise,
   UpdateExercise,
 };
 
@@ -166,4 +176,5 @@ export default connect(null, mapDispatchToProps)(ExampleSolution);
 ExampleSolution.propTypes = {
   setStep: PropTypes.func.isRequired,
   UpdateExercise: PropTypes.func,
+  VerifyExercise: PropTypes.func.isRequired,
 };
