@@ -6,13 +6,14 @@ import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import { GetExercise } from 'ducks/exercises/operations';
+import { GetAllExercises, GetExercise, GetExercises } from 'ducks/exercises/operations';
 import { getExerciseById } from 'ducks/exercises/selectors';
 import { StopRedirect } from 'ducks/redirects/actions';
 import { isRedirect } from 'ducks/redirects/selector';
 import { getToken } from 'ducks/token/selectors';
 import usePageTitle from 'helpers/usePageTitle';
 import useTheme from 'helpers/useTheme';
+import useToken from 'helpers/useToken';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
@@ -26,9 +27,7 @@ import TestsForm from 'ui/exercises/forms/TestsForm';
 
 import Pages from 'consts/pages';
 
-import useToken from '../../../helpers/useToken';
-
-function MainForm({ GetExercise, redirect, StopRedirect }) {
+function MainForm({ GetExercise, redirect, StopRedirect, GetAllExercises }) {
   const { color } = useTheme();
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
@@ -39,10 +38,7 @@ function MainForm({ GetExercise, redirect, StopRedirect }) {
   usePageTitle(Pages.EXERCISE_FORM);
 
   useEffect(() => {
-    const exerciseId = searchParams.get('id');
-    if (exerciseId) {
-      GetExercise(exerciseId, token);
-    }
+    GetAllExercises(token);
   }, []);
 
   useEffect(() => {
@@ -223,6 +219,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   GetExercise,
   StopRedirect,
+  GetAllExercises,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainForm);
@@ -232,4 +229,5 @@ MainForm.propTypes = {
   redirect: PropTypes.bool,
   StopRedirect: PropTypes.func,
   token: PropTypes.string,
+  GetAllExercises: PropTypes.func.isRequired,
 };

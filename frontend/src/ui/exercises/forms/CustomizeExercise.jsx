@@ -1,10 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Box, Button, MenuItem, TextField } from '@mui/material';
 import { GetExercise, UpdateExercise } from 'ducks/exercises/operations';
 import { useFormik } from 'formik';
 import useExerciseData from 'helpers/useExerciseData';
 import useTheme from 'helpers/useTheme';
+import useToken from 'helpers/useToken';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -12,7 +13,8 @@ import CustomTypes from 'ui/exercises/forms/CustomTypes';
 import { getDataTypes } from 'ui/exercises/forms/utils/dataTypes';
 import { customizeExerciseValidation }
   from 'ui/exercises/forms/validationSchemes/customizeExerciseValidation';
-import useToken from 'helpers/useToken';
+
+import StaticallyTypedLanguage from 'consts/StaticallyTypedLanguage';
 
 // Second step of creating exercise
 const CustomizeExercise = ({ setStep, UpdateExercise }) => {
@@ -27,21 +29,20 @@ const CustomizeExercise = ({ setStep, UpdateExercise }) => {
   const validation = customizeExerciseValidation(t, argumentsName);
   const { token } = useToken();
   const additionalOption = t('Other types / Custom types');
-  const languagesWithTypes = ['Java', 'C++', 'C'];
+  const languagesWithTypes = Object.values(StaticallyTypedLanguage);
   const { id, exercise } = useExerciseData();
-
-  const formWithTypes = useMemo(
-    () => false, //languagesWithTypes.includes(step.dataFromStep1?.programmingLanguage),
-    [] //step.dataFromStep1]
-  );
-  const dropdownOptions = useMemo(
-    () => 'javascript', // getDataTypes(step.dataFromStep1?.programmingLanguage || 'java'),
-    [] //step.dataFromStep1]
-  );
+  const formWithTypes = languagesWithTypes.includes(exercise.programmingLanguage);
+  const [dropdownOptions, setDropdownOptions] =
+    useState(getDataTypes(exercise.programmingLanguage || 'java'));
 
   useEffect(() => {
     if (exercise.argumentsName) {
       setArgumentsName(exercise.argumentsName);
+    }
+    if (exercise.types) {
+      setTypes(exercise.types);
+      const newTypes = _.difference(exercise.types, dropdownOptions);
+      setDropdownOptions((currentTypes) => [...currentTypes, ...newTypes]);
     }
   }, [exercise]);
 
@@ -95,7 +96,7 @@ const CustomizeExercise = ({ setStep, UpdateExercise }) => {
       .then((valid) => {
         if (valid) {
           setError({});
-          UpdateExercise({ id, ...values, argumentsName, step: 3 }, token);
+          UpdateExercise({ id, ...values, argumentsName, types, step: 3 }, token);
           setStep(3);
         }
       })
@@ -354,6 +355,5 @@ export default connect(null, mapDispatchToProps)(CustomizeExercise);
 
 CustomizeExercise.propTypes = {
   setStep: PropTypes.func.isRequired,
-  GetExercise: PropTypes.func.isRequired,
   UpdateExercise: PropTypes.func.isRequired,
 };

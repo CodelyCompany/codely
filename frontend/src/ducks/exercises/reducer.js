@@ -1,10 +1,16 @@
 import { types } from 'ducks/exercises/types';
 
 export const exercisesReducer = (
-  state = { exercises: [], exercisesToCheck: [], error: false },
+  state = { exercises: [], unfinishedExercises: [], exercisesToCheck: [], error: false },
   action
 ) => {
   switch (action.type) {
+    case types.GET_ALL_EXERCISES_SUCCESS:
+      const data = action.payload;
+      const unfinishedExercises = data.filter((ex) => ex.step !== 6);
+      const exercisesToCheck = data.filter((ex) => ex.step === 6 && !ex.checked);
+      const exercises = data.filter((ex) => ex.step === 6 && ex.checked);
+      return { exercises, unfinishedExercises, exercisesToCheck, error: false };
     case types.GET_EXERCISES_SUCCESS:
       return { ...state, exercises: action.payload };
     // On this type, exercises are being added to the state

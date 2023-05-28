@@ -63,7 +63,7 @@ async function runTests(exercise, solution) {
 
 router.get('/', async (req, res) => {
   try {
-    const data = await Exercise.find({ step: 6 }).populate(['author', 'tests']);
+    const data = await Exercise.find().populate(['author', 'tests']);
     res.status(200).send(data);
   } catch (error) {
     console.log(error);

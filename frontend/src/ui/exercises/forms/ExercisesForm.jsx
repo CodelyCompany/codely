@@ -4,6 +4,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Button, MenuItem, TextField } from '@mui/material';
 import { Box } from '@mui/system';
 import { AddExercise, UpdateExercise } from 'ducks/exercises/operations';
+import { getAllCreatedExercises } from 'ducks/exercises/selectors';
 import { getUserByUsername } from 'ducks/user/selectors';
 import { useFormik } from 'formik';
 import useExerciseData from 'helpers/useExerciseData';
@@ -16,28 +17,23 @@ import { useNavigate } from 'react-router-dom';
 import { exerciseFormValidation }
   from 'ui/exercises/forms/validationSchemes/exerciseFormValidation';
 
+import ProgrammingLanguage from 'consts/programmingLanguage';
+
 // First step of creating exercise
 const ExercisesForm = ({ setStep, AddExercise, UpdateExercise }) => {
   const { t } = useTranslation();
-  const programmingLanguages = [
-    'JavaScript',
-    'Bash',
-    'C',
-    'C++',
-    'Java',
-    'Python',
-    'R',
-  ];
+  const programmingLanguages = Object.values(ProgrammingLanguage);
   const { token } = useToken();
   const { user } = useAuth0();
   const { color } = useTheme();
   const navigate = useNavigate();
   const { id, exercise } = useExerciseData();
+  const exercises = useSelector(getAllCreatedExercises).filter((ex) => ex._id !== id);
+  const elementsColor = color.split('.')[0];
+  const validation = exerciseFormValidation(t, _.map(exercises, 'title'));
   const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
     theme: 0,
   };
-  const elementsColor = color.split('.')[0];
-  const validation = exerciseFormValidation(t);
 
   const onSubmit = (values) => {
     setStep(2);

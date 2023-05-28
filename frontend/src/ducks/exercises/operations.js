@@ -1,6 +1,27 @@
 import { types } from 'ducks/exercises/types';
 import { createAction } from 'redux-api-middleware';
 
+// It gets all exercises (including unfinished exercises, step < 6)
+export const GetAllExercises = (token) =>
+  createAction({
+    endpoint: `${
+      process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+    }/exercises/`,
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    types: [
+      types.GET_ALL_EXERCISES_REQUEST,
+      {
+        type: types.GET_ALL_EXERCISES_SUCCESS,
+        payload: async (action, state, res) => await res.json(),
+      },
+      types.GET_ALL_EXERCISES_FAILURE,
+    ],
+  });
+
 export const GetExercises = (token) =>
   createAction({
     endpoint: `${

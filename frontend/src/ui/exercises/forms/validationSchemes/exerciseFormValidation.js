@@ -1,12 +1,19 @@
 const yup = require('yup');
 
-export const exerciseFormValidation = (t) => {
+yup.addMethod(yup.mixed, 'uniqueIn', function (array = [], message) {
+  return this.test('uniqueIn', message, function (value) {
+    return array.filter((item) => item === value).length < 1;
+  });
+});
+
+export const exerciseFormValidation = (t, exercises) => {
   const exerciseValidationSchema = yup.object({
     title: yup
       .string(t('Enter a title'))
       .min(3, t('Title should be of minimum 3 characters length'))
       .max(50, t('Title should be of maximum 50 characters length'))
-      .required(t('Title is required')),
+      .required(t('Title is required'))
+      .uniqueIn(exercises, t('Title should be unique')),
     description: yup
       .string(t('Enter a description'))
       .max(5000, t('Description should be of maximum 5000 characters length'))

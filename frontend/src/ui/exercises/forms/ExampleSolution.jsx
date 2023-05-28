@@ -51,7 +51,8 @@ const ExampleSolution = ({
       const signature = getSignature(
         exercise.programmingLanguage.toLowerCase(),
         exercise.functionName,
-        exercise.argumentsName
+        exercise.argumentsName,
+        exercise.types
       );
       setCode(signature);
     }
@@ -100,7 +101,7 @@ const ExampleSolution = ({
             theme={foundUser?.theme === 1 ? 'vs-dark' : 'vs'}
             loading={<CircularProgress />}
             height='100%'
-            language={'javascript'}
+            language={exercise.programmingLanguage?.toLowerCase() || 'javascript'}
             value={code}
             onChange={handleCodeChange}
             width='100%'
