@@ -32,6 +32,9 @@ const getRandomExercise = async (language) => {
         language: {
           $eq: language,
         },
+        checked: {
+          $eq: true,
+        }
       },
     },
     {
