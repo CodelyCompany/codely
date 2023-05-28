@@ -10,7 +10,9 @@ import { addPopup } from 'ducks/popups/actions';
 import { getUserByUsername } from 'ducks/user/selectors';
 import useTheme from 'helpers/useTheme';
 import useToken from 'helpers/useToken';
+import _ from 'lodash';
 import { PropTypes } from 'prop-types';
+import isEqual from 'react-fast-compare';
 import { useTranslation } from 'react-i18next';
 import { ThreeDots } from 'react-loader-spinner';
 import { connect, useDispatch, useSelector } from 'react-redux';
@@ -23,6 +25,7 @@ const ExampleSolution = ({
   AddExercise,
   dataToEdit,
   UpdateExercise,
+  previousFormState,
 }) => {
   const { t } = useTranslation();
   const { token } = useToken();
@@ -47,6 +50,20 @@ const ExampleSolution = ({
     theme: 0,
   };
 
+  const detectFunctionSignatureChange = (prevSignature, currSignature) => {
+    const fieldsToOmit = [
+      'currentStep',
+      'dataFromStep5',
+      'dataFromStep4',
+      'dataFromStep3',
+      'code',
+    ];
+    const omittedPrevSignature = _.omit(prevSignature.current, fieldsToOmit);
+    const omittedCurrentSignature = _.omit(currSignature, fieldsToOmit);
+
+    return !isEqual(omittedPrevSignature, omittedCurrentSignature);
+  };
+
   useEffect(() => {
     if (tests && tests.correct === tests.tests)
       dispatch(
@@ -57,16 +74,23 @@ const ExampleSolution = ({
   }, [tests]);
 
   useEffect(() => {
-    step.dataFromStep1.programmingLanguage &&
+    const isFunctionSignatureChanged = detectFunctionSignatureChange(
+      previousFormState,
+      step
+    );
+    const isFormFilled =
+      step.dataFromStep1.programmingLanguage &&
       step.dataFromStep2.functionName &&
-      step.dataFromStep2.argumentsName &&
-      setCode(
-        step.code
-          ? step.code
-          : dataToEdit
-          ? dataToEdit.exampleSolution
-          : signature
-      );
+      step.dataFromStep2.argumentsName;
+    const editorContent = step.code
+      ? step.code
+      : dataToEdit
+      ? dataToEdit.exampleSolution
+      : signature;
+    if (!isFormFilled) return;
+    if (isFunctionSignatureChanged)
+      setStep((prev) => ({ ...prev, code: signature }));
+    setCode(isFunctionSignatureChanged ? signature : editorContent);
   }, []);
 
   const prev = () => {
@@ -236,4 +260,5 @@ ExampleSolution.propTypes = {
   AddExercise: PropTypes.func,
   dataToEdit: PropTypes.object,
   UpdateExercise: PropTypes.func,
+  previousFormState: PropTypes.object,
 };

@@ -7,7 +7,7 @@ import useTheme from 'helpers/useTheme';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import * as yup from 'yup';
+import { testFormValidation } from 'ui/exercises/forms/validationSchemes/testFormValidation';
 
 const TestsForm = ({ setStep, dataToEdit, step }) => {
   const { t } = useTranslation();
@@ -20,34 +20,11 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
   const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
     theme: 0,
   };
-
-  const inputValidation = yup
-    .string(t('Enter an input'))
-    .required(t('Input is required'));
-
-  const outputValidation = yup
-    .string(t('Enter an output'))
-    .required(t('Output is required'));
-
-  const testsValidationSchema = yup.object({
-    tests: yup.array(t('Enter all tests')).of(
-      yup.object({
-        input: yup
-          .array(t('Enter this field'))
-          .of(
-            yup
-              .string(t('Enter this field'))
-              .required(t('This field is required'))
-          ),
-        output: yup
-          .string(t('Enter this field'))
-          .required(t('This field is required')),
-      })
-    ),
-  });
+  const validation = testFormValidation(t);
+  const elementsColor = color.split('.')[0];
 
   const submitValues = () => {
-    testsValidationSchema
+    validation.testsValidationSchema
       .validate({ tests })
       .then((valid) => {
         if (valid) {
@@ -146,7 +123,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
     <Box id='tests-form-container'>
       <Box id='tests-quantity-wrapper'>
         <TextField
-          color={color.split('.')[0]}
+          color={elementsColor}
           focused
           sx={{ color }}
           id={`testsQuantity-${foundUser.theme}`}
@@ -189,7 +166,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
                           : {};
                       return (
                         <TextField
-                          color={color.split('.')[0]}
+                          color={elementsColor}
                           focused
                           sx={{ input: { color } }}
                           {...label}
@@ -199,13 +176,13 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
                           onChange={(e) => handleTests(index, argNumber, e)}
                           error={
                             error.error &&
-                            !inputValidation.isValidSync(
+                            !validation.inputValidation.isValidSync(
                               tests[index]?.input[argNumber] || ''
                             )
                           }
                           helperText={
                             error &&
-                            !inputValidation.isValidSync(
+                            !validation.inputValidation.isValidSync(
                               tests[index]?.input[argNumber] || ''
                             ) &&
                             error.error
@@ -217,7 +194,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
                 </Box>
                 <Box>
                   <TextField
-                    color={color.split('.')[0]}
+                    color={elementsColor}
                     focused
                     id={`output-${index}`}
                     sx={{ input: { color } }}
@@ -226,11 +203,13 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
                     onChange={(e) => handleOutput(index, e)}
                     error={
                       error.error &&
-                      !outputValidation.isValidSync(tests[index]?.output || '')
+                      !validation.outputValidation.isValidSync(
+                        tests[index]?.output || ''
+                      )
                     }
                     helperText={
                       error.error &&
-                      !outputValidation.isValidSync(
+                      !validation.outputValidation.isValidSync(
                         tests[index]?.output || ''
                       ) &&
                       error.error
@@ -242,7 +221,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
           })}
 
         <Button
-          color={color.split('.')[0]}
+          color={elementsColor}
           fullWidth
           type='button'
           onClick={() => goToPreviousStage()}
@@ -252,7 +231,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
           {t('Previous')}
         </Button>
         <Button
-          color={color.split('.')[0]}
+          color={elementsColor}
           fullWidth
           type='button'
           onClick={() => submitValues()}

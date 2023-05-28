@@ -13,11 +13,14 @@ app.listen(port, () => {
 
 app.post('/', async (req, res) => {
   try {
-    fs.writeFileSync('./execute.py', req.body.toExecute);
-    const output = execSync('python3 execute.py', {
-      encoding: 'utf-8',
-      timeout,
-    });
+    fs.writeFileSync('./userdir/execute.py', req.body.toExecute);
+    const output = execSync(
+      'cd userdir && unshare -r -n python3 ./execute.py',
+      {
+        encoding: 'utf-8',
+        timeout,
+      }
+    );
     return res.status(200).send({ output });
   } catch (error) {
     if (error.code === 'ETIMEDOUT') {

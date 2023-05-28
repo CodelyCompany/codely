@@ -7,7 +7,7 @@ import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import CustomTypes from 'ui/exercises/forms/CustomTypes';
 import { getDataTypes } from 'ui/exercises/forms/utils/dataTypes';
-import * as yup from 'yup';
+import { customizeExerciseValidation } from 'ui/exercises/forms/validationSchemes/customizeExerciseValidation';
 
 const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
   const { t } = useTranslation();
@@ -18,6 +18,8 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
   const [open, setOpen] = useState(false);
   const [customTypes, setCustomTypes] = useState([]);
   const { color } = useTheme();
+  const elementsColor = color.split('.')[0];
+  const validation = customizeExerciseValidation(t, argumentsName);
 
   const additionalOption = t('Other types / Custom types');
   const languagesWithTypes = ['Java', 'C++', 'C'];
@@ -85,69 +87,6 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
     );
   };
 
-  yup.addMethod(yup.array, 'unique', function (message, mapper = (a) => a) {
-    return this.test('unique', message, function (list) {
-      return list.length === new Set(list.map(mapper)).size;
-    });
-  });
-
-  yup.addMethod(yup.mixed, 'uniqueIn', function (array = [], message) {
-    return this.test('uniqueIn', message, function (value) {
-      return array.filter((item) => item === value).length < 2;
-    });
-  });
-
-  const argumentSchema = yup
-    .string()
-    .required()
-    .matches(/^[a-zA-Z0-9]*[a-z]\[*\]*[a-zA-Z0-9]*$/)
-    .uniqueIn(argumentsName);
-
-  const typesSchema = yup
-    .string(t('Enter all arguments type'))
-    .required(t('Argument type is required'));
-
-  const argumentsNameSchema = yup.object({
-    argumentsName: yup
-      .array(t('Enter all arguments name'))
-      .of(
-        yup
-          .string(t('Enter all arguments name'))
-          .required(t('All arguments are required'))
-          .matches(
-            /^[a-zA-Z0-9]*[a-z]\[*\]*[a-zA-Z0-9]*$/,
-            t('Arguments name should consist only of letters and numbers')
-          )
-      )
-      .required(t('All arguments are required'))
-      .unique(t('All arguments should be unique')),
-    types: yup
-      .array(t('Enter all argument types'))
-      .of(
-        yup
-          .string(t('Enter all arguments type'))
-          .required(t('Argument type is required'))
-      )
-      .notRequired(),
-  });
-
-  const validationSchema = yup.object({
-    functionName: yup
-      .string(t('Enter a function name'))
-      .min(1, t('Function name should be of minimum 1 character length'))
-      .max(50, t('Function name should be of maximum 50 characters length'))
-      .required(t('Function name is required'))
-      .matches(
-        /^[a-zA-Z0-9]*[a-z][a-zA-Z0-9]*$/,
-        t('Function name should consist of letters and numbers only')
-      ),
-    argumentsQuantity: yup
-      .number(t('Enter arguments quantity'))
-      .min(1, t('Arguments quantity should be higher than 0'))
-      .max(5, t("Arguments quantity shouldn't be higher than 5"))
-      .required(t('Arguments quantity are required')),
-  });
-
   const formik = useFormik({
     initialValues: {
       functionName:
@@ -157,9 +96,9 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
         dataToEdit?.argumentsName.length ||
         '',
     },
-    validationSchema,
+    validationSchema: validation.customizeExerciseValidationSchema,
     onSubmit: (values) => {
-      argumentsNameSchema
+      validation.argumentsNameSchema
         .validate({ argumentsName, types: formWithTypes ? types : [] })
         .then((valid) => {
           if (valid) {
@@ -229,7 +168,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
         <form id='customize-exercise-form' onSubmit={formik.handleSubmit}>
           <TextField
             className='customize-exercise-field'
-            color={color.split('.')[0]}
+            color={elementsColor}
             focused
             sx={{ color, input: { color } }}
             id='functionName'
@@ -245,7 +184,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
             }
           />
           <TextField
-            color={color.split('.')[0]}
+            color={elementsColor}
             focused
             className='customize-exercise-field'
             sx={{ input: { color } }}
@@ -272,7 +211,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                   <Box key={argNumber}>
                     <TextField
                       className='customize-exercise-field-2'
-                      color={color.split('.')[0]}
+                      color={elementsColor}
                       focused
                       sx={{
                         width: `${formWithTypes ? 'calc(50% - 5px)' : '100%'}`,
@@ -285,13 +224,13 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                       onChange={(e) => handleArgumentName(e, argNumber)}
                       error={
                         error.error &&
-                        !argumentSchema.isValidSync(
+                        !validation.argumentSchema.isValidSync(
                           argumentsName[argNumber] || ''
                         )
                       }
                       helperText={
                         error &&
-                        !argumentSchema.isValidSync(
+                        !validation.argumentSchema.isValidSync(
                           argumentsName[argNumber] || ''
                         ) &&
                         error.error
@@ -300,7 +239,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                     {formWithTypes && (
                       <TextField
                         className='customize-exercise-field-2'
-                        color={color.split('.')[0]}
+                        color={elementsColor}
                         select
                         sx={{
                           width: `${
@@ -314,11 +253,15 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                         onChange={(e) => setType(argNumber, e.target.value)}
                         error={
                           error.error &&
-                          !typesSchema.isValidSync(types[argNumber] || '')
+                          !validation.typesSchema.isValidSync(
+                            types[argNumber] || ''
+                          )
                         }
                         helperText={
                           error &&
-                          !typesSchema.isValidSync(types[argNumber] || '') &&
+                          !validation.typesSchema.isValidSync(
+                            types[argNumber] || ''
+                          ) &&
                           error.error
                         }
                       >
@@ -351,7 +294,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
           {formWithTypes && (
             <TextField
               className='customize-exercise-field-2'
-              color={color.split('.')[0]}
+              color={elementsColor}
               select
               fullWidth
               id={'outputType'}
@@ -362,13 +305,13 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
               }
               error={
                 error.error &&
-                !typesSchema.isValidSync(
+                !validation.typesSchema.isValidSync(
                   types[formik.values.argumentsQuantity] || ''
                 )
               }
               helperText={
                 error &&
-                !typesSchema.isValidSync(
+                !validation.typesSchema.isValidSync(
                   types[formik.values.argumentsQuantity] || ''
                 ) &&
                 error.error
@@ -390,7 +333,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
           <Box id='buttons-wrapper'>
             <Button
               id='customize-exercise-button'
-              color={color.split('.')[0]}
+              color={elementsColor}
               variant='contained'
               onClick={prev}
               className={'cancel-2'}
@@ -399,7 +342,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
             </Button>
 
             <Button
-              color={color.split('.')[0]}
+              color={elementsColor}
               variant='contained'
               type='submit'
               id={'submit-2'}

@@ -13,13 +13,16 @@ app.listen(port, () => {
 
 app.post('/', async (req, res) => {
   try {
-    fs.writeFileSync('./Main.java', req.body.toExecute);
+    fs.writeFileSync('./userdir/Main.java', req.body.toExecute);
     const execOptions = {
       encoding: 'utf-8',
       timeout,
     };
-    execSync('javac Main.java', execOptions);
-    const output = execSync('java Main', execOptions);
+    execSync('cd userdir && javac ./Main.java', execOptions);
+    const output = execSync(
+      'cd userdir && unshare -r -n java Main',
+      execOptions
+    );
     return res.status(200).send({ output });
   } catch (error) {
     if (error.code === 'ETIMEDOUT') {

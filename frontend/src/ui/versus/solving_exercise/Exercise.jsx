@@ -18,6 +18,7 @@ import { GetExercises } from 'ducks/exercises/operations';
 import { getExerciseById } from 'ducks/exercises/selectors';
 import { getSocket } from 'ducks/socket/selectors';
 import { getUserByUsername } from 'ducks/user/selectors';
+import usePageTitle from 'helpers/usePageTitle';
 import useTheme from 'helpers/useTheme';
 import useToken from 'helpers/useToken';
 import * as _ from 'lodash';
@@ -30,6 +31,8 @@ import CustomArgs from 'ui/exercises/editor_to_exercises/CustomArgs';
 import Buttons from 'ui/versus/solving_exercise/Buttons';
 import FinishDialog from 'ui/versus/solving_exercise/FinishDialog';
 import VersusEditor from 'ui/versus/solving_exercise/VersusEditor';
+
+import Pages from 'consts/pages';
 
 const Exercise = ({ GetExercises, socket }) => {
   const { t } = useTranslation();
@@ -51,6 +54,8 @@ const Exercise = ({ GetExercises, socket }) => {
   const { user } = useAuth0();
   const foundUser = useSelector(getUserByUsername(user.nickname));
   const { theme, color } = useTheme();
+  usePageTitle(Pages.VERSUS);
+
   const getTime = (time) =>
     `${Math.floor(time / 60)}:${
       time % 60 < 10 ? '0' + (time % 60).toString() : time % 60

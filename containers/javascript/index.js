@@ -13,8 +13,8 @@ app.listen(port, () => {
 
 app.post('/', async (req, res) => {
   try {
-    fs.writeFileSync('./execute.js', req.body.toExecute);
-    const output = execSync('node execute.js', {
+    fs.writeFileSync('./userdir/execute.js', req.body.toExecute);
+    const output = execSync('cd userdir && unshare -r -n node ./execute.js', {
       encoding: 'utf-8',
       timeout,
     });

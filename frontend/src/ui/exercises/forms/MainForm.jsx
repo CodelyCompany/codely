@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion from '@mui/material/Accordion';
@@ -11,6 +11,7 @@ import { getExerciseById } from 'ducks/exercises/selectors';
 import { StopRedirect } from 'ducks/redirects/actions';
 import { isRedirect } from 'ducks/redirects/selector';
 import { getToken } from 'ducks/token/selectors';
+import usePageTitle from 'helpers/usePageTitle';
 import useTheme from 'helpers/useTheme';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -22,6 +23,8 @@ import ExampleSolution from 'ui/exercises/forms/ExampleSolution';
 import ExercisesForm from 'ui/exercises/forms/ExercisesForm';
 import HintsForms from 'ui/exercises/forms/HintsForms';
 import TestsForm from 'ui/exercises/forms/TestsForm';
+
+import Pages from 'consts/pages';
 
 function MainForm({ GetExercise, redirect, StopRedirect, token }) {
   const { color } = useTheme();
@@ -37,6 +40,12 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
   const { id } = useParams();
   const exercise = useSelector(getExerciseById(id));
   const { t } = useTranslation();
+  const previousFormState = useRef(step);
+  usePageTitle(Pages.EXERCISE_FORM);
+
+  useEffect(() => {
+    previousFormState.current = step;
+  }, [step]);
 
   useEffect(() => {
     if (redirect) {
@@ -210,6 +219,7 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
             step={step}
             setStep={setStep}
             dataToEdit={exercise}
+            previousFormState={previousFormState}
           />
         </AccordionDetails>
       </Accordion>
