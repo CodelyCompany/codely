@@ -1,5 +1,3 @@
-const TitlePage = require('../pageobjects/title.page');
-const LoginPage = require('../pageobjects/login.page');
 const MainPage = require('../pageobjects/main.page');
 const PersonalizationPage = require('../pageobjects/personalization.page.js');
 const { loginAdmin } = require('../testtemplates/helpFunctions');

@@ -3,8 +3,6 @@ const LoginPage = require('../pageobjects/login.page');
 const MainPage = require('../pageobjects/main.page');
 const AdminPage = require('../pageobjects/admin.page');
 const ExercisePage = require('../pageobjects/exercise.page');
-const ExercisesPage = require('../pageobjects/exercises.page');
-const ExerciseFormPage = require('../pageobjects/exerciseForm.page');
 const StatisticsPage = require('../pageobjects/statistics.page');
 const {
   registerAndLoginUser,
@@ -19,48 +17,9 @@ const {
 } = require('../testtemplates/helpFunctions');
 require('dotenv').config();
 
-const cExerciseData = {
-  title: 'Substraction two numbers',
-  description: 'test description',
-  difficult: '3',
-  language: 'C',
-  functionName: 'sub',
-  argumentsQuantity: '2',
-  argumentTypes: ['int', 'int'],
-  argumentNames: ['a', 'b'],
-  outputType: 'int',
-  testsQuantity: '3',
-  inputValues: [
-    ['3', '1'],
-    ['6', '3'],
-    ['2', '2'],
-  ],
-  outputValues: ['2', '3', '0'],
-  hintsQuantity: '2',
-  hints: ['hint 1', 'hint 2'],
-  exampleSolution:
-    '#include <stdio.h>\n  \nint sub(int a, int b) {\n    printf("%d", a-b);\n}',
-};
-const javascriptExerciseData = {
-  title: 'Multiply two numbers',
-  description: 'test description',
-  difficult: '4',
-  language: 'JavaScript',
-  functionName: 'multiply',
-  argumentsQuantity: '2',
-  argumentNames: ['x', 'y'],
-  outputType: 'int',
-  testsQuantity: '3',
-  inputValues: [
-    ['2', '3'],
-    ['1', '1'],
-    ['3', '3'],
-  ],
-  outputValues: ['6', '1', '9'],
-  hintsQuantity: '2',
-  hints: ['hint 1 - new', 'hint 2 - new'],
-  exampleSolution: 'const multiply=(x,y)=>{\nreturn x*y',
-};
+const cExerciseData = require('../testdata/exampleExercises.json').exercises[6];
+const javascriptExerciseData = require('../testdata/exampleExercises.json')
+  .exercises[7];
 
 const { login: randomLogin, email: randomEmail } = generateRandomUserData();
 const data = process.env;

@@ -1,5 +1,3 @@
-const TitlePage = require('../pageobjects/title.page');
-const LoginPage = require('../pageobjects/login.page');
 const MainPage = require('../pageobjects/main.page');
 const EditorPage = require('../pageobjects/editor.page.js');
 const editorData = require('../testdata/editor.json');

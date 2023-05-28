@@ -2,47 +2,10 @@ const MainPage = require('../pageobjects/main.page');
 const ExercisesPage = require('../pageobjects/exercises.page');
 const ExerciseFormPage = require('../pageobjects/exerciseForm.page');
 const { loginAdmin } = require('../testtemplates/helpFunctions');
-const javaScriptExerciseData = {
-  title: 'Substraction two numbers',
-  description: 'test description',
-  difficult: '3',
-  language: 'JavaScript',
-  functionName: 'sub',
-  argumentsQuantity: '2',
-  argumentNames: ['a', 'b'],
-  testsQuantity: '3',
-  inputValues: [
-    ['3', '1'],
-    ['6', '3'],
-    ['2', '2'],
-  ],
-  outputValues: ['2', '3', '0'],
-  hintsQuantity: '2',
-  hints: ['hint 1', 'hint 2'],
-  exampleSolution: 'const sub=(a,b)=>{\nreturn a-b;',
-};
-const javaExerciseData = {
-  title: 'Multiply two numbers',
-  description: 'test description',
-  difficult: '4',
-  language: 'Java',
-  functionName: 'multiply',
-  argumentsQuantity: '2',
-  argumentNames: ['x', 'y'],
-  argumentTypes: ['int', 'int'],
-  outputType: 'int',
-  testsQuantity: '3',
-  inputValues: [
-    ['2', '3'],
-    ['1', '1'],
-    ['3', '3'],
-  ],
-  outputValues: ['6', '1', '9'],
-  hintsQuantity: '2',
-  hints: ['hint 1 - new', 'hint 2 - new'],
-  exampleSolution:
-    'public class Main {\n  public static int multiply(int x, int y){\n    return x*y;\n}',
-};
+const javaScriptExerciseData = require('../testdata/exampleExercises.json')
+  .exercises[4];
+const javaExerciseData = require('../testdata/exampleExercises.json')
+  .exercises[5];
 
 const checkFirstForm = async (exercise) => {
   expect(await ExerciseFormPage.inputTitle.getValue()).toBe(

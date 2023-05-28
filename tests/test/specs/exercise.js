@@ -19,48 +19,9 @@ const {
 } = require('../testtemplates/helpFunctions');
 require('dotenv').config();
 
-const bashExerciseData = {
-  title: 'Substraction two numbers',
-  author: 'admin',
-  description: 'test description',
-  difficult: '3',
-  language: 'Bash',
-  functionName: 'sub',
-  argumentsQuantity: '2',
-  argumentNames: ['a', 'b'],
-  testsQuantity: '3',
-  inputValues: [
-    ['3', '1'],
-    ['6', '3'],
-    ['2', '2'],
-  ],
-  outputValues: ['2', '3', '0'],
-  hintsQuantity: '2',
-  hints: ['hint 1', 'hint 2'],
-  exampleSolution: 'sub () {\necho $(($1 - $2))',
-};
-const rExerciseData = {
-  title: 'Multiply two numbers',
-  author: 'admin',
-  description: 'test description',
-  difficult: '4',
-  language: 'R',
-  functionName: 'multiply',
-  argumentsQuantity: '2',
-  argumentNames: ['x', 'y'],
-  argumentTypes: ['int', 'int'],
-  outputType: 'int',
-  testsQuantity: '3',
-  inputValues: [
-    ['2', '3'],
-    ['1', '1'],
-    ['3', '3'],
-  ],
-  outputValues: ['6', '1', '9'],
-  hintsQuantity: '2',
-  hints: ['hint 1 - new', 'hint 2 - new'],
-  exampleSolution: 'multiply <- function(x,y){\nreturn(x*y)',
-};
+const bashExerciseData = require('../testdata/exampleExercises.json')
+  .exercises[2];
+const rExerciseData = require('../testdata/exampleExercises.json').exercises[3];
 const { login: randomLogin, email: randomEmail } = generateRandomUserData();
 const data = process.env;
 

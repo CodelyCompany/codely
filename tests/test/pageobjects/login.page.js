@@ -12,7 +12,9 @@ class LoginPage {
   }
 
   get submitButton() {
-    return $('//button[@name="action"]');
+    return $(
+      '//div[not(contains(@class,\'ulp-button-bar-hidden\'))]/button[@name="action"]'
+    );
   }
 
   get registerButton() {
