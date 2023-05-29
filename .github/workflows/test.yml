@@ -19,8 +19,13 @@ jobs:
         uses: actions/checkout@v2
       - name: Install Chromium
         run: sudo apt-get install chromium-browser
-      - name: Start selenoid
-        uses: Xotabu4/selenoid-github-action@v2
+      - name: Start Selenoid
+        run: |
+          docker run --rm \
+          --name selenoid \
+          -p 4444:4444 \
+          -v /var/run/docker.sock:/var/run/docker.sock \
+          aerokube/selenoid:latest-release
       - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
