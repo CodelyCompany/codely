@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
-import { Button, TextField, Box, MenuItem } from '@mui/material';
+import { Box, Button, MenuItem, TextField } from '@mui/material';
 import { UpdateExercise } from 'ducks/exercises/operations';
 import { getUserByUsername } from 'ducks/user/selectors';
 import useExerciseData from 'helpers/useExerciseData';
