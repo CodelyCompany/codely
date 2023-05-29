@@ -192,5 +192,6 @@
   "Your reviews:": "Recenzje:",
   "Choose hints quantity": "Wybierz ilość podpowiedzi",
   "Other types / Custom types": "Inny typ / Własny typ",
+  "Arguments cannot be undefined": "Wszystkie argumenty muszą być podane",
   "Title should be unique": "Tytuł powinien być unikatowy"
 }

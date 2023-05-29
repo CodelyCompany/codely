@@ -66,7 +66,7 @@ export const AddExercise = (body, token, callback) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-    }/exercises/addExercise`,
+    }/exercises`,
     method: 'POST',
     body: JSON.stringify(body),
     headers: {
@@ -91,7 +91,7 @@ export const DeleteExercise = (id, token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-    }/exercises/deleteExercise/${id}`,
+    }/exercises/${id}`,
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -111,7 +111,7 @@ export const DeleteUncheckedExercise = (id, token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-    }/exercises/deleteExercise/${id}`,
+    }/exercises/${id}`,
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -131,8 +131,8 @@ export const UpdateExercise = (body, token, callback, isFormFinished) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-    }/exercises/editExercise/`,
-    method: 'PATCH',
+    }/exercises/`,
+    method: 'PUT',
     body: JSON.stringify({ ...body, checked: false }),
     headers: {
       'Content-Type': 'application/json',
@@ -180,7 +180,7 @@ export const CheckExercise = (id, token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-    }/exercises/checkExercise/${id}`,
+    }/exercises/${id}/check`,
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
