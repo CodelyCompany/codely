@@ -7,6 +7,7 @@ import { getToken } from 'ducks/token/selectors';
 import { UpdateUser } from 'ducks/user/operations';
 import { UploadAvatar } from 'ducks/user/operations';
 import { getUserByUsername } from 'ducks/user/selectors';
+import usePageTitle from 'helpers/usePageTitle';
 import useTheme from 'helpers/useTheme';
 import * as _ from 'lodash';
 import { PropTypes } from 'prop-types';
@@ -14,6 +15,8 @@ import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 import SetLanguage from 'ui/user/user_settings/SetLanguage';
 import UploadDialog from 'ui/user/user_settings/UploadDialog';
+
+import Pages from 'consts/pages';
 
 const Settings = ({ UpdateUser, UploadAvatar, token }) => {
   const { t } = useTranslation();
@@ -23,6 +26,7 @@ const Settings = ({ UpdateUser, UploadAvatar, token }) => {
   const { user } = useAuth0();
   const { theme } = useTheme();
   const foundUser = useSelector(getUserByUsername(user.nickname));
+  usePageTitle(Pages.SETTINGS);
 
   useEffect(() => {
     if (!_.isEmpty(user)) {
@@ -75,7 +79,7 @@ const Settings = ({ UpdateUser, UploadAvatar, token }) => {
         </Typography>
         <SetLanguage />
       </Box>
-      <Box className='theme-container' color={theme}>
+      <Box id={'theme-container'} className='theme-container' color={theme}>
         <Typography id='set-theme' color={theme} variant='h5'>
           {t('Set your theme')}
         </Typography>

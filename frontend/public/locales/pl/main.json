@@ -98,7 +98,7 @@
   "Error occured during passing exercise for admin verification": "Wystąpił błąd podczas przekazywania do weryfikacji",
   "Exercise deleted successfuly": "Zadanie usunięto pomyślnie",
   "Error occured during deleting exercise": "Wystąpił błąd podczas usuwania zadania",
-  "Updated passed for admin verification": "Przekzano aktualizację do weryfikacji",
+  "Updated passed for admin verification": "Przekazano aktualizację do weryfikacji",
   "Error occured during updating exercise": "Wystąpił błąd podczas aktualizacji zadania",
   "Congratulation! Your code passed all tests": "Brawo! Twój kod przeszedł wszystkie testy",
   "Unfortunately, your code didn't pass tests": "Niestety, twój kod nie przeszedł testów",
@@ -192,5 +192,6 @@
   "Your reviews:": "Recenzje:",
   "Choose hints quantity": "Wybierz ilość podpowiedzi",
   "Other types / Custom types": "Inny typ / Własny typ",
-  "Arguments cannot be undefined": "Wszystkie argumenty muszą być podane"
+  "Arguments cannot be undefined": "Wszystkie argumenty muszą być podane",
+  "Title should be unique": "Tytuł powinien być unikatowy"
 }

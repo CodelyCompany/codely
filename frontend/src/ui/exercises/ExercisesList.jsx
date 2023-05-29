@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
-import { Box, Container } from '@mui/material';
-import { Button } from '@mui/material';
+import { Box, Button, Container } from '@mui/material';
 import { GetExercises } from 'ducks/exercises/operations';
 import { getExercisesFromState } from 'ducks/exercises/selectors';
+import usePageTitle from 'helpers/usePageTitle';
 import useTheme from 'helpers/useTheme';
 import useToken from 'helpers/useToken';
 import * as _ from 'lodash';
@@ -14,6 +14,8 @@ import { useNavigate } from 'react-router-dom';
 import Exercise from 'ui/exercises/Exercise';
 import Filters from 'ui/exercises/filters/Filters';
 import PaginationExercises from 'ui/exercises/PaginationExercises';
+
+import Pages from 'consts/pages';
 
 const ExercisesList = ({ exercises, GetExercises }) => {
   const { t } = useTranslation();
@@ -28,6 +30,8 @@ const ExercisesList = ({ exercises, GetExercises }) => {
   const navigate = useNavigate();
   const [itemsPerPage, setItemsPerPage] = useState(3);
   const { theme } = useTheme();
+  usePageTitle(Pages.EXERCISES);
+
   const goToExercisesForm = () => {
     navigate('/Exercises/form');
   };
@@ -45,6 +49,7 @@ const ExercisesList = ({ exercises, GetExercises }) => {
     <>
       <Container id='exercises-list-container'>
         <Button
+          id={'createExercise'}
           onClick={goToExercisesForm}
           variant='contained'
           color={theme}
@@ -63,9 +68,7 @@ const ExercisesList = ({ exercises, GetExercises }) => {
             _.sortBy(
               exercises
                 .filter((ex) =>
-                  filters.title
-                    ? new RegExp(`.*${filters.title}.*`).test(ex.title)
-                    : true
+                  filters.title ? filters.title.includes(ex.title) : true
                 )
                 .filter((ex) =>
                   !_.isEmpty(filters.languages)

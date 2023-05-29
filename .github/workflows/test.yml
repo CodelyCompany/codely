@@ -1,0 +1,56 @@
+#name: test
+#
+##on:
+##  push:
+##    branches:
+##      - main
+##  pull_request:
+##    branches:
+##      - main
+#on: [ push, pull_request ]
+#
+#jobs:
+#  build:
+#    name: Run tests
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Check out Git repository
+#        uses: actions/checkout@v2
+#      - name: Install Firefox
+#        run: |
+#          sudo apt-get update
+#          sudo apt-get install firefox -y
+#      - name: Set up Node.js
+#        uses: actions/setup-node@v1
+#        with:
+#          node-version: 18.7.0
+#      - name: Install frontend dependencies
+#        working-directory: ./frontend
+#        run: |
+#          if [ -e yarn.lock ]; then
+#          yarn install --frozen-lockfile
+#          elif [ -e package-lock.json ]; then
+#          npm ci
+#          else
+#          npm i
+#          fi
+#      - name: Install backend dependencies
+#        working-directory: ./backend
+#        run: npm install
+#      - name: Install backend containers dependencies
+#        working-directory: ./backend_containers
+#        run: npm install
+#      - name: Start Docker Compose development
+#        run: docker compose -f ./docker/dev/docker-compose.yml up -d
+#      - name: Install test dependencies
+#        working-directory: ./tests
+#        run: npm install
+#      - name: Run tests
+#        working-directory: ./tests
+#        run: npm run test
+#      - uses: actions/upload-artifact@v1
+#        if: failure()
+#        with:
+#          name: logs
+#          path: logs

@@ -33,24 +33,9 @@ const OutputField = ({ output, loadingFinished }) => {
   }, [output]);
 
   return (
-    <ScrollSync>
       <Box className={`theme-${foundUser.theme}`} id='output-field-wrapper'>
         {loadingFinished ? (
           <>
-            <ScrollSyncPane>
-              <textarea
-                className={`theme-${foundUser.theme}`}
-                id='line-numbering'
-                style={{
-                  ...textAreaStyles,
-                }}
-                name='line-numbering'
-                disabled={true}
-                cols='3'
-                value={lineNumbering}
-              />
-            </ScrollSyncPane>
-            <ScrollSyncPane>
               <div
                 className={`theme-${foundUser.theme}`}
                 id='text-area-wrapper'
@@ -67,7 +52,6 @@ const OutputField = ({ output, loadingFinished }) => {
                   value={output}
                 />
               </div>
-            </ScrollSyncPane>
           </>
         ) : (
           <ThreeDots
@@ -84,7 +68,6 @@ const OutputField = ({ output, loadingFinished }) => {
           />
         )}
       </Box>
-    </ScrollSync>
   );
 };
 

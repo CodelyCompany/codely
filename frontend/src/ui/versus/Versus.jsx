@@ -4,6 +4,7 @@ import { Box, Button, Container, Typography } from '@mui/material';
 import { ConnectSocket, DisconnectSocket } from 'ducks/socket/actions';
 import { getSocket } from 'ducks/socket/selectors';
 import { useFormik } from 'formik';
+import usePageTitle from 'helpers/usePageTitle';
 import useTheme from 'helpers/useTheme';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -15,11 +16,14 @@ import ProgrammingQuotes from 'ui/versus/ProgrammingQuotes';
 import SearchingGame from 'ui/versus/SearchingGame';
 import * as yup from 'yup';
 
+import Pages from 'consts/pages';
+
 const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
   const [dots, setDots] = useState(0);
   const [time, setTime] = useState(0);
   const [found, setFound] = useState(null);
   const { t } = useTranslation();
+  usePageTitle(Pages.VERSUS);
 
   const validateVersusLanguages = yup.object({
     checked: yup

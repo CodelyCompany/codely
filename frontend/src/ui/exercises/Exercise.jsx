@@ -6,13 +6,12 @@ import CardContent from '@mui/material/CardContent';
 import Rating from '@mui/material/Rating';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
+import useTheme from 'helpers/useTheme';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 
 import languagesWithIcons from 'consts/languagesWithIcons';
 import ProgrammingLanguage from 'consts/programmingLanguage';
-
-import useTheme from '../../helpers/useTheme';
 
 const StyledRating = styled(Rating)({
   '& .MuiRating-iconFilled': {
@@ -26,7 +25,8 @@ const StyledRating = styled(Rating)({
 const Exercise = ({ exercise }) => {
   const navigate = useNavigate();
   const { color } = useTheme();
-  const exerciseLanguage = ProgrammingLanguage[exercise?.programmingLanguage.toUpperCase()];
+  const exerciseLanguage =
+    ProgrammingLanguage[exercise?.programmingLanguage.toUpperCase()];
   const exerciseIcon = languagesWithIcons[exerciseLanguage];
 
   return (

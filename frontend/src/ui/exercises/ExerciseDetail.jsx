@@ -17,6 +17,7 @@ import { DeleteExercise, GetExercises } from 'ducks/exercises/operations';
 import { getExerciseById } from 'ducks/exercises/selectors';
 import { getRatingByExerciseId } from 'ducks/reviews/selectors';
 import { getUserByUsername } from 'ducks/user/selectors';
+import usePageTitle from 'helpers/usePageTitle';
 import useTheme from 'helpers/useTheme';
 import useToken from 'helpers/useToken';
 import * as _ from 'lodash';
@@ -30,6 +31,7 @@ import EditorField from 'ui/exercises/editor_to_exercises/EditorField';
 import Reviews from 'ui/exercises/reviews/Reviews';
 import Confirmation from 'ui/popups/Confirmation';
 
+import Pages from 'consts/pages';
 import ProgrammingLanguage from 'consts/programmingLanguage';
 
 const ExerciseDetail = ({ GetExercises }) => {
@@ -44,7 +46,9 @@ const ExerciseDetail = ({ GetExercises }) => {
   const [toDelete, setToDelete] = useState(false);
   const [argumentValues, setArgumentValues] = useState([]);
   const { color, theme } = useTheme();
-  const exerciseLanguage = ProgrammingLanguage[exercise?.programmingLanguage.toUpperCase()];
+  const exerciseLanguage =
+    ProgrammingLanguage[exercise?.programmingLanguage.toUpperCase()];
+  usePageTitle(Pages.EXERCISE);
 
   useEffect(() => {
     if (_.isEmpty(exercise)) {
@@ -82,6 +86,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
+                  id={'author'}
                   primary={t('Author')}
                   secondary={exercise.author.username}
                 />
@@ -97,6 +102,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
+                  id={'language'}
                   primary={t('Programming Language')}
                   secondary={exerciseLanguage}
                 />
@@ -112,6 +118,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
+                  id={'difficulty'}
                   primary={t('Difficulty')}
                   secondary={[...Array(exercise.difficulty).keys()].map(
                     (el) => (
@@ -131,6 +138,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
+                  id={'description'}
                   primary={t('Description')}
                   secondary={exercise.description}
                 />
@@ -143,6 +151,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                 </ListItemAvatar>
                 <ListItemText
                   primary={t('Rating')}
+                  id={'rating'}
                   secondary={
                     rating
                       ? [...Array(Math.round(rating)).keys()].map((num) => (

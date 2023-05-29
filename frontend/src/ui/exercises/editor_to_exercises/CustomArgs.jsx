@@ -41,6 +41,7 @@ const CustomArgs = ({ args, setArgumentValues, argumentValues }) => {
       <Box className={`theme-${user.theme}`}>
         {args.map((arg, index) => (
           <TextField
+            id={`arg-${index}`}
             color={color.split('.')[0]}
             sx={{ input: { color, margin: '5px' } }}
             focused={true}

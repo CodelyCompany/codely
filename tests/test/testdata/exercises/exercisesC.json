@@ -1,0 +1,67 @@
+{
+  "exercises": [
+    {
+      "title": "Sum two numbers",
+      "description": "test description",
+      "difficult": "3",
+      "language": "C",
+      "functionName": "sum",
+      "argumentsQuantity": "2",
+      "argumentNames": ["a", "b"],
+      "argumentTypes": ["int", "int"],
+      "outputType": "int",
+      "testsQuantity": "3",
+      "inputValues": [
+        ["1", "3"],
+        ["4", "6"],
+        ["2", "2"]
+      ],
+      "outputValues": ["4", "10", "4"],
+      "hintsQuantity": "2",
+      "hints": ["hint 1", "hint 2"],
+      "exampleSolution": "#include <stdio.h>\n  \nint sum (int a, int b) {\n    printf(\"%d\", a+b);\n}"
+    },
+    {
+      "title": "Check if number is even",
+      "description": "test description",
+      "difficult": "3",
+      "language": "C",
+      "functionName": "isEven",
+      "argumentsQuantity": "1",
+      "argumentNames": ["n"],
+      "argumentTypes": ["int"],
+      "outputType": "void",
+      "testsQuantity": "3",
+      "inputValues": [
+        ["1"],
+        ["2"],
+        ["3"]
+      ],
+      "outputValues": ["false", "true", "false"],
+      "hintsQuantity": "2",
+      "hints": ["hint 1", "hint 2"],
+      "exampleSolution": "#include <stdio.h>\n\nvoid isEven(int n) {\nif (n % 2 == 0) {\nprintf(\"true\");\nreturn;\n}\n\nprintf(\"false\"); \n}"
+    },
+    {
+      "title": "Caluclate area of circle",
+      "description": "test description",
+      "difficult": "3",
+      "language": "C",
+      "functionName": "calculateAreaOfCircle",
+      "argumentsQuantity": "1",
+      "argumentNames": ["radius"],
+      "argumentTypes": ["int"],
+      "outputType": "void",
+      "testsQuantity": "3",
+      "inputValues": [
+        ["1"],
+        ["5"],
+        ["10000"]
+      ],
+      "outputValues": ["3.140000", "78.500000", "314000000.000000"],
+      "hintsQuantity": "2",
+      "hints": ["hint 1", "hint 2"],
+      "exampleSolution": "#include <stdio.h>\n\n#define PI 3.14\n\nvoid calculateAreaOfCircle(int radius) {\nfloat area = PI * radius * radius;\nprintf(\"%.6f\", area);\n}"
+    }
+  ]
+}

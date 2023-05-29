@@ -5,6 +5,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Container, Typography } from '@mui/material';
 import { GetUsers } from 'ducks/user/operations';
 import { getUserByUsername } from 'ducks/user/selectors';
+import usePageTitle from 'helpers/usePageTitle';
 import useTheme from 'helpers/useTheme';
 import useToken from 'helpers/useToken';
 import * as _ from 'lodash';
@@ -17,11 +18,14 @@ import UserExercisesList from 'ui/user/UserExercisesList';
 import VersusResults from 'ui/user/VersusResults';
 import WrittenReviews from 'ui/user/WrittenReviews';
 
+import Pages from 'consts/pages';
+
 const UserDetails = ({ GetUsers }) => {
   const { t } = useTranslation();
   const { user } = useAuth0();
   const { token } = useToken();
   const { color } = useTheme();
+  usePageTitle(Pages.USER_PANEL);
 
   useEffect(() => {
     GetUsers(token);

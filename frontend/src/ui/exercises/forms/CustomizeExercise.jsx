@@ -1,35 +1,50 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Box, Button, MenuItem, TextField } from '@mui/material';
+import { GetExercise, UpdateExercise } from 'ducks/exercises/operations';
 import { useFormik } from 'formik';
+import useExerciseData from 'helpers/useExerciseData';
 import useTheme from 'helpers/useTheme';
+import useToken from 'helpers/useToken';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
 import CustomTypes from 'ui/exercises/forms/CustomTypes';
 import { getDataTypes } from 'ui/exercises/forms/utils/dataTypes';
-import * as yup from 'yup';
+import { customizeExerciseValidation }
+  from 'ui/exercises/forms/validationSchemes/customizeExerciseValidation';
 
-const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
+import StaticallyTypedLanguage from 'consts/StaticallyTypedLanguage';
+
+// Second step of creating exercise
+const CustomizeExercise = ({ setStep, UpdateExercise }) => {
   const { t } = useTranslation();
   const [argumentsName, setArgumentsName] = useState([]);
-  const [checked, setChecked] = useState(false);
   const [error, setError] = useState({});
   const [types, setTypes] = useState([]);
   const [open, setOpen] = useState(false);
   const [customTypes, setCustomTypes] = useState([]);
   const { color } = useTheme();
-
+  const elementsColor = color.split('.')[0];
+  const validation = customizeExerciseValidation(t, argumentsName);
+  const { token } = useToken();
   const additionalOption = t('Other types / Custom types');
-  const languagesWithTypes = ['Java', 'C++', 'C'];
+  const languagesWithTypes = Object.values(StaticallyTypedLanguage);
+  const { id, exercise } = useExerciseData();
+  const formWithTypes = languagesWithTypes.includes(exercise.programmingLanguage);
+  const [dropdownOptions, setDropdownOptions] =
+    useState(getDataTypes(exercise.programmingLanguage || 'java'));
 
-  const formWithTypes = useMemo(
-    () => languagesWithTypes.includes(step.dataFromStep1?.programmingLanguage),
-    [step.dataFromStep1]
-  );
-  const dropdownOptions = useMemo(
-    () => getDataTypes(step.dataFromStep1?.programmingLanguage || 'java'),
-    [step.dataFromStep1]
-  );
+  useEffect(() => {
+    if (exercise.argumentsName) {
+      setArgumentsName(exercise.argumentsName);
+    }
+    if (exercise.types) {
+      setTypes(exercise.types);
+      const newTypes = _.difference(exercise.types, dropdownOptions);
+      setDropdownOptions((currentTypes) => [...currentTypes, ...newTypes]);
+    }
+  }, [exercise]);
 
   useEffect(() => {
     if (types.includes(additionalOption)) setOpen(true);
@@ -63,17 +78,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
   }, [open]);
 
   const prev = () => {
-    setStep((prev) => ({
-      ...prev,
-      currentStep: 1,
-      dataFromStep2: {
-        functionName: formik.values.functionName,
-        argumentsQuantity: formik.values.argumentsQuantity,
-        argumentsName,
-        types,
-        customTypes,
-      },
-    }));
+    setStep(1);
   };
 
   const setType = (index, value) => {
@@ -85,115 +90,32 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
     );
   };
 
-  yup.addMethod(yup.array, 'unique', function (message, mapper = (a) => a) {
-    return this.test('unique', message, function (list) {
-      return list.length === new Set(list.map(mapper)).size;
-    });
-  });
-
-  yup.addMethod(yup.mixed, 'uniqueIn', function (array = [], message) {
-    return this.test('uniqueIn', message, function (value) {
-      return array.filter((item) => item === value).length < 2;
-    });
-  });
-
-  const argumentSchema = yup
-    .string()
-    .required()
-    .matches(/^[a-zA-Z0-9]*[a-z][a-zA-Z0-9]*$/)
-    .uniqueIn(argumentsName);
-
-  const typesSchema = yup
-    .string(t('Enter all arguments type'))
-    .required(t('Argument type is required'));
-
-  const argumentsNameSchema = yup.object({
-    argumentsName: yup
-      .array(t('Eneter all arguments name'))
-      .of(
-        yup
-          .string(t('Enter all arguments name'))
-          .required(t('All arguments are required'))
-          .matches(
-            /^[a-zA-Z0-9]*[a-z][a-zA-Z0-9]*$/,
-            t('Arguments name should consist only of letters and numbers')
-          )
-      )
-      .required(t('All arguments are required'))
-      .unique(t('All arguments should be unique')),
-    types: yup
-      .array(t('Enter all argument types'))
-      .of(
-        yup
-          .string(t('Enter all arguments type'))
-          .required(t('Argument type is required'))
-      )
-      .notRequired(),
-  });
-
-  const validationSchema = yup.object({
-    functionName: yup
-      .string(t('Enter a function name'))
-      .min(1, t('Function name should be of minimum 1 character length'))
-      .max(50, t('Function name should be of maximum 50 characters length'))
-      .required(t('Function name is required'))
-      .matches(
-        /^[a-zA-Z0-9]*[a-z][a-zA-Z0-9]*$/,
-        t('Function name should consist of letters and numbers only')
-      ),
-    argumentsQuantity: yup
-      .number(t('Enter arguments quantity'))
-      .min(1, t('Arguments quantity should be higher than 0'))
-      .max(5, t("Arguments quantity shouldn't be higher than 5"))
-      .required(t('Arguments quantity are required')),
-  });
+  const onSubmit = (values) => {
+    validation.argumentsNameSchema
+      .validate({ argumentsName, types: formWithTypes ? types : [] })
+      .then((valid) => {
+        if (valid) {
+          setError({});
+          UpdateExercise({ id, ...values, argumentsName, types, step: 3 }, token);
+          setStep(3);
+        }
+      })
+      .catch((err) => {
+        setError({ error: err.errors });
+      });
+  };
 
   const formik = useFormik({
     initialValues: {
-      functionName:
-        step.dataFromStep2?.functionName || dataToEdit?.functionName || '',
-      argumentsQuantity:
-        step.dataFromStep2?.argumentsQuantity ||
-        dataToEdit?.argumentsName.length ||
-        '',
+      functionName: exercise.functionName || '',
+      argumentsQuantity: exercise.argumentsName?.length || '',
     },
-    validationSchema,
-    onSubmit: (values) => {
-      argumentsNameSchema
-        .validate({ argumentsName, types: formWithTypes ? types : [] })
-        .then((valid) => {
-          if (valid) {
-            setError({});
-            setStep((prev) => ({
-              ...prev,
-              currentStep: 3,
-              dataFromStep2: { ...values, argumentsName, types, customTypes },
-            }));
-          }
-        })
-        .catch((err) => {
-          setError({ error: err.errors });
-        });
-    },
+    enableReinitialize: true,
+    validationSchema: validation.customizeExerciseValidationSchema,
+    onSubmit,
   });
 
   useEffect(() => {
-    if (step.dataFromStep2?.argumentsName && !checked) {
-      setArgumentsName(step.dataFromStep2.argumentsName);
-      setCustomTypes(step.dataFromStep2.customTypes);
-      setTypes(step.dataFromStep2.types);
-      setChecked(true);
-      return;
-    }
-    if (dataToEdit && !checked) {
-      setArgumentsName(dataToEdit.argumentsName);
-      setCustomTypes(
-        dataToEdit.types.filter((type) => !dropdownOptions.includes(type))
-      );
-      setTypes(dataToEdit.types);
-      setChecked(true);
-      return;
-    }
     setArgumentsName((prev) =>
       [...Array(formik.values.argumentsQuantity).keys()].map((el) => {
         if (prev[el]) return prev[el];
@@ -229,7 +151,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
         <form id='customize-exercise-form' onSubmit={formik.handleSubmit}>
           <TextField
             className='customize-exercise-field'
-            color={color.split('.')[0]}
+            color={elementsColor}
             focused
             sx={{ color, input: { color } }}
             id='functionName'
@@ -245,7 +167,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
             }
           />
           <TextField
-            color={color.split('.')[0]}
+            color={elementsColor}
             focused
             className='customize-exercise-field'
             sx={{ input: { color } }}
@@ -272,25 +194,26 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                   <Box key={argNumber}>
                     <TextField
                       className='customize-exercise-field-2'
-                      color={color.split('.')[0]}
+                      color={elementsColor}
                       focused
                       sx={{
                         width: `${formWithTypes ? 'calc(50% - 5px)' : '100%'}`,
                         marginRight: `${formWithTypes ? '5px' : '0'}`,
                         input: { color },
                       }}
+                      id={`arg-${argNumber}`}
                       label={`${argNumber + 1}. ${t('Argument name')}`}
                       value={argumentsName[argNumber] || ''}
                       onChange={(e) => handleArgumentName(e, argNumber)}
                       error={
                         error.error &&
-                        !argumentSchema.isValidSync(
+                        !validation.argumentSchema.isValidSync(
                           argumentsName[argNumber] || ''
                         )
                       }
                       helperText={
                         error &&
-                        !argumentSchema.isValidSync(
+                        !validation.argumentSchema.isValidSync(
                           argumentsName[argNumber] || ''
                         ) &&
                         error.error
@@ -299,7 +222,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                     {formWithTypes && (
                       <TextField
                         className='customize-exercise-field-2'
-                        color={color.split('.')[0]}
+                        color={elementsColor}
                         select
                         sx={{
                           width: `${
@@ -308,15 +231,20 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                           marginLeft: `${formWithTypes ? '5px' : '0'}`,
                         }}
                         label={`${argNumber + 1}. ${t('Argument type')}`}
+                        id={`type-${argNumber}`}
                         value={types[argNumber] || ''}
                         onChange={(e) => setType(argNumber, e.target.value)}
                         error={
                           error.error &&
-                          !typesSchema.isValidSync(types[argNumber] || '')
+                          !validation.typesSchema.isValidSync(
+                            types[argNumber] || ''
+                          )
                         }
                         helperText={
                           error &&
-                          !typesSchema.isValidSync(types[argNumber] || '') &&
+                          !validation.typesSchema.isValidSync(
+                            types[argNumber] || ''
+                          ) &&
                           error.error
                         }
                       >
@@ -325,7 +253,18 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                           ...customTypes,
                           additionalOption,
                         ].map((opt) => (
-                          <MenuItem key={opt} value={opt}>
+                          <MenuItem
+                            key={opt}
+                            value={opt}
+                            id={
+                              [
+                                'Inny typ / Własny typ',
+                                'Other types / Custom types',
+                              ].includes(opt)
+                                ? `other-type-${argNumber}`
+                                : `${opt}-${argNumber}`
+                            }
+                          >
                             {opt}
                           </MenuItem>
                         ))}
@@ -338,9 +277,10 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
           {formWithTypes && (
             <TextField
               className='customize-exercise-field-2'
-              color={color.split('.')[0]}
+              color={elementsColor}
               select
               fullWidth
+              id={'outputType'}
               label={t(`Output type`)}
               value={types[formik.values.argumentsQuantity] || ''}
               onChange={(e) =>
@@ -348,13 +288,13 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
               }
               error={
                 error.error &&
-                !typesSchema.isValidSync(
+                !validation.typesSchema.isValidSync(
                   types[formik.values.argumentsQuantity] || ''
                 )
               }
               helperText={
                 error &&
-                !typesSchema.isValidSync(
+                !validation.typesSchema.isValidSync(
                   types[formik.values.argumentsQuantity] || ''
                 ) &&
                 error.error
@@ -362,7 +302,18 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
             >
               {[...dropdownOptions, ...customTypes, additionalOption].map(
                 (opt) => (
-                  <MenuItem key={opt} value={opt}>
+                  <MenuItem
+                    key={opt}
+                    value={opt}
+                    id={
+                      [
+                        'Inny typ / Własny typ',
+                        'Other types / Custom types',
+                      ].includes(opt)
+                        ? 'other-type'
+                        : opt
+                    }
+                  >
                     {opt}
                   </MenuItem>
                 )
@@ -372,17 +323,19 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
           <Box id='buttons-wrapper'>
             <Button
               id='customize-exercise-button'
-              color={color.split('.')[0]}
+              color={elementsColor}
               variant='contained'
               onClick={prev}
+              className={'cancel-2'}
             >
               {t('Previous')}
             </Button>
 
             <Button
-              color={color.split('.')[0]}
+              color={elementsColor}
               variant='contained'
               type='submit'
+              id={'submit-2'}
             >
               {t('Next')}
             </Button>
@@ -393,10 +346,14 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
   );
 };
 
-export default CustomizeExercise;
+const mapDispatchToProps = {
+  GetExercise,
+  UpdateExercise,
+};
+
+export default connect(null, mapDispatchToProps)(CustomizeExercise);
 
 CustomizeExercise.propTypes = {
-  step: PropTypes.object.isRequired,
   setStep: PropTypes.func.isRequired,
-  dataToEdit: PropTypes.object,
+  UpdateExercise: PropTypes.func.isRequired,
 };

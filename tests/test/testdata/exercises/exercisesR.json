@@ -1,0 +1,67 @@
+{
+  "exercises": [
+    {
+      "title": "Sum two numbers",
+      "description": "test description",
+      "difficult": "3",
+      "language": "R",
+      "functionName": "sum",
+      "argumentsQuantity": "2",
+      "argumentNames": ["a", "b"],
+      "testsQuantity": "3",
+      "inputValues": [
+        ["1", "3"],
+        ["4", "6"],
+        ["2", "2"]
+      ],
+      "outputValues": ["4", "10", "4"],
+      "hintsQuantity": "2",
+      "hints": ["hint 1", "hint 2"],
+      "exampleSolution": "sum <- function(a,b){\nreturn(a+b)"
+    },
+    {
+      "title": "Multiply array of numbers",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "difficult": "2",
+      "language": "R",
+      "functionName": "multiply",
+      "argumentsQuantity": "1",
+      "argumentNames": ["numbers"],
+      "testsQuantity": "4",
+      "inputValues": [
+        ["c(1, 3, 1)"],
+        ["c(4)"],
+        ["c(2, 2, 2)"],
+        ["c(1, 2, 3, 4, 5)"]
+      ],
+      "outputValues": ["3", "4", "8", "120"],
+      "hintsQuantity": "2",
+      "hints": ["Lorem ipsum dolor sit amet, consectetur adipisci elit", "Sed eiusmod tempor incidunt ut labore et dolore magna aliqua"],
+      "exampleSolution": "multiply <- function(numbers) {\nval <- 1\nfor (number in numbers) {\nval = val * number\n}\nreturn(val)"
+    },
+    {
+      "title": "Display colors using ordinal numbers",
+      "description": "Write a JavaScript program to display the colors in the following way.\nHere is the sample array:\ncolor = [\"Blue\", \"Green\", \"Red\", \"Orange\", \"Violet\", \"Indigo\", \"Yellow \"];\no = [\"th\",\"st\",\"nd\",\"rd\"]\nOutput\n\"1st choice is Blue .\"\n\"2nd choice is Green.\"\n\"3rd choice is Red.",
+      "difficult": "2",
+      "language": "R",
+      "functionName": "format",
+      "argumentsQuantity": "1",
+      "argumentNames": ["n"],
+      "testsQuantity": "6",
+      "inputValues": [
+        ["1"], ["2"], ["3"], ["4"], ["5"], ["6"]
+      ],
+      "outputValues": [
+        "1st choice is Blue",
+        "2nd choice is Green",
+        "3rd choice is Red",
+        "4th choice is Orange",
+        "5th choice is Violet",
+        "6th choice is Indigo"
+      ],
+      "hintsQuantity": "2",
+      "hints": ["Lorem ipsum dolor sit amet, consectetur adipisci elit", "Sed eiusmod tempor incidunt ut labore et dolore magna aliqua"],
+      "exampleSolution": "format <- function(n) {\ncolors = c(\"Blue\", \"Green\", \"Red\", \"Orange\", \"Violet\", \"Indigo\", \"Yellow\")\nOrdinal = function(n) {\no = c(\"th\",\"st\",\"nd\",\"rd\")\nx = n %% 100\nif((x-19) %% 10 <= 4) {\nreturn(paste(x, (o[(x-19) %% 10]), sep=\"\"))\n}\nif (x + 1 <= 4) {\nreturn(paste(x, (o[x + 1]), sep=\"\"))\n}\n\nreturn(paste(x, o[1], sep=\"\"))\n}\nreturn(paste(toString(Ordinal(n)), \"choice is\", colors[n]))"
+    }
+  ]
+}
