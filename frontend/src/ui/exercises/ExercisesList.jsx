@@ -54,7 +54,7 @@ const ExercisesList = ({ exercises, GetExercises }) => {
           variant='contained'
           color={theme}
         >
-          {t('Create your exercise!')}
+          {t('create-exercise-message')}
         </Button>
         <Filters
           setFilters={setFilters}

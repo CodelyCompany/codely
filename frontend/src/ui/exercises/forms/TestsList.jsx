@@ -31,7 +31,7 @@ const TestsList = ({ step }) => {
       component={Paper}
       sx={{ borderColor: color }}
     >
-      <span>{t('Created tests')}</span>
+      <span>{t('created-tests-label')}</span>
       {step.dataFromStep2?.argumentsName && step.dataFromStep3 && (
         <Table
           id='tests-table'
@@ -54,7 +54,7 @@ const TestsList = ({ step }) => {
                 align='center'
               >
                 <span className={`theme-${foundUser.theme}`}>
-                  {t('Output')}
+                  {t('output-label')}
                 </span>
               </TableCell>
             </TableRow>

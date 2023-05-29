@@ -59,7 +59,7 @@ const NavbarMessages = ({
         ))
       ) : (
         <Typography id='empty-mailbox' sx={{ color }}>
-          {t('Your mailbox is empty')}
+          {t('mailbox-empty-message')}
         </Typography>
       )}
     </Popover>

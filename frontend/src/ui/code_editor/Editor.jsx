@@ -23,7 +23,7 @@ const Editor = () => {
 
   return (
     <Container>
-      <Typography id='editor-tag'>{t('Write your code here!')}</Typography>
+      <Typography id='editor-tag'>{t('code-editor-header')}</Typography>
       <Box id='editor-wrapper' borderColor={color}>
         <Box id='editor'>
           <Box id='code-editor-buttons'>

@@ -57,7 +57,7 @@ const LanguageSelector = ({ language, setLanguage }) => {
 
   return (
     <FormControl id='language-selector-form' sx={{ color }} size='small'>
-      <InputLabel sx={{ color }}>{t('Language')}</InputLabel>
+      <InputLabel sx={{ color }}>{t('language-label')}</InputLabel>
       <Select
         sx={{ color }}
         labelId='demo-select-small'

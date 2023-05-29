@@ -20,48 +20,48 @@ export const customizeExerciseValidation = (t, argumentsName) => {
     .uniqueIn(argumentsName);
 
   const typesSchema = yup
-    .string(t('Enter all arguments type'))
-    .required(t('Argument type is required'));
+    .string(t('arguments-type-request'))
+    .required(t('arguments-type-required-warning'));
 
   const argumentsNameSchema = yup.object({
     argumentsName: yup
-      .array(t('Eneter all arguments name'))
+      .array(t('function-arguments-name-request'))
       .of(
         yup
           .string(t('Enter all arguments name'))
-          .required(t('All arguments are required'))
+          .required(t('arguments-name-requirement-warning'))
           .matches(
             /^[a-zA-Z0-9]*[a-z][a-zA-Z0-9]*$/,
-            t('Arguments name should consist only of letters and numbers')
+            t('arguments-name-invalid-warning')
           )
       )
-      .required(t('All arguments are required'))
-      .unique(t('All arguments should be unique')),
+      .required(t('arguments-name-requirement-warning'))
+      .unique(t('arguments-name-unique-warning')),
     types: yup
-      .array(t('Enter all argument types'))
+      .array(t('arguments-type-request'))
       .of(
         yup
-          .string(t('Enter all arguments type'))
-          .required(t('Argument type is required'))
+          .string(t('arguments-type-request'))
+          .required(t('arguments-type-required-warning'))
       )
       .notRequired(),
   });
 
   const customizeExerciseValidationSchema = yup.object({
     functionName: yup
-      .string(t('Enter a function name'))
-      .min(1, t('Function name should be of minimum 1 character length'))
-      .max(50, t('Function name should be of maximum 50 characters length'))
-      .required(t('Function name is required'))
+      .string(t('function-name-request'))
+      .min(1, t('function-name-min-length-warning'))
+      .max(50, t('function-name-max-length-warning'))
+      .required(t('function-name-requirement-warning'))
       .matches(
         /^[a-zA-Z0-9]*[a-z][a-zA-Z0-9]*$/,
-        t('Function name should consist of letters and numbers only')
+        t('function-name-characters-warning')
       ),
     argumentsQuantity: yup
       .number(t('Enter arguments quantity'))
       .min(1, t('Arguments quantity should be higher than 0'))
-      .max(5, t("Arguments quantity shouldn't be higher than 5"))
-      .required(t('Arguments quantity are required')),
+      .max(5, t('arguments-max-quantity-warning'))
+      .required(t('arguments-quantity-required-warning')),
   });
   return {
     argumentSchema,

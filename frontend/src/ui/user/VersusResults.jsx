@@ -36,7 +36,7 @@ const VersusResults = ({ won, lost }) => {
           color,
         }}
       >
-        {t('Your versus stats')}
+        {t('versus-stats-label')}
       </Typography>
       <Doughnut
         className='user-chart'

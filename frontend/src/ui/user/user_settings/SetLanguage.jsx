@@ -30,7 +30,7 @@ const SetLanguage = () => {
           onClick={changeLanguage}
         />
         <Typography className='set-language-typography' color={theme}>
-          {t('English')}
+          {t('english-label')}
         </Typography>
       </Box>
       <Box sx={{ display: 'flex' }}>
@@ -41,7 +41,7 @@ const SetLanguage = () => {
           onClick={changeLanguage}
         />
         <Typography className='set-language-typography' color={theme}>
-          {t('Polish')}
+          {t('polish-label')}
         </Typography>
       </Box>
     </Box>

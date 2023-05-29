@@ -15,7 +15,7 @@ function Tests({ tests }) {
       {tests.correct === tests.tests && <ConfettiAfterSolve />}
       <Box id='tests-wrapper' sx={{ borderColor: color }}>
         <Typography id='tests-text' variant='h6' sx={{ color }}>
-          {t('Tests passed: ')}
+          {t('passed-tests-label')}
         </Typography>
         <Typography
           variant='h6'

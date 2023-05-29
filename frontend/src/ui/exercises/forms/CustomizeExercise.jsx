@@ -22,7 +22,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
   const elementsColor = color.split('.')[0];
   const validation = customizeExerciseValidation(t, argumentsName);
 
-  const additionalOption = t('Other types / Custom types');
+  const additionalOption = t('other-type-label');
   const languagesWithTypes = ['Java', 'C++', 'C'];
 
   const formWithTypes = useMemo(
@@ -174,7 +174,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
             sx={{ color, input: { color } }}
             id='functionName'
             name='functionName'
-            label={t('Function name')}
+            label={t('function-name-label')}
             value={formik.values.functionName}
             onChange={formik.handleChange}
             error={
@@ -192,7 +192,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
             type='number'
             id='argumentsQuantity'
             name='argumentsQuantity'
-            label={t('Function arguments quantity')}
+            label={t('function-arguments-quantity-label')}
             InputProps={{ inputProps: { min: 0 } }}
             value={formik.values.argumentsQuantity}
             onChange={formik.handleChange}
@@ -220,7 +220,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                         input: { color },
                       }}
                       id={`arg-${argNumber}`}
-                      label={`${argNumber + 1}. ${t('Argument name')}`}
+                      label={`${argNumber + 1}. ${t('arguments-name-label')}`}
                       value={argumentsName[argNumber] || ''}
                       onChange={(e) => handleArgumentName(e, argNumber)}
                       error={
@@ -248,7 +248,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                           }`,
                           marginLeft: `${formWithTypes ? '5px' : '0'}`,
                         }}
-                        label={`${argNumber + 1}. ${t('Argument type')}`}
+                        label={`${argNumber + 1}. ${t('arguments-type-label')}`}
                         id={`type-${argNumber}`}
                         value={types[argNumber] || ''}
                         onChange={(e) => setType(argNumber, e.target.value)}
@@ -277,7 +277,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                             id={
                               [
                                 'Inny typ / Własny typ',
-                                'Other types / Custom types',
+                                'other-type-label',
                               ].includes(opt)
                                 ? `other-type-${argNumber}`
                                 : `${opt}-${argNumber}`
@@ -326,7 +326,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                     id={
                       [
                         'Inny typ / Własny typ',
-                        'Other types / Custom types',
+                        'other-type-label',
                       ].includes(opt)
                         ? 'other-type'
                         : opt
@@ -346,7 +346,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
               onClick={prev}
               className={'cancel-2'}
             >
-              {t('Previous')}
+              {t('previous-label')}
             </Button>
 
             <Button
@@ -355,7 +355,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
               type='submit'
               id={'submit-2'}
             >
-              {t('Next')}
+              {t('next-label')}
             </Button>
           </Box>
         </form>

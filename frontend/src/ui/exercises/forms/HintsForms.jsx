@@ -108,7 +108,7 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
           focused
           id={`hintsQuantity-${foundUser.theme}`}
           name='hintsQuantity'
-          label={t('Choose hints quantity')}
+          label={t('form-hints-quantity-request')}
           value={hintsQuantity}
           onChange={(e) => setHintsQuantity(parseInt(e.target.value))}
           select
@@ -130,7 +130,7 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
                 focused
                 id={`hint-${number}`}
                 sx={{ input: { color } }}
-                label={number === 0 ? t('Hints') : ''}
+                label={number === 0 ? t('hints-label') : ''}
                 name='hint'
                 value={getValue(number)}
                 error={
@@ -155,7 +155,7 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
           variant='contained'
           className={'cancel-4'}
         >
-          {t('Previous')}
+          {t('previous-label')}
         </Button>
         <Button
           color={elementsColor}
@@ -165,7 +165,7 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
           variant='contained'
           id={'submit-4'}
         >
-          {t('Next')}
+          {t('next-label')}
         </Button>
       </form>
     </Box>

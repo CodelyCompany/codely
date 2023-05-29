@@ -67,10 +67,10 @@ const ExampleSolution = ({
   useEffect(() => {
     if (tests && tests.correct === tests.tests)
       dispatch(
-        addPopup('Congratulation! Your code passed all tests', 'success')
+        addPopup('tests-passed-message', 'success')
       );
     if (tests && tests.correct !== tests.tests)
-      dispatch(addPopup("Unfortunately, your code didn't pass tests", 'error'));
+      dispatch(addPopup('tests-not-passed-message', 'error'));
   }, [tests]);
 
   useEffect(() => {
@@ -194,9 +194,9 @@ const ExampleSolution = ({
             variant='contained'
             onClick={prev}
             id={'back'}
-            className={'cancel'}
+            className={'cancel-label'}
           >
-            {t('Previous')}
+            {t('previous-label')}
           </Button>
           <Button
             id={tests && tests.correct === tests.tests ? 'send' : 'submit'}
@@ -214,16 +214,16 @@ const ExampleSolution = ({
             {finishedLoading ? (
               tests ? (
                 tests.correct !== tests.tests ? (
-                  `${t('Check exercise again (Last run:')} ${tests.correct} / ${
+                  `${t('exercise-check-again-label')} ${tests.correct} / ${
                     tests.tests
                   })`
                 ) : (
                   `${t(
-                    'Click again to pass your exercise for admin verification.'
+                    'exercise-verification-send-confirmation'
                   )}`
                 )
               ) : (
-                t('Check exercise')
+                t('exercise-check-label')
               )
             ) : (
               <ThreeDots

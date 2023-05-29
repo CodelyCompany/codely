@@ -34,14 +34,14 @@ const Reviews = () => {
     reviews && (
       <Box id='review'>
         <Typography id='review-typography' variant='h4' color={theme}>
-          {t('Reviews')}
+          {t('reviews-label')}
         </Typography>
         <Box>
           {reviewable ? (
             <ReviewForm review={usersReview} />
           ) : (
             <Typography id='review-no-access' variant='h6'>
-              {t('You need to solve the exercise before reviewing it')}
+              {t('solve-to-review-message')}
             </Typography>
           )}
         </Box>

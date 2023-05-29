@@ -63,7 +63,7 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
           focused={true}
           id='title'
           name='title'
-          label={t('Title')}
+          label={t('title-label')}
           value={formik.values.title}
           onChange={formik.handleChange}
           error={formik.touched.title && Boolean(formik.errors.title)}
@@ -75,7 +75,7 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
           focused={true}
           id='description'
           name='description'
-          label={t('Description')}
+          label={t('description-label')}
           value={formik.values.description}
           onChange={formik.handleChange}
           error={
@@ -89,7 +89,7 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
           focused={true}
           id={`difficulty-${foundUser.theme}`}
           name='difficulty'
-          label={t('Difficulty')}
+          label={t('difficulty-label')}
           select
           value={formik.values.difficulty}
           onChange={formik.handleChange}
@@ -107,7 +107,7 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
           focused={true}
           id={`programmingLanguage-${foundUser.theme}`}
           name='programmingLanguage'
-          label={t('Programming language')}
+          label={t('programming-language-label')}
           select
           value={formik.values.programmingLanguage}
           onChange={formik.handleChange}
@@ -133,7 +133,7 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
           variant='contained'
           type='submit'
         >
-          {t('Next')}
+          {t('next-label')}
         </Button>
       </form>
     </Box>
