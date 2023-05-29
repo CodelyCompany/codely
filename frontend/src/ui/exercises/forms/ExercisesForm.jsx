@@ -3,55 +3,58 @@ import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Button, MenuItem, TextField } from '@mui/material';
 import { Box } from '@mui/system';
+import { AddExercise, UpdateExercise } from 'ducks/exercises/operations';
+import { getAllCreatedExercises } from 'ducks/exercises/selectors';
 import { getUserByUsername } from 'ducks/user/selectors';
 import { useFormik } from 'formik';
+import useExerciseData from 'helpers/useExerciseData';
 import useTheme from 'helpers/useTheme';
+import useToken from 'helpers/useToken';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
-// eslint-disable-next-line max-len
-import { exerciseFormValidation } from 'ui/exercises/forms/validationSchemes/exerciseFormValidation';
+import { connect, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { exerciseFormValidation }
+  from 'ui/exercises/forms/validationSchemes/exerciseFormValidation';
 
-const ExercisesForm = ({ setStep, dataToEdit, step }) => {
+import ProgrammingLanguage from 'consts/programmingLanguage';
+
+// First step of creating exercise
+const ExercisesForm = ({ setStep, AddExercise, UpdateExercise }) => {
   const { t } = useTranslation();
-  const programmingLanguages = [
-    'JavaScript',
-    'Bash',
-    'C',
-    'C++',
-    'Java',
-    'Python',
-    'R',
-  ];
-
+  const programmingLanguages = Object.values(ProgrammingLanguage);
+  const { token } = useToken();
   const { user } = useAuth0();
+  const { color } = useTheme();
+  const navigate = useNavigate();
+  const { id, exercise } = useExerciseData();
+  const exercises = useSelector(getAllCreatedExercises).filter((ex) => ex._id !== id);
+  const elementsColor = color.split('.')[0];
+  const validation = exerciseFormValidation(t, _.map(exercises, 'title'));
   const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
     theme: 0,
   };
-  const { color } = useTheme();
-  const elementsColor = color.split('.')[0];
-  const validation = exerciseFormValidation(t);
+
+  const onSubmit = (values) => {
+    setStep(2);
+    if (id) {
+      UpdateExercise({ id, ...values }, token);
+      return;
+    }
+    AddExercise({ ...values, author: foundUser._id }, token, navigate);
+  };
+
 
   const formik = useFormik({
     initialValues: {
-      title: step.dataFromStep1?.title || dataToEdit?.title || '',
-      description:
-        step.dataFromStep1?.description || dataToEdit?.description || '',
-      difficulty:
-        step.dataFromStep1?.difficulty || dataToEdit?.difficulty || '',
-      programmingLanguage:
-        step.dataFromStep1?.programmingLanguage ||
-        dataToEdit?.programmingLanguage ||
-        '',
+      title:  exercise.title || '',
+      description: exercise.description || '',
+      difficulty: exercise.difficulty || '',
+      programmingLanguage: exercise.programmingLanguage || '',
     },
+    enableReinitialize: true,
     validationSchema: validation.exerciseValidationSchema,
-    onSubmit: (values) => {
-      setStep((prev) => ({
-        ...prev,
-        currentStep: 2,
-        dataFromStep1: values,
-      }));
-    },
+    onSubmit,
   });
 
   return (
@@ -140,10 +143,15 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
   );
 };
 
-export default ExercisesForm;
+const mapDispatchToProps = {
+  AddExercise,
+  UpdateExercise,
+};
+
+export default connect(null, mapDispatchToProps)(ExercisesForm);
 
 ExercisesForm.propTypes = {
   setStep: PropTypes.func.isRequired,
-  dataToEdit: PropTypes.object,
-  step: PropTypes.object.isRequired,
+  AddExercise: PropTypes.func.isRequired,
+  UpdateExercise: PropTypes.func.isRequired,
 };

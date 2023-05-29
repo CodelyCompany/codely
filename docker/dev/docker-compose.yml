@@ -79,6 +79,7 @@ services:
       - '6000:6000'
     networks:
       - no-internet
+    privileged: true
   python:
     restart: always
     build:
@@ -91,6 +92,7 @@ services:
       - '6001:6001'
     networks:
       - no-internet
+    privileged: true
   bash:
     restart: always
     build:
@@ -103,6 +105,7 @@ services:
       - '6002:6002'
     networks:
       - no-internet
+    privileged: true
   r:
     restart: always
     build:
@@ -115,6 +118,7 @@ services:
       - '6003:6003'
     networks:
       - no-internet
+    privileged: true
   java:
     restart: always
     build:
@@ -127,6 +131,7 @@ services:
       - '6004:6004'
     networks:
       - no-internet
+    privileged: true
   cpp:
     restart: always
     build:
@@ -139,6 +144,7 @@ services:
       - '6005:6005'
     networks:
       - no-internet
+    privileged: true
   c:
     restart: always
     build:
@@ -151,6 +157,7 @@ services:
       - '6006:6006'
     networks:
       - no-internet
+    privileged: true
   frontend:
     restart: always
     build:

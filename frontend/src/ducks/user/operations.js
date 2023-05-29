@@ -5,7 +5,7 @@ export const GetUsers = (token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-    }/users/`,
+    }/users`,
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ export const AddUser = (body, token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-    }/users/addUser`,
+    }/users`,
     method: 'POST',
     body: JSON.stringify(body),
     headers: {
@@ -46,7 +46,7 @@ export const UpdateUser = (body, token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-    }/users/editUser`,
+    }/users`,
     method: 'PUT',
     body: JSON.stringify(body),
     headers: {

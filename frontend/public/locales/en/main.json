@@ -187,5 +187,7 @@
   "written-reviews-listing-label": "Your reviews:",
   "form-hints-quantity-request": "Choose hints quantity",
   "other-type-label": "Other types / Custom types",
-  "exercise-title-unique-warning": "Title should be unique"
+  "exercise-title-unique-warning": "Title should be unique",
+  "arguments-required-warning": "Arguments cannot be undefined",
+  "exercise-title-unique-requirement-warning": "Title should be unique"
 }

@@ -35,6 +35,15 @@ const Buttons = ({
   const { t } = useTranslation();
 
   const runCode = (code) => {
+    if (argumentValues.includes('')) {
+      dispatch(
+        addPopup(
+          'Arguments cannot be undefined',
+          'error'
+        )
+      );
+      return;
+    }
     setLoadingFinished(false);
     axios
       .post(
@@ -73,7 +82,7 @@ const Buttons = ({
       .post(
         `${
           process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-        }/exercises/checkSolution/${id}`,
+        }/exercises/${id}/solution`,
         { solution: code, user: foundUser._id },
         { headers: { Authorization: `Bearer ${token}` } }
       )

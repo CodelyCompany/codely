@@ -1,12 +1,19 @@
 const yup = require('yup');
 
-export const exerciseFormValidation = (t) => {
+yup.addMethod(yup.mixed, 'uniqueIn', function (array = [], message) {
+  return this.test('uniqueIn', message, function (value) {
+    return array.filter((item) => item === value).length < 1;
+  });
+});
+
+export const exerciseFormValidation = (t, exercises) => {
   const exerciseValidationSchema = yup.object({
     title: yup
       .string(t('exercise-title-request'))
       .min(3, t('exercise-title-min-length-warning'))
       .max(50, t('exercise-title-max-length-warning'))
       .required(t('exercise-title-requirement-warning')),
+      .uniqueIn(exercises, t('exercise-title-unique-requirement-warning')),
     description: yup
       .string(t('exercise-description-request'))
       .max(5000, t('exercise-description-max-length-warning'))
