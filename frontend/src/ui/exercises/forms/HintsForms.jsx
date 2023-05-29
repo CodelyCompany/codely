@@ -4,22 +4,24 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Button, MenuItem, TextField } from '@mui/material';
 import { AddExercise, UpdateExercise } from 'ducks/exercises/operations';
 import { getUserByUsername } from 'ducks/user/selectors';
+import useExerciseData from 'helpers/useExerciseData';
 import useTheme from 'helpers/useTheme';
+import useToken from 'helpers/useToken';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 import { hintValidation } from 'ui/exercises/forms/validationSchemes/hintFormValidation';
 
-const HintsForms = ({ step, dataToEdit, setStep }) => {
+// Fourth step of creating exercise
+const HintsForms = ({ setStep, UpdateExercise }) => {
   const { t } = useTranslation();
   const { color } = useTheme();
   const [hintsQuantity, setHintsQuantity] = useState('');
   const [hints, setHints] = useState([]);
-  const [triggered, setTriggered] = useState(false);
-  const [triggeringChangeQuantity, setTriggeringChangeQuantity] =
-    useState(false);
   const [error, setError] = useState({});
   const { user } = useAuth0();
+  const { token } = useToken();
+  const { id, exercise } = useExerciseData();
   const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
     theme: 0,
   };
@@ -27,34 +29,15 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
   const elementsColor = color.split('.')[0];
 
   useEffect(() => {
-    if (step.dataFromStep4) {
-      setHintsQuantity(step.dataFromStep4.length);
-      return;
+    if (exercise.hints) {
+      const hintsZippedWithIndexes = exercise.hints.map((hint, index) => [index, hint]);
+      setHintsQuantity(exercise.hints.length);
+      setHints(hintsZippedWithIndexes);
     }
-    dataToEdit && setHintsQuantity(dataToEdit.hints.length);
-  }, []);
-
-  useEffect(() => {
-    if (dataToEdit && !triggered && !step.dataFromStep4) {
-      dataToEdit &&
-        setHints(dataToEdit.hints.map((hint, index) => [index, hint]));
-      setTriggered((prev) => !prev);
-    }
-  }, [hintsQuantity]);
-
-  useEffect(() => {
-    if (!triggeringChangeQuantity) {
-      step.dataFromStep4 && setHints(step.dataFromStep4);
-      setTriggeringChangeQuantity((prev) => !prev);
-    }
-  }, [hintsQuantity]);
+  }, [exercise]);
 
   const goToPreviousStage = () => {
-    setStep((prev) => ({
-      ...prev,
-      currentStep: 3,
-      dataFromStep4: hints,
-    }));
+    setStep(3);
   };
 
   useEffect(() => {
@@ -89,12 +72,10 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
       .validate(hints.map((el) => el[1]))
       .then((valid) => {
         if (valid) {
+          const hintsToSave = hints.map((hint) => hint[1]);
+          UpdateExercise({ id, hints: hintsToSave, step: 5 }, token);
           setError({});
-          setStep((prev) => ({
-            ...prev,
-            currentStep: 5,
-            dataFromStep4: hints,
-          }));
+          setStep(5);
         }
       })
       .catch((err) => setError({ error: err.errors }));
@@ -180,7 +161,6 @@ const mapDispatchToProps = {
 export default connect(null, mapDispatchToProps)(HintsForms);
 
 HintsForms.propTypes = {
-  step: PropTypes.object.isRequired,
-  dataToEdit: PropTypes.object,
   setStep: PropTypes.func.isRequired,
+  UpdateExercise: PropTypes.func.isRequired,
 };

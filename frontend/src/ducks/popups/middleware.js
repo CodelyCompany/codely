@@ -6,8 +6,8 @@ const keymap = {
     'Error occured during passing exercise for admin verification',
   DELETE_EXERCISE_SUCCESS: 'Exercise deleted successfuly',
   DELETE_EXERCISE_FAILURE: 'Error occured during deleting exercise',
-  UPDATE_EXERCISE_SUCCESS: 'Updated passed for admin verification',
-  UPDATE_EXERCISE_FAILURE: 'Error occured during updating exercise',
+  UPDATE_ENTIRE_EXERCISE_SUCCESS: 'Exercise passed for admin verification',
+  UPDATE_ENTIRE_EXERCISE_FAILURE: 'Error occured during updating exercise',
 };
 
 const popupMiddleware = (store) => (next) => (action) => {
