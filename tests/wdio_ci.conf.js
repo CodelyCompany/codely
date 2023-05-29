@@ -78,6 +78,8 @@ exports.config = {
       'goog:chromeOptions': {
         args: ['--headless', '--disable-gpu', '--disable-dev-shm-usage'],
       },
+      hostname: 'localhost',
+      port: 4444,
     },
   ],
   //
