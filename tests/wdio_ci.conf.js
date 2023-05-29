@@ -132,9 +132,6 @@ exports.config = {
   // Framework you want to run your specs with.
   // The following are supported: Mocha, Jasmine, and Cucumber
   // see also: https://webdriver.io/docs/frameworks
-  hostname: 'localhost',
-  port: 4444,
-  path: '/wd/hub',
   // Make sure you have the wdio adapter package for the specific framework installed
   // before running any tests.
   framework: 'mocha',
