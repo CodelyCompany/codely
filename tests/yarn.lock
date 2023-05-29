@@ -3924,7 +3924,7 @@ scheduler@^0.19.1:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
 
-selenium-standalone@^8.2.1:
+selenium-standalone@^8.2.1, selenium-standalone@^8.3.0:
   version "8.3.0"
   resolved "https://registry.yarnpkg.com/selenium-standalone/-/selenium-standalone-8.3.0.tgz#effe900ffb764f2b9db29d3b2008ea68f289e328"
   integrity sha512-cQVWQGxumvPnyzFNtzFtBfDCbqBsdEnwiOwRyrAzeUqf5ltAp3Z3+2f6asSFbLUQJs2sFuF6PsEyNA+eOzXKxg==
