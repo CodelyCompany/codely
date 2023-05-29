@@ -186,5 +186,6 @@
   "prepared-exercises-listing-label": "Stworzone zadania:",
   "written-reviews-listing-label": "Recenzje:",
   "form-hints-quantity-request": "Wybierz ilość podpowiedzi",
-  "other-type-label": "Inny typ / Własny typ"
+  "other-type-label": "Inny typ / Własny typ",
+  "exercise-title-unique-warning": "Tytuł powinien być unikatowy"
 }
