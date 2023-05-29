@@ -11,26 +11,27 @@ const backendContainersAddress =
   process.env.APP_CONTAINERS_ADDRESS || 'http://localhost:5001';
 
 async function getToken() {
-  try {
-    const response = await axios.post(
-      `https://${process.env.APP_DOMAIN}/oauth/token`,
-      {
-        client_id: process.env.APP_CONTAINERS_CLIENT_ID,
-        client_secret: process.env.APP_CONTAINERS_CLIENT_SECRET,
-        audience: process.env.APP_AUDIENCE,
-        grant_type: 'client_credentials',
-      },
-      {
-        headers: {
-          'content-type': 'application/json',
-          'Accept-Encoding': 'application/json',
-        },
-      }
-    );
-    return response.data.access_token;
-  } catch (error) {
-    console.log(error);
-  }
+  // try {
+  //   const response = await axios.post(
+  //     `https://${process.env.APP_DOMAIN}/oauth/token`,
+  //     {
+  //       client_id: process.env.APP_CONTAINERS_CLIENT_ID,
+  //       client_secret: process.env.APP_CONTAINERS_CLIENT_SECRET,
+  //       audience: process.env.APP_AUDIENCE,
+  //       grant_type: 'client_credentials',
+  //     },
+  //     {
+  //       headers: {
+  //         'content-type': 'application/json',
+  //         'Accept-Encoding': 'application/json',
+  //       },
+  //     }
+  //   );
+  //   return response.data.access_token;
+  // } catch (error) {
+  //   console.log(error);
+  // }
+  return 'fake_token';
 }
 
 async function runTests(exercise, solution) {
@@ -315,6 +316,27 @@ router.put('/checkVersus/:exerciseId/room/:roomId', async (req, res) => {
   } catch (err) {
     console.log(err);
     return res.status(500).send(err);
+  }
+});
+
+router.delete('/deleteAllExercises', async (req, res) => {
+  try {
+    await Exercise.deleteMany({});
+    await User.updateMany(
+      {},
+      {
+        preparedExercises: [],
+        doneExercises: [],
+      }
+    );
+    await Test.deleteMany({});
+    await Review.deleteMany({});
+    return res
+      .status(200)
+      .send({ message: 'Exercises and all relationships have been removed' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
   }
 });
 

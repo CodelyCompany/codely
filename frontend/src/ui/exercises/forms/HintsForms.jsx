@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
-import { Box, MenuItem } from '@mui/material';
-import { Button, TextField } from '@mui/material';
+import { Box, Button, MenuItem, TextField } from '@mui/material';
 import { AddExercise, UpdateExercise } from 'ducks/exercises/operations';
 import { getUserByUsername } from 'ducks/user/selectors';
 import useTheme from 'helpers/useTheme';
@@ -129,11 +128,15 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
                 className='hints-input'
                 color={elementsColor}
                 focused
+                id={`hint-${number}`}
                 sx={{ input: { color } }}
                 label={number === 0 ? t('Hints') : ''}
                 name='hint'
                 value={getValue(number)}
-                error={error.error && !validation.hintSchema.isValidSync(getValue(number))}
+                error={
+                  error.error &&
+                  !validation.hintSchema.isValidSync(getValue(number))
+                }
                 helperText={
                   error &&
                   !validation.hintSchema.isValidSync(getValue(number)) &&
@@ -150,6 +153,7 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
           type='button'
           onClick={() => goToPreviousStage()}
           variant='contained'
+          className={'cancel-4'}
         >
           {t('Previous')}
         </Button>
@@ -159,6 +163,7 @@ const HintsForms = ({ step, dataToEdit, setStep }) => {
           type='button'
           onClick={() => goToNextStage()}
           variant='contained'
+          id={'submit-4'}
         >
           {t('Next')}
         </Button>

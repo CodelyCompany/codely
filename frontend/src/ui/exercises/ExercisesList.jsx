@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Box, Container } from '@mui/material';
-import { Button } from '@mui/material';
+import { Box, Button, Container } from '@mui/material';
 import { GetExercises } from 'ducks/exercises/operations';
 import { getExercisesFromState } from 'ducks/exercises/selectors';
 import usePageTitle from 'helpers/usePageTitle';
@@ -49,7 +48,12 @@ const ExercisesList = ({ exercises, GetExercises }) => {
   return (
     <>
       <Container id='exercises-list-container'>
-        <Button onClick={goToExercisesForm} variant='contained' color={theme}>
+        <Button
+          id={'createExercise'}
+          onClick={goToExercisesForm}
+          variant='contained'
+          color={theme}
+        >
           {t('Create your exercise!')}
         </Button>
         <Filters
@@ -64,9 +68,7 @@ const ExercisesList = ({ exercises, GetExercises }) => {
             _.sortBy(
               exercises
                 .filter((ex) =>
-                  filters.title
-                    ? new RegExp(`.*${filters.title}.*`).test(ex.title)
-                    : true
+                  filters.title ? filters.title.includes(ex.title) : true
                 )
                 .filter((ex) =>
                   !_.isEmpty(filters.languages)

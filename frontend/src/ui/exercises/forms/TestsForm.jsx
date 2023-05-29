@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
-import { Box, MenuItem } from '@mui/material';
-import { Button, TextField } from '@mui/material';
+import { Box, Button, MenuItem, TextField } from '@mui/material';
 import { getUserByUsername } from 'ducks/user/selectors';
 import useTheme from 'helpers/useTheme';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { testFormValidation }
-  from 'ui/exercises/forms/validationSchemes/testFormValidation';
+import { testFormValidation } from 'ui/exercises/forms/validationSchemes/testFormValidation';
 
 const TestsForm = ({ setStep, dataToEdit, step }) => {
   const { t } = useTranslation();
@@ -173,6 +171,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
                           sx={{ input: { color } }}
                           {...label}
                           key={argNumber}
+                          id={`input-${index}-${argNumber}`}
                           value={tests[index]?.input[argNumber] || ''}
                           onChange={(e) => handleTests(index, argNumber, e)}
                           error={
@@ -197,13 +196,16 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
                   <TextField
                     color={elementsColor}
                     focused
+                    id={`output-${index}`}
                     sx={{ input: { color } }}
                     {...outputLabel}
                     value={tests[index]?.output || ''}
                     onChange={(e) => handleOutput(index, e)}
                     error={
                       error.error &&
-                      !validation.outputValidation.isValidSync(tests[index]?.output || '')
+                      !validation.outputValidation.isValidSync(
+                        tests[index]?.output || ''
+                      )
                     }
                     helperText={
                       error.error &&
@@ -224,6 +226,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
           type='button'
           onClick={() => goToPreviousStage()}
           variant='contained'
+          className={'cancel-3'}
         >
           {t('Previous')}
         </Button>
@@ -233,6 +236,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
           type='button'
           onClick={() => submitValues()}
           variant='contained'
+          id={'submit-3'}
         >
           {t('Next')}
         </Button>

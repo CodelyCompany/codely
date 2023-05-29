@@ -79,7 +79,7 @@ const Settings = ({ UpdateUser, UploadAvatar, token }) => {
         </Typography>
         <SetLanguage />
       </Box>
-      <Box className='theme-container' color={theme}>
+      <Box id={'theme-container'} className='theme-container' color={theme}>
         <Typography id='set-theme' color={theme} variant='h5'>
           {t('Set your theme')}
         </Typography>

@@ -7,8 +7,8 @@ import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import CustomTypes from 'ui/exercises/forms/CustomTypes';
 import { getDataTypes } from 'ui/exercises/forms/utils/dataTypes';
-import { customizeExerciseValidation }
-  from 'ui/exercises/forms/validationSchemes/customizeExerciseValidation';
+// eslint-disable-next-line max-len
+import { customizeExerciseValidation } from 'ui/exercises/forms/validationSchemes/customizeExerciseValidation';
 
 const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
   const { t } = useTranslation();
@@ -219,6 +219,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                         marginRight: `${formWithTypes ? '5px' : '0'}`,
                         input: { color },
                       }}
+                      id={`arg-${argNumber}`}
                       label={`${argNumber + 1}. ${t('Argument name')}`}
                       value={argumentsName[argNumber] || ''}
                       onChange={(e) => handleArgumentName(e, argNumber)}
@@ -248,15 +249,20 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                           marginLeft: `${formWithTypes ? '5px' : '0'}`,
                         }}
                         label={`${argNumber + 1}. ${t('Argument type')}`}
+                        id={`type-${argNumber}`}
                         value={types[argNumber] || ''}
                         onChange={(e) => setType(argNumber, e.target.value)}
                         error={
                           error.error &&
-                          !validation.typesSchema.isValidSync(types[argNumber] || '')
+                          !validation.typesSchema.isValidSync(
+                            types[argNumber] || ''
+                          )
                         }
                         helperText={
                           error &&
-                          !validation.typesSchema.isValidSync(types[argNumber] || '') &&
+                          !validation.typesSchema.isValidSync(
+                            types[argNumber] || ''
+                          ) &&
                           error.error
                         }
                       >
@@ -265,7 +271,18 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                           ...customTypes,
                           additionalOption,
                         ].map((opt) => (
-                          <MenuItem key={opt} value={opt}>
+                          <MenuItem
+                            key={opt}
+                            value={opt}
+                            id={
+                              [
+                                'Inny typ / Własny typ',
+                                'Other types / Custom types',
+                              ].includes(opt)
+                                ? `other-type-${argNumber}`
+                                : `${opt}-${argNumber}`
+                            }
+                          >
                             {opt}
                           </MenuItem>
                         ))}
@@ -281,6 +298,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
               color={elementsColor}
               select
               fullWidth
+              id={'outputType'}
               label={t(`Output type`)}
               value={types[formik.values.argumentsQuantity] || ''}
               onChange={(e) =>
@@ -302,7 +320,18 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
             >
               {[...dropdownOptions, ...customTypes, additionalOption].map(
                 (opt) => (
-                  <MenuItem key={opt} value={opt}>
+                  <MenuItem
+                    key={opt}
+                    value={opt}
+                    id={
+                      [
+                        'Inny typ / Własny typ',
+                        'Other types / Custom types',
+                      ].includes(opt)
+                        ? 'other-type'
+                        : opt
+                    }
+                  >
                     {opt}
                   </MenuItem>
                 )
@@ -315,6 +344,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
               color={elementsColor}
               variant='contained'
               onClick={prev}
+              className={'cancel-2'}
             >
               {t('Previous')}
             </Button>
@@ -323,6 +353,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
               color={elementsColor}
               variant='contained'
               type='submit'
+              id={'submit-2'}
             >
               {t('Next')}
             </Button>

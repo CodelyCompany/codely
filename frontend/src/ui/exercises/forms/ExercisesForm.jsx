@@ -1,8 +1,7 @@
 import React from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
-import { MenuItem } from '@mui/material';
-import { Button, TextField } from '@mui/material';
+import { Button, MenuItem, TextField } from '@mui/material';
 import { Box } from '@mui/system';
 import { getUserByUsername } from 'ducks/user/selectors';
 import { useFormik } from 'formik';
@@ -10,8 +9,8 @@ import useTheme from 'helpers/useTheme';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { exerciseFormValidation }
-  from 'ui/exercises/forms/validationSchemes/exerciseFormValidation';
+// eslint-disable-next-line max-len
+import { exerciseFormValidation } from 'ui/exercises/forms/validationSchemes/exerciseFormValidation';
 
 const ExercisesForm = ({ setStep, dataToEdit, step }) => {
   const { t } = useTranslation();
@@ -128,7 +127,12 @@ const ExercisesForm = ({ setStep, dataToEdit, step }) => {
           ))}
         </TextField>
 
-        <Button color={elementsColor} variant='contained' type='submit'>
+        <Button
+          id={'submit-1'}
+          color={elementsColor}
+          variant='contained'
+          type='submit'
+        >
           {t('Next')}
         </Button>
       </form>

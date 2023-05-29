@@ -193,10 +193,13 @@ const ExampleSolution = ({
             color={color.split('.')[0]}
             variant='contained'
             onClick={prev}
+            id={'back'}
+            className={'cancel'}
           >
             {t('Previous')}
           </Button>
           <Button
+            id={tests && tests.correct === tests.tests ? 'send' : 'submit'}
             color={color.split('.')[0]}
             variant='contained'
             disabled={!finishedLoading}
