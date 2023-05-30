@@ -9,6 +9,10 @@ const notificationSchema = new Schema({
     type: String,
     maxlength: 5000,
   },
+  accepted: {
+    type: Boolean,
+    default: false,
+  },
   read: {
     type: Boolean,
     default: false,

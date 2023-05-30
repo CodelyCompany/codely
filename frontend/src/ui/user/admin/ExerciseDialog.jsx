@@ -42,7 +42,7 @@ function ExerciseDialog({
   const checkExercise = () => {
     const userToNotify = users.find((usr) => usr.username === exercise.author);
     AddNotification(userToNotify._id, {
-      content: `${t('exercise-accepeted-message')}: ${exercise.title}`,
+      content: exercise.title, accepted: true,
     });
     CheckExercise(exercise._id, token);
     handleClose();
@@ -55,7 +55,7 @@ function ExerciseDialog({
   const deleteExercise = () => {
     const userToNotify = users.find((usr) => usr.username === exercise.author);
     AddNotification(userToNotify._id, {
-      content: `${t('exercise-rejected-message')}: ${exercise.title}`,
+      content: exercise.title,
     });
     DeleteUncheckedExercise(exercise._id, token);
     setOpen(false);
