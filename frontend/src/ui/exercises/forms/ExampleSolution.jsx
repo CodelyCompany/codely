@@ -18,6 +18,7 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import OutputField from 'ui/code_editor/OutputField';
 import TestsList from 'ui/exercises/forms/TestsList';
+import { getDataTypes } from 'ui/exercises/forms/utils/dataTypes';
 import { getSignature } from 'ui/exercises/forms/utils/functionSignatures';
 
 // Fifth step of creating exercise
@@ -37,6 +38,7 @@ const ExampleSolution = ({
   const { id, exercise } = useExerciseData();
   const elementsColor = color.split('.')[0];
   const navigate = useNavigate();
+  const types = getDataTypes(exercise.programmingLanguage || 'java');
   const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
     theme: 0,
   };
@@ -53,7 +55,8 @@ const ExampleSolution = ({
         exercise.programmingLanguage.toLowerCase(),
         exercise.functionName,
         exercise.argumentsName,
-        exercise.types
+        exercise.types,
+        _.difference(exercise.types, types)
       );
       setCode(signature);
     }
@@ -81,7 +84,8 @@ const ExampleSolution = ({
       exercise.programmingLanguage.toLowerCase(),
       exercise.functionName,
       exercise.argumentsName,
-      exercise.types
+      exercise.types,
+      _.difference(exercise.types, types)
     );
     UpdateExercise(
       { id, exampleSolution: code, step: 6, functionSignature: signature },
