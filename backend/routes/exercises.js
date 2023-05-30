@@ -37,6 +37,7 @@ async function getToken() {
 async function runTests(exercise, solution) {
   const token = await getToken();
   let counterCorrect = 0;
+  let outputs = [];
   for (let i = 0; i < exercise.tests.length; i++) {
     const element = exercise.tests[i];
     const response = await axios.post(
@@ -57,8 +58,9 @@ async function runTests(exercise, solution) {
     if (res1 === res2) {
       counterCorrect++;
     }
+    outputs.push(res1);
   }
-  return counterCorrect;
+  return { counterCorrect, outputs };
 }
 
 router.get('/', async (req, res) => {
@@ -160,10 +162,15 @@ router.post('/', async (req, res) => {
 router.post('/verify', async (req, res) => {
   try {
     const data = req.body;
-    const counterCorrect = await runTests(data, data.exampleSolution);
-    return res
-      .status(200)
-      .send({ tests: data.tests.length, correct: counterCorrect });
+    const { counterCorrect, outputs } = await runTests(
+      data,
+      data.exampleSolution
+    );
+    return res.status(200).send({
+      tests: data.tests.length,
+      correct: counterCorrect,
+      outputs,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).send(error);
@@ -175,7 +182,7 @@ router.post('/:id/solution', async (req, res) => {
     const id = req.params.id;
     const data = req.body;
     const exercise = await Exercise.findById(id).populate('tests');
-    const counterCorrect = await runTests(exercise, data.solution);
+    const { counterCorrect } = await runTests(exercise, data.solution);
     if (counterCorrect === exercise.tests.length) {
       const user = await User.findById(data.user);
       if (!user.doneExercises.includes(exercise._id)) {
@@ -277,7 +284,7 @@ router.put('/checkVersus/:exerciseId/room/:roomId', async (req, res) => {
     const { roomId, exerciseId } = req.params;
     const data = req.body;
     const exercise = await Exercise.findById(exerciseId).populate('tests');
-    const counterCorrect = await runTests(exercise, data.solution);
+    const { counterCorrect } = await runTests(exercise, data.solution);
     if (data.won) {
       const solvers = await client.lrange(`game-${roomId}-acceptation`, 0, -1);
       const loserId = solvers[0] === data.user ? solvers[1] : solvers[0];

@@ -139,16 +139,22 @@ export const UpdateExercise = (body, token, callback, isFormFinished) =>
       Authorization: `Bearer ${token}`,
     },
     types: [
-      isFormFinished ? types.UPDATE_ENTIRE_EXERCISE_REQUEST : types.UPDATE_EXERCISE_REQUEST,
+      isFormFinished
+        ? types.UPDATE_ENTIRE_EXERCISE_REQUEST
+        : types.UPDATE_EXERCISE_REQUEST,
       {
-        type: isFormFinished ? types.UPDATE_ENTIRE_EXERCISE_SUCCESS : types.UPDATE_EXERCISE_SUCCESS,
+        type: isFormFinished
+          ? types.UPDATE_ENTIRE_EXERCISE_SUCCESS
+          : types.UPDATE_EXERCISE_SUCCESS,
         payload: async (action, state, res) => {
           const response = await res.json();
           callback?.();
           return response;
         },
       },
-      isFormFinished ? types.UPDATE_ENTIRE_EXERCISE_FAILURE : types.UPDATE_EXERCISE_FAILURE,
+      isFormFinished
+        ? types.UPDATE_ENTIRE_EXERCISE_FAILURE
+        : types.UPDATE_EXERCISE_FAILURE,
     ],
   });
 
@@ -200,7 +206,7 @@ export const VerifyExercise = (body, callback, token, callbackAfterResponse) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-    }/exercises/checkBeforeAddExercise`,
+    }/exercises/verify`,
     method: 'POST',
     body: JSON.stringify(body),
     headers: {
