@@ -92,12 +92,8 @@
   "delete-confirmation": "Potwierdź usunięcie",
   "exercise-delete-confirmation": "Czy jesteś pewny, że chcesz usunąć to zadanie?",
   "hint-label": "Podpowiedź",
-  "exercise-to-be-verified-message": "Przekazano zadanie do weryfikacji przez administratora",
-  "error-passing-exercise-for-verification-message": "Wystąpił błąd podczas przekazywania do weryfikacji",
   "exercise-deleted-message": "Zadanie usunięto pomyślnie",
   "error-deleting-exercise-message": "Wystąpił błąd podczas usuwania zadania",
-  "exercise-update-passed-for-verification-message": "Przekzano aktualizację do weryfikacji",
-  "error-updating-exercise-message": "Wystąpił błąd podczas aktualizacji zadania",
   "tests-passed-message": "Brawo! Twój kod przeszedł wszystkie testy",
   "tests-not-passed-message": "Niestety, twój kod nie przeszedł testów",
   "username-label": "Nazwa użytkownika",
@@ -165,7 +161,7 @@
   "login-label": "ZALOGUJ",
   "editor-label": "Edytor",
   "exercises-label": "Zadania",
-  "versus-label": "versus-label",
+  "versus-label": "Versus",
   "profile-label": "Profil",
   "admin-panel-label": "Panel administratora",
   "settings-label": "Ustawienia",
@@ -188,5 +184,7 @@
   "form-hints-quantity-request": "Wybierz ilość podpowiedzi",
   "other-type-label": "Inny typ / Własny typ",
   "exercise-title-unique-warning": "Tytuł powinien być unikatowy",
-  "arguments-required-warning": "Wszystkie argumenty muszą być podane"
+  "arguments-required-warning": "Wszystkie argumenty muszą być podane",
+  "exercise-created-message": "Zadanie pomyślnie przekazano do weryfikacji przez administratora",
+  "exercise-updating-error": "Podczas przekazywania zadania do weryfikacji wystąpił błąd"
 }

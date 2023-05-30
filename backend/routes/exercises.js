@@ -110,39 +110,6 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// router.get('/user/:id', async (req, res) => {
-//   try {
-//     const id = req.params.id;
-//     const data = await User.findById(id).populate('preparedExercises');
-//     res.status(200).send(data.preparedExercises);
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).send(error);
-//   }
-// });
-
-// router.get('/:id/reviews', async (req, res) => {
-//   try {
-//     const id = req.params.id;
-//     const data = await Exercise.findById(id).populate('reviews');
-//     res.status(200).send(data.preparedExcercises);
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).send(error);
-//   }
-// });
-
-// router.get('/withTest/:id', async (req, res) => {
-//   try {
-//     const id = req.params.id;
-//     const data = await Exercise.findById(id).populate('tests');
-//     res.status(200).send(data);
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).send(error);
-//   }
-// });
-
 router.post('/', async (req, res) => {
   try {
     const data = req.body;
@@ -318,7 +285,7 @@ router.put('/checkVersus/:exerciseId/room/:roomId', async (req, res) => {
   }
 });
 
-router.delete('/deleteAllExercises', async (req, res) => {
+router.delete('/', async (req, res) => {
   try {
     await Exercise.deleteMany({});
     await User.updateMany(
