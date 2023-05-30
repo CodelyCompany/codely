@@ -135,7 +135,7 @@ exports.config = {
   services: [[TimelineService], 'docker'],
 
   dockerOptions: {
-    image: 'selenium/standalone-chrome',
+    image: 'selenium/standalone-firefox',
     healthCheck: 'http://localhost:4444',
     options: {
       p: ['4444:4444'],
