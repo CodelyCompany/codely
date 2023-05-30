@@ -12,7 +12,7 @@ export const exerciseFormValidation = (t, exercises) => {
       .string(t('exercise-title-request'))
       .min(3, t('exercise-title-min-length-warning'))
       .max(50, t('exercise-title-max-length-warning'))
-      .required(t('exercise-title-requirement-warning')),
+      .required(t('exercise-title-requirement-warning'))
       .uniqueIn(exercises, t('exercise-title-unique-requirement-warning')),
     description: yup
       .string(t('exercise-description-request'))
