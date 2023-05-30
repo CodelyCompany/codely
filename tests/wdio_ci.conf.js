@@ -75,9 +75,13 @@ exports.config = {
       browserName: 'chrome',
       acceptInsecureCerts: true,
       // We need to extends some Chrome flags in order to tell Chrome to run headless
-      'goog:chromeOptions': {
-        args: ['--headless'],
-      },
+      // 'goog:chromeOptions': {
+      // args: [
+      //   '--headless',
+      //   '--disable-gpu',
+      //   '--no-sandbox',
+      //   '--disable-dev-shm-usage',
+      // ],
     },
   ],
   //
