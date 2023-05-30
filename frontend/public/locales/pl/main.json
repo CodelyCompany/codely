@@ -100,7 +100,7 @@
   "written-reviews-label": "Dodane recenzje",
   "registered-users-label": "Zarejestrowani użytkownicy",
   "verified-exercises-label": "Zweryfikowane zadania",
-  "exercise-accepeted-message": "Administrator potwierdził twoje zadanie",
+  "exercise-accepted-message": "Administrator potwierdził twoje zadanie",
   "exercise-rejected-message": "Administrator odrzucił twoje zadanie",
   "inputs-label": "Wejścia",
   "outputs-label": "Wyjścia",
@@ -183,7 +183,7 @@
   "written-reviews-listing-label": "Recenzje:",
   "form-hints-quantity-request": "Wybierz ilość podpowiedzi",
   "other-type-label": "Inny typ / Własny typ",
-  "exercise-title-unique-warning": "Tytuł powinien być unikatowy",
+  "exercise-title-unique-requirement-warning": "Tytuł powinien być unikatowy",
   "arguments-required-warning": "Wszystkie argumenty muszą być podane",
   "exercise-created-message": "Zadanie pomyślnie przekazano do weryfikacji przez administratora",
   "exercise-updating-error": "Podczas przekazywania zadania do weryfikacji wystąpił błąd"

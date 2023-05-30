@@ -187,5 +187,6 @@
   "arguments-required-warning": "Arguments cannot be undefined",
   "exercise-title-unique-requirement-warning": "Title should be unique",
   "exercise-created-message": "Exercise successfully passed for admin verification",
-  "exercise-updating-error": "An error occured while passing exercise for verification"
+  "exercise-updating-error": "An error occured while passing exercise for verification",
+  "exercise-accepted-message": "Admin accepted your exercise"
 }

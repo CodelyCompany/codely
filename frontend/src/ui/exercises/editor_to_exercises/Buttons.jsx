@@ -38,7 +38,7 @@ const Buttons = ({
     if (argumentValues.includes('')) {
       dispatch(
         addPopup(
-          'Arguments cannot be undefined',
+          t('arguments-required-warning'),
           'error'
         )
       );

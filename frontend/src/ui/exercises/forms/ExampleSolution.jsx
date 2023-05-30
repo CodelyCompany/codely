@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import Editor from '@monaco-editor/react';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import { AddExercise, UpdateExercise, VerifyExercise } from 'ducks/exercises/operations';
 import { addPopup } from 'ducks/popups/actions';
@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { ThreeDots } from 'react-loader-spinner';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import OutputField from 'ui/code_editor/OutputField';
 import TestsList from 'ui/exercises/forms/TestsList';
 import { getSignature } from 'ui/exercises/forms/utils/functionSignatures';
 
@@ -103,6 +104,7 @@ const ExampleSolution = ({
   return (
     <>
       <Box id='example-solution-container'>
+      {console.log(tests)}
         <Box
           className='example-solution-wrapper'
           id={`box-border-${foundUser.theme}`}
@@ -171,6 +173,11 @@ const ExampleSolution = ({
           </Button>
         </Box>
       </Box>
+      {tests?.outputs?.map?.((output, key) =>
+      <>
+      <Typography className="tests-numbering" key={key}>Test: {key + 1}</Typography>
+      <OutputField key={key} output={output} loadingFinished={finishedLoading} />
+      </>)}
       <TestsList />
     </>
   );
