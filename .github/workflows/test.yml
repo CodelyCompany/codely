@@ -13,7 +13,10 @@ jobs:
   build:
     name: Run tests
     runs-on: ubuntu-latest
-
+    services:
+      selenium:
+        image: selenium/standalone-chrome
+        options: --shm-size=2gb
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
