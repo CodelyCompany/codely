@@ -38,8 +38,7 @@ async function runTests(exercise, solution) {
   const token = await getToken();
   let counterCorrect = 0;
   let outputs = [];
-  for (let i = 0; i < exercise.tests.length; i++) {
-    const element = exercise.tests[i];
+  for (const element of exercise.tests) {
     const response = await axios.post(
       backendContainersAddress +
         '/' +
@@ -53,12 +52,12 @@ async function runTests(exercise, solution) {
         headers: { authorization: `Bearer ${token}` },
       }
     );
-    const res1 = response.data.output.replace(/(\r\n|\n|\r)/gm, '');
-    const res2 = element.output.replace(/(\r\n|\n|\r)/gm, '');
-    if (res1 === res2) {
+    const outputFromResponse = response.data.output.replace(/(\r\n|\n|\r)/gm, '');
+    const outputFromBody = element.output.replace(/(\r\n|\n|\r)/gm, '');
+    if (outputFromResponse === outputFromBody) {
       counterCorrect++;
     }
-    outputs.push(res1);
+    outputs.push(outputFromResponse);
   }
   return { counterCorrect, outputs };
 }
@@ -66,10 +65,10 @@ async function runTests(exercise, solution) {
 router.get('/', async (req, res) => {
   try {
     const data = await Exercise.find().populate(['author', 'tests']);
-    res.status(200).send(data);
+    return res.status(200).send(data);
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 
@@ -79,10 +78,10 @@ router.get('/checked', async (req, res) => {
       'author',
       'tests',
     ]);
-    res.status(200).send(data);
+    return res.status(200).send(data);
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 
@@ -92,10 +91,10 @@ router.get('/unchecked', async (req, res) => {
       'author',
       'tests',
     ]);
-    res.status(200).send(data);
+    return res.status(200).send(data);
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 
@@ -103,10 +102,10 @@ router.get('/:id', async (req, res) => {
   try {
     const id = req.params.id;
     const data = await Exercise.findById(id).populate(['author', 'tests']);
-    res.status(200).send(data);
+    return res.status(200).send(data);
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 
@@ -122,7 +121,7 @@ router.post('/', async (req, res) => {
     return res.status(201).send(newExercise);
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 
@@ -140,7 +139,7 @@ router.post('/verify', async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 
@@ -166,7 +165,7 @@ router.post('/:id/solution', async (req, res) => {
       .send({ tests: exercise.tests.length, correct: counterCorrect });
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 
@@ -194,7 +193,7 @@ router.put('/', async (req, res) => {
     return res.status(200).send(data);
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 
@@ -211,7 +210,7 @@ router.put('/:id/check', async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 
@@ -242,7 +241,7 @@ router.delete('/:id', async (req, res) => {
     return res.status(200).send({ id });
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 
@@ -302,7 +301,7 @@ router.delete('/', async (req, res) => {
       .send({ message: 'Exercises and all relationships have been removed' });
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 

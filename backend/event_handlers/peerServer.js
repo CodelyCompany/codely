@@ -46,7 +46,7 @@ const getRandomExercise = async (language) => {
 };
 
 const hasCommonLanguage = (firstArr, secondArr) => {
-  return firstArr.filter((el) => secondArr.includes(el)).length > 0;
+  return firstArr.filter((el) => secondArr.includes(el)).length;
 };
 
 const hasMatching = (firstUsr, secondUsr, matchings) => {
@@ -55,7 +55,7 @@ const hasMatching = (firstUsr, secondUsr, matchings) => {
       (el) =>
         (el.first === firstUsr && el.second === secondUsr) ||
         (el.second === firstUsr && el.first === secondUsr)
-    ).length > 0
+    ).length
   );
 };
 
