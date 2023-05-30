@@ -21,7 +21,7 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v2
       - name: Start Selenium standalone
-        run: docker run -it -p 4444:4444 webdriverio/selenium-standalone
+        run: docker run -p 4444:4444 webdriverio/selenium-standalone
       - uses: browser-actions/setup-chrome@v1
       - run: chrome --version
       - name: Set up Node.js
