@@ -13,12 +13,13 @@ jobs:
   build:
     name: Run tests
     runs-on: ubuntu-latest
-
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
-      - uses: browser-actions/setup-chrome@v1
-      - run: chrome --version
+      - name: Install Firefox browser
+        uses: browser-actions/setup-firefox@v1
+      - name: Check Firefox version
+        run: firefox --version
       - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
@@ -47,8 +48,9 @@ jobs:
       - name: Run tests
         working-directory: ./tests
         run: yarn test_ci
-#      - uses: actions/upload-artifact@v1
-#        if: failure()
-#        with:
-#          name: logs
-#          path: logs
+      - name: Save test raport
+        uses: actions/upload-artifact@v1
+        if: failure()
+        with:
+          name: TestReport
+          path: tests/report/timeline-report.html
