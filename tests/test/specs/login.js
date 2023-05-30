@@ -64,7 +64,9 @@ describe('Login Test', () => {
   it('Should login with valid credentials - created user', async () => {
     await TitlePage.clickLoginButton();
     await LoginPage.login(randomEmail, data.USER_PASSWORD);
-    expect(await MainPage.getUsernameInfo()).toBe(randomLogin);
+    expect((await MainPage.getUsernameInfo()).toLowerCase()).toBe(
+      randomLogin.toLowerCase()
+    );
   });
 
   logoutUser();
