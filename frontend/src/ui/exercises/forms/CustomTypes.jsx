@@ -36,7 +36,7 @@ const CustomTypes = ({ open, setOpen, setCustomTypes }) => {
           <TextField
             autoFocus
             margin='dense'
-            id='type-label'
+            id='type'
             label={t('type-label')}
             type='text'
             fullWidth
