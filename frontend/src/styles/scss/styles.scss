@@ -545,6 +545,13 @@ html {
   min-width: 180px;
 }
 
+.tests-numbering {
+  font-weight: bolder !important;
+  text-align: left;
+  position: relative !important;
+  top: 10px;
+}
+
 #output-field-wrapper {
   border: 3px solid;
   display: flex;

@@ -86,7 +86,7 @@ const TestsForm = ({ setStep, UpdateExercise }) => {
     );
   };
 
-  useEffect(() => {
+useEffect(() => {
     setTests((prev) =>
       [...Array(testsQuantity).keys()].map((el, index) => {
         if (!prev[index]) {
@@ -112,7 +112,7 @@ const TestsForm = ({ setStep, UpdateExercise }) => {
         return prev[index];
       })
     );
-  }, [testsQuantity, exercise]);
+  }, [testsQuantity]);
 
   return (
     <Box id='tests-form-container'>
