@@ -194,7 +194,7 @@ const ExampleSolution = ({
             variant='contained'
             onClick={prev}
             id={'back'}
-            className={'cancel-label'}
+            className={'cancel'}
           >
             {t('previous-label')}
           </Button>

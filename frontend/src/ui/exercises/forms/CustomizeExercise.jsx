@@ -277,7 +277,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                             id={
                               [
                                 'Inny typ / Własny typ',
-                                'other-type-label',
+                                'Other types / Custom types',
                               ].includes(opt)
                                 ? `other-type-${argNumber}`
                                 : `${opt}-${argNumber}`
@@ -326,7 +326,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                     id={
                       [
                         'Inny typ / Własny typ',
-                        'other-type-label',
+                        'Other types / Custom types',
                       ].includes(opt)
                         ? 'other-type'
                         : opt

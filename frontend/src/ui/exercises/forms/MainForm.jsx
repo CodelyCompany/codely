@@ -134,10 +134,7 @@ function MainForm({ GetExercise, redirect, StopRedirect, token }) {
         </AccordionSummary>
         <AccordionDetails className='main-form-accordion'>
           <Typography className='accordion-text' sx={{ color }}>
-            {t(
-              // eslint-disable-next-line max-len
-              'exercise-form-arguments-info'
-            )}
+            {t('exercise-form-arguments-info')}
           </Typography>
           <CustomizeExercise
             step={step}
