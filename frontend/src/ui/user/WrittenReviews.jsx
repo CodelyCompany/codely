@@ -74,7 +74,7 @@ const WrittenReviews = () => {
                                       review.editedAt
                                         ? review.editedAt
                                         : review.creationDate
-                                    ).toLocaleDateString()} at
+                                    ).toLocaleDateString()} ${t('at-word')}
                                     ${new Date(
                                       review.editedAt
                                         ? review.editedAt

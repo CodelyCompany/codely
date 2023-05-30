@@ -92,12 +92,8 @@
   "delete-confirmation": "Delete confirmation",
   "exercise-delete-confirmation": "Are you sure you want to delete this exercise?",
   "hint-label": "Hint:",
-  "exercise-to-be-verified-message": "Exercise passed for admin verification",
-  "error-passing-exercise-for-verification-message": "Error occured during passing exercise for admin verification",
   "exercise-deleted-message": "Exercise deleted successfuly",
   "error-deleting-exercise-message": "Error occured during deleting exercise",
-  "exercise-update-passed-for-verification-message": "Updated passed for admin verification",
-  "error-updating-exercise-message": "Error occured during updating exercise",
   "tests-passed-message": "Congratulations! Your code passed all the tests",
   "tests-not-passed-message": "Unfortunately, your code didn't pass the tests",
   "username-label": "Username",
@@ -189,5 +185,7 @@
   "other-type-label": "Other types / Custom types",
   "exercise-title-unique-warning": "Title should be unique",
   "arguments-required-warning": "Arguments cannot be undefined",
-  "exercise-title-unique-requirement-warning": "Title should be unique"
+  "exercise-title-unique-requirement-warning": "Title should be unique",
+  "exercise-created-message": "Exercise successfully passed for admin verification",
+  "exercise-updating-error": "An error occured while passing exercise for verification"
 }

@@ -87,6 +87,7 @@ const Navbar = ({
     user && user.nickname === 'admin'
       ? ['profile-label', 'admin-panel-label', 'settings-label', 'logout-label']
       : ['profile-label', 'settings-label', 'logout-label'];
+
   const pages = useMemo(
     () => (isAuthenticated ? ['editor-label', 'exercises-label', 'versus-label'] : []),
     [isAuthenticated]
@@ -124,14 +125,15 @@ const Navbar = ({
     setAnchorElNav(null);
     navigate(`/${page.toLowerCase()}`);
   };
+
   const handleCloseUserMenu = (setting) => {
-    setting === 'Logout' &&
+    setting === 'logout-label' &&
       logout({
         returnTo: process.env.REACT_APP_LOGOUT_URL || 'http://localhost:3000',
       });
-    setting === 'Profile' && navigate('/user');
-    setting === 'Admin Panel' && navigate('/admin');
-    setting === 'Settings' && navigate('/settings');
+    setting === 'profile-label' && navigate('/user');
+    setting === 'admin-panel-label' && navigate('/admin');
+    setting === 'settings-label' && navigate('/settings');
     setAnchorElUser(null);
   };
 
@@ -209,7 +211,7 @@ const Navbar = ({
               >
                 {pages.map((page) => (
                   <Button className='page-button' key={page}>
-                    <Link className='page-link' to={`/${page.toLowerCase()}`}>
+                    <Link className='page-link' to={`/${page.split('-')[0]}`}>
                       {t(page)}
                     </Link>
                   </Button>
