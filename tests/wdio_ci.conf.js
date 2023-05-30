@@ -92,7 +92,7 @@ exports.config = {
   // Define all options that are relevant for the WebdriverIO instance here
   //
   // Level of logging verbosity: trace | debug | info | warn | error | silent
-  logLevel: 'error',
+  logLevel: 'debug',
   //
   // Set specific log levels per logger
   // loggers:
@@ -132,7 +132,7 @@ exports.config = {
   // Services take over a specific job you don't want to take care of. They enhance
   // your test setup with almost no effort. Unlike plugins, they don't add new
   // commands. Instead, they hook themselves up into the test process.
-  services: [[TimelineService], 'docker'],
+  services: [[TimelineService], 'chromedriver', 'docker'],
 
   dockerOptions: {
     image: 'selenium/standalone-chrome',
