@@ -20,17 +20,17 @@ function UploadDialog({ open, handleAbort, handleUpload }) {
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'
       >
-        <DialogTitle id='alert-dialog-title'>{t('Are you sure?')}</DialogTitle>
+        <DialogTitle id='alert-dialog-title'>{t('are-you-sure-message')}</DialogTitle>
         <DialogContent>
           <DialogContentText id='alert-dialog-description'>
             {t(
-              'If you picked a wrong file, this is the last chance to go back!'
+              'file-choice-confirmation'
             )}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleAbort}>{t('Go back')}</Button>
-          <Button onClick={handleUpload}>{t('Upload')}</Button>
+          <Button onClick={handleAbort}>{t('go-back-label')}</Button>
+          <Button onClick={handleUpload}>{t('upload-label')}</Button>
         </DialogActions>
       </Dialog>
     </div>

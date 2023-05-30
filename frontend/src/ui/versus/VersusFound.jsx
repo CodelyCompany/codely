@@ -54,7 +54,7 @@ const VersusFound = ({
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'
       >
-        <DialogTitle id='alert-dialog-title'>{t('Versus found!')}</DialogTitle>
+        <DialogTitle id='alert-dialog-title'>{t('game-found-message')}</DialogTitle>
         <DialogContent>
           <DialogContentText id='alert-dialog-description'>
             {accepted ? (
@@ -62,10 +62,10 @@ const VersusFound = ({
             ) : (
               <>
                 <span className='green-text'>
-                  {t('We found an opponent for you!')}{' '}
+                  {t('opponent-found-message')}{' '}
                 </span>{' '}
                 {t(
-                  `If you are ready to compete with your opponent, please accept the game.`
+                  'accept-game-message'
                 )}
               </>
             )}
@@ -78,7 +78,7 @@ const VersusFound = ({
             color='error'
             disabled={accepted}
           >
-            {t('Cancel')}
+            {t('cancel-label')}
           </Button>
           <Button
             onClick={handleAccept}
@@ -87,7 +87,7 @@ const VersusFound = ({
             color='success'
             disabled={accepted}
           >
-            {t('Accept')}
+            {t('accept-label')}
           </Button>
         </DialogActions>
       </Dialog>

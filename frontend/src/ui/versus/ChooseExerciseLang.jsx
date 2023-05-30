@@ -22,7 +22,7 @@ const ChooseExerciseLang = ({ formik }) => {
       elevation={3}
       sx={{ backgroundColor: color }}
     >
-      <Typography variant='h6'>{t('Pick your languages')}</Typography>
+      <Typography variant='h6'>{t('pick-languages-header')}</Typography>
       <form>
         <Box color={color} role='group' aria-labelledby='checkbox-group'>
           {languages.map((el) => (

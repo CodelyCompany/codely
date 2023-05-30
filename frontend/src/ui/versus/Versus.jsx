@@ -29,7 +29,7 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
     checked: yup
       .array()
       .of(yup.string())
-      .min(1, t('You have to pick at least one language')),
+      .min(1, t('language-choice-requirement-warning')),
   });
 
   const formik = useFormik({
@@ -102,7 +102,7 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
             onClick={() => connect()}
             variant='contained'
           >
-            {t('Find opponent')}
+            {t('find-opponent-label')}
           </Button>
           <ProgrammingQuotes />
         </>
@@ -111,7 +111,7 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
         <Box>
           <Box id='seach-wrapper'>
             <Typography color={theme}>
-              {t('Searching')}
+              {t('searching-label')}
               {[...Array(dots).keys()].map(() => '.')}{' '}
             </Typography>
             <Typography color={theme}>
@@ -125,7 +125,7 @@ const Versus = ({ socket, ConnectSocket, DisconnectSocket }) => {
             onClick={() => disconnect()}
             variant='contained'
           >
-            {t('Leave queue')}
+            {t('leave-queue-label')}
           </Button>
         </Box>
       )}{' '}

@@ -66,22 +66,22 @@ const Settings = ({ UpdateUser, UploadAvatar, token }) => {
       />
       <Box id='upload-avatar'>
         <Typography id='upload-avatar-typography' color={theme} variant='h5'>
-          {t('Upload your avatar')}
+          {t('upload-avatar-label')}
         </Typography>
         <Button variant='contained' color={theme} component='label'>
-          {t('Choose file (.png)')}
+          {t('file-choice-request')}
           <input type='file' hidden onChange={handleNewImage} />
         </Button>
       </Box>
       <Box id='set-language' color={theme}>
         <Typography id='set-language-typography' color={theme} variant='h5'>
-          {t('Set your language')}
+          {t('set-language-label')}
         </Typography>
         <SetLanguage />
       </Box>
       <Box id={'theme-container'} className='theme-container' color={theme}>
         <Typography id='set-theme' color={theme} variant='h5'>
-          {t('Set your theme')}
+          {t('set-theme-label')}
         </Typography>
         <Box className='theme-option-picker'>
           <Checkbox
@@ -91,7 +91,7 @@ const Settings = ({ UpdateUser, UploadAvatar, token }) => {
             onChange={changeColor}
             name='color-0'
           />
-          <Typography>{t('White & Magenta')}</Typography>
+          <Typography>{t('theme-white-magenta-label')}</Typography>
           <div>
             <Box className='magenta-option' />
             <Box className='white-option' />
@@ -105,7 +105,7 @@ const Settings = ({ UpdateUser, UploadAvatar, token }) => {
             checked={color === 1}
             onChange={changeColor}
           />
-          <Typography>{t('Black & Magenta')}</Typography>
+          <Typography>{t('theme-black-magenta-label')}</Typography>
           <div>
             <Box className='magenta-option' />
             <Box className='black-option' />
@@ -119,7 +119,7 @@ const Settings = ({ UpdateUser, UploadAvatar, token }) => {
             checked={color === 2}
             onChange={changeColor}
           />
-          <Typography>{t('White & Blue')}</Typography>
+          <Typography>{t('theme-white-blue-label')}</Typography>
           <div>
             <Box className='blue-option' />
             <Box className='white-option' />

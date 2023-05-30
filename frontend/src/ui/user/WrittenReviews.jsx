@@ -32,7 +32,7 @@ const WrittenReviews = () => {
   return (
     <Box id='written-reviews'>
       <Typography variant='h6' color={color}>
-        {t('Your reviews:')}
+        {t('written-reviews-listing-label')}
       </Typography>
       {reviews && exercises && exercises.length > 0
         ? reviews.map((review) => (
@@ -69,7 +69,7 @@ const WrittenReviews = () => {
               <Grid item xs={6}>
                 <Typography className='timestamp'>
                   {review
-                    ? `${review.editedAt ? 'Edited ' : 'Created '}
+                    ? `${review.editedAt ? 'edited-prefix' : 'created-prefix'}
                                     ${new Date(
                                       review.editedAt
                                         ? review.editedAt

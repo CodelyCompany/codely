@@ -2,26 +2,26 @@ const yup = require('yup');
 
 export const testFormValidation = (t) => {
   const inputValidation = yup
-    .string(t('Enter an input'))
-    .required(t('Input is required'));
+    .string(t('input-request'))
+    .required(t('input-requirement-warning'));
 
   const outputValidation = yup
-    .string(t('Enter an output'))
-    .required(t('Output is required'));
+    .string(t('output-request'))
+    .required(t('output-requirement-warning'));
 
   const testsValidationSchema = yup.object({
-    tests: yup.array(t('Enter all tests')).of(
+    tests: yup.array(t('tests-request')).of(
       yup.object({
         input: yup
-          .array(t('Enter this field'))
+          .array(t('fill-field-request'))
           .of(
             yup
-              .string(t('Enter this field'))
-              .required(t('This field is required'))
+              .string(t('fill-field-request'))
+              .required(t('fill-field-requirement-warning'))
           ),
         output: yup
-          .string(t('Enter this field'))
-          .required(t('This field is required')),
+          .string(t('fill-field-request'))
+          .required(t('fill-field-requirement-warning')),
       })
     ),
   });

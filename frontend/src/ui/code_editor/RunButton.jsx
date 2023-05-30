@@ -40,8 +40,8 @@ const RunButton = ({
       )
       .then((response) => {
         response.status === 200
-          ? dispatch(addPopup('Your code ran successfully', 'success'))
-          : dispatch(addPopup('Your code ran with errors', 'error'));
+          ? dispatch(addPopup('code-ran-message', 'success'))
+          : dispatch(addPopup('code-failed-message', 'error'));
         setOutput(response.data.output.toString());
       })
       .catch((err) => console.log(err))
@@ -58,7 +58,7 @@ const RunButton = ({
         onClick={() => runCode(code)}
       >
         <VscDebugStart id='run-button-icon' />
-        {t('Run')}
+        {t('run-label')}
       </Button>
     </>
   );

@@ -20,21 +20,21 @@ function Sorting({ setSort, sort }) {
     <Box>
       <FormControl fullWidth>
         <InputLabel sx={{ color }} id='select-label'>
-          {t('Sort by')}
+          {t('sort-by-label')}
         </InputLabel>
         <Select
           color={theme}
           labelId='select-label'
           id={`select-${foundUser.theme}`}
           value={sort}
-          label={t('Sort by')}
+          label={t('sort-by-label')}
           onChange={(e) => setSort(parseInt(e.target.value))}
         >
-          <MenuItem value={0}>{t('Default')}</MenuItem>
-          <MenuItem value={1}>{t('Title asc')}</MenuItem>
-          <MenuItem value={2}>{t('Title desc')}</MenuItem>
-          <MenuItem value={3}>{t('Difficulty asc')}</MenuItem>
-          <MenuItem value={4}>{t('Difficulty desc')}</MenuItem>
+          <MenuItem value={0}>{t('default-label')}</MenuItem>
+          <MenuItem value={1}>{t('title-ascending-option')}</MenuItem>
+          <MenuItem value={2}>{t('title-descending-option')}</MenuItem>
+          <MenuItem value={3}>{t('difficulty-ascending-option')}</MenuItem>
+          <MenuItem value={4}>{t('difficulty-descending-option')}</MenuItem>
         </Select>
       </FormControl>
     </Box>

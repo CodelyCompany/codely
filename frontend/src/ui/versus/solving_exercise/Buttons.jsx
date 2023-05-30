@@ -74,13 +74,13 @@ const Buttons = ({
       .then((response) => {
         if (response.data.tests === response.data.correct) {
           dispatch(
-            addPopup('Congratulation! Your code passed all tests', 'success')
+            addPopup('tests-passed-message', 'success')
           );
           socket.emit('game-finished', roomId);
           return;
         }
         dispatch(
-          addPopup("Unfortunately, your code didn't pass tests", 'error')
+          addPopup('tests-not-passed-message', 'error')
         );
       })
       .finally(() => setLoadingFinished(true));
@@ -95,7 +95,7 @@ const Buttons = ({
           variant='contained'
           onClick={() => runCode(code)}
         >
-          {t('Run')}
+          {t('run-label')}
         </Button>
         <Button
           disabled={!loadingFinished}
@@ -103,7 +103,7 @@ const Buttons = ({
           variant='contained'
           onClick={finishEx}
         >
-          {t('Submit')}
+          {t('submit-label')}
         </Button>
       </Box>
     </>

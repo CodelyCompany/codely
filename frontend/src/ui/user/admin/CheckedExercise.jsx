@@ -24,12 +24,12 @@ function CheckedExercise({ checkedExercises, GetExercises }) {
   const columns = [
     {
       field: 'title',
-      headerName: t('Title'),
+      headerName: t('title-label'),
       flex: 1,
     },
     {
       field: 'author',
-      headerName: t('Author'),
+      headerName: t('author-label'),
       flex: 1,
     },
   ];
@@ -52,7 +52,7 @@ function CheckedExercise({ checkedExercises, GetExercises }) {
       className={`theme-${foundUser.theme}`}
     >
       <Typography id='checked-exercises-typography' variant='h6' sx={{ color }}>
-        {t('Checked exercises')}
+        {t('verified-exercises-label')}
       </Typography>
       <DataGrid
         className='checked-exercises-table'

@@ -1,13 +1,13 @@
 import { addPopup } from 'ducks/popups/actions';
 
 const keymap = {
-  POST_EXERCISE_SUCCESS: 'Exercise passed for admin verification',
+  POST_EXERCISE_SUCCESS: 'exercise-to-be-verified-message',
   POST_EXERCISE_FAILURE:
-    'Error occured during passing exercise for admin verification',
-  DELETE_EXERCISE_SUCCESS: 'Exercise deleted successfuly',
-  DELETE_EXERCISE_FAILURE: 'Error occured during deleting exercise',
-  UPDATE_ENTIRE_EXERCISE_SUCCESS: 'Exercise passed for admin verification',
-  UPDATE_ENTIRE_EXERCISE_FAILURE: 'Error occured during updating exercise',
+    'error-passing-exercise-for-verification-message',
+  DELETE_EXERCISE_SUCCESS: 'exercise-deleted-message',
+  DELETE_EXERCISE_FAILURE: 'error-deleting-exercise-message',
+  UPDATE_EXERCISE_SUCCESS: 'exercise-update-passed-for-verification-message',
+  UPDATE_EXERCISE_FAILURE: 'error-updating-exercise-message',
 };
 
 const popupMiddleware = (store) => (next) => (action) => {

@@ -9,23 +9,23 @@ yup.addMethod(yup.mixed, 'uniqueIn', function (array = [], message) {
 export const exerciseFormValidation = (t, exercises) => {
   const exerciseValidationSchema = yup.object({
     title: yup
-      .string(t('Enter a title'))
-      .min(3, t('Title should be of minimum 3 characters length'))
-      .max(50, t('Title should be of maximum 50 characters length'))
-      .required(t('Title is required'))
-      .uniqueIn(exercises, t('Title should be unique')),
+      .string(t('exercise-title-request'))
+      .min(3, t('exercise-title-min-length-warning'))
+      .max(50, t('exercise-title-max-length-warning'))
+      .required(t('exercise-title-requirement-warning'))
+      .uniqueIn(exercises, t('exercise-title-unique-requirement-warning')),
     description: yup
-      .string(t('Enter a description'))
-      .max(5000, t('Description should be of maximum 5000 characters length'))
-      .required(t('Description is required')),
+      .string(t('exercise-description-request'))
+      .max(5000, t('exercise-description-max-length-warning'))
+      .required(t('exercise-description-requirement-warning')),
     difficulty: yup
-      .number(t('Enter a difficulty level'))
-      .min(1, t('The minimum difficulty level is 1'))
-      .max(5, t('The maximum difficulty level is 5'))
-      .required(t('Difficulty level is required')),
+      .number(t('exercise-difficulty-request'))
+      .min(1, t('exercise-difficulty-min-value-warning'))
+      .max(5, t('exercise-difficulty-max-value-warning'))
+      .required(t('exercise-difficulty-requirement-warning')),
     programmingLanguage: yup
-      .string(t('Enter a programming language'))
-      .required(t('Programming language is required')),
+      .string(t('exercise-language-request'))
+      .required(t('exercise-language-requirement-warning')),
   });
 
   return {

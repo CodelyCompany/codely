@@ -85,10 +85,10 @@ const Navbar = ({
 
   const settings =
     user && user.nickname === 'admin'
-      ? ['Profile', 'Admin Panel', 'Settings', 'Logout']
-      : ['Profile', 'Settings', 'Logout'];
+      ? ['profile-label', 'admin-panel-label', 'settings-label', 'logout-label']
+      : ['profile-label', 'settings-label', 'logout-label'];
   const pages = useMemo(
-    () => (isAuthenticated ? ['Editor', 'Exercises', 'Versus'] : []),
+    () => (isAuthenticated ? ['editor-label', 'exercises-label', 'versus-label'] : []),
     [isAuthenticated]
   );
 
@@ -124,7 +124,6 @@ const Navbar = ({
     setAnchorElNav(null);
     navigate(`/${page.toLowerCase()}`);
   };
-
   const handleCloseUserMenu = (setting) => {
     setting === 'Logout' &&
       logout({
@@ -245,7 +244,7 @@ const Navbar = ({
                     id='login-typography'
                     onClick={() => loginWithRedirect()}
                   >
-                    {t('LOGIN')}
+                    {t('login-label')}
                   </Typography>
                 )}
 

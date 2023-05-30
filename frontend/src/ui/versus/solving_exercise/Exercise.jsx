@@ -121,11 +121,11 @@ const Exercise = ({ GetExercises, socket }) => {
           >
             <span>
               {t(
-                `You are in versus mode. Try to solve this exercise faster than your opponent.`
+                'versus-info'
               )}
             </span>
             <span className={`theme-${foundUser.theme}`}>
-              {t('Good luck & have fun!')}
+              {t('good-luck-message')}
             </span>
           </Paper>
           <Paper
@@ -134,7 +134,7 @@ const Exercise = ({ GetExercises, socket }) => {
           >
             <span className='result-line'>
               <span>
-                {t('You-key')}
+                {t('playing-user-label')}
                 {won ? (
                   <CheckIcon className='result-icons' color='success' />
                 ) : (
@@ -147,7 +147,7 @@ const Exercise = ({ GetExercises, socket }) => {
             </span>
             <span className='result-line'>
               <span>
-                {t('Your opponent:')}
+                {t('playing-opponent-label')}
                 {opponentFinish ? (
                   <CheckIcon className='result-icons' color='success' />
                 ) : (
@@ -182,7 +182,7 @@ const Exercise = ({ GetExercises, socket }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary={t('Author')}
+                  primary={t('author-label')}
                   secondary={exercise.author.username}
                 />
               </ListItem>
@@ -193,7 +193,7 @@ const Exercise = ({ GetExercises, socket }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary={t('Programming Language')}
+                  primary={t('programming-language-label')}
                   secondary={exercise.programmingLanguage}
                 />
               </ListItem>
@@ -204,7 +204,7 @@ const Exercise = ({ GetExercises, socket }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary={t('Difficulty')}
+                  primary={t('difficulty-label')}
                   secondary={[...Array(exercise.difficulty).keys()].map(
                     (el) => (
                       <StarRateIcon className='star-icon' key={el} />
@@ -219,7 +219,7 @@ const Exercise = ({ GetExercises, socket }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary={t('Description')}
+                  primary={t('description-label')}
                   secondary={exercise.description}
                 />
               </ListItem>

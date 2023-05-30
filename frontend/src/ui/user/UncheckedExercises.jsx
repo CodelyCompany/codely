@@ -12,7 +12,7 @@ function UncheckedExercises({ exercises }) {
   return (
     <Box className='user-section-wrapper' sx={{ borderColor: color }}>
       <Typography variant='h6' sx={{ color }}>
-        {t('Exercises waiting for admin approval:')} {exercises.length}
+        {t('pending-exercises-listing-label')} {exercises.length}
       </Typography>
     </Box>
   );

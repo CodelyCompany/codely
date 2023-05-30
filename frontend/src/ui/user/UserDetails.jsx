@@ -42,7 +42,7 @@ const UserDetails = ({ GetUsers }) => {
               {foundUser.username}
             </Typography>
             <Typography sx={{ color }} variant='h6'>
-              {t('User since:')}{' '}
+              {t('user-since-label')}{' '}
               {new Date(foundUser.creationDate).toLocaleDateString()}
             </Typography>
           </Box>
