@@ -21,6 +21,6 @@
   },
   "scripts": {
     "test": "wdio run ./wdio.conf.js",
-    "test_ci": "wdio run wdio_ci.conf.js --suite Login"
+    "test_ci": "wdio run wdio_ci.conf.js"
   }
 }
