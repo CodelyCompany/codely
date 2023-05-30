@@ -7,10 +7,10 @@ const Review = require('../models/Review');
 router.get('/', async (req, res) => {
   try {
     const data = await Review.find({});
-    res.status(200).send(data);
+    return res.status(200).send(data);
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 
@@ -18,10 +18,10 @@ router.get('/:id', async (req, res) => {
   try {
     const id = req.params.id;
     const data = await Review.findById(id);
-    res.status(200).send(data);
+    return res.status(200).send(data);
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 
@@ -49,7 +49,7 @@ router.post('/', async (req, res) => {
     return res.status(200).send(newReview);
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 
@@ -65,7 +65,7 @@ router.put('/', async (req, res) => {
     return res.status(200).send(updated);
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 
