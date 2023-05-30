@@ -53,5 +53,5 @@ jobs:
       - uses: actions/upload-artifact@v1
         if: failure()
         with:
-          name: tests/report/timeline-report.html
+          name: TestReport
           path: tests/report/timeline-report.html
