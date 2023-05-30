@@ -20,10 +20,8 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
-#      - name: Start Selenium standalone
-#        run: docker run -d -p 4444:4444 webdriverio/selenium-standalone
-      - uses: browser-actions/setup-chrome@v1
-      - run: chrome --version
+      - name: Install Chromium
+        run: sudo apt-get install chromium-browser
       - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
