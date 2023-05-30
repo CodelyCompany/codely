@@ -28,19 +28,16 @@ const CustomTypes = ({ open, setOpen, setCustomTypes }) => {
   return (
     <div>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{t('Add other type / custom type')}</DialogTitle>
+        <DialogTitle>{t('type-custom-request')}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            {t(
-              // eslint-disable-next-line max-len
-              `Here you can add other type which wasn't mentioned in the list. Moreover you can add your own type fe. Fraction`
-            )}
+            {t('argument-type-custom-info')}
           </DialogContentText>
           <TextField
             autoFocus
             margin='dense'
             id='type'
-            label={t('Type')}
+            label={t('type-label')}
             type='text'
             fullWidth
             variant='standard'
@@ -49,14 +46,14 @@ const CustomTypes = ({ open, setOpen, setCustomTypes }) => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>{t('Cancel')}</Button>
+          <Button onClick={handleClose}>{t('cancel-label')}</Button>
           <Button
             onClick={() => {
               setCustomTypes((prev) => _.uniq([...prev, type]));
               handleClose();
             }}
           >
-            {t('Add')}
+            {t('add-label')}
           </Button>
         </DialogActions>
       </Dialog>

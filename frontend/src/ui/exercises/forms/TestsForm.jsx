@@ -123,7 +123,7 @@ const TestsForm = ({ setStep, UpdateExercise }) => {
           sx={{ color }}
           id={`testsQuantity-${foundUser.theme}`}
           name='testsQuantity'
-          label={t('Choose tests quantity')}
+          label={t('tests-quantity-request')}
           value={testsQuantity}
           onChange={(e) => setTestsQuantity(parseInt(e.target.value))}
           select
@@ -208,7 +208,7 @@ const TestsForm = ({ setStep, UpdateExercise }) => {
           variant='contained'
           className={'cancel-3'}
         >
-          {t('Previous')}
+          {t('previous-label')}
         </Button>
         <Button
           color={elementsColor}
@@ -218,7 +218,7 @@ const TestsForm = ({ setStep, UpdateExercise }) => {
           variant='contained'
           id={'submit-3'}
         >
-          {t('Next')}
+          {t('next-label')}
         </Button>
       </form>
     </Box>

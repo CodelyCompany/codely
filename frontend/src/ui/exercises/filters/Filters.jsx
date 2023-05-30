@@ -69,14 +69,14 @@ function Filters({ exercises, setFilters, setSort, sort }) {
               color={theme}
               {...params}
               label={
-                <Typography color={theme}>{t('Search exercise')}</Typography>
+                <Typography color={theme}>{t('exercise-search-label')}</Typography>
               }
             />
           )}
         />
       </Box>
       <Box>
-        <Typography>{t('Filter by language:')}</Typography>
+        <Typography>{t('filter-language-label')}</Typography>
         {languages.map((language) => (
           <FormControlLabel
             key={language}
@@ -92,7 +92,7 @@ function Filters({ exercises, setFilters, setSort, sort }) {
         ))}
       </Box>
       <Box>
-        <Typography>{t('Filter by difficulty level:')}</Typography>
+        <Typography>{t('filter-difficulty-label')}</Typography>
         {[...Array(5).keys()].map((number) => (
           <FormControlLabel
             key={number + 1}

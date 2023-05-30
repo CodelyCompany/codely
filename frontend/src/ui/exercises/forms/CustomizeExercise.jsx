@@ -28,7 +28,7 @@ const CustomizeExercise = ({ setStep, UpdateExercise }) => {
   const elementsColor = color.split('.')[0];
   const validation = customizeExerciseValidation(t, argumentsName);
   const { token } = useToken();
-  const additionalOption = t('Other types / Custom types');
+  const additionalOption = t('other-type-label');
   const languagesWithTypes = Object.values(StaticallyTypedLanguage);
   const { id, exercise } = useExerciseData();
   const formWithTypes = languagesWithTypes.includes(exercise.programmingLanguage);
@@ -156,7 +156,7 @@ const CustomizeExercise = ({ setStep, UpdateExercise }) => {
             sx={{ color, input: { color } }}
             id='functionName'
             name='functionName'
-            label={t('Function name')}
+            label={t('function-name-label')}
             value={formik.values.functionName}
             onChange={formik.handleChange}
             error={
@@ -174,7 +174,7 @@ const CustomizeExercise = ({ setStep, UpdateExercise }) => {
             type='number'
             id='argumentsQuantity'
             name='argumentsQuantity'
-            label={t('Function arguments quantity')}
+            label={t('function-arguments-quantity-label')}
             InputProps={{ inputProps: { min: 0 } }}
             value={formik.values.argumentsQuantity}
             onChange={formik.handleChange}
@@ -202,7 +202,7 @@ const CustomizeExercise = ({ setStep, UpdateExercise }) => {
                         input: { color },
                       }}
                       id={`arg-${argNumber}`}
-                      label={`${argNumber + 1}. ${t('Argument name')}`}
+                      label={`${argNumber + 1}. ${t('arguments-name-label')}`}
                       value={argumentsName[argNumber] || ''}
                       onChange={(e) => handleArgumentName(e, argNumber)}
                       error={
@@ -230,7 +230,7 @@ const CustomizeExercise = ({ setStep, UpdateExercise }) => {
                           }`,
                           marginLeft: `${formWithTypes ? '5px' : '0'}`,
                         }}
-                        label={`${argNumber + 1}. ${t('Argument type')}`}
+                        label={`${argNumber + 1}. ${t('arguments-type-label')}`}
                         id={`type-${argNumber}`}
                         value={types[argNumber] || ''}
                         onChange={(e) => setType(argNumber, e.target.value)}
@@ -328,7 +328,7 @@ const CustomizeExercise = ({ setStep, UpdateExercise }) => {
               onClick={prev}
               className={'cancel-2'}
             >
-              {t('Previous')}
+              {t('previous-label')}
             </Button>
 
             <Button
@@ -337,7 +337,7 @@ const CustomizeExercise = ({ setStep, UpdateExercise }) => {
               type='submit'
               id={'submit-2'}
             >
-              {t('Next')}
+              {t('next-label')}
             </Button>
           </Box>
         </form>

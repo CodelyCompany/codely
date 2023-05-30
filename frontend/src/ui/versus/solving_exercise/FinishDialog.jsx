@@ -61,16 +61,16 @@ const FinishDialog = ({ open, setOpen, won, DisconnectSocket }) => {
             borderBottom: won ? '3px solid green' : '3px solid red',
           }}
         >
-          {won ? t('You win!') : t('You lose!')}
+          {won ? t('victory-message') : t('defeat-message')}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id='alert-dialog-slide-description'>
             {won
               ? t(
-                  'You solved this exercise faster than your opponent. Congrats!'
+                  'victory-follow-up-message'
                 )
               : t(
-                  'You solved this exercise slower than your opponent. Better luck next time!'
+                  'defeat-follow-up-message'
                 )}
             {won ? (
               <img id='versus-image' src={wonImage} alt='easy peasy image' />
@@ -85,14 +85,14 @@ const FinishDialog = ({ open, setOpen, won, DisconnectSocket }) => {
             color={won ? 'success' : 'error'}
             variant='contained'
           >
-            {t('Quit')}
+            {t('quit-label')}
           </Button>
           <Button
             onClick={handleFindNewVersus}
             color={won ? 'success' : 'error'}
             variant='contained'
           >
-            {t('Find new versus')}
+            {t('play-again-label')}
           </Button>
         </DialogActions>
       </Dialog>

@@ -33,7 +33,7 @@ const TestsList = () => {
       component={Paper}
       sx={{ borderColor: color }}
     >
-      <span>{t('Created tests')}</span>
+      <span>{t('created-tests-label')}</span>
       {exercise?.argumentsName && (
         <Table
           id='tests-table'
@@ -56,7 +56,7 @@ const TestsList = () => {
                 align='center'
               >
                 <span className={`theme-${foundUser.theme}`}>
-                  {t('Output')}
+                  {t('output-label')}
                 </span>
               </TableCell>
             </TableRow>

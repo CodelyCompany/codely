@@ -10,12 +10,12 @@ const SectionWrapper = ({ children, mode, condition }) => {
   const { color } = useTheme();
 
   const info = () => {
-    if (mode === 'reviews') return t("You didn't write any reviews");
-    if (mode === 'done') return t("You didn't finish any exercises");
+    if (mode === 'reviews') return t('no-created-reviews-message');
+    if (mode === 'done') return t('no-finished-exercises-message');
     if (mode === 'unchecked')
-      return t("You don't have any exercises waiting for approval");
-    if (mode === 'versus') return t("You didn't play any versuses");
-    return t("You didn't prepare any exercises");
+      return t('no-exercises-in-verfication-message');
+    if (mode === 'versus') return t('no-versus-played-message');
+    return t('no-prepared-exercises-message');
   };
 
   return condition ? (

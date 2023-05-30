@@ -55,7 +55,7 @@ const PreparedExercisesChart = ({ exercises, mode }) => {
           {
             data: getDataSet(),
             label:
-              mode === 'done' ? t('Solved exercises') : t('Prepared exercises'),
+              mode === 'done' ? t('solved-exercises-label') : t('prepared-exercises-label'),
             borderColor: 'rgb(255, 99, 132)',
             backgroundColor: 'rgba(255, 99, 132, 0.5)',
           },

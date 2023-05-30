@@ -38,17 +38,17 @@ const Confirmation = ({ open, setOpen, DeleteExercise }) => {
         aria-describedby='alert-dialog-description'
       >
         <DialogTitle id='alert-dialog-title'>
-          {t('Delete confirmation')}
+          {t('delete-confirmation')}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id='alert-dialog-description'>
-            {t('Are you sure you want to delete this exercise?')}
+            {t('exercise-delete-confirmation')}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>{t('Cancel')}</Button>
+          <Button onClick={handleClose}>{t('cancel-label')}</Button>
           <Button onClick={deleteExercise} autoFocus>
-            {t('Delete')}
+            {t('delete-label')}
           </Button>
         </DialogActions>
       </Dialog>

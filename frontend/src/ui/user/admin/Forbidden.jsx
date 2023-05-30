@@ -18,7 +18,7 @@ const Forbidden = () => {
   return (
     <Box id='forbidden-page-container'>
       <Typography id='forbidden-page-typography' variant='h4' style={{ color }}>
-        {t(`You don't have permissions to view this page!`)}
+        {t('access-denied-message')}
       </Typography>
       <Button
         id='return-button'
@@ -26,7 +26,7 @@ const Forbidden = () => {
         variant='contained'
         sx={{ color }}
       >
-        {t('Back to the main page')}
+        {t('return-home-label')}
       </Button>
     </Box>
   );

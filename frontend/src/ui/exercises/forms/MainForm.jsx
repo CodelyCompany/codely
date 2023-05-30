@@ -98,15 +98,13 @@ function MainForm({ GetExercise, redirect, StopRedirect, GetAllExercises }) {
           id='panel1d-header'
         >
           <Typography className='typography-header'>
-            {t('Main info')}
+            {t('main-info-label')}
           </Typography>
         </AccordionSummary>
         <AccordionDetails className='main-form-accordion'>
           <Typography className='accordion-text' sx={{ color }}>
             {t(
-              // eslint-disable-next-line max-len
-              `Here you can set title, description and difficulty of your exercise. Remember to set the most proper programming language!`
-            )}
+              'exercise-form-info')}
           </Typography>
           {step === 1 && <ExercisesForm setStep={setStep} />}
         </AccordionDetails>
@@ -122,15 +120,12 @@ function MainForm({ GetExercise, redirect, StopRedirect, GetAllExercises }) {
           id='panel3d-header'
         >
           <Typography className='typography-header'>
-            {t('Customize exercise function')}
+            {t('exercise-form-function-header')}
           </Typography>
         </AccordionSummary>
         <AccordionDetails className='main-form-accordion'>
           <Typography className='accordion-text' sx={{ color }}>
-            {t(
-              // eslint-disable-next-line max-len
-              `Here you can set amount of arguments for your function. You have to set the name for each argument.`
-            )}
+            {t('exercise-form-arguments-info')}
           </Typography>
           {step === 2 && <CustomizeExercise setStep={setStep} />}
         </AccordionDetails>
@@ -146,13 +141,13 @@ function MainForm({ GetExercise, redirect, StopRedirect, GetAllExercises }) {
           id='panel2d-header'
         >
           <Typography className='typography-header'>
-            {t('Inputs  Outputs')}
+            {t('inputs-outputs-label')}
           </Typography>
         </AccordionSummary>
         <AccordionDetails className='main-form-accordion'>
           <Typography className='accordion-text' sx={{ color }}>
             {t(
-              `Choose quantity of your tests, then write expected outputs for each of your inputs.`
+              'form-tests-info'
             )}
           </Typography>
           {step === 3 && <TestsForm setStep={setStep} />}
@@ -168,14 +163,11 @@ function MainForm({ GetExercise, redirect, StopRedirect, GetAllExercises }) {
           aria-controls='panel3d-content'
           id='panel3d-header'
         >
-          <Typography className='typography-header'>{t('Hints')}</Typography>
+          <Typography className='typography-header'>{t('hints-label')}</Typography>
         </AccordionSummary>
         <AccordionDetails className='main-form-accordion'>
           <Typography className='accordion-text' sx={{ color }}>
-            {t(
-              // eslint-disable-next-line max-len
-              `Here you can choose quantity of your hints. Remember that not all users will be able to solve your exercise without some help.`
-            )}
+            {t('form-hints-info')}
           </Typography>
           {step === 4 && <HintsForms setStep={setStep} />}
         </AccordionDetails>
@@ -192,15 +184,12 @@ function MainForm({ GetExercise, redirect, StopRedirect, GetAllExercises }) {
           id='panel3d-header'
         >
           <Typography className='typography-header'>
-            {t('Example Solution')}
+            {t('example-solution-label')}
           </Typography>
         </AccordionSummary>
         <AccordionDetails className='main-form-accordion'>
           <Typography className='accordion-text' sx={{ color }}>
-            {t(
-              // eslint-disable-next-line max-len
-              `Here you have to write an example solution to guarantee that your exercise is solvable. After solving, your exercise will be send to the admin to get an agreement.`
-            )}
+            {t('example-solution-info')}
           </Typography>
           {step === 5 && <ExampleSolution setStep={setStep} />}
         </AccordionDetails>
