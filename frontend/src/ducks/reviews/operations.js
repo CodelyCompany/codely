@@ -5,7 +5,7 @@ export const GetReviews = (token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-    }/reviews/`,
+    }/reviews`,
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ export const AddReview = (body, token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-    }/reviews/addReview`,
+    }/reviews`,
     method: 'POST',
     body: JSON.stringify(body),
     headers: {
@@ -46,7 +46,7 @@ export const EditReview = (body, token) =>
   createAction({
     endpoint: `${
       process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-    }/reviews/editReview`,
+    }/reviews`,
     method: 'PUT',
     body: JSON.stringify(body),
     headers: {

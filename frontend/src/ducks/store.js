@@ -2,7 +2,6 @@ import { exercisesReducer } from 'ducks/exercises/reducer';
 import { notificationsReducer } from 'ducks/notifications/reducer';
 import popupMiddleware from 'ducks/popups/middleware';
 import { popupsReducer } from 'ducks/popups/reducer';
-import { startRedirect } from 'ducks/redirects/middleware';
 import { redirectReducer } from 'ducks/redirects/reducer';
 import { reviewsReducer } from 'ducks/reviews/reducer';
 import { socketReducer } from 'ducks/socket/reducer';
@@ -32,7 +31,6 @@ const store = createStore(
     applyMiddleware(
       thunk,
       createMiddleware(),
-      startRedirect,
       popupMiddleware,
       logger
     )

@@ -57,7 +57,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/addUser', async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const data = req.body;
     const checkUser = await User.find({ username: data.username });
@@ -76,65 +76,12 @@ router.post('/addUser', async (req, res) => {
   }
 });
 
-router.put('/editUser', async (req, res) => {
+router.put('/', async (req, res) => {
   try {
     const { _id, theme } = req.body;
     await User.updateOne({ _id }, { theme });
     const updatedUser = await User.findOne({ _id });
     return res.status(200).send(updatedUser);
-  } catch (error) {
-    console.log(error);
-    res.status(500).send(error);
-  }
-});
-
-router.delete('/deleteUserExercise/:id', async (req, res) => {
-  try {
-    const data = req.params;
-    const account = await User.findById(data.id);
-    const exercise = await Exercise.find({
-      author: account._id,
-    });
-    exercise.forEach(async (n) => {
-      await Review.deleteMany({
-        exercise: n._id,
-      });
-    });
-    await Exercise.deleteMany({
-      author: account._id,
-    });
-    await Review.updateMany(
-      {
-        author: account._id,
-      },
-      { author: null }
-    );
-    await User.findByIdAndDelete(data.id);
-    return res.status(200).send(true);
-  } catch (error) {
-    console.log(error);
-    res.status(500).send(error);
-  }
-});
-
-router.delete('/deleteUser/:id', async (req, res) => {
-  try {
-    const data = req.params;
-    const account = await User.findById(data.id);
-    await Exercise.updateMany(
-      {
-        author: account._id,
-      },
-      { author: null }
-    );
-    await Review.updateMany(
-      {
-        author: account._id,
-      },
-      { author: null }
-    );
-    await User.findByIdAndDelete(data.id);
-    return res.status(200).send(true);
   } catch (error) {
     console.log(error);
     res.status(500).send(error);

@@ -124,15 +124,14 @@ const Navbar = ({
     setAnchorElNav(null);
     navigate(`/${page.toLowerCase()}`);
   };
-
   const handleCloseUserMenu = (setting) => {
-    setting === 'logout-label' &&
+    setting === 'Logout' &&
       logout({
         returnTo: process.env.REACT_APP_LOGOUT_URL || 'http://localhost:3000',
       });
-    setting === 'profile-label' && navigate('/user');
-    setting === 'admin-panel-label' && navigate('/admin');
-    setting === 'settings-label' && navigate('/settings');
+    setting === 'Profile' && navigate('/user');
+    setting === 'Admin Panel' && navigate('/admin');
+    setting === 'Settings' && navigate('/settings');
     setAnchorElUser(null);
   };
 

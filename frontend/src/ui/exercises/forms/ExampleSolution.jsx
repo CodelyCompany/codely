@@ -1,31 +1,29 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import Editor from '@monaco-editor/react';
 import { Box, Button } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
-import axios from 'axios';
-import { AddExercise, UpdateExercise } from 'ducks/exercises/operations';
+import { AddExercise, UpdateExercise, VerifyExercise } from 'ducks/exercises/operations';
 import { addPopup } from 'ducks/popups/actions';
 import { getUserByUsername } from 'ducks/user/selectors';
+import useExerciseData from 'helpers/useExerciseData';
 import useTheme from 'helpers/useTheme';
 import useToken from 'helpers/useToken';
 import _ from 'lodash';
 import { PropTypes } from 'prop-types';
-import isEqual from 'react-fast-compare';
 import { useTranslation } from 'react-i18next';
 import { ThreeDots } from 'react-loader-spinner';
 import { connect, useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import TestsList from 'ui/exercises/forms/TestsList';
 import { getSignature } from 'ui/exercises/forms/utils/functionSignatures';
 
+// Fifth step of creating exercise
 const ExampleSolution = ({
-  step,
   setStep,
-  AddExercise,
-  dataToEdit,
   UpdateExercise,
-  previousFormState,
+  VerifyExercise,
 }) => {
   const { t } = useTranslation();
   const { token } = useToken();
@@ -35,34 +33,30 @@ const ExampleSolution = ({
   const [finishedLoading, setFinishedLoading] = useState(true);
   const dispatch = useDispatch();
   const { color } = useTheme();
-  const signature = useMemo(
-    () =>
-      getSignature(
-        step.dataFromStep1.programmingLanguage?.toLowerCase() ?? '',
-        step.dataFromStep2?.functionName,
-        step.dataFromStep2?.argumentsName,
-        step.dataFromStep2?.types ?? []
-      ),
-    [step.dataFromStep1, step.dataFromStep2]
-  );
-
+  const { id, exercise } = useExerciseData();
+  const elementsColor = color.split('.')[0];
+  const navigate = useNavigate();
   const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
     theme: 0,
   };
 
-  const detectFunctionSignatureChange = (prevSignature, currSignature) => {
-    const fieldsToOmit = [
-      'currentStep',
-      'dataFromStep5',
-      'dataFromStep4',
-      'dataFromStep3',
-      'code',
-    ];
-    const omittedPrevSignature = _.omit(prevSignature.current, fieldsToOmit);
-    const omittedCurrentSignature = _.omit(currSignature, fieldsToOmit);
+  useEffect(() => {
+    if (exercise.exampleSolution) {
+      setCode(exercise.exampleSolution);
+    }
+  }, [exercise]);
 
-    return !isEqual(omittedPrevSignature, omittedCurrentSignature);
-  };
+  useEffect(() => {
+    if (!_.isEmpty(exercise) && !exercise.exampleSolution) {
+      const signature = getSignature(
+        exercise.programmingLanguage.toLowerCase(),
+        exercise.functionName,
+        exercise.argumentsName,
+        exercise.types
+      );
+      setCode(signature);
+    }
+  }, [exercise]);
 
   useEffect(() => {
     if (tests && tests.correct === tests.tests)
@@ -73,28 +67,8 @@ const ExampleSolution = ({
       dispatch(addPopup('tests-not-passed-message', 'error'));
   }, [tests]);
 
-  useEffect(() => {
-    const isFunctionSignatureChanged = detectFunctionSignatureChange(
-      previousFormState,
-      step
-    );
-    const isFormFilled =
-      step.dataFromStep1.programmingLanguage &&
-      step.dataFromStep2.functionName &&
-      step.dataFromStep2.argumentsName;
-    const editorContent = step.code
-      ? step.code
-      : dataToEdit
-      ? dataToEdit.exampleSolution
-      : signature;
-    if (!isFormFilled) return;
-    if (isFunctionSignatureChanged)
-      setStep((prev) => ({ ...prev, code: signature }));
-    setCode(isFunctionSignatureChanged ? signature : editorContent);
-  }, []);
-
   const prev = () => {
-    setStep((prev) => ({ ...prev, currentStep: 4, code }));
+    setStep(4);
   };
 
   const handleCodeChange = (e) => {
@@ -102,67 +76,28 @@ const ExampleSolution = ({
   };
 
   const submit = () => {
-    if (!dataToEdit) {
-      AddExercise(
-        {
-          author: foundUser._id,
-          ...step.dataFromStep1,
-          ...step.dataFromStep2,
-          tests: step.dataFromStep3,
-          hints: step.dataFromStep4.map((el) => el[1]),
-          exampleSolution: code,
-          functionSignature: signature,
-          programmingLanguage:
-            step.dataFromStep1.programmingLanguage === 'C++'
-              ? 'cpp'
-              : step.dataFromStep1.programmingLanguage,
-        },
-        token
-      );
-      return;
-    }
-    UpdateExercise(
-      {
-        id: dataToEdit._id,
-        author: foundUser._id,
-        ...step.dataFromStep1,
-        ...step.dataFromStep2,
-        tests: step.dataFromStep3,
-        hints: step.dataFromStep4.map((el) => el[1]),
-        exampleSolution: code,
-        functionSignature: signature,
-      },
-      token
+    const signature = getSignature(
+      exercise.programmingLanguage.toLowerCase(),
+      exercise.functionName,
+      exercise.argumentsName,
+      exercise.types
     );
+    UpdateExercise(
+      { id, exampleSolution: code, step: 6, functionSignature: signature },
+      token,
+      navigate('/exercises'),
+      true);
   };
 
   const verifySolution = () => {
     setFinishedLoading(false);
-    axios
-      .post(
-        `${
-          process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-        }/exercises/checkBeforeAddExercise`,
-        {
-          exampleSolution: code,
-          tests: step.dataFromStep3,
-          ...step.dataFromStep2,
-          ...step.dataFromStep1,
-          programmingLanguage:
-            step.dataFromStep1.programmingLanguage === 'C++'
-              ? 'cpp'
-              : step.dataFromStep1.programmingLanguage,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then((response) => {
-        setTests(response.data);
-      })
-      .finally(() => setFinishedLoading(true));
+    const { tests, programmingLanguage, functionName } = exercise;
+    VerifyExercise({
+      exampleSolution: code,
+      tests,
+      programmingLanguage,
+      functionName,
+    }, setTests, token, setFinishedLoading);
   };
 
   return (
@@ -176,13 +111,7 @@ const ExampleSolution = ({
             theme={foundUser?.theme === 1 ? 'vs-dark' : 'vs'}
             loading={<CircularProgress />}
             height='100%'
-            language={
-              step.dataFromStep1
-                ? step.dataFromStep1.programmingLanguage === 'C++'
-                  ? 'cpp'
-                  : step.dataFromStep1.programmingLanguage.toLowerCase()
-                : 'javascript'
-            }
+            language={exercise.programmingLanguage?.toLowerCase() || 'javascript'}
             value={code}
             onChange={handleCodeChange}
             width='100%'
@@ -190,7 +119,7 @@ const ExampleSolution = ({
         </Box>
         <Box id='example-solution-button-wrapper'>
           <Button
-            color={color.split('.')[0]}
+            color={elementsColor}
             variant='contained'
             onClick={prev}
             id={'back'}
@@ -199,8 +128,8 @@ const ExampleSolution = ({
             {t('previous-label')}
           </Button>
           <Button
+            color={elementsColor}
             id={tests && tests.correct === tests.tests ? 'send' : 'submit'}
-            color={color.split('.')[0]}
             variant='contained'
             disabled={!finishedLoading}
             onClick={() =>
@@ -242,23 +171,21 @@ const ExampleSolution = ({
           </Button>
         </Box>
       </Box>
-      <TestsList step={step} />
+      <TestsList />
     </>
   );
 };
 
 const mapDispatchToProps = {
   AddExercise,
+  VerifyExercise,
   UpdateExercise,
 };
 
 export default connect(null, mapDispatchToProps)(ExampleSolution);
 
 ExampleSolution.propTypes = {
-  step: PropTypes.object.isRequired,
   setStep: PropTypes.func.isRequired,
-  AddExercise: PropTypes.func,
-  dataToEdit: PropTypes.object,
   UpdateExercise: PropTypes.func,
-  previousFormState: PropTypes.object,
+  VerifyExercise: PropTypes.func.isRequired,
 };
