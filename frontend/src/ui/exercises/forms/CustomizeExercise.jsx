@@ -41,8 +41,10 @@ const CustomizeExercise = ({ setStep, UpdateExercise }) => {
     }
     if (exercise.types) {
       setTypes(exercise.types);
+    }
+    if (exercise.programmingLanguage !== 'C') {
       const newTypes = _.difference(exercise.types, dropdownOptions);
-      setDropdownOptions((currentTypes) => [...currentTypes, ...newTypes]);
+      setDropdownOptions((currentTypes) => _.uniq([...currentTypes, ...newTypes]));
     }
   }, [exercise]);
 
@@ -248,11 +250,14 @@ const CustomizeExercise = ({ setStep, UpdateExercise }) => {
                           error.error
                         }
                       >
-                        {[
+                        {(exercise.programmingLanguage !== 'C' ? [
                           ...dropdownOptions,
                           ...customTypes,
                           additionalOption,
-                        ].map((opt) => (
+                        ] : [
+                          ...dropdownOptions,
+                          ...customTypes,
+                        ]).map((opt) => (
                           <MenuItem
                             key={opt}
                             value={opt}
@@ -300,7 +305,14 @@ const CustomizeExercise = ({ setStep, UpdateExercise }) => {
                 error.error
               }
             >
-              {[...dropdownOptions, ...customTypes, additionalOption].map(
+              {(exercise.programmingLanguage !== 'C' ? [
+                 ...dropdownOptions,
+                 ...customTypes,
+                 additionalOption,
+               ] : [
+                 ...dropdownOptions,
+                 ...customTypes,
+               ]).map(
                 (opt) => (
                   <MenuItem
                     key={opt}
