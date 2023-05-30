@@ -104,7 +104,6 @@ const ExampleSolution = ({
   return (
     <>
       <Box id='example-solution-container'>
-      {console.log(tests)}
         <Box
           className='example-solution-wrapper'
           id={`box-border-${foundUser.theme}`}
