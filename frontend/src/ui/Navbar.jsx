@@ -190,7 +190,7 @@ const Navbar = ({
                       key={page}
                       onClick={() => handleCloseNavMenu(page)}
                     >
-                      <Typography textAlign='center'>{page}</Typography>
+                      <Typography textAlign='center'>{t(page)}</Typography>
                     </MenuItem>
                   ))}
                 </Menu>
