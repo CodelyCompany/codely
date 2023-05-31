@@ -13,15 +13,13 @@ jobs:
   build:
     name: Run tests
     runs-on: ubuntu-latest
-    services:
-      selenium:
-        image: selenium/standalone-chrome
-        options: --shm-size=2gb
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
-      - name: Install Chromium
-        run: sudo apt-get install chromium-browser
+#      - name: Install Chromium
+#        run: sudo apt-get install chromium-browser
+      - uses: browser-actions/setup-firefox@v1
+      - run: firefox --version
       - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
