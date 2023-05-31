@@ -106,9 +106,9 @@ const Navbar = ({
       if (!_.isEmpty(foundUser)) {
         GetNotifications(foundUser._id, token);
         setAvatarUri(
-          `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}/users/${
-            foundUser._id
-          }/avatar?${foundUser.avatarTimestamp}`
+          `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}/avatars/${
+            foundUser.avatarFile
+          }`
         );
       }
     }
