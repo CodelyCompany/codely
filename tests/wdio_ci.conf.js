@@ -79,7 +79,7 @@ exports.config = {
       browserName: 'firefox',
       // No GUI Option
       'moz:firefoxOptions': {
-        args: ['-headless'],
+        args: ['-headless', '-width 1920', '-height 1080'],
       },
       acceptInsecureCerts: true,
       // If outputDir is provided WebdriverIO can capture driver session logs

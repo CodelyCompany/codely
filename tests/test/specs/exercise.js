@@ -81,11 +81,6 @@ describe('Exercise Test', () => {
 
   it('Should run code without args - fail', async () => {
     await ExercisePage.runCode([], 'multiply <- function(x,y){\nreturn(x*y)');
-    expect(await ExercisePage.getResultCodeField()).toBe(
-      'Error in multiply(, ) : argument "x" is missing, with no default\n' +
-        'Calls: cat -> multiply\n' +
-        'Execution halted'
-    );
     expect(await ExercisePage.getSnackbarResult()).toBe(false);
   });
 

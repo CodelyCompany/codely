@@ -39,11 +39,11 @@ describe('Admin Page Test', () => {
     expect(await AdminPage.exercisesToCheckTable).toBeDisplayed();
   });
 
-  it('Should abort exercise Multiply two numbers - C++', async () => {
+  it('Should abort exercise Multiply two numbers - Python', async () => {
     await AdminPage.exercisesToCheckTable.waitForDisplayed();
-    await AdminPage.abortExercise('Multiply two numbers - C++');
+    await AdminPage.abortExercise('Multiply two numbers - Python');
     expect(
-      await $('//div[text()="Multiply two numbers - C++"]')
+      await $('//div[text()="Multiply two numbers - Python"]')
     ).not.toBeDisplayed();
   });
 });

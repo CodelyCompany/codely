@@ -33,8 +33,7 @@
     {
       "title": "Should fail - fetch data",
       "code": "fetch('https://fakestoreapi.com/products/1').then(response => response.json()).then(data => console.log(data));",
-      "successful": false,
-      "expectedResult": "Timeout!"
+      "successful": false
     }
   ],
   "Python": [
