@@ -41,27 +41,27 @@ function AllUsers({ users, GetUsers }) {
   const columns = [
     {
       field: 'username',
-      headerName: t('Username'),
+      headerName: t('username-label'),
       flex: 1,
     },
     {
       field: 'creationDate',
-      headerName: t('Creation date'),
+      headerName: t('creation-date-label'),
       flex: 1,
     },
     {
       field: 'reviews',
-      headerName: t('Written reviews'),
+      headerName: t('written-reviews-label'),
       flex: 1,
     },
     {
       field: 'preparedExercises',
-      headerName: t('Prepared exercises'),
+      headerName: t('prepared-exercises-label'),
       flex: 1,
     },
     {
       field: 'solvedExercises',
-      headerName: t('Solved exercises'),
+      headerName: t('solved-exercises-label'),
       flex: 1,
     },
   ];
@@ -69,7 +69,7 @@ function AllUsers({ users, GetUsers }) {
   return (
     <Card id='all-users-table-container' className={`theme-${foundUser.theme}`}>
       <Typography id='registered-users-typography' sx={{ color }} variant='h6'>
-        {t('Registered users')}
+        {t('registered-users-label')}
       </Typography>
       <DataGrid
         className={`${classes.root} all-users-table`}

@@ -54,7 +54,7 @@ const ReviewCard = ({ review, index }) => {
 
       dispatch(EditReview(body, token));
     } catch (e) {
-      alert(t('Something went wrong, try again later'));
+      alert(t('try-later-message'));
       console.log(e);
     }
   };
@@ -95,10 +95,10 @@ const ReviewCard = ({ review, index }) => {
         <Grid item xs={6}>
           <Typography className='timestamp'>
             {review
-              ? `${review.editedAt ? t('Edited ') : t('Created ')}
+              ? `${review.editedAt ? t('edited-prefix') : t('created-prefix')}
                     ${new Date(
                       review.editedAt ? review.editedAt : review.creationDate
-                    ).toLocaleDateString()} ${t('at')}
+                    ).toLocaleDateString()} ${t('at-word')}
                     ${new Date(
                       review.editedAt ? review.editedAt : review.creationDate
                     ).toLocaleTimeString()}`

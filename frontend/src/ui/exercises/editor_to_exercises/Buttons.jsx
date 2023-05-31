@@ -35,6 +35,15 @@ const Buttons = ({
   const { t } = useTranslation();
 
   const runCode = (code) => {
+    if (argumentValues.includes('')) {
+      dispatch(
+        addPopup(
+          t('arguments-required-warning'),
+          'error'
+        )
+      );
+      return;
+    }
     setLoadingFinished(false);
     axios
       .post(
@@ -56,8 +65,8 @@ const Buttons = ({
         dispatch(
           addPopup(
             response.status === 200
-              ? 'Your code ran successfully'
-              : 'Your code ran with errors',
+              ? 'code-ran-message'
+              : 'code-failed-message',
             response.status === 200 ? 'success' : 'error'
           )
         );
@@ -73,7 +82,7 @@ const Buttons = ({
       .post(
         `${
           process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-        }/exercises/checkSolution/${id}`,
+        }/exercises/${id}/solution`,
         { solution: code, user: foundUser._id },
         { headers: { Authorization: `Bearer ${token}` } }
       )
@@ -82,8 +91,8 @@ const Buttons = ({
         dispatch(
           addPopup(
             response.data.tests === response.data.correct
-              ? 'Congratulation! Your code passed all tests'
-              : "Unfortunately, your code didn't pass tests",
+              ? 'tests-passed-message'
+              : 'tests-not-passed-message',
             response.data.tests === response.data.correct ? 'success' : 'error'
           )
         );
@@ -102,7 +111,7 @@ const Buttons = ({
             onClick={() => runCode(code)}
             variant='contained'
           >
-            {t('Run')}
+            {t('run-label')}
           </Button>
           <Button
             disabled={!loadingFinished}
@@ -110,7 +119,7 @@ const Buttons = ({
             onClick={() => submitExercise()}
             variant='contained'
           >
-            {t('Submit')}
+            {t('submit-label')}
           </Button>
         </Box>
         <Box id='tools-buttons'>
@@ -120,7 +129,7 @@ const Buttons = ({
             onClick={() => navigate(-1)}
             variant='contained'
           >
-            {t('Undo')}
+            {t('undo-label')}
           </Button>
         </Box>
       </Box>

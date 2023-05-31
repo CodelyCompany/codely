@@ -42,12 +42,12 @@ const ReviewForm = ({ review, token }) => {
 
   const handleSubmit = async () => {
     if (!rating) {
-      alert(t('You need to rate the exercise!'));
+      alert(t('excercise-rating-requirement-warning'));
       return;
     }
 
     if (comment.length > 5000) {
-      alert(t('Your comment is too long! (5000 characters limit)'));
+      alert(t('comment-max-length-warning'));
       return;
     }
 
@@ -70,7 +70,7 @@ const ReviewForm = ({ review, token }) => {
 
       setEditing(false);
     } catch (e) {
-      alert(t('Something went wrong, try again later'));
+      alert(t('try-later-message'));
       console.log(e);
     }
   };
@@ -98,7 +98,7 @@ const ReviewForm = ({ review, token }) => {
           <TextField
             id={'comment-input'}
             color={theme}
-            label={t('Comment')}
+            label={t('comment-label')}
             variant='outlined'
             multiline
             fullWidth
@@ -132,10 +132,10 @@ const ReviewForm = ({ review, token }) => {
       <Grid item xs={5}>
         <Typography className='timestamp'>
           {review
-            ? `${review.editedAt ? t('Edited ') : t('Created ')}
+            ? `${review.editedAt ? t('edited-prefix') : t('created-prefix')}
                     ${new Date(
                       review.editedAt ? review.editedAt : review.creationDate
-                    ).toLocaleDateString()} ${t('at')}
+                    ).toLocaleDateString()} ${t('at-word')}
                     ${new Date(
                       review.editedAt ? review.editedAt : review.creationDate
                     ).toLocaleTimeString()}`

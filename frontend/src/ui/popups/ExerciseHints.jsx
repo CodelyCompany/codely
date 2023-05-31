@@ -52,7 +52,7 @@ function ExerciseHints() {
         aria-describedby='alert-dialog-description'
       >
         <DialogTitle id='alert-dialog-title'>
-          {`${t('Hint:')} ${hintNumber + 1} / ${exercise.hints.length}`}
+          {`${t('hint-label')} ${hintNumber + 1} / ${exercise.hints.length}`}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id='alert-dialog-description'>
@@ -61,10 +61,10 @@ function ExerciseHints() {
         </DialogContent>
         <DialogActions>
           {hintNumber + 1 !== exercise.hints.length && (
-            <Button onClick={getNextHint}>{t('Next')}</Button>
+            <Button onClick={getNextHint}>{t('next-label')}</Button>
           )}
           <Button onClick={handleClose} autoFocus>
-            {t('Close')}
+            {t('close-label')}
           </Button>
         </DialogActions>
       </Dialog>

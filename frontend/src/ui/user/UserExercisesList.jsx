@@ -58,8 +58,8 @@ function UserExercisesList({ exercises, mode }) {
     >
       <Typography variant='h6' sx={{ color }}>
         {mode === 'prepared'
-          ? t('Your prepared exercises:')
-          : t('Done exercises:')}
+          ? t('prepared-exercises-listing-label')
+          : t('solved-exercises-listing-label')}
       </Typography>
       <FixedSizeList
         height={100}

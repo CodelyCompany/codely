@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 const mapArgs = (language, args, argsType) => {
   const languagesWithTypes = ['c++', 'c', 'java'];
   if (languagesWithTypes.includes(language)) {
@@ -8,7 +10,20 @@ const mapArgs = (language, args, argsType) => {
   return args ? args.join(', ') : '';
 };
 
-export const getSignature = (language, functionName, args, argsType = []) => {
+const getCustomClasses = (types, language) => {
+    const classes = _.uniq(types);
+    const commentSigns = '//';
+    if (language === 'java' || language === 'c++') {
+        return classes.reduce((acc, currentType) =>
+                acc + `class ${currentType} {
+   ${commentSigns} Implement your class ${currentType} here
+}\n\n`, '');
+    }
+    return '';
+};
+
+
+export const getSignature = (language, functionName, args, argsType = [], customTypes) => {
   const argsAsString = mapArgs(language, args, argsType);
   const functionsMap = {
     javascript: `const ${functionName} = (${argsAsString}) => {
@@ -26,13 +41,13 @@ ${
 }`,
     'c++': `#include <iostream>
 using namespace std;
-          
+\n${getCustomClasses(customTypes, language)}
 ${
   argsType ? argsType[argsType.length - 1] : 'void'
 } ${functionName}(${argsAsString}) {
     // write your code here
 }`,
-    java: `public class Main {
+    java: getCustomClasses(customTypes, language) + `public class Main {
   public static ${
     argsType ? argsType[argsType.length - 1] : 'void'
   } ${functionName}(${argsAsString}){

@@ -37,12 +37,12 @@ function ExerciseToCheck({ uncheckedExercises, GetUncheckedExercises, token }) {
   const columns = [
     {
       field: 'title',
-      headerName: t('Title'),
+      headerName: t('title-label'),
       flex: 1,
     },
     {
       field: 'author',
-      headerName: t('Author'),
+      headerName: t('author-label'),
       flex: 1,
     },
   ];
@@ -72,7 +72,7 @@ function ExerciseToCheck({ uncheckedExercises, GetUncheckedExercises, token }) {
           variant='h6'
           sx={{ color }}
         >
-          {t('Exercises to check')}
+          {t('exercises-to-verify-header')}
         </Typography>
         <DataGrid
           className={`${classes.root} exercises-to-check-table`}

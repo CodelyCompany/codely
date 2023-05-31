@@ -37,8 +37,8 @@ async function getToken() {
 async function runTests(exercise, solution) {
   const token = await getToken();
   let counterCorrect = 0;
-  for (let i = 0; i < exercise.tests.length; i++) {
-    const element = exercise.tests[i];
+  let outputs = [];
+  for (const element of exercise.tests) {
     const response = await axios.post(
       backendContainersAddress +
         '/' +
@@ -52,48 +52,49 @@ async function runTests(exercise, solution) {
         headers: { authorization: `Bearer ${token}` },
       }
     );
-    const res1 = response.data.output.replace(/(\r\n|\n|\r)/gm, '');
-    const res2 = element.output.replace(/(\r\n|\n|\r)/gm, '');
-    if (res1 === res2) {
+    const outputFromResponse = response.data.output.replace(/(\r\n|\n|\r)/gm, '');
+    const outputFromBody = element.output.replace(/(\r\n|\n|\r)/gm, '');
+    if (outputFromResponse === outputFromBody) {
       counterCorrect++;
     }
+    outputs.push(outputFromResponse);
   }
-  return counterCorrect;
+  return { counterCorrect, outputs };
 }
 
 router.get('/', async (req, res) => {
   try {
-    const data = await Exercise.find({}).populate(['author', 'tests']);
-    res.status(200).send(data);
+    const data = await Exercise.find().populate(['author', 'tests']);
+    return res.status(200).send(data);
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 
 router.get('/checked', async (req, res) => {
   try {
-    const data = await Exercise.find({ checked: true }).populate([
+    const data = await Exercise.find({ checked: true, step: 6 }).populate([
       'author',
       'tests',
     ]);
-    res.status(200).send(data);
+    return res.status(200).send(data);
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 
 router.get('/unchecked', async (req, res) => {
   try {
-    const data = await Exercise.find({ checked: false }).populate([
+    const data = await Exercise.find({ checked: false, step: 6 }).populate([
       'author',
       'tests',
     ]);
-    res.status(200).send(data);
+    return res.status(200).send(data);
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 
@@ -101,92 +102,53 @@ router.get('/:id', async (req, res) => {
   try {
     const id = req.params.id;
     const data = await Exercise.findById(id).populate(['author', 'tests']);
-    res.status(200).send(data);
+    return res.status(200).send(data);
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 
-router.get('/user/:id', async (req, res) => {
-  try {
-    const id = req.params.id;
-    const data = await User.findById(id).populate('preparedExercises');
-    res.status(200).send(data.preparedExercises);
-  } catch (error) {
-    console.log(error);
-    res.status(500).send(error);
-  }
-});
-
-router.get('/withTest/:id', async (req, res) => {
-  try {
-    const id = req.params.id;
-    const data = await Exercise.findById(id).populate('tests');
-    res.status(200).send(data);
-  } catch (error) {
-    console.log(error);
-    res.status(500).send(error);
-  }
-});
-
-router.post('/addExercise', async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const data = req.body;
-    const counterCorrect = await runTests(data, data.exampleSolution);
-    if (counterCorrect === data.tests.length) {
-      const user = await User.findById(data.author);
-      const newExercise = new Exercise({
-        ...data,
-        author: user._id,
-        tests: [],
-      });
-      await newExercise.save();
-      let tests = [];
-      for (let i = 0; i < data.tests.length; i++) {
-        const element = data.tests[i];
-        const newTest = new Test({
-          input: element.input,
-          output: element.output,
-          exercise: newExercise._id,
-        });
-        await newTest.save();
-        tests.push(newTest._id);
-      }
-      await Exercise.findByIdAndUpdate(newExercise._id, {
-        tests,
-      });
-      await User.findByIdAndUpdate(user._id, {
-        preparedExercises: [...user.preparedExercises, newExercise._id],
-      });
-      return res.status(200).send(newExercise);
-    }
-    return res.status(400).send('Wrong example solution');
+    const user = await User.findById(data.author);
+    const newExercise = await new Exercise({
+      ...data,
+      author: user._id,
+      tests: [],
+    }).save();
+    return res.status(201).send(newExercise);
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 
-router.post('/checkBeforeAddExercise', async (req, res) => {
+router.post('/verify', async (req, res) => {
   try {
     const data = req.body;
-    const counterCorrect = await runTests(data, data.exampleSolution);
-    return res
-      .status(200)
-      .send({ tests: data.tests.length, correct: counterCorrect });
+    const { counterCorrect, outputs } = await runTests(
+      data,
+      data.exampleSolution
+    );
+    return res.status(200).send({
+      tests: data.tests.length,
+      correct: counterCorrect,
+      outputs,
+    });
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 
-router.post('/checkSolution/:id', async (req, res) => {
+router.post('/:id/solution', async (req, res) => {
   try {
     const id = req.params.id;
     const data = req.body;
     const exercise = await Exercise.findById(id).populate('tests');
-    const counterCorrect = await runTests(exercise, data.solution);
+    const { counterCorrect } = await runTests(exercise, data.solution);
     if (counterCorrect === exercise.tests.length) {
       const user = await User.findById(data.user);
       if (!user.doneExercises.includes(exercise._id)) {
@@ -203,36 +165,39 @@ router.post('/checkSolution/:id', async (req, res) => {
       .send({ tests: exercise.tests.length, correct: counterCorrect });
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 
-router.put('/editExercise', async (req, res) => {
+router.put('/', async (req, res) => {
   try {
-    const { id, tests } = req.body;
-    let testsToAdd = [];
-    for (let i = 0; i < tests.length; i++) {
-      const element = tests[i];
-      const newTest = await Test({
-        input: element.input,
-        output: element.output,
-        exercise: id,
-      }).save();
-      testsToAdd.push(newTest._id);
+    const { id, tests, ...rest } = req.body;
+    let testsToAdd = {};
+    if (tests) {
+      testsToAdd = { tests: [] };
+      for (let i = 0; i < tests.length; i++) {
+        const element = tests[i];
+        const newTest = await Test({
+          input: element.input,
+          output: element.output,
+          exercise: id,
+        }).save();
+        testsToAdd.tests.push(newTest._id);
+      }
     }
     await Exercise.findByIdAndUpdate(id, {
-      ...req.body,
-      tests: testsToAdd,
+      ...rest,
+      ...testsToAdd,
     });
     const data = await Exercise.findById(id).populate(['author', 'tests']);
     return res.status(200).send(data);
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 
-router.put('/checkExercise/:id', async (req, res) => {
+router.put('/:id/check', async (req, res) => {
   try {
     const id = req.params.id;
     const exercise = await Exercise.findById(id).populate(['author', 'tests']);
@@ -245,11 +210,11 @@ router.put('/checkExercise/:id', async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 
-router.delete('/deleteExercise/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
     const id = req.params.id;
     const exercise = await Exercise.findById(id);
@@ -276,7 +241,7 @@ router.delete('/deleteExercise/:id', async (req, res) => {
     return res.status(200).send({ id });
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 
@@ -285,7 +250,7 @@ router.put('/checkVersus/:exerciseId/room/:roomId', async (req, res) => {
     const { roomId, exerciseId } = req.params;
     const data = req.body;
     const exercise = await Exercise.findById(exerciseId).populate('tests');
-    const counterCorrect = await runTests(exercise, data.solution);
+    const { counterCorrect } = await runTests(exercise, data.solution);
     if (data.won) {
       const solvers = await client.lrange(`game-${roomId}-acceptation`, 0, -1);
       const loserId = solvers[0] === data.user ? solvers[1] : solvers[0];
@@ -319,7 +284,7 @@ router.put('/checkVersus/:exerciseId/room/:roomId', async (req, res) => {
   }
 });
 
-router.delete('/deleteAllExercises', async (req, res) => {
+router.delete('/', async (req, res) => {
   try {
     await Exercise.deleteMany({});
     await User.updateMany(
@@ -336,7 +301,7 @@ router.delete('/deleteAllExercises', async (req, res) => {
       .send({ message: 'Exercises and all relationships have been removed' });
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 

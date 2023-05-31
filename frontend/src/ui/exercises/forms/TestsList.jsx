@@ -11,19 +11,21 @@ import {
   TableRow,
 } from '@mui/material';
 import { getUserByUsername } from 'ducks/user/selectors';
+import useExerciseData from 'helpers/useExerciseData';
 import useTheme from 'helpers/useTheme';
 import * as _ from 'lodash';
-import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-const TestsList = ({ step }) => {
+const TestsList = () => {
   const { t } = useTranslation();
   const { user } = useAuth0();
+  const { color } = useTheme();
+  const { exercise } = useExerciseData();
   const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
     theme: 0,
   };
-  const { color } = useTheme();
+
   return (
     <TableContainer
       id='tests-container'
@@ -31,8 +33,8 @@ const TestsList = ({ step }) => {
       component={Paper}
       sx={{ borderColor: color }}
     >
-      <span>{t('Created tests')}</span>
-      {step.dataFromStep2?.argumentsName && step.dataFromStep3 && (
+      <span>{t('created-tests-label')}</span>
+      {exercise?.argumentsName && (
         <Table
           id='tests-table'
           className={`theme-${foundUser.theme}`}
@@ -40,7 +42,7 @@ const TestsList = ({ step }) => {
         >
           <TableHead>
             <TableRow>
-              {step.dataFromStep2.argumentsName.map((arg) => (
+              {exercise?.argumentsName.map((arg) => (
                 <TableCell
                   className={`theme-${foundUser.theme} tests-table-cell`}
                   key={arg}
@@ -54,13 +56,13 @@ const TestsList = ({ step }) => {
                 align='center'
               >
                 <span className={`theme-${foundUser.theme}`}>
-                  {t('Output')}
+                  {t('output-label')}
                 </span>
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {step.dataFromStep3.map((test) => (
+            {exercise.tests?.map((test) => (
               <TableRow key={_.uniqueId()}>
                 {test.input.map((row) => (
                   <TableCell
@@ -89,7 +91,3 @@ const TestsList = ({ step }) => {
 };
 
 export default TestsList;
-
-TestsList.propTypes = {
-  step: PropTypes.object,
-};

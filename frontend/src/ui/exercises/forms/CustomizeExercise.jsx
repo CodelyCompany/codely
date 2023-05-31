@@ -1,19 +1,25 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Box, Button, MenuItem, TextField } from '@mui/material';
+import { GetExercise, UpdateExercise } from 'ducks/exercises/operations';
 import { useFormik } from 'formik';
+import useExerciseData from 'helpers/useExerciseData';
 import useTheme from 'helpers/useTheme';
+import useToken from 'helpers/useToken';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
 import CustomTypes from 'ui/exercises/forms/CustomTypes';
 import { getDataTypes } from 'ui/exercises/forms/utils/dataTypes';
-// eslint-disable-next-line max-len
-import { customizeExerciseValidation } from 'ui/exercises/forms/validationSchemes/customizeExerciseValidation';
+import { customizeExerciseValidation }
+  from 'ui/exercises/forms/validationSchemes/customizeExerciseValidation';
 
-const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
+import StaticallyTypedLanguage from 'consts/StaticallyTypedLanguage';
+
+// Second step of creating exercise
+const CustomizeExercise = ({ setStep, UpdateExercise }) => {
   const { t } = useTranslation();
   const [argumentsName, setArgumentsName] = useState([]);
-  const [checked, setChecked] = useState(false);
   const [error, setError] = useState({});
   const [types, setTypes] = useState([]);
   const [open, setOpen] = useState(false);
@@ -21,18 +27,26 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
   const { color } = useTheme();
   const elementsColor = color.split('.')[0];
   const validation = customizeExerciseValidation(t, argumentsName);
+  const { token } = useToken();
+  const additionalOption = t('other-type-label');
+  const languagesWithTypes = Object.values(StaticallyTypedLanguage);
+  const { id, exercise } = useExerciseData();
+  const formWithTypes = languagesWithTypes.includes(exercise.programmingLanguage);
+  const [dropdownOptions, setDropdownOptions] =
+    useState(getDataTypes(exercise.programmingLanguage || 'java'));
 
-  const additionalOption = t('Other types / Custom types');
-  const languagesWithTypes = ['Java', 'C++', 'C'];
-
-  const formWithTypes = useMemo(
-    () => languagesWithTypes.includes(step.dataFromStep1?.programmingLanguage),
-    [step.dataFromStep1]
-  );
-  const dropdownOptions = useMemo(
-    () => getDataTypes(step.dataFromStep1?.programmingLanguage || 'java'),
-    [step.dataFromStep1]
-  );
+  useEffect(() => {
+    if (exercise.argumentsName) {
+      setArgumentsName(exercise.argumentsName);
+    }
+    if (exercise.types) {
+      setTypes(exercise.types);
+    }
+    if (exercise.programmingLanguage !== 'C') {
+      const newTypes = _.difference(exercise.types, dropdownOptions);
+      setDropdownOptions((currentTypes) => _.uniq([...currentTypes, ...newTypes]));
+    }
+  }, [exercise]);
 
   useEffect(() => {
     if (types.includes(additionalOption)) setOpen(true);
@@ -66,17 +80,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
   }, [open]);
 
   const prev = () => {
-    setStep((prev) => ({
-      ...prev,
-      currentStep: 1,
-      dataFromStep2: {
-        functionName: formik.values.functionName,
-        argumentsQuantity: formik.values.argumentsQuantity,
-        argumentsName,
-        types,
-        customTypes,
-      },
-    }));
+    setStep(1);
   };
 
   const setType = (index, value) => {
@@ -88,52 +92,32 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
     );
   };
 
+  const onSubmit = (values) => {
+    validation.argumentsNameSchema
+      .validate({ argumentsName, types: formWithTypes ? types : [] })
+      .then((valid) => {
+        if (valid) {
+          setError({});
+          UpdateExercise({ id, ...values, argumentsName, types, step: 3 }, token);
+          setStep(3);
+        }
+      })
+      .catch((err) => {
+        setError({ error: err.errors });
+      });
+  };
+
   const formik = useFormik({
     initialValues: {
-      functionName:
-        step.dataFromStep2?.functionName || dataToEdit?.functionName || '',
-      argumentsQuantity:
-        step.dataFromStep2?.argumentsQuantity ||
-        dataToEdit?.argumentsName.length ||
-        '',
+      functionName: exercise.functionName || '',
+      argumentsQuantity: exercise.argumentsName?.length || '',
     },
+    enableReinitialize: true,
     validationSchema: validation.customizeExerciseValidationSchema,
-    onSubmit: (values) => {
-      validation.argumentsNameSchema
-        .validate({ argumentsName, types: formWithTypes ? types : [] })
-        .then((valid) => {
-          if (valid) {
-            setError({});
-            setStep((prev) => ({
-              ...prev,
-              currentStep: 3,
-              dataFromStep2: { ...values, argumentsName, types, customTypes },
-            }));
-          }
-        })
-        .catch((err) => {
-          setError({ error: err.errors });
-        });
-    },
+    onSubmit,
   });
 
   useEffect(() => {
-    if (step.dataFromStep2?.argumentsName && !checked) {
-      setArgumentsName(step.dataFromStep2.argumentsName);
-      setCustomTypes(step.dataFromStep2.customTypes);
-      setTypes(step.dataFromStep2.types);
-      setChecked(true);
-      return;
-    }
-    if (dataToEdit && !checked) {
-      setArgumentsName(dataToEdit.argumentsName);
-      setCustomTypes(
-        dataToEdit.types.filter((type) => !dropdownOptions.includes(type))
-      );
-      setTypes(dataToEdit.types);
-      setChecked(true);
-      return;
-    }
     setArgumentsName((prev) =>
       [...Array(formik.values.argumentsQuantity).keys()].map((el) => {
         if (prev[el]) return prev[el];
@@ -174,7 +158,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
             sx={{ color, input: { color } }}
             id='functionName'
             name='functionName'
-            label={t('Function name')}
+            label={t('function-name-label')}
             value={formik.values.functionName}
             onChange={formik.handleChange}
             error={
@@ -192,7 +176,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
             type='number'
             id='argumentsQuantity'
             name='argumentsQuantity'
-            label={t('Function arguments quantity')}
+            label={t('function-arguments-quantity-label')}
             InputProps={{ inputProps: { min: 0 } }}
             value={formik.values.argumentsQuantity}
             onChange={formik.handleChange}
@@ -220,7 +204,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                         input: { color },
                       }}
                       id={`arg-${argNumber}`}
-                      label={`${argNumber + 1}. ${t('Argument name')}`}
+                      label={`${argNumber + 1}. ${t('arguments-name-label')}`}
                       value={argumentsName[argNumber] || ''}
                       onChange={(e) => handleArgumentName(e, argNumber)}
                       error={
@@ -248,7 +232,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                           }`,
                           marginLeft: `${formWithTypes ? '5px' : '0'}`,
                         }}
-                        label={`${argNumber + 1}. ${t('Argument type')}`}
+                        label={`${argNumber + 1}. ${t('arguments-type-label')}`}
                         id={`type-${argNumber}`}
                         value={types[argNumber] || ''}
                         onChange={(e) => setType(argNumber, e.target.value)}
@@ -266,11 +250,14 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                           error.error
                         }
                       >
-                        {[
+                        {(exercise.programmingLanguage !== 'C' ? [
                           ...dropdownOptions,
                           ...customTypes,
                           additionalOption,
-                        ].map((opt) => (
+                        ] : [
+                          ...dropdownOptions,
+                          ...customTypes,
+                        ]).map((opt) => (
                           <MenuItem
                             key={opt}
                             value={opt}
@@ -318,7 +305,14 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
                 error.error
               }
             >
-              {[...dropdownOptions, ...customTypes, additionalOption].map(
+              {(exercise.programmingLanguage !== 'C' ? [
+                 ...dropdownOptions,
+                 ...customTypes,
+                 additionalOption,
+               ] : [
+                 ...dropdownOptions,
+                 ...customTypes,
+               ]).map(
                 (opt) => (
                   <MenuItem
                     key={opt}
@@ -346,7 +340,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
               onClick={prev}
               className={'cancel-2'}
             >
-              {t('Previous')}
+              {t('previous-label')}
             </Button>
 
             <Button
@@ -355,7 +349,7 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
               type='submit'
               id={'submit-2'}
             >
-              {t('Next')}
+              {t('next-label')}
             </Button>
           </Box>
         </form>
@@ -364,10 +358,14 @@ const CustomizeExercise = ({ step, setStep, dataToEdit }) => {
   );
 };
 
-export default CustomizeExercise;
+const mapDispatchToProps = {
+  GetExercise,
+  UpdateExercise,
+};
+
+export default connect(null, mapDispatchToProps)(CustomizeExercise);
 
 CustomizeExercise.propTypes = {
-  step: PropTypes.object.isRequired,
   setStep: PropTypes.func.isRequired,
-  dataToEdit: PropTypes.object,
+  UpdateExercise: PropTypes.func.isRequired,
 };

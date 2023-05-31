@@ -27,10 +27,10 @@ const PlayersCounter = ({ socket }) => {
         color={theme}
         sx={{ borderColor: 'primary.main' }}
       >
-        {t('Waiting for opponent')}
+        {t('awaiting-opponent-message')}
       </Typography>
       <Typography variant='h4' color={theme}>
-        {t('Active players:')} {players}
+        {t('player-count-label')} {players}
       </Typography>
     </Box>
   );

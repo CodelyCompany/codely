@@ -50,7 +50,9 @@ const NavbarMessages = ({
             }}
           >
             <Typography id='message-content' sx={{ color }}>
-              {not.content}
+              {not.accepted ?
+              t('exercise-accepted-message') : t('exercise-rejected-message')}:{' '}
+               {not.content}
             </Typography>
             <Typography id='message-date'>
               {new Date(not.date).toLocaleDateString()}
@@ -59,7 +61,7 @@ const NavbarMessages = ({
         ))
       ) : (
         <Typography id='empty-mailbox' sx={{ color }}>
-          {t('Your mailbox is empty')}
+          {t('mailbox-empty-message')}
         </Typography>
       )}
     </Popover>

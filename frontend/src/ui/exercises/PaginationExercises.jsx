@@ -48,14 +48,14 @@ const PaginationExercises = ({
     <Box id='pagination-container'>
       <FormControl id='pagination-controlled-form' size='small'>
         <InputLabel sx={{ color }} id='demo-select-small'>
-          {t('Items per page')}
+          {t('items-per-page-label')}
         </InputLabel>
         <Select
           color={theme}
           labelId='select-small'
           id={`select-small-${foundUser.theme}`}
           value={itemsPerPage}
-          label={t('Items per page')}
+          label={t('items-per-page-label')}
           onChange={handleItemsChange}
         >
           {availableItemsPerPage.map((el) => (

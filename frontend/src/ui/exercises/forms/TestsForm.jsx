@@ -2,49 +2,55 @@ import React, { useEffect, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Button, MenuItem, TextField } from '@mui/material';
+import { UpdateExercise } from 'ducks/exercises/operations';
 import { getUserByUsername } from 'ducks/user/selectors';
+import useExerciseData from 'helpers/useExerciseData';
 import useTheme from 'helpers/useTheme';
+import useToken from 'helpers/useToken';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
-import { testFormValidation } from 'ui/exercises/forms/validationSchemes/testFormValidation';
+import { connect, useSelector } from 'react-redux';
+import { testFormValidation }
+  from 'ui/exercises/forms/validationSchemes/testFormValidation';
 
-const TestsForm = ({ setStep, dataToEdit, step }) => {
+// Third step of creating exercise
+const TestsForm = ({ setStep, UpdateExercise }) => {
   const { t } = useTranslation();
   const { color } = useTheme();
   const [testsQuantity, setTestsQuantity] = useState('');
   const [tests, setTests] = useState([]);
-  const [triggered, setTriggered] = useState(false);
   const [error, setError] = useState({});
+  const { token } = useToken();
   const { user } = useAuth0();
+  const { id, exercise } = useExerciseData();
+  const validation = testFormValidation(t);
+  const elementsColor = color.split('.')[0];
   const foundUser = useSelector(getUserByUsername(user.nickname)) ?? {
     theme: 0,
   };
-  const validation = testFormValidation(t);
-  const elementsColor = color.split('.')[0];
+
+  useEffect(() => {
+    if (exercise.tests) {
+      setTestsQuantity(exercise.tests.length);
+      setTests(exercise.tests);
+    }
+  }, [exercise]);
 
   const submitValues = () => {
     validation.testsValidationSchema
       .validate({ tests })
       .then((valid) => {
         if (valid) {
+          UpdateExercise({ id, tests, step: 4 }, token);
           setError({});
-          setStep((prev) => ({
-            ...prev,
-            currentStep: 4,
-            dataFromStep3: tests,
-          }));
+          setStep(4);
         }
       })
       .catch((err) => setError({ error: err.errors }));
   };
 
   const goToPreviousStage = () => {
-    setStep((prev) => ({
-      ...prev,
-      currentStep: 2,
-      dataFromStep3: tests,
-    }));
+    setStep(2);
   };
 
   const handleOutput = (testIndex, e) => {
@@ -80,32 +86,21 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
     );
   };
 
-  useEffect(() => {
-    if (!triggered && step.dataFromStep3) {
-      setTestsQuantity(step.dataFromStep3.length);
-      setTriggered(true);
-      setTests(step.dataFromStep3);
-      return;
-    }
-    if (!triggered && dataToEdit) {
-      setTriggered(true);
-      setTests(dataToEdit.tests);
-      setTestsQuantity(dataToEdit.tests.length);
-      return;
-    }
+useEffect(() => {
     setTests((prev) =>
       [...Array(testsQuantity).keys()].map((el, index) => {
-        if (!prev[index])
+        if (!prev[index]) {
           return {
-            input: [...Array(step.dataFromStep2.argumentsQuantity).keys()].map(
+            input: [...Array(exercise.argumentsName?.length).keys()].map(
               () => ''
             ),
             output: '',
           };
-        if (prev[index].input.length !== step.dataFromStep2.argumentsQuantity) {
+        }
+        if (prev[index].input.length !== exercise.argumentsName?.length) {
           return {
             ...prev[index],
-            input: [...Array(step.dataFromStep2.argumentsQuantity).keys()].map(
+            input: [...Array(exercise.argumentsName?.length).keys()].map(
               (missingInput, missingInputIndex) => {
                 if (prev[index].input[missingInputIndex])
                   return prev[index].input[missingInputIndex];
@@ -128,7 +123,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
           sx={{ color }}
           id={`testsQuantity-${foundUser.theme}`}
           name='testsQuantity'
-          label={t('Choose tests quantity')}
+          label={t('tests-quantity-request')}
           value={testsQuantity}
           onChange={(e) => setTestsQuantity(parseInt(e.target.value))}
           select
@@ -143,27 +138,13 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
       <form>
         {testsQuantity !== '' &&
           [...Array(testsQuantity).keys()].map((number, index) => {
-            const outputLabel =
-              index === 0
-                ? {
-                    label: t(`output`),
-                  }
-                : {};
+            const outputLabel = !index ? { label: t(`output`) } : {};
             return (
               <Box key={number}>
                 <Box>
-                  {[...Array(step.dataFromStep2.argumentsQuantity).keys()].map(
+                  {[...Array(exercise.argumentsName.length).keys()].map(
                     (argNumber) => {
-                      const label =
-                        index === 0
-                          ? {
-                              label: `${
-                                step.dataFromStep2
-                                  ? step.dataFromStep2?.argumentsName[argNumber]
-                                  : ''
-                              }`,
-                            }
-                          : {};
+                      const label = !index ? { label: exercise.argumentsName[argNumber] } : {};
                       return (
                         <TextField
                           color={elementsColor}
@@ -189,8 +170,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
                           }
                         />
                       );
-                    }
-                  )}
+                    })}
                 </Box>
                 <Box>
                   <TextField
@@ -228,7 +208,7 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
           variant='contained'
           className={'cancel-3'}
         >
-          {t('Previous')}
+          {t('previous-label')}
         </Button>
         <Button
           color={elementsColor}
@@ -238,17 +218,20 @@ const TestsForm = ({ setStep, dataToEdit, step }) => {
           variant='contained'
           id={'submit-3'}
         >
-          {t('Next')}
+          {t('next-label')}
         </Button>
       </form>
     </Box>
   );
 };
 
-export default TestsForm;
+const mapDispatchToProps = {
+  UpdateExercise,
+};
+
+export default connect(null, mapDispatchToProps)(TestsForm);
 
 TestsForm.propTypes = {
   setStep: PropTypes.func.isRequired,
-  dataToEdit: PropTypes.object,
-  step: PropTypes.object.isRequired,
+  UpdateExercise: PropTypes.func.isRequired,
 };

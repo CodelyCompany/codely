@@ -7,10 +7,10 @@ const Review = require('../models/Review');
 router.get('/', async (req, res) => {
   try {
     const data = await Review.find({});
-    res.status(200).send(data);
+    return res.status(200).send(data);
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 
@@ -18,25 +18,14 @@ router.get('/:id', async (req, res) => {
   try {
     const id = req.params.id;
     const data = await Review.findById(id);
-    res.status(200).send(data);
+    return res.status(200).send(data);
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 
-router.get('/exercise/:id', async (req, res) => {
-  try {
-    const id = req.params.id;
-    const data = await Exercise.findById(id).populate('reviews');
-    res.status(200).send(data.preparedExcercises);
-  } catch (error) {
-    console.log(error);
-    res.status(500).send(error);
-  }
-});
-
-router.post('/addReview', async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const data = req.body;
     const user = await User.findById(data.author);
@@ -60,11 +49,11 @@ router.post('/addReview', async (req, res) => {
     return res.status(200).send(newReview);
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 
-router.put('/editReview', async (req, res) => {
+router.put('/', async (req, res) => {
   try {
     const id = req.body._id;
     const inDb = await Review.findById(id);
@@ -76,7 +65,7 @@ router.put('/editReview', async (req, res) => {
     return res.status(200).send(updated);
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 

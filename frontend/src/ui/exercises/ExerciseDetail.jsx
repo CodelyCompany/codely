@@ -87,7 +87,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                 </ListItemAvatar>
                 <ListItemText
                   id={'author'}
-                  primary={t('Author')}
+                  primary={t('author-label')}
                   secondary={exercise.author.username}
                 />
               </ListItem>
@@ -103,7 +103,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                 </ListItemAvatar>
                 <ListItemText
                   id={'language'}
-                  primary={t('Programming Language')}
+                  primary={t('programming-language-label')}
                   secondary={exerciseLanguage}
                 />
               </ListItem>
@@ -119,7 +119,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                 </ListItemAvatar>
                 <ListItemText
                   id={'difficulty'}
-                  primary={t('Difficulty')}
+                  primary={t('difficulty-label')}
                   secondary={[...Array(exercise.difficulty).keys()].map(
                     (el) => (
                       <StarRateIcon className='exercise-star-icon' key={el} />
@@ -139,7 +139,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                 </ListItemAvatar>
                 <ListItemText
                   id={'description'}
-                  primary={t('Description')}
+                  primary={t('description-label')}
                   secondary={exercise.description}
                 />
               </ListItem>
@@ -150,7 +150,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary={t('Rating')}
+                  primary={t('rating-label')}
                   id={'rating'}
                   secondary={
                     rating
@@ -160,7 +160,7 @@ const ExerciseDetail = ({ GetExercises }) => {
                             key={`rating-${num}`}
                           />
                         ))
-                      : t('no reviews')
+                      : t('no-reviews-label')
                   }
                 />
               </ListItem>
@@ -175,14 +175,14 @@ const ExerciseDetail = ({ GetExercises }) => {
                     setToDelete(true);
                   }}
                 >
-                  {t('Delete')}
+                  {t('delete-label')}
                 </Button>
                 <Button
                   color={theme}
                   variant='contained'
                   onClick={() => navigate(`/exercises/edit/${id}`)}
                 >
-                  {t('Edit')}
+                  {t('edit-label')}
                 </Button>
               </Box>
             )}
