@@ -70,20 +70,6 @@ exports.config = {
   // https://saucelabs.com/platform/platform-configurator
   //
   capabilities: [
-    // {
-    //   maxInstances: 5,
-    //   browserName: 'chrome',
-    //   acceptInsecureCerts: true,
-    //   // We need to extends some Chrome flags in order to tell Chrome to run headless
-    //   'goog:chromeOptions': {
-    //     args: [
-    //       '--headless',
-    //       '--disable-gpu',
-    //       '--no-sandbox',
-    //       '--disable-dev-shm-usage',
-    //     ],
-    //   },
-    // },
     {
       // maxInstances can get overwritten per capability. So if you have an in-house Selenium
       // grid with only 5 firefox instances available you can make sure that not more than
@@ -149,7 +135,7 @@ exports.config = {
   // Services take over a specific job you don't want to take care of. They enhance
   // your test setup with almost no effort. Unlike plugins, they don't add new
   // commands. Instead, they hook themselves up into the test process.
-  services: [[TimelineService], 'geckodriver', 'devtools'],
+  services: [[TimelineService], 'geckodriver'],
 
   // Framework you want to run your specs with.
   // The following are supported: Mocha, Jasmine, and Cucumber

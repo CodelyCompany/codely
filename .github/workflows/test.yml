@@ -16,10 +16,10 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
-#      - name: Install Chromium
-#        run: sudo apt-get install chromium-browser
-      - uses: browser-actions/setup-firefox@v1
-      - run: firefox --version
+      - name: Install Firefox browser
+        uses: browser-actions/setup-firefox@v1
+      - name: Check Firefox version
+        run: firefox --version
       - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
@@ -48,7 +48,8 @@ jobs:
       - name: Run tests
         working-directory: ./tests
         run: yarn test_ci
-      - uses: actions/upload-artifact@v1
+      - name: Save test raport
+        uses: actions/upload-artifact@v1
         if: failure()
         with:
           name: TestReport
