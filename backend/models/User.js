@@ -9,7 +9,7 @@ const userSchema = new Schema({
     unique: true,
   },
   creationDate: { type: Date, default: Date.now },
-  avatarTimestamp: { type: Date, default: Date.now },
+  avatarFile: { type: String },
   preparedExercises: [{ type: Schema.Types.ObjectId, ref: 'Exercise' }],
   doneExercises: [{ type: Schema.Types.ObjectId, ref: 'Exercise' }],
   writtenReviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
