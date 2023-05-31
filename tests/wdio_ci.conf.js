@@ -205,11 +205,9 @@ exports.config = {
    * @param {Array.<Object>} capabilities list of capabilities details
    */
   onPrepare: function (config, capabilities) {
-    axios
-      .delete('http://localhost:5000/exercises/deleteAllExercises')
-      .then((response) => {
-        console.log(response.data.message);
-      });
+    axios.delete('http://localhost:5000/exercises/').then((response) => {
+      console.log(response.data.message);
+    });
   },
   /**
    * Gets executed before a worker process is spawned and can be used to initialise specific service
