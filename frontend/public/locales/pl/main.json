@@ -186,5 +186,7 @@
   "exercise-title-unique-requirement-warning": "Tytuł powinien być unikatowy",
   "arguments-required-warning": "Wszystkie argumenty muszą być podane",
   "exercise-created-message": "Zadanie pomyślnie przekazano do weryfikacji przez administratora",
-  "exercise-updating-error": "Podczas przekazywania zadania do weryfikacji wystąpił błąd"
+  "exercise-updating-error": "Podczas przekazywania zadania do weryfikacji wystąpił błąd",
+  "avatar-uploaded-message": "Awatar został pomyślnie zmieniony",
+  "avatar-uploading-error": "Coś poszło nie tak. Upewnij się, że wysyłasz plik .png"
 }
