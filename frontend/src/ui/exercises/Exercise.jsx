@@ -26,7 +26,8 @@ const Exercise = ({ exercise }) => {
   const navigate = useNavigate();
   const { color } = useTheme();
   const exerciseLanguage =
-    ProgrammingLanguage[exercise?.programmingLanguage.toUpperCase()];
+    ProgrammingLanguage[exercise?.programmingLanguage.toUpperCase() === 'C++' ?
+      'CPP' : exercise?.programmingLanguage.toUpperCase()];
   const exerciseIcon = languagesWithIcons[exerciseLanguage];
 
   return (
