@@ -32,16 +32,29 @@ const CustomizeExercise = ({ setStep, UpdateExercise }) => {
   const languagesWithTypes = Object.values(StaticallyTypedLanguage);
   const { id, exercise } = useExerciseData();
   const formWithTypes = languagesWithTypes.includes(exercise.programmingLanguage);
-  const [dropdownOptions, setDropdownOptions] =
-    useState(getDataTypes(exercise.programmingLanguage || 'java'));
+  const [dropdownOptions, setDropdownOptions] = useState([]);
 
   useEffect(() => {
+    const hasDropdownOptionsEmptyElement = dropdownOptions.includes('');
+    if (hasDropdownOptionsEmptyElement) {
+      setDropdownOptions((previousState) => previousState.filter((el) => el));
+    }
+  }, [dropdownOptions]);
+
+  useEffect(() => {
+    if (formWithTypes) {
+      const availableDataTypes = getDataTypes(exercise.programmingLanguage || 'java');
+      setDropdownOptions(availableDataTypes);
+    }
+
     if (exercise.argumentsName) {
       setArgumentsName(exercise.argumentsName);
     }
+
     if (exercise.types) {
       setTypes(exercise.types);
     }
+
     if (exercise.programmingLanguage !== 'C') {
       const newTypes = _.difference(exercise.types, dropdownOptions);
       setDropdownOptions((currentTypes) => _.uniq([...currentTypes, ...newTypes]));
