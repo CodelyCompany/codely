@@ -123,6 +123,9 @@ router.post('/', async (req, res) => {
       author: user._id,
       tests: [],
     }).save();
+    await User.findByIdAndUpdate(user._id, {
+      preparedExercises: [...user.preparedExercises, newExercise._id],
+    });
     return res.status(201).send(newExercise);
   } catch (error) {
     console.log(error);
