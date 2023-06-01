@@ -46,7 +46,7 @@
         "Lorem ipsum dolor sit amet, consectetur adipisci elit",
         "Sed eiusmod tempor incidunt ut labore et dolore magna aliqua"
       ],
-      "exampleSolution": "#include <iostream>\n#include <string> \n\nusing namespace std;\nstring ordinal(int n) {\nstring o[] = { \"th\", \"st\", \"nd\", \"rd\" };\nint x = n % 100;\nint value = x - 20 % 10;\n\nif (value < 4) {\nreturn o[value];\n}\n\nif (x < 4) {\nreturn o[x];\n}\n\nreturn o[0];\n}\n\nstring format(int number) {\nstring colors[] = { \"Blue\", \"Green\", \"Red\", \"Orange\", \"Violet\", \"Indigo\", \"Yellow\" };\nstring ordinalNum = ordinal(number);\nreturn to_string(number) + ordinalNum + \" choice is \" + colors[number - 1];\n}"
+      "exampleSolution": "#include <iostream>\n#include <string> \n\nusing namespace std;\nstring ordinal(int n) {string o[] = { \"th\", \"st\", \"nd\", \"rd\" };int x = n % 100;int value = x - 20 % 10;if (value < 4) {return o[value];}if (x < 4) {return o[x];}return o[0];}string format(int number) {string colors[] = { \"Blue\", \"Green\", \"Red\", \"Orange\", \"Violet\", \"Indigo\", \"Yellow\" };string ordinalNum = ordinal(number);return to_string(number) + ordinalNum + \" choice is \" + colors[number - 1];}\n"
     },
     {
       "title": "Calculate area of circle",
