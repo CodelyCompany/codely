@@ -69,7 +69,7 @@ const WrittenReviews = () => {
               <Grid item xs={6}>
                 <Typography className='timestamp'>
                   {review
-                    ? `${review.editedAt ? 'edited-prefix' : 'created-prefix'}
+                    ? `${review.editedAt ? t('edited-prefix') : t('created-prefix')}
                                     ${new Date(
                                       review.editedAt
                                         ? review.editedAt
