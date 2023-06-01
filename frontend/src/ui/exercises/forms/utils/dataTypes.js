@@ -11,7 +11,7 @@ export const getDataTypes = (language) => {
       'double',
     ],
     'c++': ['char', 'int', 'long', 'float', 'double', 'string', 'bool'],
-    c: ['char', 'short', 'int', 'long', 'float', 'double', 'bool'],
+    c: ['char', 'short', 'int', 'long', 'float', 'double', 'bool', 'void'],
   };
   return dataTypesMap[language.toLowerCase()] ?? ['wrong language'];
 };

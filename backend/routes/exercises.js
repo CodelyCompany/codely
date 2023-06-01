@@ -40,9 +40,11 @@ async function runTests(exercise, solution) {
   let outputs = [];
   for (const element of exercise.tests) {
     const response = await axios.post(
-      backendContainersAddress +
-        '/' +
-        exercise.programmingLanguage.toLowerCase(),
+      `${backendContainersAddress}/${
+        exercise.programmingLanguage.toLowerCase() === 'c++'
+          ? 'cpp'
+          : exercise.programmingLanguage.toLowerCase()
+      }`,
       {
         toExecute: solution,
         args: element.input,
@@ -52,7 +54,10 @@ async function runTests(exercise, solution) {
         headers: { authorization: `Bearer ${token}` },
       }
     );
-    const outputFromResponse = response.data.output.replace(/(\r\n|\n|\r)/gm, '');
+    const outputFromResponse = response.data.output.replace(
+      /(\r\n|\n|\r)/gm,
+      ''
+    );
     const outputFromBody = element.output.replace(/(\r\n|\n|\r)/gm, '');
     if (outputFromResponse === outputFromBody) {
       counterCorrect++;
