@@ -3,6 +3,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const client_mongo = require('./config/mongoClient');
 const http = require('http');
+const path = require('path');
 const users = require('./routes/users');
 const exercises = require('./routes/exercises');
 const reviews = require('./routes/reviews');
@@ -26,6 +27,7 @@ app.use('/exercises', exercises);
 app.use('/reviews', reviews);
 app.use('/sse', sse);
 app.use('/notifications', notifications);
+app.use('/avatars', express.static(path.join(__dirname, 'avatars')));
 require('dotenv').config();
 
 const port = process.env.PORT || 5000;

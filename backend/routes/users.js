@@ -88,29 +88,20 @@ router.put('/', async (req, res) => {
   }
 });
 
-router.get('/:id/avatar', (req, res) => {
-  try {
-    return res
-      .status(200)
-      .sendFile(path.join(__dirname, `../avatars/${req.params.id}.png`));
-  } catch (err) {
-    return res.sendStatus(404);
-  }
-});
-
 router.patch('/:id/avatar', upload.single('avatar'), async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.params.id });
+    const avatarFileName = `${req.params.id}-${Date.now()}.png`;
     const tempPath = req.file.path;
-    const targetPath = path.join(__dirname, `../avatars/${req.params.id}.png`);
-    user.avatarTimestamp = Date.now();
+    const targetPath = path.join(__dirname, `../avatars/${avatarFileName}`);
+    user.avatarFile = avatarFileName;
 
     if (!fs.existsSync(path.join(__dirname, '../avatars')))
       fs.mkdirSync(path.join(__dirname, '../avatars'));
 
     if (path.extname(req.file.originalname) === '.png') {
       fs.renameSync(tempPath, targetPath);
-    } else res.status(400).send('Only .png images are accepted');
+    } else return res.status(400).send('Only .png images are accepted');
 
     user.save();
     return res.status(200).send(user);
