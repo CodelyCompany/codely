@@ -60,7 +60,7 @@ describe('Login Test', () => {
   it('Should register with valid credentials', async () => {
     await LoginPage.register(randomEmail, data.USER_PASSWORD);
     await LoginPage.clickAcceptRegister();
-    expect((await MainPage.getUsernameInfo()).toLowerCase()).toBe(randomLogin);
+    expect(await MainPage.getUsernameInfo()).toBe(randomLogin);
   });
 
   logoutUser();
