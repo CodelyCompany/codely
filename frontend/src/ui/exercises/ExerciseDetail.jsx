@@ -47,7 +47,8 @@ const ExerciseDetail = ({ GetExercises }) => {
   const [argumentValues, setArgumentValues] = useState([]);
   const { color, theme } = useTheme();
   const exerciseLanguage =
-    ProgrammingLanguage[exercise?.programmingLanguage.toUpperCase()];
+    ProgrammingLanguage[exercise?.programmingLanguage.toUpperCase() === 'C++' ?
+      'CPP' : exercise?.programmingLanguage.toUpperCase()];
   usePageTitle(Pages.EXERCISE);
 
   useEffect(() => {
