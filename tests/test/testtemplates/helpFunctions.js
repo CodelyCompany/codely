@@ -10,7 +10,10 @@ require('dotenv').config();
 const generateRandomUserData = () => {
   const login =
     'testusercodelycomment' +
-    new Date().toLocaleString().replace(/[/:\s,]/g, '');
+    new Date()
+      .toLocaleString()
+      .replace(/[/:\s,]/g, '')
+      .toLowerCase();
   return {
     login,
     email: login + '@gmail.example.com',
