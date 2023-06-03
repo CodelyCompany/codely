@@ -27,7 +27,6 @@ app.use('/exercises', exercises);
 app.use('/reviews', reviews);
 app.use('/sse', sse);
 app.use('/notifications', notifications);
-app.use('/avatars', express.static(path.join(__dirname, 'avatars')));
 require('dotenv').config();
 
 const port = process.env.PORT || 5000;
