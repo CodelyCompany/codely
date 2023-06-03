@@ -31,8 +31,7 @@ import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { IoIosMail } from 'react-icons/io';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import NavbarMessages from 'ui/popups/NavbarMessages';
 
 const Navbar = ({

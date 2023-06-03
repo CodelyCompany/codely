@@ -42,7 +42,8 @@ function ExerciseDialog({
   const checkExercise = () => {
     const userToNotify = users.find((usr) => usr.username === exercise.author);
     AddNotification(userToNotify._id, {
-      content: exercise.title, accepted: true,
+      content: exercise.title,
+      accepted: true,
     });
     CheckExercise(exercise._id, token);
     handleClose();
@@ -110,7 +111,8 @@ function ExerciseDialog({
               <strong>{t('description-label')}:</strong> {exercise.description}
             </DialogContentText>
             <DialogContentText sx={{ color }} id='alert-dialog-description'>
-              <strong>{t('difficulty-label')}:</strong> {exercise.difficulty} / 5
+              <strong>{t('difficulty-label')}:</strong> {exercise.difficulty} /
+              5
             </DialogContentText>
             <div id='alert-dialog-description'>
               <strong
@@ -122,7 +124,7 @@ function ExerciseDialog({
                 {t('hints-listing-label')}
               </strong>
               {exercise.hints.map((hint, index) => (
-                <ListItemText sx={{ color }} key={index}>
+                <ListItemText sx={{ color }} key={`hint-${index}`}>
                   <strong>-</strong> {hint}
                 </ListItemText>
               ))}

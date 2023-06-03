@@ -1,4 +1,4 @@
-FROM node:alpine as build-stage
+FROM node:alpine AS build-stage
 WORKDIR /opt/app
 COPY ./package.json ./
 RUN yarn install
@@ -16,7 +16,7 @@ RUN rm -f .env* ; \
     printenv > .env && \
     yarn build
 
-FROM nginx:alpine as nginx
+FROM nginx:alpine AS nginx
 COPY --from=build-stage /opt/app/build /usr/share/nginx/html
 RUN echo "\
 export ENV_LIST=\"\$(printenv | awk -F= '{print $1}' | sed 's/^/\$/g' | paste -sd,)\"; \

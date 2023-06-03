@@ -3,3 +3,7 @@ node_modules
 .idea
 #.env
 /tests/report
+
+# SonarQube files
+sonar-project.properties
+.scannerwork

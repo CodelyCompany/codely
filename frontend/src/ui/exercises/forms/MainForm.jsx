@@ -15,8 +15,7 @@ import useToken from 'helpers/useToken';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import CustomizeExercise from 'ui/exercises/forms/CustomizeExercise';
 import ExampleSolution from 'ui/exercises/forms/ExampleSolution';
 import ExercisesForm from 'ui/exercises/forms/ExercisesForm';
@@ -103,8 +102,7 @@ function MainForm({ GetExercise, redirect, StopRedirect, GetAllExercises }) {
         </AccordionSummary>
         <AccordionDetails className='main-form-accordion'>
           <Typography className='accordion-text' sx={{ color }}>
-            {t(
-              'exercise-form-info')}
+            {t('exercise-form-info')}
           </Typography>
           {step === 1 && <ExercisesForm setStep={setStep} />}
         </AccordionDetails>
@@ -146,9 +144,7 @@ function MainForm({ GetExercise, redirect, StopRedirect, GetAllExercises }) {
         </AccordionSummary>
         <AccordionDetails className='main-form-accordion'>
           <Typography className='accordion-text' sx={{ color }}>
-            {t(
-              'form-tests-info'
-            )}
+            {t('form-tests-info')}
           </Typography>
           {step === 3 && <TestsForm setStep={setStep} />}
         </AccordionDetails>
@@ -163,7 +159,9 @@ function MainForm({ GetExercise, redirect, StopRedirect, GetAllExercises }) {
           aria-controls='panel3d-content'
           id='panel3d-header'
         >
-          <Typography className='typography-header'>{t('hints-label')}</Typography>
+          <Typography className='typography-header'>
+            {t('hints-label')}
+          </Typography>
         </AccordionSummary>
         <AccordionDetails className='main-form-accordion'>
           <Typography className='accordion-text' sx={{ color }}>

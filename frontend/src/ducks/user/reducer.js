@@ -8,12 +8,6 @@ export const usersReducer = (state = { users: [] }, action) => {
     case types.POST_USER_SUCCESS:
       return { users: _.uniqBy([...state.users, action.payload], '_id') };
     case types.UPDATE_USER_SUCCESS:
-      return {
-        users: [
-          ...state.users.filter((usr) => usr._id !== action.payload._id),
-          action.payload,
-        ],
-      };
     case types.UPLOAD_AVATAR_SUCCESS:
       return {
         users: [

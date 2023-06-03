@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Button, Checkbox, Container, Typography } from '@mui/material';
 import { getToken } from 'ducks/token/selectors';
-import { UpdateUser } from 'ducks/user/operations';
-import { UploadAvatar } from 'ducks/user/operations';
+import { UpdateUser, UploadAvatar } from 'ducks/user/operations';
 import { getUserByUsername } from 'ducks/user/selectors';
 import usePageTitle from 'helpers/usePageTitle';
 import useTheme from 'helpers/useTheme';

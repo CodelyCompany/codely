@@ -1,5 +1,4 @@
-import React from 'react';
-import { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Card, Typography } from '@mui/material';
