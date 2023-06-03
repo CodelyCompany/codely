@@ -74,13 +74,13 @@ exports.config = {
       // maxInstances can get overwritten per capability. So if you have an in-house Selenium
       // grid with only 5 firefox instances available you can make sure that not more than
       // 5 instances get started at a time.
-      maxInstances: 3,
+      maxInstances: 1,
       //
       browserName: 'firefox',
       // No GUI Option
-      // 'moz:firefoxOptions': {
-      //   args: ['-headless'],
-      // },
+      'moz:firefoxOptions': {
+        args: ['-headless', '-width 1920', '-height 1080'],
+      },
       acceptInsecureCerts: true,
       // If outputDir is provided WebdriverIO can capture driver session logs
       // it is possible to configure which logTypes to include/exclude.
@@ -135,12 +135,11 @@ exports.config = {
   // Services take over a specific job you don't want to take care of. They enhance
   // your test setup with almost no effort. Unlike plugins, they don't add new
   // commands. Instead, they hook themselves up into the test process.
-  services: ['selenium-standalone', [TimelineService]],
+  services: [[TimelineService], 'geckodriver'],
 
   // Framework you want to run your specs with.
   // The following are supported: Mocha, Jasmine, and Cucumber
   // see also: https://webdriver.io/docs/frameworks
-  //
   // Make sure you have the wdio adapter package for the specific framework installed
   // before running any tests.
   framework: 'mocha',

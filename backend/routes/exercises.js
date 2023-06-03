@@ -40,9 +40,11 @@ async function runTests(exercise, solution) {
   let outputs = [];
   for (const element of exercise.tests) {
     const response = await axios.post(
-      backendContainersAddress +
-        '/' +
-        exercise.programmingLanguage.toLowerCase(),
+      `${backendContainersAddress}/${
+        exercise.programmingLanguage.toLowerCase() === 'c++'
+          ? 'cpp'
+          : exercise.programmingLanguage.toLowerCase()
+      }`,
       {
         toExecute: solution,
         args: element.input,
@@ -52,7 +54,10 @@ async function runTests(exercise, solution) {
         headers: { authorization: `Bearer ${token}` },
       }
     );
-    const outputFromResponse = response.data.output.replace(/(\r\n|\n|\r)/gm, '');
+    const outputFromResponse = response.data.output.replace(
+      /(\r\n|\n|\r)/gm,
+      ''
+    );
     const outputFromBody = element.output.replace(/(\r\n|\n|\r)/gm, '');
     if (outputFromResponse === outputFromBody) {
       counterCorrect++;
@@ -118,6 +123,9 @@ router.post('/', async (req, res) => {
       author: user._id,
       tests: [],
     }).save();
+    await User.findByIdAndUpdate(user._id, {
+      preparedExercises: [...user.preparedExercises, newExercise._id],
+    });
     return res.status(201).send(newExercise);
   } catch (error) {
     console.log(error);

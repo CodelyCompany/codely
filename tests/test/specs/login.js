@@ -5,7 +5,11 @@ const { logoutUser, logoutAdmin } = require('../testtemplates/helpFunctions');
 require('dotenv').config();
 
 const randomLogin =
-  'testusercodely' + new Date().toLocaleString().replace(/[/:\s,]/g, '');
+  'testusercodely' +
+  new Date()
+    .toLocaleString()
+    .replace(/[/:\s,]/g, '')
+    .toLowerCase();
 const randomEmail = randomLogin + '@gmail.example.com';
 const data = process.env;
 
@@ -64,7 +68,7 @@ describe('Login Test', () => {
   it('Should login with valid credentials - created user', async () => {
     await TitlePage.clickLoginButton();
     await LoginPage.login(randomEmail, data.USER_PASSWORD);
-    expect(await MainPage.getUsernameInfo()).toBe(randomLogin);
+    expect((await MainPage.getUsernameInfo()).toLowerCase()).toBe(randomLogin);
   });
 
   logoutUser();

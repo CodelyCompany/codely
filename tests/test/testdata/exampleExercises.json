@@ -23,12 +23,10 @@
       "title": "Multiply two numbers",
       "description": "test description",
       "difficult": "4",
-      "language": "C++",
+      "language": "Python",
       "functionName": "multiply",
       "argumentsQuantity": "2",
       "argumentNames": ["x", "y"],
-      "argumentTypes": ["int", "int"],
-      "outputType": "int",
       "testsQuantity": "3",
       "inputValues": [
         ["2", "3"],
@@ -38,7 +36,7 @@
       "outputValues": ["6", "1", "9"],
       "hintsQuantity": "2",
       "hints": ["hint 1 - new", "hint 2 - new"],
-      "exampleSolution": "#include <iostream>\nusing namespace std;\n          \nint multiply(int x, int y) {\n    return x*y;\n}"
+      "exampleSolution": "def multiply(x,y):\nreturn x*y"
     },
     {
       "title": "Substraction two numbers",
