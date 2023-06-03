@@ -1,14 +1,21 @@
 import { types } from 'ducks/exercises/types';
 
 export const exercisesReducer = (
-  state = { exercises: [], unfinishedExercises: [], exercisesToCheck: [], error: false },
+  state = {
+    exercises: [],
+    unfinishedExercises: [],
+    exercisesToCheck: [],
+    error: false,
+  },
   action
 ) => {
   switch (action.type) {
     case types.GET_ALL_EXERCISES_SUCCESS:
       const data = action.payload;
       const unfinishedExercises = data.filter((ex) => ex.step !== 6);
-      const exercisesToCheck = data.filter((ex) => ex.step === 6 && !ex.checked);
+      const exercisesToCheck = data.filter(
+        (ex) => ex.step === 6 && !ex.checked
+      );
       const exercises = data.filter((ex) => ex.step === 6 && ex.checked);
       return { exercises, unfinishedExercises, exercisesToCheck, error: false };
     case types.GET_EXERCISES_SUCCESS:
@@ -50,13 +57,6 @@ export const exercisesReducer = (
     case types.DELETE_EXERCISE_FAILURE:
       return { ...state, error: true };
     case types.UPDATE_EXERCISE_SUCCESS:
-      return {
-        ...state,
-        exercises: state.exercises.filter(
-          (ex) => ex._id !== action.payload._id
-        ),
-        error: false,
-      };
     case types.UPDATE_ENTIRE_EXERCISE_SUCCESS:
       return {
         ...state,

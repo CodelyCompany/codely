@@ -31,8 +31,7 @@ import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { IoIosMail } from 'react-icons/io';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import NavbarMessages from 'ui/popups/NavbarMessages';
 
 const Navbar = ({
@@ -89,7 +88,10 @@ const Navbar = ({
       : ['profile-label', 'settings-label', 'logout-label'];
 
   const pages = useMemo(
-    () => (isAuthenticated ? ['editor-label', 'exercises-label', 'versus-label'] : []),
+    () =>
+      isAuthenticated
+        ? ['editor-label', 'exercises-label', 'versus-label']
+        : [],
     [isAuthenticated]
   );
 
@@ -106,9 +108,9 @@ const Navbar = ({
       if (!_.isEmpty(foundUser)) {
         GetNotifications(foundUser._id, token);
         setAvatarUri(
-          `${process.env.REACT_APP_BACKEND || 'http://localhost:5000'}/avatars/${
-            foundUser.avatarFile
-          }`
+          `${
+            process.env.REACT_APP_BACKEND || 'http://localhost:5000'
+          }/avatars/${foundUser.avatarFile}`
         );
       }
     }

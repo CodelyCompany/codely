@@ -64,9 +64,7 @@ class MainPage {
   }
 
   async goToPersonalizationPage() {
-    await this.iconButton.waitForDisplayed();
-    await this.iconButton.click();
-    await this.menuItems[5].click();
+    await this.logout();
   }
 
   async goToStatisticsPage() {

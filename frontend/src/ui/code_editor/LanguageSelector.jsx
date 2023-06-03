@@ -7,8 +7,7 @@ import Select from '@mui/material/Select';
 import useTheme from 'helpers/useTheme';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { DiJsBadge } from 'react-icons/di';
-import { DiLinux } from 'react-icons/di';
+import { DiJsBadge, DiLinux } from 'react-icons/di';
 import { FaJava, FaPython } from 'react-icons/fa';
 import { SiC, SiCplusplus, SiR } from 'react-icons/si';
 

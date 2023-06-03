@@ -42,11 +42,11 @@
 }
 
 #line-numbering {
-  font-family: 'JetBrains Mono';
+  font-family: 'JetBrains Mono', monospace;
   font-weight: bolder;
   font-size: 14px;
 }
 
 #code-area {
-  font-family: 'JetBrains Mono';
+  font-family: 'JetBrains Mono', monospace;
 }

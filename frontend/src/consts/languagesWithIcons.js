@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { DiJsBadge } from 'react-icons/di';
-import { DiLinux } from 'react-icons/di';
+import { DiJsBadge, DiLinux } from 'react-icons/di';
 import { FaJava, FaPython } from 'react-icons/fa';
 import { SiC, SiCplusplus, SiR } from 'react-icons/si';
 

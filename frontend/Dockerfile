@@ -1,4 +1,4 @@
-FROM node:alpine as build-stage
+FROM node:alpine AS build-stage
 WORKDIR /opt/app
 COPY ./package.json ./
 RUN yarn install
@@ -16,14 +16,8 @@ RUN rm -f .env* ; \
     printenv > .env && \
     yarn build
 
-FROM alpine:latest as security_provider
-RUN addgroup -S nonroot \
-    && adduser -S nonroot -G nonroot
-
-FROM nginx:alpine as nginx
+FROM nginx:alpine AS nginx
 COPY --from=build-stage /opt/app/build /usr/share/nginx/html
-COPY --from=security_provider /etc/passwd /etc/passwd
-USER nonroot
 RUN echo "\
 export ENV_LIST=\"\$(printenv | awk -F= '{print $1}' | sed 's/^/\$/g' | paste -sd,)\"; \
 find /usr/share/nginx/html/static/ -type f -name \"*.js\"| \

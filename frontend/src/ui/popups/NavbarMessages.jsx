@@ -37,7 +37,7 @@ const NavbarMessages = ({
         horizontal: 'left',
       }}
     >
-      {notifications && notifications.length ? (
+      {notifications?.length ? (
         notifications.map((not, index) => (
           <Box
             id='navbar-messages-container'
@@ -50,9 +50,10 @@ const NavbarMessages = ({
             }}
           >
             <Typography id='message-content' sx={{ color }}>
-              {not.accepted ?
-              t('exercise-accepted-message') : t('exercise-rejected-message')}:{' '}
-               {not.content}
+              {not.accepted
+                ? t('exercise-accepted-message')
+                : t('exercise-rejected-message')}
+              : {not.content}
             </Typography>
             <Typography id='message-date'>
               {new Date(not.date).toLocaleDateString()}

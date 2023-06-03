@@ -34,7 +34,7 @@ const getRandomExercise = async (language) => {
         },
         checked: {
           $eq: true,
-        }
+        },
       },
     },
     {
@@ -50,13 +50,11 @@ const hasCommonLanguage = (firstArr, secondArr) => {
 };
 
 const hasMatching = (firstUsr, secondUsr, matchings) => {
-  return (
-    matchings.filter(
-      (el) =>
-        (el.first === firstUsr && el.second === secondUsr) ||
-        (el.second === firstUsr && el.first === secondUsr)
-    ).length
-  );
+  return matchings.filter(
+    (el) =>
+      (el.first === firstUsr && el.second === secondUsr) ||
+      (el.second === firstUsr && el.first === secondUsr)
+  ).length;
 };
 
 const joinGame = async () => {
@@ -168,7 +166,7 @@ io.on('connection', async (socket) => {
       0,
       -1
     );
-    if (rooms && rooms.length) {
+    if (rooms?.length) {
       io.to(`/game-${acceptation.roomId}`).emit(
         'game-accepted',
         JSON.stringify({

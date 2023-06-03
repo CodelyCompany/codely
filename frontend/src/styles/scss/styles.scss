@@ -195,16 +195,8 @@ $second-theme: #9a2150;
   background-color: $second-theme;
 }
 
-.border-theme-2 {
-  background-color: $background-blue;
-}
-
 .main-theme-0 {
   color: $second-theme;
-}
-
-.main-theme-2 {
-  color: $background-blue;
 }
 
 #select-0 {
@@ -241,10 +233,6 @@ $second-theme: #9a2150;
   color: $second-theme;
 }
 
-#testsQuantity-0 {
-  color: $second-theme;
-}
-
 #hintsQuantity-0 {
   color: $second-theme;
 }
@@ -252,18 +240,10 @@ $second-theme: #9a2150;
   color: $second-theme;
 }
 
-#testsQuantity-1 {
-  color: $second-theme;
-}
-
 #hintsQuantity-1 {
   color: $second-theme;
 }
 #combo-box-label-2 {
-  color: $background-blue;
-}
-
-#testsQuantity-2 {
   color: $background-blue;
 }
 
@@ -283,9 +263,6 @@ $second-theme: #9a2150;
   color: $background-blue;
 }
 
-#programmingLanguage-1 {
-  color: $second-theme;
-}
 #programmingLanguage-1 {
   color: $second-theme;
 }
@@ -571,7 +548,7 @@ html {
     #output-text-area {
       background-color: white;
       border: none;
-      font-family: 'JetBrains Mono';
+      font-family: 'JetBrains Mono', monospace;
       font-size: 14px;
       width: calc(100% - 10px);
       height: calc(100% - 10px);

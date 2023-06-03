@@ -6,8 +6,7 @@ import GTranslateIcon from '@mui/icons-material/GTranslate';
 import PersonIcon from '@mui/icons-material/Person';
 import PsychologyIcon from '@mui/icons-material/Psychology';
 import StarRateIcon from '@mui/icons-material/StarRate';
-import { Box, Container, Typography } from '@mui/material';
-import { Button } from '@mui/material';
+import { Box, Button, Container, Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -23,10 +22,8 @@ import useToken from 'helpers/useToken';
 import * as _ from 'lodash';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
-import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { connect, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 import EditorField from 'ui/exercises/editor_to_exercises/EditorField';
 import Reviews from 'ui/exercises/reviews/Reviews';
 import Confirmation from 'ui/popups/Confirmation';
@@ -47,8 +44,11 @@ const ExerciseDetail = ({ GetExercises }) => {
   const [argumentValues, setArgumentValues] = useState([]);
   const { color, theme } = useTheme();
   const exerciseLanguage =
-    ProgrammingLanguage[exercise?.programmingLanguage.toUpperCase() === 'C++' ?
-      'CPP' : exercise?.programmingLanguage.toUpperCase()];
+    ProgrammingLanguage[
+      exercise?.programmingLanguage.toUpperCase() === 'C++'
+        ? 'CPP'
+        : exercise?.programmingLanguage.toUpperCase()
+    ];
   usePageTitle(Pages.EXERCISE);
 
   useEffect(() => {

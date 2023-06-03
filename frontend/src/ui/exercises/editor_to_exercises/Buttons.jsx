@@ -11,8 +11,7 @@ import useToken from 'helpers/useToken';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ExerciseHints from 'ui/popups/ExerciseHints';
 
 const Buttons = ({
@@ -36,12 +35,7 @@ const Buttons = ({
 
   const runCode = (code) => {
     if (argumentValues.includes('')) {
-      dispatch(
-        addPopup(
-          t('arguments-required-warning'),
-          'error'
-        )
-      );
+      dispatch(addPopup(t('arguments-required-warning'), 'error'));
       return;
     }
     setLoadingFinished(false);
