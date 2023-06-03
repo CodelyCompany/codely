@@ -50,7 +50,7 @@ const Navbar = ({
   const { loginWithRedirect, isAuthenticated, logout, user, isLoading } =
     useAuth0();
   const [theme, setTheme] = useState(0);
-  const [avatarUri, setAvatarUri] = useState(null);
+  const [avatar, setAvatar] = useState(null);
   const { t } = useTranslation();
   const { token } = useToken();
 
@@ -107,11 +107,7 @@ const Navbar = ({
     if (users.length) {
       if (!_.isEmpty(foundUser)) {
         GetNotifications(foundUser._id, token);
-        setAvatarUri(
-          `${
-            process.env.REACT_APP_BACKEND || 'http://localhost:5000'
-          }/avatars/${foundUser.avatarFile}`
-        );
+        setAvatar(foundUser.avatarFile.data);
       }
     }
   }, [users]);
@@ -239,7 +235,12 @@ const Navbar = ({
                 {isAuthenticated && (
                   <Tooltip title='Open settings'>
                     <IconButton id='icon-button' onClick={handleOpenUserMenu}>
-                      <Avatar src={avatarUri} />
+                      {avatar ? (
+                        // eslint-disable-next-line max-len
+                        <Avatar src={`data:image/jpeg;base64,${avatar}`} />
+                      ) : (
+                        <Avatar />
+                      )}
                     </IconButton>
                   </Tooltip>
                 )}

@@ -27,13 +27,13 @@ app.use('/exercises', exercises);
 app.use('/reviews', reviews);
 app.use('/sse', sse);
 app.use('/notifications', notifications);
-app.use('/avatars', express.static(path.join(__dirname, 'avatars')));
 require('dotenv').config();
 
 const port = process.env.PORT || 5000;
 
 client_red.on('connect', () => {
   console.log('Connected to Redis.');
+
   mongoose
     .connect(
       `mongodb://${client_mongo.user}:${client_mongo.password}@${client_mongo.host}:${client_mongo.port}/`,
