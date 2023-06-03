@@ -7,14 +7,15 @@ const Exercise = require('../models/Exercise');
 const Review = require('../models/Review');
 
 const router = express.Router();
-const upload = multer({ dest: path.join(__dirname, '../temp') });
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 router.get('/', async (req, res) => {
   try {
-    const data = await User.find({}).populate([
-      'preparedExercises',
-      'doneExercises',
-    ]);
+    const data = await User.find({})
+      .populate(['preparedExercises', 'doneExercises'])
+      .lean()
+      .exec();
     res.status(200).send(data);
   } catch (error) {
     console.log(error);
@@ -90,21 +91,14 @@ router.put('/', async (req, res) => {
 
 router.patch('/:id/avatar', upload.single('avatar'), async (req, res) => {
   try {
-    const user = await User.findOne({ _id: req.params.id });
-    const avatarFileName = `${req.params.id}-${Date.now()}.png`;
-    const tempPath = req.file.path;
-    const targetPath = path.join(__dirname, `../avatars/${avatarFileName}`);
-    user.avatarFile = avatarFileName;
-
-    if (!fs.existsSync(path.join(__dirname, '../avatars')))
-      fs.mkdirSync(path.join(__dirname, '../avatars'));
-
-    if (path.extname(req.file.originalname) === '.png') {
-      fs.renameSync(tempPath, targetPath);
-    } else return res.status(400).send('Only .png images are accepted');
-
-    user.save();
-    return res.status(200).send(user);
+    await User.findByIdAndUpdate(req.params.id, {
+      avatarFile: {
+        data: new Buffer.from(req.file.buffer, 'base64'),
+        contentType: req.file.mimetype,
+      },
+    });
+    const result = await User.findOne({ _id: req.params.id }).lean().exec();
+    return res.status(200).send(result);
   } catch (err) {
     console.log(err);
     return res.status(500).send('Something went wrong');
