@@ -7,7 +7,10 @@ const Exercise = require('../models/Exercise');
 const Review = require('../models/Review');
 
 const router = express.Router();
-const upload = multer({ dest: path.join(__dirname, '../temp') });
+const upload = multer({
+  dest: path.join(__dirname, '../temp'),
+  limits: { fileSize: 8000000 },
+});
 
 router.get('/', async (req, res) => {
   try {
