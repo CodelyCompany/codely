@@ -33,6 +33,7 @@ const port = process.env.PORT || 5000;
 
 client_red.on('connect', () => {
   console.log('Connected to Redis.');
+
   mongoose
     .connect(
       `mongodb://${client_mongo.user}:${client_mongo.password}@${client_mongo.host}:${client_mongo.port}/`,
