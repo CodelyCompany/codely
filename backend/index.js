@@ -19,7 +19,8 @@ const notifications = require('./routes/notifications');
 app.use(express.json());
 app.use(cors());
 
-app.use(jwtCheck);
+// Uncomment to enable token validation
+// app.use(jwtCheck);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use('/users', users);

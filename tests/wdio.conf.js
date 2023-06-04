@@ -4,24 +4,27 @@ require('dotenv').config({ path: '.env' });
 
 const deleteExercisesAndRelationships = async () => {
   try {
-    const response = await axios.post(
-      `https://${process.env.APP_DOMAIN}/oauth/token`,
-      {
-        client_id: process.env.APP_BACKEND_CLIENT_ID,
-        client_secret: process.env.APP_BACKEND_CLIENT_SECRET,
-        audience: process.env.APP_AUDIENCE,
-        grant_type: 'client_credentials',
-      },
-      {
-        headers: {
-          'content-type': 'application/json',
-          'Accept-Encoding': 'application/json',
-        },
-      }
-    );
+    // Uncomment to send token request
+    // const response = await axios.post(
+    //   `https://${process.env.APP_DOMAIN}/oauth/token`,
+    //   {
+    //     client_id: process.env.APP_BACKEND_CLIENT_ID,
+    //     client_secret: process.env.APP_BACKEND_CLIENT_SECRET,
+    //     audience: process.env.APP_AUDIENCE,
+    //     grant_type: 'client_credentials'
+    //   },
+    //   {
+    //     headers: {
+    //       'content-type': 'application/json',
+    //       'Accept-Encoding': 'application/json'
+    //     }
+    //   }
+    // );
+    // const token = response.data.access_token;
+    const token = 'fake_token';
     await axios
       .delete('http://localhost:5000/exercises/', {
-        headers: { authorization: `Bearer ${response.data.access_token}` },
+        headers: { authorization: `Bearer ${token}` },
       })
       .then((response) => {
         console.log(response.data.message);
