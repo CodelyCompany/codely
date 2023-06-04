@@ -79,11 +79,10 @@ const checkExerciseData = async (exercise) => {
     expect(await ExercisePage.descriptionInfo.getText()).toBe(
       exercise.description
     );
-    exercise.rating
-      ? expect((await ExercisePage.ratingInfo.length).toString()).toBe(
-          exercise.rating
-        )
-      : null;
+    if (exercise?.rating)
+      expect((await ExercisePage.ratingInfo.length).toString()).toBe(
+        exercise.rating
+      );
   });
 };
 
