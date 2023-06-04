@@ -121,7 +121,7 @@ const Navbar = ({
 
   const handleCloseNavMenu = (page) => {
     setAnchorElNav(null);
-    navigate(`/${page.toLowerCase()}`);
+    navigate(`/${page.split('-')[0]}`);
   };
 
   const handleCloseUserMenu = (setting) => {
