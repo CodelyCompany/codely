@@ -1,5 +1,29 @@
 # Codely
 
+## Requirements
+
+There are two ways to run this project: using Docker-compose (Development version), using Kubernetes (Production version).
+
+To run this project using Docker-compose you need have installed:
+
+- Docker
+- Docker-compose
+- Nodejs
+
+To run this project using Kubernetes you need have installed:
+
+- Docker
+- Kubernetes
+
+To run project you need to fill required environment variables in `docker/dev/docker-compose.yml` or in `kubernetes/production/configmaps/*.yaml` and `kubernetes/production/secrets/*.yaml`
+
+## Admin user
+
+There is one created admin user in project. To accept exercises you have to be logged as administrator with those credentials:
+
+- Login: admin@example.com
+- Password: AdminAdmin123
+
 ## Build and push project
 
 To build and push project to Dockerhub run (all components):
@@ -57,7 +81,7 @@ To run all tests run this command:
 
 `./bin/run-tests.sh`
 
-To run tests from selected suite run this command (available suites Login, Exercises, Editor):
+To run tests from selected suite run this command (available suites Login, Exercises, Editor, Exercise, ExercisesForm, AdminPage, Personalization, Statistics):
 
 `./bin/run-tests.sh --suite [suite]`
 
