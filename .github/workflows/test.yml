@@ -31,10 +31,26 @@ jobs:
     name: Run tests
     runs-on: ubuntu-latest
     steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
       - name: Install Firefox browser
         uses: browser-actions/setup-firefox@v1
       - name: Check Firefox version
         run: firefox --version
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18.7.0
+      - name: Install frontend dependencies
+        working-directory: ./frontend
+        run: |
+          if [ -e yarn.lock ]; then
+          yarn install --frozen-lockfile
+          elif [ -e package-lock.json ]; then
+          npm ci
+          else
+          npm i
+          fi
       - name: Install backend dependencies
         working-directory: ./backend
         run: yarn install
