@@ -2,7 +2,8 @@
 
 ## Requirements
 
-There are two ways to run this project: using Docker-compose (Development version), using Kubernetes (Production version).
+There are two ways to run this project: using Docker-compose (Development version), using Kubernetes (Production
+version).
 
 To run this project using Docker-compose you need have installed:
 
@@ -15,14 +16,32 @@ To run this project using Kubernetes you need have installed:
 - Docker
 - Kubernetes
 
-To run project you need to fill required environment variables in `docker/dev/docker-compose.yml` or in `kubernetes/production/configmaps/*.yaml` and `kubernetes/production/secrets/*.yaml`
+To run project you need to fill required environment variables in `docker/dev/docker-compose.yml` or
+in `kubernetes/production/configmaps/*.yaml` and `kubernetes/production/secrets/*.yaml`
 
 ## Admin user
 
-There is one created admin user in project. To accept exercises you have to be logged as administrator with those credentials:
+There is one created admin user in project. To accept exercises you have to be logged as administrator with those
+credentials:
 
 - Login: admin@example.com
 - Password: AdminAdmin123
+
+## Token validation
+
+In our project, we use the Auth0 authorization system using a free billing plan. Only 1000 machine-to-machine token
+requests per month are available in the free plan. Therefore, when the tokens run out, you will need to comment out the
+relevant code fragments and disable validation and token requests. In functions where a token is fetched and returned,
+"fake_token" should be returned.
+
+Files that need to be edited:
+
+- `backend/index.js` line 23
+- `backend/routes/exercises.js` line 15
+- `backend_containers/index.js` line 17
+- `frontend/src/helpers/useToken.js` line 10
+- `tests/wdio.conf.js` line 7
+- `tests/wdio_ci.conf.js` line 7
 
 ## Build and push project
 
@@ -81,7 +100,8 @@ To run all tests run this command:
 
 `./bin/run-tests.sh`
 
-To run tests from selected suite run this command (available suites Login, Exercises, Editor, Exercise, ExercisesForm, AdminPage, Personalization, Statistics):
+To run tests from selected suite run this command (available suites Login, Exercises, Editor, Exercise, ExercisesForm,
+AdminPage, Personalization, Statistics):
 
 `./bin/run-tests.sh --suite [suite]`
 

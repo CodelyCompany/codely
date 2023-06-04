@@ -1,7 +1,6 @@
 const axios = require('axios');
 const { TimelineService } = require('wdio-timeline-reporter/timeline-service');
 require('dotenv').config({ path: '.env' });
-
 const deleteExercisesAndRelationships = async () => {
   try {
     // Uncomment to send token request
