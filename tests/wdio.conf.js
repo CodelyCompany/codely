@@ -1,5 +1,43 @@
 const axios = require('axios');
 const { TimelineService } = require('wdio-timeline-reporter/timeline-service');
+require('dotenv').config({ path: '.env' });
+
+const deleteExercisesAndRelationships = async () => {
+  try {
+    const response = await axios.post(
+      `https://${process.env.APP_DOMAIN}/oauth/token`,
+      {
+        client_id: process.env.APP_BACKEND_CLIENT_ID,
+        client_secret: process.env.APP_BACKEND_CLIENT_SECRET,
+        audience: process.env.APP_AUDIENCE,
+        grant_type: 'client_credentials',
+      },
+      {
+        headers: {
+          'content-type': 'application/json',
+          'Accept-Encoding': 'application/json',
+        },
+      }
+    );
+    await axios
+      .delete('http://localhost:5000/exercises/', {
+        headers: { authorization: `Bearer ${response.data.access_token}` },
+      })
+      .then((response) => {
+        console.log(response.data.message);
+      })
+      .catch((error) => {
+        console.log(
+          'Something went wrong while deleting exercises and relationships'
+        );
+        // Uncomment for debug log
+        // console.log(error);
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 exports.config = {
   //
   // ====================
@@ -79,7 +117,7 @@ exports.config = {
       browserName: 'firefox',
       // No GUI Option
       // 'moz:firefoxOptions': {
-      //   args: ['-headless'],
+      //   args: ['-headless', '-width 1920', '-height 1080'],
       // },
       acceptInsecureCerts: true,
       // If outputDir is provided WebdriverIO can capture driver session logs
@@ -146,10 +184,10 @@ exports.config = {
   framework: 'mocha',
   //
   // The number of times to retry the entire specfile when it fails as a whole
-  // specFileRetries: 1,
+  specFileRetries: 1,
   //
   // Delay in seconds between the spec file retry attempts
-  // specFileRetriesDelay: 0,
+  specFileRetriesDelay: 5,
   //
   // Whether or not retried specfiles should be retried immediately or deferred to the end of the queue
   // specFileRetriesDeferred: false,
@@ -205,17 +243,8 @@ exports.config = {
    * @param {Object} config wdio configuration object
    * @param {Array.<Object>} capabilities list of capabilities details
    */
-  onPrepare: function (config, capabilities) {
-    try {
-      axios.delete('http://localhost:5000/exercises/').then((response) => {
-        console.log(response.data.message);
-      });
-    } catch (error) {
-      console.log(
-        'Something went wrong while deleting exercises and relationships'
-      );
-      console.log(error);
-    }
+  onPrepare: async function (config, capabilities) {
+    await deleteExercisesAndRelationships();
   },
   /**
    * Gets executed before a worker process is spawned and can be used to initialise specific service
@@ -321,8 +350,12 @@ exports.config = {
    * @param {Array.<Object>} capabilities list of capabilities details
    * @param {Array.<String>} specs List of spec file paths that ran
    */
-  // after: function (result, capabilities, specs) {
-  // },
+  after: async function (result, capabilities, specs) {
+    // Works only if maxInstances equals 1
+    // if (result === 1) {
+    //   await deleteExercisesAndRelationships();
+    // }
+  },
   /**
    * Gets executed right after terminating the webdriver session.
    * @param {Object} config wdio configuration object
@@ -339,13 +372,9 @@ exports.config = {
    * @param {Array.<Object>} capabilities list of capabilities details
    * @param {<Object>} results object containing test results
    */
-  onComplete: function (exitCode, config, capabilities, results) {
+  onComplete: async function (exitCode, config, capabilities, results) {
     // Optional clean up
-    // axios
-    //   .delete('http://localhost:5000/exercises/deleteAllExercises')
-    //   .then((response) => {
-    //     console.log(response.data.message);
-    //   });
+    // await deleteExercisesAndRelationships();
   },
   /**
    * Gets executed when a refresh happens.
