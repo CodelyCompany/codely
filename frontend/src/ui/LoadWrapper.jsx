@@ -22,25 +22,28 @@ const LoadWrapper = ({ children }) => {
 
   usePopups();
 
-  return isLoading ? (
-    <Container id='loading-wrapper'>
-      <ProgressBar
-        height='200px'
-        width='200px'
-        ariaLabel='progress-bar-loading'
-        wrapperStyle={{}}
-        wrapperClass='progress-bar-wrapper'
-        borderColor={getColors()[0]}
-        barColor={getColors()[1]}
-      />
-    </Container>
-  ) : isAuthenticated ? (
-    children
-  ) : (
-    <MainPage />
-  );
-};
+  const getContent = () => {
+    if (isLoading) {
+      return <Container id='loading-wrapper'>
+        <ProgressBar
+          height='200px'
+          width='200px'
+          ariaLabel='progress-bar-loading'
+          wrapperStyle={{}}
+          wrapperClass='progress-bar-wrapper'
+          borderColor={getColors()[0]}
+          barColor={getColors()[1]}
+        />
+      </Container>;
+    }
+    if (isAuthenticated) {
+      return children;
+    }
+    return <MainPage />;
+  };
 
+  return getContent();
+};
 export default LoadWrapper;
 
 LoadWrapper.propTypes = {

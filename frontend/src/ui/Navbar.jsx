@@ -107,7 +107,7 @@ const Navbar = ({
     if (users.length) {
       if (!_.isEmpty(foundUser)) {
         GetNotifications(foundUser._id, token);
-        setAvatar(foundUser.avatarFile.data);
+        setAvatar(foundUser?.avatarFile?.data);
       }
     }
   }, [users]);

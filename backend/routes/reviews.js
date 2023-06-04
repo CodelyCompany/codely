@@ -6,7 +6,14 @@ const Review = require('../models/Review');
 
 router.get('/', async (req, res) => {
   try {
-    const data = await Review.find({});
+    const data = await Review.aggregate([
+      {
+        $lookup: { from: 'exercises', localField: 'exercise', foreignField: '_id', as: 'exerciseData'},
+      },
+      {
+        $match: { 'exerciseData.step': 6, 'exerciseData.checked': true },
+      },
+    ]);
     return res.status(200).send(data);
   } catch (error) {
     console.log(error);
@@ -17,7 +24,17 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const id = req.params.id;
-    const data = await Review.findById(id);
+    const data = await Review.aggregate([
+      {
+        $match: { _id: id },
+      },
+      {
+        $lookup: { from: 'exercises', localField: 'exercise', foreignField: '_id', as: 'exerciseData'},
+      },
+      {
+        $match: { 'exerciseData.step': 6, 'exerciseData.checked': true },
+      },
+    ]);
     return res.status(200).send(data);
   } catch (error) {
     console.log(error);

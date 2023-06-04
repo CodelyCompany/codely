@@ -25,6 +25,7 @@ import _ from 'lodash';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 
 function ExerciseDialog({
   open,
@@ -123,8 +124,8 @@ function ExerciseDialog({
               >
                 {t('hints-listing-label')}
               </strong>
-              {exercise.hints.map((hint, index) => (
-                <ListItemText sx={{ color }} key={`hint-${index}`}>
+              {exercise.hints.map((hint) => (
+                <ListItemText sx={{ color }} key={`hint-${uuidv4()}`}>
                   <strong>-</strong> {hint}
                 </ListItemText>
               ))}

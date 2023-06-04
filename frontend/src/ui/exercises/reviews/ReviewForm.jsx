@@ -25,8 +25,10 @@ const ReviewForm = ({ review, token }) => {
   const { id } = useParams();
   const localUser = useSelector(getUserByUsername(user.nickname));
   const dispatch = useDispatch();
-
   const { theme } = useTheme();
+
+  const getReviewStatus = () => review?.editedAt ? t('edited-prefix') : t('created-prefix');
+  const getReviewDate = () => review?.editedAt ? review?.editedAt : review?.creationDate;
 
   useEffect(() => {
     if (review) {
@@ -129,12 +131,12 @@ const ReviewForm = ({ review, token }) => {
       <Grid item xs={5}>
         <Typography className='timestamp'>
           {review
-            ? `${review.editedAt ? t('edited-prefix') : t('created-prefix')}
+            ? `${getReviewStatus()}
                     ${new Date(
-                      review.editedAt ? review.editedAt : review.creationDate
+                      getReviewDate()
                     ).toLocaleDateString()} ${t('at-word')}
                     ${new Date(
-                      review.editedAt ? review.editedAt : review.creationDate
+                      getReviewDate()
                     ).toLocaleTimeString()}`
             : null}
         </Typography>

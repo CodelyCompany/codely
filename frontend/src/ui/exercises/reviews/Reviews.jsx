@@ -24,7 +24,7 @@ const Reviews = () => {
   useEffect(() => {
     setUsersReview(reviews.find((review) => review.author === foundUser._id));
     setReviewable(
-      foundUser && foundUser.doneExercises.find((ex) => ex._id === id)
+      foundUser?.doneExercises?.find((ex) => ex._id === id)
     );
   }, [foundUser]);
 

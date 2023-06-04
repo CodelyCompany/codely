@@ -56,12 +56,12 @@ const UserDetails = ({ GetUsers }) => {
           </SectionWrapper>
           <SectionWrapper
             condition={
-              !_.isEmpty(foundUser.preparedExercises.filter((el) => el.checked))
+              !_.isEmpty(foundUser.preparedExercises.filter((el) => el.checked && el.step === 6))
             }
             mode='prepared'
           >
             <UserExercisesList
-              exercises={foundUser.preparedExercises.filter((el) => el.checked)}
+              exercises={foundUser.preparedExercises.filter((el) => el.checked && el.step === 6)}
               mode='prepared'
             />
           </SectionWrapper>
@@ -69,13 +69,13 @@ const UserDetails = ({ GetUsers }) => {
             mode='unchecked'
             condition={
               !_.isEmpty(
-                foundUser.preparedExercises.filter((el) => !el.checked)
+                foundUser.preparedExercises.filter((el) => !el.checked && el.step === 6)
               )
             }
           >
             <UncheckedExercises
               exercises={foundUser.preparedExercises.filter(
-                (el) => !el.checked
+                (el) => !el.checked && el.step === 6
               )}
             />
           </SectionWrapper>

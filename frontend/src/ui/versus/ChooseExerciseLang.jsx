@@ -45,7 +45,7 @@ const ChooseExerciseLang = ({ formik }) => {
           ))}
         </Box>
         <Typography color='error'>
-          {formik.errors && formik.errors.checked}
+          {formik?.errors?.checked}
         </Typography>
       </form>
     </Paper>
