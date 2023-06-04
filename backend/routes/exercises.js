@@ -11,26 +11,26 @@ const backendContainersAddress =
   process.env.APP_CONTAINERS_ADDRESS || 'http://localhost:5001';
 
 async function getToken() {
-  // try {
-  //   const response = await axios.post(
-  //     `https://${process.env.APP_DOMAIN}/oauth/token`,
-  //     {
-  //       client_id: process.env.APP_CONTAINERS_CLIENT_ID,
-  //       client_secret: process.env.APP_CONTAINERS_CLIENT_SECRET,
-  //       audience: process.env.APP_AUDIENCE,
-  //       grant_type: 'client_credentials',
-  //     },
-  //     {
-  //       headers: {
-  //         'content-type': 'application/json',
-  //         'Accept-Encoding': 'application/json',
-  //       },
-  //     }
-  //   );
-  //   return response.data.access_token;
-  // } catch (error) {
-  //   console.log(error);
-  // }
+  try {
+    const response = await axios.post(
+      `https://${process.env.APP_DOMAIN}/oauth/token`,
+      {
+        client_id: process.env.APP_CONTAINERS_CLIENT_ID,
+        client_secret: process.env.APP_CONTAINERS_CLIENT_SECRET,
+        audience: process.env.APP_AUDIENCE,
+        grant_type: 'client_credentials',
+      },
+      {
+        headers: {
+          'content-type': 'application/json',
+          'Accept-Encoding': 'application/json',
+        },
+      }
+    );
+    return response.data.access_token;
+  } catch (error) {
+    console.log(error);
+  }
   return 'fake_token';
 }
 
@@ -183,8 +183,7 @@ router.put('/', async (req, res) => {
     let testsToAdd = {};
     if (tests) {
       testsToAdd = { tests: [] };
-      for (let i = 0; i < tests.length; i++) {
-        const element = tests[i];
+      for (const element of tests) {
         const newTest = await Test({
           input: element.input,
           output: element.output,

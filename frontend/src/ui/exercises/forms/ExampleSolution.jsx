@@ -20,6 +20,7 @@ import OutputField from 'ui/code_editor/OutputField';
 import TestsList from 'ui/exercises/forms/TestsList';
 import { getDataTypes } from 'ui/exercises/forms/utils/dataTypes';
 import { getSignature } from 'ui/exercises/forms/utils/functionSignatures';
+import { v4 as uuidv4 } from 'uuid';
 
 // Fifth step of creating exercise
 const ExampleSolution = ({
@@ -77,6 +78,36 @@ const ExampleSolution = ({
 
   const handleCodeChange = (e) => {
     setCode(e);
+  };
+
+  const getOutput = () => {
+    if (finishedLoading) {
+      return tests ? (
+        tests.correct !== tests.tests ? (
+          `${t('exercise-check-again-label')} ${tests.correct} / ${
+            tests.tests
+          })`
+        ) : (
+          `${t(
+            'exercise-verification-send-confirmation'
+          )}`
+        )
+      ) : (
+        t('exercise-check-label')
+      );
+    }
+    return <ThreeDots
+      height='20'
+      width='20'
+      radius='9'
+      color='gray'
+      ariaLabel='three-dots-loading'
+      wrapperStyle={{
+        textAlign: 'center',
+      }}
+      wrapperClassName=''
+      visible={true}
+    />;
   };
 
   const submit = () => {
@@ -137,49 +168,23 @@ const ExampleSolution = ({
             id={tests && tests.correct === tests.tests ? 'send' : 'submit'}
             variant='contained'
             disabled={!finishedLoading}
-            onClick={() =>
-              tests
-                ? tests.correct !== tests.tests
-                  ? verifySolution()
-                  : submit()
-                : verifySolution()
+            onClick={() => {
+              if (tests && tests.correct === tests.tests) {
+              submit();
+              return;
+              }
+              verifySolution();
+             }
             }
           >
-            {finishedLoading ? (
-              tests ? (
-                tests.correct !== tests.tests ? (
-                  `${t('exercise-check-again-label')} ${tests.correct} / ${
-                    tests.tests
-                  })`
-                ) : (
-                  `${t(
-                    'exercise-verification-send-confirmation'
-                  )}`
-                )
-              ) : (
-                t('exercise-check-label')
-              )
-            ) : (
-              <ThreeDots
-                height='20'
-                width='20'
-                radius='9'
-                color='gray'
-                ariaLabel='three-dots-loading'
-                wrapperStyle={{
-                  textAlign: 'center',
-                }}
-                wrapperClassName=''
-                visible={true}
-              />
-            )}
+            {getOutput()}
           </Button>
         </Box>
       </Box>
       {tests?.outputs?.map?.((output, key) =>
       <>
-      <Typography className="tests-numbering" key={key}>Test: {key + 1}</Typography>
-      <OutputField key={key} output={output} loadingFinished={finishedLoading} />
+      <Typography className="tests-numbering" key={uuidv4()}>Test: {key + 1}</Typography>
+      <OutputField key={uuidv4()} output={output} loadingFinished={finishedLoading} />
       </>)}
       <TestsList />
     </>

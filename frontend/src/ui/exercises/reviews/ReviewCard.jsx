@@ -26,6 +26,8 @@ const ReviewCard = ({ review, index }) => {
   const downvoted = useSelector(isDownvotedByUserId(review._id, localUser._id));
   const [rating, setRating] = useState(0);
   const dispatch = useDispatch();
+  const getReviewStatus = () => review?.editedAt ? t('edited-prefix') : t('created-prefix');
+  const getReviewDate = () => review?.editedAt ? review?.editedAt : review?.creationDate;
 
   useEffect(
     () => setRating(review.upvotes.length - review.downvotes.length),
@@ -92,14 +94,9 @@ const ReviewCard = ({ review, index }) => {
         </Grid>
         <Grid item xs={6}>
           <Typography className='timestamp'>
-            {review
-              ? `${review.editedAt ? t('edited-prefix') : t('created-prefix')}
-                    ${new Date(
-                      review.editedAt ? review.editedAt : review.creationDate
-                    ).toLocaleDateString()} ${t('at-word')}
-                    ${new Date(
-                      review.editedAt ? review.editedAt : review.creationDate
-                    ).toLocaleTimeString()}`
+            {review ? `${getReviewStatus()}
+                    ${new Date(getReviewDate()).toLocaleDateString()} ${t('at-word')}
+                    ${new Date(getReviewDate()).toLocaleTimeString()}`
               : null}
           </Typography>
         </Grid>

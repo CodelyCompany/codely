@@ -25,6 +25,10 @@ const WrittenReviews = () => {
   const dispatch = useDispatch();
   const { color } = useTheme();
 
+  const getReviewStatus = (review) => review.editedAt ? t('edited-prefix') : t('created-prefix');
+
+  const getReviewDate = (review) => review.editedAt ? review.editedAt : review.creationDate;
+
   useEffect(() => {
     dispatch(GetExercises(token));
   }, [dispatch]);
@@ -48,7 +52,7 @@ const WrittenReviews = () => {
                     className='exercise-link'
                     onClick={() => navigate(`/Exercise/${review.exercise}`)}
                   >
-                    {exercises.find((ex) => ex._id === review.exercise).title}
+                    {exercises?.find((ex) => ex._id === review.exercise)?.title}
                   </span>
                 </Typography>
               </Grid>
@@ -69,17 +73,13 @@ const WrittenReviews = () => {
               <Grid item xs={6}>
                 <Typography className='timestamp'>
                   {review
-                    ? `${review.editedAt ? t('edited-prefix') : t('created-prefix')}
-                                    ${new Date(
-                                      review.editedAt
-                                        ? review.editedAt
-                                        : review.creationDate
-                                    ).toLocaleDateString()} ${t('at-word')}
-                                    ${new Date(
-                                      review.editedAt
-                                        ? review.editedAt
-                                        : review.creationDate
-                                    ).toLocaleTimeString()}`
+                    ? `${getReviewStatus(review)}
+                        ${new Date(
+                          getReviewDate(review)
+                        ).toLocaleDateString()} ${t('at-word')}
+                        ${new Date(
+                          getReviewDate(review)
+                        ).toLocaleTimeString()}`
                     : null}
                 </Typography>
               </Grid>
